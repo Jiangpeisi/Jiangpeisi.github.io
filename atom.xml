@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-02-27T14:10:52.012Z</updated>
+  <updated>2019-02-27T16:31:25.256Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Nginx安装</title>
+    <link href="http://yoursite.com/2019/02/28/Nginx%E5%AE%89%E8%A3%85/"/>
+    <id>http://yoursite.com/2019/02/28/Nginx安装/</id>
+    <published>2019-02-27T16:24:56.000Z</published>
+    <updated>2019-02-27T16:31:25.256Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Nginx是一个轻量型web服务器，也可以用来做负载均衡及反向代理。</p><hr><h2 id="安装环境准备"><a href="#安装环境准备" class="headerlink" title="安装环境准备"></a>安装环境准备</h2><p>nginx是C语言开发，建议在linux上运行，本次使用Centos7.3作为安装环境。</p><ol><li><p>gcc<br>nginx是用c语言编写，如果使用源码安装，需要先对源码进行编译，gcc作为linux上的c编译器来完成这个工作，所以事先要安装好gcc</p><p>yum install gcc-c++ -y</p></li><li><p>pcre<br>PCRE(Perl Compatible Regular Expressions)是一个Perl库，包括 perl 兼容的正则表达式库。nginx的http模块使用pcre来解析正则表达式，所以需要在linux上安装pcre库。</p><p>yum install pcre pcre-devel -y</p></li><li><p>zlib<br>zlib库提供了很多种压缩和解压缩的方式，nginx使用zlib对http包的内容进行gzip，所以需要在linux上安装zlib库。</p><p>yum install zlib zlib-devel -y</p></li><li><p>openssl<br>OpenSSL 是一个强大的安全套接字层密码库，囊括主要的密码算法、常用的密钥和证书封装管理功能及SSL协议，并提供丰富的应用程序供测试或其它目的使用。</p><p>yum install openssl openssl-devel -y</p></li></ol><hr><h2 id="下载编译安装nginx"><a href="#下载编译安装nginx" class="headerlink" title="下载编译安装nginx"></a>下载编译安装nginx</h2><ol><li><p>下载nginx源码</p><p>cd /usr/local/src<br>wget <a href="http://nginx.org/download/nginx-1.14.2.tar.gz" target="_blank" rel="noopener">http://nginx.org/download/nginx-1.14.2.tar.gz</a></p></li><li><p>解压源码</p><p>tar -xvf nginx-1.14.2.tar.gz </p></li><li><p>编译安装</p><p>cd nginx-1.14.2<br>./configure –prefix=/usr/local/nginx<br>make &amp;&amp; make install</p></li><li><p>启动服务</p><p>cd /usr/local/nginx/<br>./sbin/nginx </p></li></ol><p>若出现如下情况：<br><img src="http://static.zybuluo.com/jiangpeisi/ualmx38mtswvj4wv2oejoafk/aaa.png" alt="aaa.png-9.4kB"><br>说明80端口已经被其他进程占用，需要把占用端口的进程先杀掉在重新启动服务。有两种解决办法：</p><pre><code>1.使用netstat命令查看占用端口的进程![q.png-9.2kB][2]kill -9 [进程号]  杀死占用80端口的进程即可2.修改nginx配置文件中监听的端口号server {        listen       80;  #修改为8080        server_name  localhost;        #charset koi8-r;        #access_log  logs/host.access.log  main;        location / {            root   html;            index  index.html index.htm;        }浏览器访问时使用   IP：8080  访问即可</code></pre><p> 5.安装成功</p><p><img src="http://static.zybuluo.com/jiangpeisi/blkn5f588xbdg772ct0pa0tn/ads.png" alt="ads.png-8.5kB"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h2&gt;&lt;p&gt;Nginx是一个轻量型web服务器，也可以用来做负载均衡及反向代理。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;安装环境准备&quot;&gt;&lt;a href=&quot;#
+      
+    
+    </summary>
+    
+      <category term="liux" scheme="http://yoursite.com/categories/liux/"/>
+    
+    
+      <category term="hexo" scheme="http://yoursite.com/tags/hexo/"/>
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+  </entry>
   
   <entry>
     <title>hexo+GitHub搭建个人博客</title>
