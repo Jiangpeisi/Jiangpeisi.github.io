@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>我在看着你</title>
+  
+  <subtitle>by heart</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2019-02-27T14:10:52.012Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>镜子</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>hexo+GitHub搭建个人博客</title>
+    <link href="http://yoursite.com/2019/02/27/hexo+GitHub%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/"/>
+    <id>http://yoursite.com/2019/02/27/hexo+GitHub搭建个人博客/</id>
+    <published>2019-02-27T14:04:56.000Z</published>
+    <updated>2019-02-27T14:10:52.012Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="hexo-GitHub搭建个人博客"><a href="#hexo-GitHub搭建个人博客" class="headerlink" title="hexo+GitHub搭建个人博客"></a>hexo+GitHub搭建个人博客</h2><h1 id="一、基本环境"><a href="#一、基本环境" class="headerlink" title="一、基本环境"></a>一、基本环境</h1><ol><li>注册GitHub账户<br><a href="https://git-scm.com/downloads" target="_blank" rel="noopener">GitHub注册教程</a></li><li>安装Node.js<br><a href="https://jingyan.baidu.com/article/48b37f8dd141b41a646488bc.html" target="_blank" rel="noopener">Node.js安装教程</a></li><li>安装git并且配置好git的基本环境<br><a href="https://git-scm.com/downloads" target="_blank" rel="noopener">官网</a>下载自己电脑对应的版本直接安装即可</li></ol><hr><h1 id="二、本地部署Hexo"><a href="#二、本地部署Hexo" class="headerlink" title="二、本地部署Hexo"></a>二、本地部署Hexo</h1><ol><li>首先在合适的地方创建一个本地文件夹，用于部署hexo。</li><li>打开上面安装Git Bash,进入刚刚创建的本地目录<br><img src="http://static.zybuluo.com/jiangpeisi/3nl5jgu8pxbp4ahm8w3foq37/image_1d4n4ll4i17ms1hhu1565hsu8mi11.png" alt="image_1d4n4ll4i17ms1hhu1565hsu8mi11.png-4.7kB"></li><li>安装hexo</li></ol><blockquote><p>npm install hexo-cli -g</p><p>hexo -v 检查版本</p></blockquote><ol start="4"><li>初始化文件夹</li></ol><blockquote><p>hexo init</p></blockquote><ol start="5"><li>安装所需组件</li></ol><blockquote><p>npm install</p></blockquote><ol start="6"><li>在本地生成静态文件</li></ol><blockquote><p>hexo generate</p></blockquote><ol start="7"><li>启动本地服务</li></ol><blockquote><p>hexo server</p></blockquote><p>  此时我们就可以通过浏览器访问本地部署的博客了，浏览器输入localhost：4000 查看刚刚部署的博客框架了，若是界面一直加载不出，可能是因为4000端口被其他端口占用了，此时需要用ctrl+c停止服务，重新用hexo -s -p 5000  指定使用5000端口，然后在访问localhost：5000即可。</p><ol start="8"><li>完成结果<br><img src="http://static.zybuluo.com/jiangpeisi/6iv0zcf9ity2eywtme9q4az3/N_HY4B2PTW%7D2O4FX4G@2BX5.png" alt="N_HY4B2PTW}2O4FX4G@2BX5.png-80.3kB"></li></ol><hr><h1 id="三、GitHub托管"><a href="#三、GitHub托管" class="headerlink" title="三、GitHub托管"></a>三、GitHub托管</h1><ol><li>更改Git的name和email</li></ol><blockquote><p>git config –list</p></blockquote><p> 查看当前name和email是否与注册GitHub时的相同若不相同 </p><blockquote><p>git config –global user.name “你的GitHub用户名”</p><p>git config –global user.email “你的GitHub邮箱”</p></blockquote><ol start="2"><li>创建SSH Key</li></ol><blockquote><p>ssh-keygen -t rsa -C “你的邮箱”</p></blockquote><p>一路回车，然后进入.ssh目录可以看到以下文件<br><img src="http://static.zybuluo.com/jiangpeisi/jxjji70g1rxltwkgg3bf5aan/sdas.png" alt="sdas.png-7.9kB"><br>id_rsa是私钥，不能泄露出去，id_rsa.pub是公钥，可以放心地告诉任何人。</p><ol start="3"><li>在GitHub上添加SSH Key<br>1.登陆GitHub，打开“settings”，“SSH and GPG Keys”页面<br>2.填上任意Title，在Key文本框里粘贴id_rsa.pub文件的内容<br>3.点“Add Key”，你就应该看到已经添加的Key<br>4.输入ssh -T <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>，测试添加ssh是否成功。如果看到Hi后面是你的用户名，就说明成功了<br><img src="http://static.zybuluo.com/jiangpeisi/6zekv8cd5t02kiiyrajbz8le/adasd.png" alt="adasd.png-5kB"></li><li>关联hexo与GitHub<br>在创建博客的根目录下找到_config.yml，这个文件是站点配置文件，关于站点的基本配置都在此文件中。</li></ol><blockquote><p>deploy:<br>    type: git<br>    repo: <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:Jiangpeisi/Jiangpeisi.github.io.git<br>    branch: master</p></blockquote><p>repo后面跟你自己注册的GitHub仓库地址</p><ol start="5"><li>安装拓展模块</li></ol><blockquote><p>npm install hexo-deployer-git –save</p></blockquote><ol start="6"><li>将本地部署推送到GitHub上</li></ol><blockquote><p>hexo g</p><p>hexo d</p></blockquote><ol start="7"><li>访问</li></ol><blockquote><p>http://用户名.github.io 将看到自己的博客</p></blockquote><hr><h1 id="四、设置主题"><a href="#四、设置主题" class="headerlink" title="四、设置主题"></a>四、设置主题</h1><p>在 Hexo 中有两份主要的配置文件，其名称都是 _config.yml。 其中，一份位于站点根目录下，主要包含 Hexo 本身的配置；另一份位于主题目录下，这份配置由主题作者提供，主要用于配置主题相关的选项。</p><ol><li>安装next<br>在站点目录下执行以下代码：</li></ol><blockquote><p>git clone <a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">https://github.com/iissnan/hexo-theme-next</a> themes/next</p></blockquote><ol start="2"><li>使用主题<br>当克隆/下载完成后，打开站点配置文件，找到 theme 字段，并将其值更改为 next。</li><li>验证主题</li></ol><blockquote><p>hexo clean 清楚之前的缓存</p><p>hexo g 本地部署</p><p>hexo s   浏览器访问localhost：4000</p><p>hexo d   浏览器访问看到笑过后推送到GitHub进行托管即可</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;hexo-GitHub搭建个人博客&quot;&gt;&lt;a href=&quot;#hexo-GitHub搭建个人博客&quot; class=&quot;headerlink&quot; title=&quot;hexo+GitHub搭建个人博客&quot;&gt;&lt;/a&gt;hexo+GitHub搭建个人博客&lt;/h2&gt;&lt;h1 id=&quot;一、基本环
+      
+    
+    </summary>
+    
+      <category term="hexo" scheme="http://yoursite.com/categories/hexo/"/>
+    
+    
+      <category term="hexo" scheme="http://yoursite.com/tags/hexo/"/>
+    
+  </entry>
+  
+</feed>
