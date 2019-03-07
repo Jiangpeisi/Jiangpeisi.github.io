@@ -271,7 +271,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/07/Docker基本原理/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/07/Docker安装并使用docker部署多个nginx/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="镜子">
@@ -290,7 +290,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/03/07/Docker基本原理/" itemprop="url">Docker基本原理</a></h1>
+                <a class="post-title-link" href="/2019/03/07/Docker安装并使用docker部署多个nginx/" itemprop="url">Dokcer安装并部署多个nginx</a></h1>
         
 
         <div class="post-meta">
@@ -356,7 +356,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.1k
+                  318
                 </span>
               
 
@@ -372,7 +372,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  4
+                  1
                 </span>
               
             </div>
@@ -396,11 +396,17 @@
         
           
           
-传统虚拟化与docker传统虚拟化是在宿主机上使用VMM对底层硬件资源进行管理和封装、隔离抽象为一种逻辑独立的资源，分配给上层虚拟主机使用。Docker是直接在宿主主机操作系统的层次上通过Cgroups对物理资源隔离和Namespace对系统资源隔离，直接实现APP或者应用的虚拟化，实现轻量级的虚
+Docker 安装
+ 1.查看当前内核版本，要求3.10及以上版本
+uname -r
+ 2.安装相关的包
+yum install -y yum-utils device-mapper-persistent-data lvm2 lxc libcgroup
+ 3.安装docker
+yum instal
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/03/07/Docker基本原理/#more" rel="contents">
+            <a class="btn" href="/2019/03/07/Docker安装并使用docker部署多个nginx/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -590,6 +596,190 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/03/07/Docker容器网络模式/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+      <div>
+      
+      </div>
+    
+	
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/07/Docker基本原理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="镜子">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/bg.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我在看着你">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/07/Docker基本原理/" itemprop="url">Docker基本原理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-07T22:45:56+08:00">
+                2019-03-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/虚拟化/" itemprop="url" rel="index">
+                    <span itemprop="name">虚拟化</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.1k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  4
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          
+传统虚拟化与docker传统虚拟化是在宿主机上使用VMM对底层硬件资源进行管理和封装、隔离抽象为一种逻辑独立的资源，分配给上层虚拟主机使用。Docker是直接在宿主主机操作系统的层次上通过Cgroups对物理资源隔离和Namespace对系统资源隔离，直接实现APP或者应用的虚拟化，实现轻量级的虚
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/03/07/Docker基本原理/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1928,193 +2118,6 @@ Rewrite重写用来做些什么URL重写就是首先获得一个进入的URL请�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/28/Nginx安装/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="镜子">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/bg.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我在看着你">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/28/Nginx安装/" itemprop="url">Nginx安装</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-28T00:24:56+08:00">
-                2019-02-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/liux/" itemprop="url" rel="index">
-                    <span itemprop="name">liux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  487
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          简介Nginx是一个轻量型web服务器，也可以用来做负载均衡及反向代理。
-
-安装环境准备nginx是C语言开发，建议在linux上运行，本次使用Centos7.3作为安装环境。
-
-gccnginx是用c语言编写，如果使用源码安装，需要先对源码进行编译，gcc作为linux上的c编译器来完成这个工作，
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/02/28/Nginx安装/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-      <div>
-      
-      </div>
-    
-	
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2167,7 +2170,7 @@ gccnginx是用c语言编写，如果使用源码安装，需要先对源码进�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2254,7 +2257,7 @@ gccnginx是用c语言编写，如果使用源码安装，需要先对源码进�
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">6.8k</span>
+    <span title="Site words total count">7.1k</span>
   
 </div>
 
@@ -2267,7 +2270,7 @@ gccnginx是用c语言编写，如果使用源码安装，需要先对源码进�
 
   <div class="theme-info">
     <div class="powered-by"></div>
-    <span class="post-count">博客全站共6.8k字</span>
+    <span class="post-count">博客全站共7.1k字</span>
   </div>
 
         

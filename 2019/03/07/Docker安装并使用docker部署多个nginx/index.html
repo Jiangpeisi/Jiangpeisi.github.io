@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="linux,">
+  <meta name="keywords" content="docker,虚拟化,">
 
 
 
@@ -79,21 +79,23 @@
 
 
 
-<meta name="description" content="nginx主要是由内核和模块组成的。  内核内核的设计非常简洁，完成的工作主要是查找配置文件找到访问的URL所匹配的location block，并实现location中的相应指令。而location中的每个指令会调用不同的模块去完成相应的工作 模块从结构上分：核心模块：HTTP模块、event模块和mail模块等基础模块：HTTP access 模块HTTP FastCGI模块、HTTP pro">
-<meta name="keywords" content="linux">
+<meta name="description" content="Docker 安装  1.查看当前内核版本，要求3.10及以上版本 uname -r  2.安装相关的包 yum install -y yum-utils device-mapper-persistent-data lvm2 lxc libcgroup  3.安装docker yum install docker docker-* -y  4.关闭selinux并重启 sed -i &amp;apos;">
+<meta name="keywords" content="docker,虚拟化">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Nginx模块与工作原理">
-<meta property="og:url" content="http://yoursite.com/2019/02/28/Nginx模块分类与工作原理/index.html">
+<meta property="og:title" content="Dokcer安装并部署多个nginx">
+<meta property="og:url" content="http://yoursite.com/2019/03/07/Docker安装并使用docker部署多个nginx/index.html">
 <meta property="og:site_name" content="我在看着你">
-<meta property="og:description" content="nginx主要是由内核和模块组成的。  内核内核的设计非常简洁，完成的工作主要是查找配置文件找到访问的URL所匹配的location block，并实现location中的相应指令。而location中的每个指令会调用不同的模块去完成相应的工作 模块从结构上分：核心模块：HTTP模块、event模块和mail模块等基础模块：HTTP access 模块HTTP FastCGI模块、HTTP pro">
+<meta property="og:description" content="Docker 安装  1.查看当前内核版本，要求3.10及以上版本 uname -r  2.安装相关的包 yum install -y yum-utils device-mapper-persistent-data lvm2 lxc libcgroup  3.安装docker yum install docker docker-* -y  4.关闭selinux并重启 sed -i &amp;apos;">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/01ebv3v6btag0lzdyl0h1rf4/qqqq.png">
-<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/l9m2d3wifpmyykcg3nepjnmk/z.png">
-<meta property="og:updated_time" content="2019-03-07T01:09:58.612Z">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/gkzpvqgz3wxx28fda28r1zq7/image_1d5b1a092dct8lt1s331b451tm20.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/mrha1024sock53rz1ccnhoi9/image_1d5b1c9qvtf818bm2si498kiv2t.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/faqgy3uozt8ukvbvi09tcmxt/image_1d5b1kdms3me1ssi1npr15m9h1m44.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/f47wg1yoq5zs0ioziifpy26e/image_1d5b1kp8f1d6712h81hap13le68f51.png">
+<meta property="og:updated_time" content="2019-03-07T03:13:22.661Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Nginx模块与工作原理">
-<meta name="twitter:description" content="nginx主要是由内核和模块组成的。  内核内核的设计非常简洁，完成的工作主要是查找配置文件找到访问的URL所匹配的location block，并实现location中的相应指令。而location中的每个指令会调用不同的模块去完成相应的工作 模块从结构上分：核心模块：HTTP模块、event模块和mail模块等基础模块：HTTP access 模块HTTP FastCGI模块、HTTP pro">
-<meta name="twitter:image" content="http://static.zybuluo.com/jiangpeisi/01ebv3v6btag0lzdyl0h1rf4/qqqq.png">
+<meta name="twitter:title" content="Dokcer安装并部署多个nginx">
+<meta name="twitter:description" content="Docker 安装  1.查看当前内核版本，要求3.10及以上版本 uname -r  2.安装相关的包 yum install -y yum-utils device-mapper-persistent-data lvm2 lxc libcgroup  3.安装docker yum install docker docker-* -y  4.关闭selinux并重启 sed -i &amp;apos;">
+<meta name="twitter:image" content="http://static.zybuluo.com/jiangpeisi/gkzpvqgz3wxx28fda28r1zq7/image_1d5b1a092dct8lt1s331b451tm20.png">
 
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
 <link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
@@ -138,13 +140,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/02/28/Nginx模块分类与工作原理/">
+  <link rel="canonical" href="http://yoursite.com/2019/03/07/Docker安装并使用docker部署多个nginx/">
 
 
 
 
 
-  <title>Nginx模块与工作原理 | 我在看着你</title>
+  <title>Dokcer安装并部署多个nginx | 我在看着你</title>
   
 
 
@@ -275,7 +277,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/28/Nginx模块分类与工作原理/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/07/Docker安装并使用docker部署多个nginx/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="镜子">
@@ -292,7 +294,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Nginx模块与工作原理</h1>
+          <h1 class="post-title" itemprop="name headline">Dokcer安装并部署多个nginx</h1>
         
 
         <div class="post-meta">
@@ -304,8 +306,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-28T09:40:56+08:00">
-                2019-02-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-07T22:45:56+08:00">
+                2019-03-07
               </time>
             
 
@@ -327,8 +329,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/liux/" itemprop="url" rel="index">
-                    <span itemprop="name">liux</span>
+                  <a href="/categories/虚拟化/" itemprop="url" rel="index">
+                    <span itemprop="name">虚拟化</span>
                   </a>
                 </span>
 
@@ -358,7 +360,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  537
+                  318
                 </span>
               
 
@@ -395,13 +397,41 @@
       
 
       
-        <p>nginx主要是由内核和模块组成的。</p>
-<ol>
-<li><strong>内核</strong><br>内核的设计非常简洁，完成的工作主要是查找配置文件找到访问的URL所匹配的location block，并实现location中的相应指令。而location中的每个指令会调用不同的模块去完成相应的工作<br><img src="http://static.zybuluo.com/jiangpeisi/01ebv3v6btag0lzdyl0h1rf4/qqqq.png" alt="qqqq.png-278.1kB"></li>
-<li><strong>模块</strong><br>从结构上分：<br>核心模块：HTTP模块、event模块和mail模块等<br>基础模块：HTTP access 模块HTTP FastCGI模块、HTTP proxy 模块和HTTP rewrite模块等<br>第三方模块：HTTP upstream request hash模块、notice 模块 和HTTP access key模块、limit_req模块等<br>从功能上分：<br>handers（处理器模块）：用于处理请求，并进行输出内容和修改headers信息等操作，一般只能有一个<br>filters（过滤模块）：主要对其他模块处理后的数据进行修改，最后交给nginx返回给浏览器<br>proxies（代理模块）：主要与后端的一些服务进行交互，例如FastCGI等，实现服务代理及负载均衡</li>
-<li><strong>nginx高并发</strong><br>nginx高并发是因为采用了epoll模块，异步非阻塞。与Apache相比，Apache采用的时select模块，select模块在选择句柄的时候是遍历所有句柄，选择其中有事件通知的句柄去响应。而epoll模块是不需要遍历句柄链表，一但有句柄有事件通知立马就可以做出响应，所以效率更高一些。</li>
-<li><strong>master进程</strong><br>nginx在服务端默认监听80端口，服务一旦启动服务器就会创建一个master进程，同时由mater进程可以生成多个worker进程对请求做出响应。<br><img src="http://static.zybuluo.com/jiangpeisi/l9m2d3wifpmyykcg3nepjnmk/z.png" alt="z.png-326.6kB"><br>服务器启动后创建master进程，并在master进程内创建一个监听80端口的socket，master进程会fork多个woker进程，每个worker进程一旦获得连接处理，会把listend变的仅可读，这样可以保证每个worker进程只对一个连接进行处理，当一个worker进程在accept一个连接后就会读取请求、解析请求、处理请求、产生数据，并将产生的数据返回给客户端，并断开连接。</li>
-</ol>
+        <ul>
+<li><p><strong>Docker 安装</strong></p>
+<p> 1.查看当前内核版本，要求3.10及以上版本</p>
+<pre><code>uname -r
+</code></pre><p> 2.安装相关的包</p>
+<pre><code>yum install -y yum-utils device-mapper-persistent-data lvm2 lxc libcgroup
+</code></pre><p> 3.安装docker</p>
+<pre><code>yum install docker docker-* -y
+</code></pre><p> 4.关闭selinux并重启</p>
+<pre><code>sed -i &apos;/SELINUX/s/enforcing/disabled/g&apos; /etc/selinux/config &amp;&amp; reboot
+</code></pre><p> 5.启动docker</p>
+<pre><code>systemctl start docker 
+</code></pre><p> 6.使用脚本一键安装</p>
+<pre><code>curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+</code></pre></li>
+<li><p><strong>部署多台nginx服务器</strong></p>
+<p> 1.获取Nginx镜像</p>
+<pre><code>docker pull nginx
+</code></pre><p> 2.创建容器，并将容器内的80端口分别映射到宿主机的8080|8088端口，将容器的nginx配置文件挂载到本地，方便绕过写时复制，提高容器读写效率</p>
+<pre><code>docker run -it --name nginx1 -h nginx1 -v /usr/local/etc/nginx1/html/:/usr/share/nginx/html -p 8080:80 nginx /bin/bash
+docker run -it --name nginx2 -h nginx2 -v /usr/local/etc/nginx2/html/:/usr/share/nginx/html -p 8088:80 nginx /bin/bash
+</code></pre><p> <img src="http://static.zybuluo.com/jiangpeisi/gkzpvqgz3wxx28fda28r1zq7/image_1d5b1a092dct8lt1s331b451tm20.png" alt="image_1d5b1a092dct8lt1s331b451tm20.png-10.2kB"><br> 3.开启刚刚创建的容器</p>
+<pre><code>docker start $(docker ps -qa)
+</code></pre><p> <img src="http://static.zybuluo.com/jiangpeisi/mrha1024sock53rz1ccnhoi9/image_1d5b1c9qvtf818bm2si498kiv2t.png" alt="image_1d5b1c9qvtf818bm2si498kiv2t.png-10.6kB"><br> 4.将容器内的nginx放置在后台运行</p>
+<pre><code>docker exec -it nginx1 nginx &amp;
+docker exec -it nginx2 nginx &amp;
+</code></pre><p> 5.修改配置文件</p>
+<pre><code>cd /usr/local/etc/nginx1/html/
+echo &quot;&lt;h1&gt;This is Nginx1&lt;/h1&gt;&quot; &gt; index.html 
+cd /usr/local/etc/nginx2/html/
+echo &quot;&lt;h1&gt;This is Nginx2&lt;/h1&gt;&quot; &gt; index.html 
+</code></pre><p> 6.浏览器访问<br><img src="http://static.zybuluo.com/jiangpeisi/faqgy3uozt8ukvbvi09tcmxt/image_1d5b1kdms3me1ssi1npr15m9h1m44.png" alt="image_1d5b1kdms3me1ssi1npr15m9h1m44.png-14kB"><br><img src="http://static.zybuluo.com/jiangpeisi/f47wg1yoq5zs0ioziifpy26e/image_1d5b1kp8f1d6712h81hap13le68f51.png" alt="image_1d5b1kp8f1d6712h81hap13le68f51.png-14.2kB"></p>
+</li>
+</ul>
 
       
     </div>
@@ -425,7 +455,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
+            <a href="/tags/docker/" rel="tag"><i class="fa fa-tag"></i> docker</a>
+          
+            <a href="/tags/虚拟化/" rel="tag"><i class="fa fa-tag"></i> 虚拟化</a>
           
         </div>
       
@@ -438,8 +470,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/02/28/Nginx安装/" rel="next" title="Nginx安装">
-                <i class="fa fa-chevron-left"></i> Nginx安装
+              <a href="/2019/03/07/Docker容器网络模式/" rel="next" title="Docker容器网络模式">
+                <i class="fa fa-chevron-left"></i> Docker容器网络模式
               </a>
             
           </div>
@@ -447,10 +479,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/02/Rewrite重写URL/" rel="prev" title="Rewrite重写URL">
-                Rewrite重写URL <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
