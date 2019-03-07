@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-03-03T08:32:22.038Z</updated>
+  <updated>2019-03-07T00:56:23.592Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,97 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Docker基本原理</title>
+    <link href="http://yoursite.com/2019/03/07/Docker%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/"/>
+    <id>http://yoursite.com/2019/03/07/Docker基本原理/</id>
+    <published>2019-03-07T14:45:56.000Z</published>
+    <updated>2019-03-07T00:56:23.592Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li><strong>传统虚拟化与docker</strong><br>传统虚拟化是在宿主机上使用VMM对底层硬件资源进行管理和封装、隔离抽象为一种逻辑独立的资源，分配给上层虚拟主机使用。<br>Docker是直接在宿主主机操作系统的层次上通过Cgroups对物理资源隔离和Namespace对系统资源隔离，直接实现APP或者应用的虚拟化，实现轻量级的虚拟化容器。传统虚拟化技术创建虚拟主机的代价很大，一般创建两位数的虚拟主机，而使用Docker可以创建上千个Containers。</li><li><strong>Docker与LXC</strong><br>LXC是一种容器技术，它提供轻量级Linux容器，用户可以在LXC容器内安装应用程序和服务，而Docker被设计限制为单个应用程序，是基于容器的单一应用程序虚拟化引擎。Cgroups可以限制、记录、隔离进程组所使用的物理资源，Cgroups给LXC实现虚拟化提供了资源管理手段。从资源管理角度来看，三者的关系是，Cgroup在最底层落实资源管理，LXC在Cgroups、Namespace,unionFS上又封装了一层，而Docker是在LXC的基础上进行改进实现轻量级容器，所以Docker的实现是建立在LXC技术基础之上的。<br><img src="http://static.zybuluo.com/jiangpeisi/dbny9pj7ej74cb0mko9yq6ax/image_1d5aoehrclhutp61bgd1fma1b8r1g.png" alt="image_1d5aoehrclhutp61bgd1fma1b8r1g.png-198.3kB"></li><li><p><strong>LXC之Cgroups、Namespace、unionFS</strong><br><strong>Cgroups</strong><br> 由Linux内核支持，可以对物理资源进行限定、记录、隔离，比如CPU、磁盘和网络的IO,LXC技术的物理基础。<br><strong>Namespace</strong><br> 隔离系统资源，可以为每一个容器提供一个独立的namespace，在每一个namespace空间内有自己独立的进程号（即用户在每一个namespace内仿佛享有了系统可以使用的全部进程号，好像独占了一台linux虚拟机），每个namespace的进程号相对于另一个namespace是透明的，整个子namespace可以映射到父namespace的某一个进程号。<br><img src="http://static.zybuluo.com/jiangpeisi/demr66m33k1zrmwq0kd8pl9i/image_1d5aolh2l1tk21ge2149d1p53fj82d.png" alt="image_1d5aolh2l1tk21ge2149d1p53fj82d.png-96.4kB"><br><strong>unionFS：联合挂载文件系统</strong><br> 两个特殊的文件：<br> bootfs：包含boot loader和kernel，系统加电自检后挂载，当整个内核加载进内存后卸载，并释放内存。<br> rootfs：Linux启动时，rootfs会被以只读的方式挂载，启动完成后只读模式会被改为读写模式。典型 Linux 系统中的/dev，/proc，/bin，/etc等标准目录和文件。</p><p> Docker与传统linux启动不同，Docker在bootfs自检完毕后不会将rootfs设置为读写模式，而是利用unionFS将一个或多个read-only的rootfs加载到之前的rootfs之上，多层rootfs在加载之后仍然是一个文件系统，此时所有联合挂载的rootfs还属于镜像层，当使用镜像创建容器，dui镜像层的read-only rootfs之上分配一个可读写的read-write的rootfs，这个rootfs成为容器层。当docker容器运行时，顶层是读写，下面的所有层都是只读的，只读层只需要读取读写层的数据，完成相应策略即可，符合策略于机制分离原则。<br><img src="http://static.zybuluo.com/jiangpeisi/1nugo3fesxgd1fdaz1m08a5d/image_1d5apedk91gkm88a8ul1b4s8qh5r.png" alt="image_1d5apedk91gkm88a8ul1b4s8qh5r.png-24.1kB"></p></li><li><strong>Docker 特性</strong><br>1.文件系统隔离：每个进程容器运行在完全独立的根文件系统里。<br>2.资源隔离：可以使用cgroup为每个进程容器分配不同的系统资源，例如CPU和内存。<br>3.网络隔离：每个进程容器运行在自己的网络命名空间里，拥有自己的虚拟接口和IP地址。<br>4.写时复制：采用写时复制方式创建根文件系统，这让部署变得极其快捷，并且节省内存和硬盘空间。<br>5.日志记录：Docker将会收集和记录每个进程容器的标准流（stdout/stderr/stdin），用于实时检索或批量检索。<br>6.变更管理：容器文件系统的变更可以提交到新的映像中，并可重复使用以创建更多的容器。无需使用模板或手动配置。<br>7.交互式Shell：Docker可以分配一个虚拟终端并关联到任何容器的标准输入上，例如运行一个一次性交互shell。</li><li><strong>三个重要概念</strong><br>1.Docker镜像：一个静态模板，类似于ISO镜像，不能修改，可以通过封装生成。<br>2.Docker容器：基于Docker镜像运行启动的应用或系统，也可称为Docker虚拟机。<br>3.Docker仓库：存放Docker镜像的地方，分为公开仓库和私有仓库。<br>Docker镜像类似于面向对象编程中的类，Docker容器类似于类实例化后的对象。</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;传统虚拟化与docker&lt;/strong&gt;&lt;br&gt;传统虚拟化是在宿主机上使用VMM对底层硬件资源进行管理和封装、隔离抽象为一种逻辑独立的资源，分配给上层虚拟主机使用。&lt;br&gt;Docker是直接在宿主主机操作系统的层次上通过Cgroups对物理资源
+      
+    
+    </summary>
+    
+      <category term="虚拟化" scheme="http://yoursite.com/categories/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
+    
+    
+      <category term="docker" scheme="http://yoursite.com/tags/docker/"/>
+    
+      <category term="虚拟化" scheme="http://yoursite.com/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Docker容器网络模式</title>
+    <link href="http://yoursite.com/2019/03/07/Docker%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F/"/>
+    <id>http://yoursite.com/2019/03/07/Docker容器网络模式/</id>
+    <published>2019-03-07T14:45:56.000Z</published>
+    <updated>2019-03-07T01:08:04.722Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li><p><strong>配置容器网络模式</strong></p><p> Docker run -net=pattern</p></li><li><p><strong>四种模式</strong></p><p> host模式：host模式下的容器不会独立创建一个network namespace,而是与宿主机公用一个network namespace。容器不会再虚拟出自己的网卡，配置IP，直接使用宿主机的IP及端口。</p><p> container模式：container模式下的容器与host模式下的容器类似，同样不会独立创建一个network namespace，而是和其他容器共用一个network namespace。两个容器除了network namespace是共享的之外，其他的如文件系统、进程列表等还是相互隔离的。</p><p> none模式：none模式下的容器拥有自己的network namespace，但是不会为容器进行任何网络配置，需要人工添加网卡、配置IP等信息，典型的pipework工具可以为此模式下的容器配置IP等信息。</p><p> bridge模式：docker容器默认的网络模式，该模式会为每一个容器分配一个network namespace，设置IP、路由等信息，并且默认会将这些容器连接到一个虚拟的交换机docker0上。</p></li><li><p><strong>bridge模式下的docker 容器创建过程</strong><br>1.启动docker容器，docker宿主机会创建一对虚拟网卡，veth pair设备，用于两个设备通信。<br>2.Docker 将veth pair 的一端放在新创建的docker 容器中，并命名为eth0，另一端放在宿主机中，以veth-container-id的方式命名，并将这个veth加入到docker0中。<br>3.Docker0从子网中分配一个IP给容器使用，并将容器的网关设置为docker0的IP地址。<br>此时容器间，容器与宿主机之间是可以通信的，容器也可以访问外网，但是其他宿主机不可以访问容器内的IP地址，需要通过NAT将容器IP的port映射为宿主机的IP和port，方可访问。</p></li><li><p><strong>docker桥接网络拓扑</strong><br><img src="http://static.zybuluo.com/jiangpeisi/062j0akdehbba7vej72yb1o3/image_1d5aqqol11q8733oqtbjqm1e4ic.png" alt="image_1d5aqqol11q8733oqtbjqm1e4ic.png-27.1kB"></p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;配置容器网络模式&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt; Docker run -net=pattern&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;四种模式&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt; host模式：host模式下的容器不会独立创建
+      
+    
+    </summary>
+    
+      <category term="虚拟化" scheme="http://yoursite.com/categories/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
+    
+    
+      <category term="docker" scheme="http://yoursite.com/tags/docker/"/>
+    
+      <category term="虚拟化" scheme="http://yoursite.com/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Raid常见分类</title>
+    <link href="http://yoursite.com/2019/03/04/Raid%E5%88%86%E7%B1%BB/"/>
+    <id>http://yoursite.com/2019/03/04/Raid分类/</id>
+    <published>2019-03-04T14:45:56.000Z</published>
+    <updated>2019-03-04T02:58:48.843Z</updated>
+    
+    <content type="html"><![CDATA[<ol><li><strong>Raid0</strong><br>以位或字节为单位分割数据，并行读/写于多个磁盘上，具有很高的传输效率，但不提供数据冗余。<br><img src="http://static.zybuluo.com/jiangpeisi/no5fo644iopa97olvvo0xlpn/image_1d539fmcfnsno6d1g31145t5135h.png" alt="image_1d539fmcfnsno6d1g31145t5135h.png-12.5kB"></li><li><strong>Raid1</strong><br>通过磁盘数据镜像实现数据冗余，在成对的独立磁盘上产生互为备份的数据。当原始数据繁忙时，可直接从镜像拷贝中读取数据，因此RAID1可以提高读取性能。<br><img src="http://static.zybuluo.com/jiangpeisi/kbtmmryqo0hzixn5ag2soi73/image_1d539gnng1cth1e8mqh1hdq1kml5u.png" alt="image_1d539gnng1cth1e8mqh1hdq1kml5u.png-11.7kB"></li><li><strong>Raid0+1</strong><br>Raid0于Raid1结合的产物，在连续地以位或字节为单位分割数据并且并行读/写多个磁盘的同时，为每一块磁盘作磁盘镜像进行冗余。<br><img src="http://static.zybuluo.com/jiangpeisi/mx7ym3nsywqmj0lt4h9jy3ni/image_1d539bhnffgf1vv81f9f1c87boe3a.png" alt="image_1d539bhnffgf1vv81f9f1c87boe3a.png-44.7kB"></li><li><strong>Raid2</strong><br>将数据条块化地分布于不同的硬盘上，条块单位为位或字节，并使用称为“加重平均纠错码（海明码）”的编码技术来提供错误检查及恢复。<br><img src="http://static.zybuluo.com/jiangpeisi/0wh24plcqo7r7bstjrs19uui/image_1d539cgghnlg93kuv51p3c5nb4n.png" alt="image_1d539cgghnlg93kuv51p3c5nb4n.png-71.6kB"></li><li><strong>Raid3</strong><br>使用专用校验盘的并行访问阵列，它采用一个专用的磁盘作为校验盘，其余磁盘作为数据盘，数据按位可字节的方式交叉存储到各个数据盘中。<br><img src="http://static.zybuluo.com/jiangpeisi/ii5futphvlo887bnpm2ccoy7/image_1d539iu3q1j9o1j101t521q1h1d687o.png" alt="image_1d539iu3q1j9o1j101t521q1h1d687o.png-20.8kB"></li><li><strong>Raid4</strong><br>Raid4 与 Raid3 的原理大致相同，区别在于条带化的方式不同。 Raid4按照块的方式来组织数据，写操作只涉及当前数据盘和校验盘两个盘，多个 I/O 请求可以同时得到处理，提高了系统性能。<br><img src="http://static.zybuluo.com/jiangpeisi/oavmkykkhmamtlfhg1dx11ev/image_1d539ksmn1vgf1ben25lqspmkh8i.png" alt="image_1d539ksmn1vgf1ben25lqspmkh8i.png-21.1kB"></li><li><strong>Raid5</strong><br>Raid5不单独指定的奇偶盘，而是在所有磁盘上交叉地存取数据及奇偶校验信息。在Raid5上，读/写指针可同时对阵列设备进行操作，提供了更高的数据流量。而且具有很高的扩展性，当磁盘数量增加时，并行操作的能力也增加。但存在写损失，即每一次写操作将产生四个实际的读/写操作，其中两次读旧的数据及奇偶信息，两次写新的数据及奇偶信息。<br><img src="http://static.zybuluo.com/jiangpeisi/ia26lv6uavkojumux260dw7i/image_1d539nopugli1ao7uardh7415as.png" alt="image_1d539nopugli1ao7uardh7415as.png-21.1kB"></li><li><strong>Raid6</strong><br>引入双重校验的概念，它可以保护阵列中同时出现两个磁盘失效时，阵列仍能够继续工作，不会发生数据丢失。不仅支持对数据的恢复，还支持对校验码的恢复。成本较高。<br><img src="http://static.zybuluo.com/jiangpeisi/djw7urkbad3ulthpxy53tpkz/image_1d539toai1bdj1sik13iektd4thn.png" alt="image_1d539toai1bdj1sik13iektd4thn.png-19.6kB"></li><li><strong>Raid50</strong><br>Raid5于Raid0结合的产物，具有较高读写速率和一定的容错能力，但成本相对也较高。<br><img src="http://static.zybuluo.com/jiangpeisi/ts161boj7p26lgn0lek9lagh/image_1d539tggk1c4s1vol1k09pjolppha.png" alt="image_1d539tggk1c4s1vol1k09pjolppha.png-83.7kB"></li><li><strong>性能分析</strong><br><img src="http://static.zybuluo.com/jiangpeisi/0fbxbtkqig4pibfpqkmcy3om/image_1d539t5qm18sas221eu7vmi7f5gt.png" alt="image_1d539t5qm18sas221eu7vmi7f5gt.png-54.8kB"></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Raid0&lt;/strong&gt;&lt;br&gt;以位或字节为单位分割数据，并行读/写于多个磁盘上，具有很高的传输效率，但不提供数据冗余。&lt;br&gt;&lt;img src=&quot;http://static.zybuluo.com/jiangpeisi/no5fo644io
+      
+    
+    </summary>
+    
+      <category term="磁盘阵列" scheme="http://yoursite.com/categories/%E7%A3%81%E7%9B%98%E9%98%B5%E5%88%97/"/>
+    
+    
+      <category term="Raid" scheme="http://yoursite.com/tags/Raid/"/>
+    
+  </entry>
+  
+  <entry>
     <title>LNMP架构中Nginx如何与PHP进行交互</title>
-    <link href="http://yoursite.com/2019/03/02/LNMP%E6%9E%B6%E6%9E%84%E4%B8%ADNginx%E5%A6%82%E4%BD%95%E4%B8%8EPHP%E4%BA%A4%E4%BA%92/"/>
-    <id>http://yoursite.com/2019/03/02/LNMP架构中Nginx如何与PHP交互/</id>
-    <published>2019-03-02T14:45:56.000Z</published>
-    <updated>2019-03-03T08:32:22.038Z</updated>
+    <link href="http://yoursite.com/2019/03/03/LNMP%E6%9E%B6%E6%9E%84%E4%B8%ADNginx%E5%A6%82%E4%BD%95%E4%B8%8EPHP%E4%BA%A4%E4%BA%92/"/>
+    <id>http://yoursite.com/2019/03/03/LNMP架构中Nginx如何与PHP交互/</id>
+    <published>2019-03-03T14:45:56.000Z</published>
+    <updated>2019-03-04T02:58:47.206Z</updated>
     
     <content type="html"><![CDATA[<ol><li><p><strong>简述</strong><br>因为nginx不支持对动态脚本文件的解析，所以如果客户端浏览器有对动态脚本文件的请求时，nginx就需要调用动态文本解析程序即php来处理请求。</p></li><li><p><strong>原理：</strong><br>1.nginx紧紧作为一个web服务器，接收和响应客户浏览器发送来的请求，其worker进程直接管理每一个请求。<br>2.php作为后端程序，处理客户端请求动态脚本文件，并将处理后的结果返回给web服务器，web服务器在将处理结果按一定的格式封装返回给浏览器。<br>3.对于nginx而言，php是与之同级别的一个外部程序，两者之间的交互需要通过CGI（通用网关接口），及nginx通过CGI对php进行调用来处理浏览器请求。<br>4.普通的CGI每接收到一次请求会重新解析配置文件php.ini，效率低，其衍生协议FastCGI解决了这个问题，服务端会通过php-fpm创建一个master进程，同时加载配置文件，然后在创建多个worker进程，处理客户端请求。当请求到来时master会将请求传递给worker进程处理，然后立即可以接收下一个请求，这样可以提高并发性。（真正解析动态文件的是php.cgi，php-fpm是管理php-cgi的软件）<br>5.FastCGI接口方式采用C/S架构，可以将HTTP服务器和脚本解析服务器分开，同时在脚本解析服务器上启动一个或多个脚本解析守护进程。当HTTP服务器每次遇到动态程序时，可以将其直接交付给脚本分析服务器执行，然后将得到的结构返回给浏览器。这种方式可以让HTTP服务器专一地处理静态请求或者将动态脚本服务器的结果返回给客户端，这在很大程度上提高了整个应用系统的性能。<br>6.FastCGI上游为nginx服务器，作为FastCGI的客户端，下游为外部程序，在LNMP架构中指的时PHP。<br>原理图：<br><img src="http://static.zybuluo.com/jiangpeisi/pnhxcqlstwg4ajivhfebzx1l/image_1d51agce9ssucna1v2qnoq118616.png" alt="image_1d51agce9ssucna1v2qnoq118616.png-75.9kB"></p></li><li><p><strong>过程分析</strong><br>1.用户发送http请求报文给nginx服务器<br>2.nginx会根据文件url和后缀来判断请求<br>3.如果请求的是静态内容,nginx会将结果直接返回给用户<br>4.如果请求的是动态内容,nginx会将请求交给fastcgi客户端,通过fastcgi_pass将这个请求发送给php-fpm<br>5.php-fpm会将请求交给wrapper（即master进程）<br>6.wrapper收到请求会生成新的线程（worker进程）调用php动态程序解析服务器<br>7.如果用户请求的是博文、或者内容、PHP会请求MySQL查询结果<br>8.如果用户请求的是图片、附件、PHP会请求nfs存储查询结果<br>9.php会将查询到的结果交给Nginx<br>10.nginx会生成一个响应报文返还给用户</p></li><li><p><strong>通信方式</strong><br>1.TCP方式<br>nginx配置文件：<br>fastcgi_pass 127.0.0.1:9000;<br>php-fpm配置文件：<br>listen = 127.0.0.1:9000<br>2.socket方式<br>nginx配置文件：<br>fastcgi_pass unix:/run/php/php7.0-fpm.sock;<br>php-fpm配置文件：<br>listen = /run/php/php7.0-fpm.sock</p></li></ol>]]></content>
     
@@ -47,20 +133,21 @@
   </entry>
   
   <entry>
-    <title>nginx之Location</title>
-    <link href="http://yoursite.com/2019/03/02/Nginx%E4%B9%8BLocation/"/>
-    <id>http://yoursite.com/2019/03/02/Nginx之Location/</id>
-    <published>2019-03-02T14:45:56.000Z</published>
-    <updated>2019-03-03T14:00:13.965Z</updated>
+    <title>日志切割</title>
+    <link href="http://yoursite.com/2019/03/03/%E6%97%A5%E5%BF%97%E5%88%87%E5%89%B2/"/>
+    <id>http://yoursite.com/2019/03/03/日志切割/</id>
+    <published>2019-03-03T14:45:56.000Z</published>
+    <updated>2019-03-04T02:59:39.593Z</updated>
     
-    <content type="html"><![CDATA[<ol><li><strong>什么是location，location都做些什么工作</strong><br>上文有提到，nginx内核完成的工作就是查找配置文件，将客户请求映射到一个location block，然后再执行location中的相应指令，所以说，location的作用就是用于匹配客户请求，并做出相应动作。<br>location如何匹配用户请求呢，先对URL进行剖析你就会知道，URL的格式由下列三部分组成：<br>第一部分是协议（或称为服务方式）；<br>第二部分是存有该资源的主机IP地址（有时也包括端口号）；<br>第三部分是主机资源的具体地址。，如目录和文件名等；<br>当一个请求到达服务器后，服务器接受到这个请求时，前两部分的匹配工作就已经完成，现在要做的就是在服务器上找到资源，location就是匹配的URL的第三部分内容。</li><li><strong>匹配模式</strong><br>location = /uri =开头表示精确匹配，只有完全匹配上才能生效。<br>location ^~ /uri ^~ 开头对URL路径进行前缀匹配，并且在正则之前。<br>location ~ pattern ~开头表示区分大小写的正则匹配。<br>location ~<em> pattern ~</em>开头表示不区分大小写的正则匹配。<br>location /uri 不带任何修饰符，也表示前缀匹配，但是在正则匹配之后。<br>location / 通用匹配，任何未匹配到其它location的请求都会匹配到，相当于switch中的default。</li><li><strong>匹配顺序</strong><br><img src="http://static.zybuluo.com/jiangpeisi/guoanpfc3d7zixyx7pynowiu/qqqq%20%282%29.png" alt="qqqq (2).png-42.5kB"><br>精确匹配&gt;正则匹配&gt;普通字符匹配  普通匹配看字符串长短，正则匹配看顺序</li></ol>]]></content>
+    <content type="html"><![CDATA[<ol><li><strong>日志分类</strong><br>access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；<br>error.log 记录服务器错误的日志</li><li><strong>日志配置</strong><br>配置日志的存储路径：<br>location / {<pre><code>access_log          /usr/local/nginx/logs/access.log;error_log           /usr/local/nginx/logs/error.log;</code></pre>}<br>配置日志格式：<br><img src="http://static.zybuluo.com/jiangpeisi/n4fibrzee1r5ku7hb41mmrux/image_1d4vf79fh5k2m2j1si8ada19dj4r.png" alt="image_1d4vf79fh5k2m2j1si8ada19dj4r.png-20.5kB"></li><li><strong>日志切割脚本</strong><br><img src="http://static.zybuluo.com/jiangpeisi/18tztm3bn4ygddpy3bjhle69/image_1d4veqc8v177mam71tlgseh160p2n.png" alt="image_1d4veqc8v177mam71tlgseh160p2n.png-31.2kB"></li><li><strong>创建定时任务每日零点切割日志</strong><br>crontab –e<br>59 23 <em> </em> * bash /usr/local/nginx/shell/cut_ngnix_log.sh</li></ol>]]></content>
     
     <summary type="html">
     
       
       
         &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;什么是location，location都做些什么工作&lt;/strong&gt;&lt;br&gt;上文有提到，nginx内核完成的工作就是查找配置文件，将客户请求映射到一个location block，然后再执行location中的相应指令，所以说，locatio
+&lt;li&gt;&lt;strong&gt;日志分类&lt;/strong&gt;&lt;br&gt;access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；&lt;br&gt;error.log 记录服务器错误的日志&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;日志配置&lt;/strong&gt;&lt;br&gt;配置日志的存储路径
       
     
     </summary>
@@ -103,6 +190,34 @@
   </entry>
   
   <entry>
+    <title>nginx之Location</title>
+    <link href="http://yoursite.com/2019/03/02/Nginx%E4%B9%8BLocation/"/>
+    <id>http://yoursite.com/2019/03/02/Nginx之Location/</id>
+    <published>2019-03-02T14:45:56.000Z</published>
+    <updated>2019-03-03T14:00:13.965Z</updated>
+    
+    <content type="html"><![CDATA[<ol><li><strong>什么是location，location都做些什么工作</strong><br>上文有提到，nginx内核完成的工作就是查找配置文件，将客户请求映射到一个location block，然后再执行location中的相应指令，所以说，location的作用就是用于匹配客户请求，并做出相应动作。<br>location如何匹配用户请求呢，先对URL进行剖析你就会知道，URL的格式由下列三部分组成：<br>第一部分是协议（或称为服务方式）；<br>第二部分是存有该资源的主机IP地址（有时也包括端口号）；<br>第三部分是主机资源的具体地址。，如目录和文件名等；<br>当一个请求到达服务器后，服务器接受到这个请求时，前两部分的匹配工作就已经完成，现在要做的就是在服务器上找到资源，location就是匹配的URL的第三部分内容。</li><li><strong>匹配模式</strong><br>location = /uri =开头表示精确匹配，只有完全匹配上才能生效。<br>location ^~ /uri ^~ 开头对URL路径进行前缀匹配，并且在正则之前。<br>location ~ pattern ~开头表示区分大小写的正则匹配。<br>location ~<em> pattern ~</em>开头表示不区分大小写的正则匹配。<br>location /uri 不带任何修饰符，也表示前缀匹配，但是在正则匹配之后。<br>location / 通用匹配，任何未匹配到其它location的请求都会匹配到，相当于switch中的default。</li><li><strong>匹配顺序</strong><br><img src="http://static.zybuluo.com/jiangpeisi/guoanpfc3d7zixyx7pynowiu/qqqq%20%282%29.png" alt="qqqq (2).png-42.5kB"><br>精确匹配&gt;正则匹配&gt;普通字符匹配  普通匹配看字符串长短，正则匹配看顺序</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;什么是location，location都做些什么工作&lt;/strong&gt;&lt;br&gt;上文有提到，nginx内核完成的工作就是查找配置文件，将客户请求映射到一个location block，然后再执行location中的相应指令，所以说，locatio
+      
+    
+    </summary>
+    
+      <category term="liux" scheme="http://yoursite.com/categories/liux/"/>
+    
+    
+      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Rewrite重写URL</title>
     <link href="http://yoursite.com/2019/03/02/Rewrite%E9%87%8D%E5%86%99URL/"/>
     <id>http://yoursite.com/2019/03/02/Rewrite重写URL/</id>
@@ -131,40 +246,11 @@
   </entry>
   
   <entry>
-    <title>日志切割</title>
-    <link href="http://yoursite.com/2019/03/02/%E6%97%A5%E5%BF%97%E5%88%87%E5%89%B2/"/>
-    <id>http://yoursite.com/2019/03/02/日志切割/</id>
-    <published>2019-03-02T14:45:56.000Z</published>
-    <updated>2019-03-03T14:02:34.254Z</updated>
-    
-    <content type="html"><![CDATA[<ol><li><strong>日志分类</strong><br>access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；<br>error.log 记录服务器错误的日志</li><li><strong>日志配置</strong><br>配置日志的存储路径：<br>location / {<pre><code>access_log          /usr/local/nginx/logs/access.log;error_log           /usr/local/nginx/logs/error.log;</code></pre>}<br>配置日志格式：<br><img src="http://static.zybuluo.com/jiangpeisi/n4fibrzee1r5ku7hb41mmrux/image_1d4vf79fh5k2m2j1si8ada19dj4r.png" alt="image_1d4vf79fh5k2m2j1si8ada19dj4r.png-20.5kB"></li><li><strong>日志切割脚本</strong><br><img src="http://static.zybuluo.com/jiangpeisi/18tztm3bn4ygddpy3bjhle69/image_1d4veqc8v177mam71tlgseh160p2n.png" alt="image_1d4veqc8v177mam71tlgseh160p2n.png-31.2kB"></li><li><strong>创建定时任务每日零点切割日志</strong><br>crontab –e<br>59 23 <em> </em> * bash /usr/local/nginx/shell/cut_ngnix_log.sh</li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;日志分类&lt;/strong&gt;&lt;br&gt;access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；&lt;br&gt;error.log 记录服务器错误的日志&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;日志配置&lt;/strong&gt;&lt;br&gt;配置日志的存储路径
-      
-    
-    </summary>
-    
-      <category term="liux" scheme="http://yoursite.com/categories/liux/"/>
-    
-    
-      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Nginx模块与工作原理</title>
     <link href="http://yoursite.com/2019/02/28/Nginx%E6%A8%A1%E5%9D%97%E5%88%86%E7%B1%BB%E4%B8%8E%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/"/>
     <id>http://yoursite.com/2019/02/28/Nginx模块分类与工作原理/</id>
     <published>2019-02-28T01:40:56.000Z</published>
-    <updated>2019-03-03T13:56:33.146Z</updated>
+    <updated>2019-03-07T01:09:58.612Z</updated>
     
     <content type="html"><![CDATA[<p>nginx主要是由内核和模块组成的。</p><ol><li><strong>内核</strong><br>内核的设计非常简洁，完成的工作主要是查找配置文件找到访问的URL所匹配的location block，并实现location中的相应指令。而location中的每个指令会调用不同的模块去完成相应的工作<br><img src="http://static.zybuluo.com/jiangpeisi/01ebv3v6btag0lzdyl0h1rf4/qqqq.png" alt="qqqq.png-278.1kB"></li><li><strong>模块</strong><br>从结构上分：<br>核心模块：HTTP模块、event模块和mail模块等<br>基础模块：HTTP access 模块HTTP FastCGI模块、HTTP proxy 模块和HTTP rewrite模块等<br>第三方模块：HTTP upstream request hash模块、notice 模块 和HTTP access key模块、limit_req模块等<br>从功能上分：<br>handers（处理器模块）：用于处理请求，并进行输出内容和修改headers信息等操作，一般只能有一个<br>filters（过滤模块）：主要对其他模块处理后的数据进行修改，最后交给nginx返回给浏览器<br>proxies（代理模块）：主要与后端的一些服务进行交互，例如FastCGI等，实现服务代理及负载均衡</li><li><strong>nginx高并发</strong><br>nginx高并发是因为采用了epoll模块，异步非阻塞。与Apache相比，Apache采用的时select模块，select模块在选择句柄的时候是遍历所有句柄，选择其中有事件通知的句柄去响应。而epoll模块是不需要遍历句柄链表，一但有句柄有事件通知立马就可以做出响应，所以效率更高一些。</li><li><strong>master进程</strong><br>nginx在服务端默认监听80端口，服务一旦启动服务器就会创建一个master进程，同时由mater进程可以生成多个worker进程对请求做出响应。<br><img src="http://static.zybuluo.com/jiangpeisi/l9m2d3wifpmyykcg3nepjnmk/z.png" alt="z.png-326.6kB"><br>服务器启动后创建master进程，并在master进程内创建一个监听80端口的socket，master进程会fork多个woker进程，每个worker进程一旦获得连接处理，会把listend变的仅可读，这样可以保证每个worker进程只对一个连接进行处理，当一个worker进程在accept一个连接后就会读取请求、解析请求、处理请求、产生数据，并将产生的数据返回给客户端，并断开连接。</li></ol>]]></content>
     
@@ -184,8 +270,6 @@
     
       <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
     
-      <category term="hexo" scheme="http://yoursite.com/tags/hexo/"/>
-    
   </entry>
   
   <entry>
@@ -193,7 +277,7 @@
     <link href="http://yoursite.com/2019/02/28/Nginx%E5%AE%89%E8%A3%85/"/>
     <id>http://yoursite.com/2019/02/28/Nginx安装/</id>
     <published>2019-02-27T16:24:56.000Z</published>
-    <updated>2019-02-27T16:31:25.256Z</updated>
+    <updated>2019-03-07T01:09:33.716Z</updated>
     
     <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Nginx是一个轻量型web服务器，也可以用来做负载均衡及反向代理。</p><hr><h2 id="安装环境准备"><a href="#安装环境准备" class="headerlink" title="安装环境准备"></a>安装环境准备</h2><p>nginx是C语言开发，建议在linux上运行，本次使用Centos7.3作为安装环境。</p><ol><li><p>gcc<br>nginx是用c语言编写，如果使用源码安装，需要先对源码进行编译，gcc作为linux上的c编译器来完成这个工作，所以事先要安装好gcc</p><p>yum install gcc-c++ -y</p></li><li><p>pcre<br>PCRE(Perl Compatible Regular Expressions)是一个Perl库，包括 perl 兼容的正则表达式库。nginx的http模块使用pcre来解析正则表达式，所以需要在linux上安装pcre库。</p><p>yum install pcre pcre-devel -y</p></li><li><p>zlib<br>zlib库提供了很多种压缩和解压缩的方式，nginx使用zlib对http包的内容进行gzip，所以需要在linux上安装zlib库。</p><p>yum install zlib zlib-devel -y</p></li><li><p>openssl<br>OpenSSL 是一个强大的安全套接字层密码库，囊括主要的密码算法、常用的密钥和证书封装管理功能及SSL协议，并提供丰富的应用程序供测试或其它目的使用。</p><p>yum install openssl openssl-devel -y</p></li></ol><hr><h2 id="下载编译安装nginx"><a href="#下载编译安装nginx" class="headerlink" title="下载编译安装nginx"></a>下载编译安装nginx</h2><ol><li><p>下载nginx源码</p><p>cd /usr/local/src<br>wget <a href="http://nginx.org/download/nginx-1.14.2.tar.gz" target="_blank" rel="noopener">http://nginx.org/download/nginx-1.14.2.tar.gz</a></p></li><li><p>解压源码</p><p>tar -xvf nginx-1.14.2.tar.gz </p></li><li><p>编译安装</p><p>cd nginx-1.14.2<br>./configure –prefix=/usr/local/nginx<br>make &amp;&amp; make install</p></li><li><p>启动服务</p><p>cd /usr/local/nginx/<br>./sbin/nginx </p></li></ol><p>若出现如下情况：<br><img src="http://static.zybuluo.com/jiangpeisi/ualmx38mtswvj4wv2oejoafk/aaa.png" alt="aaa.png-9.4kB"><br>说明80端口已经被其他进程占用，需要把占用端口的进程先杀掉在重新启动服务。有两种解决办法：</p><pre><code>1.使用netstat命令查看占用端口的进程![q.png-9.2kB][2]kill -9 [进程号]  杀死占用80端口的进程即可2.修改nginx配置文件中监听的端口号server {        listen       80;  #修改为8080        server_name  localhost;        #charset koi8-r;        #access_log  logs/host.access.log  main;        location / {            root   html;            index  index.html index.htm;        }浏览器访问时使用   IP：8080  访问即可</code></pre><p> 5.安装成功</p><p><img src="http://static.zybuluo.com/jiangpeisi/blkn5f588xbdg772ct0pa0tn/ads.png" alt="ads.png-8.5kB"></p>]]></content>
     
@@ -212,8 +296,6 @@
     
     
       <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-      <category term="hexo" scheme="http://yoursite.com/tags/hexo/"/>
     
   </entry>
   

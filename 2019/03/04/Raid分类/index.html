@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="nginx,linux,">
+  <meta name="keywords" content="Raid,">
 
 
 
@@ -79,20 +79,29 @@
 
 
 
-<meta name="description" content="简述因为nginx不支持对动态脚本文件的解析，所以如果客户端浏览器有对动态脚本文件的请求时，nginx就需要调用动态文本解析程序即php来处理请求。  原理：1.nginx紧紧作为一个web服务器，接收和响应客户浏览器发送来的请求，其worker进程直接管理每一个请求。2.php作为后端程序，处理客户端请求动态脚本文件，并将处理后的结果返回给web服务器，web服务器在将处理结果按一定的格式封装">
-<meta name="keywords" content="nginx,linux">
+<meta name="description" content="Raid0以位或字节为单位分割数据，并行读/写于多个磁盘上，具有很高的传输效率，但不提供数据冗余。 Raid1通过磁盘数据镜像实现数据冗余，在成对的独立磁盘上产生互为备份的数据。当原始数据繁忙时，可直接从镜像拷贝中读取数据，因此RAID1可以提高读取性能。 Raid0+1Raid0于Raid1结合的产物，在连续地以位或字节为单位分割数据并且并行读/写多个磁盘的同时，为每一块磁盘作磁盘镜像进行冗余">
+<meta name="keywords" content="Raid">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LNMP架构中Nginx如何与PHP进行交互">
-<meta property="og:url" content="http://yoursite.com/2019/03/02/LNMP架构中Nginx如何与PHP交互/index.html">
+<meta property="og:title" content="Raid常见分类">
+<meta property="og:url" content="http://yoursite.com/2019/03/04/Raid分类/index.html">
 <meta property="og:site_name" content="我在看着你">
-<meta property="og:description" content="简述因为nginx不支持对动态脚本文件的解析，所以如果客户端浏览器有对动态脚本文件的请求时，nginx就需要调用动态文本解析程序即php来处理请求。  原理：1.nginx紧紧作为一个web服务器，接收和响应客户浏览器发送来的请求，其worker进程直接管理每一个请求。2.php作为后端程序，处理客户端请求动态脚本文件，并将处理后的结果返回给web服务器，web服务器在将处理结果按一定的格式封装">
+<meta property="og:description" content="Raid0以位或字节为单位分割数据，并行读/写于多个磁盘上，具有很高的传输效率，但不提供数据冗余。 Raid1通过磁盘数据镜像实现数据冗余，在成对的独立磁盘上产生互为备份的数据。当原始数据繁忙时，可直接从镜像拷贝中读取数据，因此RAID1可以提高读取性能。 Raid0+1Raid0于Raid1结合的产物，在连续地以位或字节为单位分割数据并且并行读/写多个磁盘的同时，为每一块磁盘作磁盘镜像进行冗余">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/pnhxcqlstwg4ajivhfebzx1l/image_1d51agce9ssucna1v2qnoq118616.png">
-<meta property="og:updated_time" content="2019-03-03T08:32:22.038Z">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/no5fo644iopa97olvvo0xlpn/image_1d539fmcfnsno6d1g31145t5135h.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/kbtmmryqo0hzixn5ag2soi73/image_1d539gnng1cth1e8mqh1hdq1kml5u.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/mx7ym3nsywqmj0lt4h9jy3ni/image_1d539bhnffgf1vv81f9f1c87boe3a.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/0wh24plcqo7r7bstjrs19uui/image_1d539cgghnlg93kuv51p3c5nb4n.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/ii5futphvlo887bnpm2ccoy7/image_1d539iu3q1j9o1j101t521q1h1d687o.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/oavmkykkhmamtlfhg1dx11ev/image_1d539ksmn1vgf1ben25lqspmkh8i.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/ia26lv6uavkojumux260dw7i/image_1d539nopugli1ao7uardh7415as.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/djw7urkbad3ulthpxy53tpkz/image_1d539toai1bdj1sik13iektd4thn.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/ts161boj7p26lgn0lek9lagh/image_1d539tggk1c4s1vol1k09pjolppha.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/0fbxbtkqig4pibfpqkmcy3om/image_1d539t5qm18sas221eu7vmi7f5gt.png">
+<meta property="og:updated_time" content="2019-03-04T02:58:48.843Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LNMP架构中Nginx如何与PHP进行交互">
-<meta name="twitter:description" content="简述因为nginx不支持对动态脚本文件的解析，所以如果客户端浏览器有对动态脚本文件的请求时，nginx就需要调用动态文本解析程序即php来处理请求。  原理：1.nginx紧紧作为一个web服务器，接收和响应客户浏览器发送来的请求，其worker进程直接管理每一个请求。2.php作为后端程序，处理客户端请求动态脚本文件，并将处理后的结果返回给web服务器，web服务器在将处理结果按一定的格式封装">
-<meta name="twitter:image" content="http://static.zybuluo.com/jiangpeisi/pnhxcqlstwg4ajivhfebzx1l/image_1d51agce9ssucna1v2qnoq118616.png">
+<meta name="twitter:title" content="Raid常见分类">
+<meta name="twitter:description" content="Raid0以位或字节为单位分割数据，并行读/写于多个磁盘上，具有很高的传输效率，但不提供数据冗余。 Raid1通过磁盘数据镜像实现数据冗余，在成对的独立磁盘上产生互为备份的数据。当原始数据繁忙时，可直接从镜像拷贝中读取数据，因此RAID1可以提高读取性能。 Raid0+1Raid0于Raid1结合的产物，在连续地以位或字节为单位分割数据并且并行读/写多个磁盘的同时，为每一块磁盘作磁盘镜像进行冗余">
+<meta name="twitter:image" content="http://static.zybuluo.com/jiangpeisi/no5fo644iopa97olvvo0xlpn/image_1d539fmcfnsno6d1g31145t5135h.png">
 
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
 <link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
@@ -137,13 +146,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/03/02/LNMP架构中Nginx如何与PHP交互/">
+  <link rel="canonical" href="http://yoursite.com/2019/03/04/Raid分类/">
 
 
 
 
 
-  <title>LNMP架构中Nginx如何与PHP进行交互 | 我在看着你</title>
+  <title>Raid常见分类 | 我在看着你</title>
   
 
 
@@ -274,7 +283,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/02/LNMP架构中Nginx如何与PHP交互/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/04/Raid分类/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="镜子">
@@ -291,7 +300,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">LNMP架构中Nginx如何与PHP进行交互</h1>
+          <h1 class="post-title" itemprop="name headline">Raid常见分类</h1>
         
 
         <div class="post-meta">
@@ -303,8 +312,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-02T22:45:56+08:00">
-                2019-03-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-04T22:45:56+08:00">
+                2019-03-04
               </time>
             
 
@@ -326,8 +335,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/liux/" itemprop="url" rel="index">
-                    <span itemprop="name">liux</span>
+                  <a href="/categories/磁盘阵列/" itemprop="url" rel="index">
+                    <span itemprop="name">磁盘阵列</span>
                   </a>
                 </span>
 
@@ -357,7 +366,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  801
+                  591
                 </span>
               
 
@@ -395,14 +404,16 @@
 
       
         <ol>
-<li><p><strong>简述</strong><br>因为nginx不支持对动态脚本文件的解析，所以如果客户端浏览器有对动态脚本文件的请求时，nginx就需要调用动态文本解析程序即php来处理请求。</p>
-</li>
-<li><p><strong>原理：</strong><br>1.nginx紧紧作为一个web服务器，接收和响应客户浏览器发送来的请求，其worker进程直接管理每一个请求。<br>2.php作为后端程序，处理客户端请求动态脚本文件，并将处理后的结果返回给web服务器，web服务器在将处理结果按一定的格式封装返回给浏览器。<br>3.对于nginx而言，php是与之同级别的一个外部程序，两者之间的交互需要通过CGI（通用网关接口），及nginx通过CGI对php进行调用来处理浏览器请求。<br>4.普通的CGI每接收到一次请求会重新解析配置文件php.ini，效率低，其衍生协议FastCGI解决了这个问题，服务端会通过php-fpm创建一个master进程，同时加载配置文件，然后在创建多个worker进程，处理客户端请求。当请求到来时master会将请求传递给worker进程处理，然后立即可以接收下一个请求，这样可以提高并发性。（真正解析动态文件的是php.cgi，php-fpm是管理php-cgi的软件）<br>5.FastCGI接口方式采用C/S架构，可以将HTTP服务器和脚本解析服务器分开，同时在脚本解析服务器上启动一个或多个脚本解析守护进程。当HTTP服务器每次遇到动态程序时，可以将其直接交付给脚本分析服务器执行，然后将得到的结构返回给浏览器。这种方式可以让HTTP服务器专一地处理静态请求或者将动态脚本服务器的结果返回给客户端，这在很大程度上提高了整个应用系统的性能。<br>6.FastCGI上游为nginx服务器，作为FastCGI的客户端，下游为外部程序，在LNMP架构中指的时PHP。<br>原理图：<br><img src="http://static.zybuluo.com/jiangpeisi/pnhxcqlstwg4ajivhfebzx1l/image_1d51agce9ssucna1v2qnoq118616.png" alt="image_1d51agce9ssucna1v2qnoq118616.png-75.9kB"></p>
-</li>
-<li><p><strong>过程分析</strong><br>1.用户发送http请求报文给nginx服务器<br>2.nginx会根据文件url和后缀来判断请求<br>3.如果请求的是静态内容,nginx会将结果直接返回给用户<br>4.如果请求的是动态内容,nginx会将请求交给fastcgi客户端,通过fastcgi_pass将这个请求发送给php-fpm<br>5.php-fpm会将请求交给wrapper（即master进程）<br>6.wrapper收到请求会生成新的线程（worker进程）调用php动态程序解析服务器<br>7.如果用户请求的是博文、或者内容、PHP会请求MySQL查询结果<br>8.如果用户请求的是图片、附件、PHP会请求nfs存储查询结果<br>9.php会将查询到的结果交给Nginx<br>10.nginx会生成一个响应报文返还给用户</p>
-</li>
-<li><p><strong>通信方式</strong><br>1.TCP方式<br>nginx配置文件：<br>fastcgi_pass 127.0.0.1:9000;<br>php-fpm配置文件：<br>listen = 127.0.0.1:9000<br>2.socket方式<br>nginx配置文件：<br>fastcgi_pass unix:/run/php/php7.0-fpm.sock;<br>php-fpm配置文件：<br>listen = /run/php/php7.0-fpm.sock</p>
-</li>
+<li><strong>Raid0</strong><br>以位或字节为单位分割数据，并行读/写于多个磁盘上，具有很高的传输效率，但不提供数据冗余。<br><img src="http://static.zybuluo.com/jiangpeisi/no5fo644iopa97olvvo0xlpn/image_1d539fmcfnsno6d1g31145t5135h.png" alt="image_1d539fmcfnsno6d1g31145t5135h.png-12.5kB"></li>
+<li><strong>Raid1</strong><br>通过磁盘数据镜像实现数据冗余，在成对的独立磁盘上产生互为备份的数据。当原始数据繁忙时，可直接从镜像拷贝中读取数据，因此RAID1可以提高读取性能。<br><img src="http://static.zybuluo.com/jiangpeisi/kbtmmryqo0hzixn5ag2soi73/image_1d539gnng1cth1e8mqh1hdq1kml5u.png" alt="image_1d539gnng1cth1e8mqh1hdq1kml5u.png-11.7kB"></li>
+<li><strong>Raid0+1</strong><br>Raid0于Raid1结合的产物，在连续地以位或字节为单位分割数据并且并行读/写多个磁盘的同时，为每一块磁盘作磁盘镜像进行冗余。<br><img src="http://static.zybuluo.com/jiangpeisi/mx7ym3nsywqmj0lt4h9jy3ni/image_1d539bhnffgf1vv81f9f1c87boe3a.png" alt="image_1d539bhnffgf1vv81f9f1c87boe3a.png-44.7kB"></li>
+<li><strong>Raid2</strong><br>将数据条块化地分布于不同的硬盘上，条块单位为位或字节，并使用称为“加重平均纠错码（海明码）”的编码技术来提供错误检查及恢复。<br><img src="http://static.zybuluo.com/jiangpeisi/0wh24plcqo7r7bstjrs19uui/image_1d539cgghnlg93kuv51p3c5nb4n.png" alt="image_1d539cgghnlg93kuv51p3c5nb4n.png-71.6kB"></li>
+<li><strong>Raid3</strong><br>使用专用校验盘的并行访问阵列，它采用一个专用的磁盘作为校验盘，其余磁盘作为数据盘，数据按位可字节的方式交叉存储到各个数据盘中。<br><img src="http://static.zybuluo.com/jiangpeisi/ii5futphvlo887bnpm2ccoy7/image_1d539iu3q1j9o1j101t521q1h1d687o.png" alt="image_1d539iu3q1j9o1j101t521q1h1d687o.png-20.8kB"></li>
+<li><strong>Raid4</strong><br>Raid4 与 Raid3 的原理大致相同，区别在于条带化的方式不同。 Raid4按照块的方式来组织数据，写操作只涉及当前数据盘和校验盘两个盘，多个 I/O 请求可以同时得到处理，提高了系统性能。<br><img src="http://static.zybuluo.com/jiangpeisi/oavmkykkhmamtlfhg1dx11ev/image_1d539ksmn1vgf1ben25lqspmkh8i.png" alt="image_1d539ksmn1vgf1ben25lqspmkh8i.png-21.1kB"></li>
+<li><strong>Raid5</strong><br>Raid5不单独指定的奇偶盘，而是在所有磁盘上交叉地存取数据及奇偶校验信息。在Raid5上，读/写指针可同时对阵列设备进行操作，提供了更高的数据流量。而且具有很高的扩展性，当磁盘数量增加时，并行操作的能力也增加。但存在写损失，即每一次写操作将产生四个实际的读/写操作，其中两次读旧的数据及奇偶信息，两次写新的数据及奇偶信息。<br><img src="http://static.zybuluo.com/jiangpeisi/ia26lv6uavkojumux260dw7i/image_1d539nopugli1ao7uardh7415as.png" alt="image_1d539nopugli1ao7uardh7415as.png-21.1kB"></li>
+<li><strong>Raid6</strong><br>引入双重校验的概念，它可以保护阵列中同时出现两个磁盘失效时，阵列仍能够继续工作，不会发生数据丢失。不仅支持对数据的恢复，还支持对校验码的恢复。成本较高。<br><img src="http://static.zybuluo.com/jiangpeisi/djw7urkbad3ulthpxy53tpkz/image_1d539toai1bdj1sik13iektd4thn.png" alt="image_1d539toai1bdj1sik13iektd4thn.png-19.6kB"></li>
+<li><strong>Raid50</strong><br>Raid5于Raid0结合的产物，具有较高读写速率和一定的容错能力，但成本相对也较高。<br><img src="http://static.zybuluo.com/jiangpeisi/ts161boj7p26lgn0lek9lagh/image_1d539tggk1c4s1vol1k09pjolppha.png" alt="image_1d539tggk1c4s1vol1k09pjolppha.png-83.7kB"></li>
+<li><strong>性能分析</strong><br><img src="http://static.zybuluo.com/jiangpeisi/0fbxbtkqig4pibfpqkmcy3om/image_1d539t5qm18sas221eu7vmi7f5gt.png" alt="image_1d539t5qm18sas221eu7vmi7f5gt.png-54.8kB"></li>
 </ol>
 
       
@@ -427,9 +438,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/nginx/" rel="tag"><i class="fa fa-tag"></i> nginx</a>
-          
-            <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
+            <a href="/tags/Raid/" rel="tag"><i class="fa fa-tag"></i> Raid</a>
           
         </div>
       
@@ -442,8 +451,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/02/Nginx之Location/" rel="next" title="nginx之Location">
-                <i class="fa fa-chevron-left"></i> nginx之Location
+              <a href="/2019/03/03/LNMP架构中Nginx如何与PHP交互/" rel="next" title="LNMP架构中Nginx如何与PHP进行交互">
+                <i class="fa fa-chevron-left"></i> LNMP架构中Nginx如何与PHP进行交互
               </a>
             
           </div>
@@ -451,6 +460,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/07/Docker容器网络模式/" rel="prev" title="Docker容器网络模式">
+                Docker容器网络模式 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -520,7 +533,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -531,7 +544,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -542,7 +555,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -607,7 +620,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">4.5k</span>
+    <span title="Site words total count">6.8k</span>
   
 </div>
 
@@ -620,7 +633,7 @@
 
   <div class="theme-info">
     <div class="powered-by"></div>
-    <span class="post-count">博客全站共4.5k字</span>
+    <span class="post-count">博客全站共6.8k字</span>
   </div>
 
         
