@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-03-07T03:21:24.787Z</updated>
+  <updated>2019-03-09T07:05:02.927Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,63 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>DNS解析过程及查询模式</title>
+    <link href="http://yoursite.com/2019/03/09/DNS%E8%A7%A3%E6%9E%90%E8%BF%87%E7%A8%8B%E5%8F%8A%E6%9F%A5%E8%AF%A2%E6%A8%A1%E5%BC%8F/"/>
+    <id>http://yoursite.com/2019/03/09/DNS解析过程及查询模式/</id>
+    <published>2019-03-09T14:45:56.000Z</published>
+    <updated>2019-03-09T07:05:02.927Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li><strong>DNS简介</strong><br> DNS（Domain Name Server）是一种主机域名和IP地址转换机制，使用一种分层的分布式数据库来处理Internet上成千上万个主机和IP地址的转换。基于C/S模式设计</li><li><strong>域名层次结构</strong><br><img src="http://static.zybuluo.com/jiangpeisi/yo9xyl3z4p3lt133f9btnyw3/image_1d5gj25qdr8k1jsc1mkn1dj8kq03n.png" alt="image_1d5gj25qdr8k1jsc1mkn1dj8kq03n.png-27.2kB"><br><img src="http://static.zybuluo.com/jiangpeisi/dy5ox1fmut0rykilknfx5isc/image_1d5giqc091h5di6rphm1gpuepg1g.png" alt="image_1d5giqc091h5di6rphm1gpuepg1g.png-89.4kB"></li><li><strong>DNS解析过程</strong><br><img src="http://static.zybuluo.com/jiangpeisi/7r01q8cf9wow42cuksr79cxv/image_1d5gis09d1b5s1seu1k781f57ed92t.png" alt="image_1d5gis09d1b5s1seu1k781f57ed92t.png-47.3kB"><br> 当我们去解析一个域名时，比如解析xxx.sh.com,会经过如下步骤:<br> 1.查看本机的缓存有无该域名记录，如果没有，查看本机的host文件有无该域名记录，如果没有，则发个请求到本地DNS服务器。<br> 2.本地DNS服务器收到请求后，查看是否有该域名的解析，如果有，返回解析记录给主机，如果没有，则请求根域名服务器.。<br> 3.根域名服务器收到请求后，返回该域名对应的顶级域名服务器,比如这次请求返回.com的服务器地址。<br> 4.本地域名服务器接到顶级域名服务器地址后，向该顶级域名服务器请求。<br> 5.顶级域名服务器返回该域名的二级域名务器地址，返回.sh.com对应的二级服务器地址。<br> 6.本地域名服务器获得该地址后，发请求到该域名的二级域名服务器。<br> 7.二级域名服务器解析xxx.sh.com，并将解析结果返回给本地域名服务器。<br> 8.本地域名服务器获取该解析后，返回给主机，解析完成。</li><li><strong>DNS解析模式</strong><br> 1.递归查询 ：当服务器收到DNS客户发来的请求，如果本地没有客户请求的数据就代替客户向其他DNS服务器请求，并将结果返回给客户，所以递归查询只会向客户返回查询结果或查询失败两种信息。<br> 2.迭代查询：当服务器收到DNS客户发来的请求，如果在服务器内没有查到客户需要的数据，会返回给客户另外一台DNS服务器的地址。客户就会向下一台DNS服务器进行查询，这样一直查询下去，一直查询到所需要的数据或没有DNS服务器可以查询为止。</li><li><strong>常用DNS服务器地址</strong><br>国内：114.114.114.114 备用：114.114.114.115<br>国外：8.8.8.8 备用：8.8.4.4</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;DNS简介&lt;/strong&gt;&lt;br&gt; DNS（Domain Name Server）是一种主机域名和IP地址转换机制，使用一种分层的分布式数据库来处理Internet上成千上万个主机和IP地址的转换。基于C/S模式设计&lt;/li&gt;
+&lt;li&gt;&lt;str
+      
+    
+    </summary>
+    
+      <category term="DNS" scheme="http://yoursite.com/categories/DNS/"/>
+    
+    
+      <category term="DNS" scheme="http://yoursite.com/tags/DNS/"/>
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>FTP传输模式及安装配置</title>
+    <link href="http://yoursite.com/2019/03/08/FTP%E7%AE%80%E4%BB%8B/"/>
+    <id>http://yoursite.com/2019/03/08/FTP简介/</id>
+    <published>2019-03-08T14:45:56.000Z</published>
+    <updated>2019-03-09T07:00:27.040Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="FTP简介"><a href="#FTP简介" class="headerlink" title="FTP简介"></a>FTP简介</h2><ul><li><strong>FTP端口号</strong><br>FTP使用20和21端口，FTP服务器使用21端口来等待控制连接建立请求,并通过控制连接传送命令及命令的响应。控制连接与数据连接相互独立，首先建立控制连接，通过身份验证后才会建立数据连接。数据连接是传输文件时临时建立的，服务器使用20端口建立数据连接并传送数据。数据连接存在时，控制连接一定是存在的。</li><li><p><strong>FTP传输模式</strong><br>FTP基于C/S模式,服务端与客户端传输数据有两种模式：主动模式和被动模式，主被动模式都是在建立数据链接时相对于服务器而言的。</p><p> 主动模式：<br> FTP客户端随机开启一个大于1024的端口N向服务器的21号端口发起连接，并进行账户密码验证。验证通过后开放N+1端口进行监听，并向服务器发送一个PORT N+1命令，告诉服务器服务器现在使用主动模式。服务器接收到命令后会有用其本地20端口连接客户端的N+1端口进行数据传输。主动模式数控制接与数据连接方向是相反的。<br> 被动模式：</p><p> FTP客户端随机开启一个大于1024的端口N向服务器的21端口发起连接，并进行账户密码验证。验证通过后开放N+1端口进行监听，并发送一个PASV命令，告诉服务器现在使用被动模式，服务器接到命令后会随机开放一个大于1024的端口P,并发送命令PORT P命令给客户端,客户端使用自己的N+1端口连接服务器的端口P。被动模式控制连接和数据连接方向是一致的。</p><p> 应用场景：<br> 主动模式的FTP通常用在客户端访问处于防火墙内部的FTP服务器的情况。<br> 被动模式的FTP通常用在处于防火墙之后的FTP客户端访问外部的FTP服务器的情况。<br> 因为防火墙默认会关闭所有端口，但是在进行数据连接建立时需要开放随机端口，所以在防火墙内部的主机或服务器会因为端口被防火墙关闭而造成建立连接失败。</p></li><li><p><strong>FTP三种用户</strong><br>匿名用户：anonymous或ftp<br>本地用户：真实用户，帐号名称、密码等信息保存在passwd、shadow文件中<br>虚拟用户：使用独立的账号/密码数据文件 </p></li></ul><h2 id="FTP安装配置"><a href="#FTP安装配置" class="headerlink" title="FTP安装配置"></a>FTP安装配置</h2><ul><li><p><strong>安装</strong><br>yum install vsftpd*  -y<br>systemctl start vsftp.service<br>出现问题：<br><img src="http://static.zybuluo.com/jiangpeisi/hbcn913ox83o6ro98pntmfwf/image_1d5cdv1gs6ekcda1mh6t3b10vt34.png" alt="image_1d5cdv1gs6ekcda1mh6t3b10vt34.png-12.5kB"><br>原因：使用被动模式，服务端需要开启随机端口，而服务端端口又被防火墙关闭，所以导致连接失败。<br>解决：<br>打开控制面板-&gt;Internet选项-&gt;高级-&gt;FTP被动传输模式取消<br><img src="http://static.zybuluo.com/jiangpeisi/0qjgorj8harhooz0p4x7d1bj/image_1d5ce2ntsuod178hh971kj5nmq3h.png" alt="image_1d5ce2ntsuod178hh971kj5nmq3h.png-50kB"></p></li><li><p><strong>配置匿名用户</strong><br>默认匿名用户不可以上传和下载文件，创建文件的，修改配置文件可对匿名用户权限进行修改。<br><img src="http://static.zybuluo.com/jiangpeisi/xs13r9jhp14kgbmrs47dple6/image_1d5ceqrh5r63c2a6doqio3qh4o.png" alt="image_1d5ceqrh5r63c2a6doqio3qh4o.png-53.7kB"><br>1.修改配置：</p><p> vim /etc/vsftpd/vsftpd.conf</p><p> 设置如下选项：</p><pre><code>anonymous_enable=YES :允许匿名登陆anon_upload_enable=YES  ：允许匿名用户上传下载anon_mkdir_write_enable=YES  ：允许匿名用户创建目录anon_other_write_enable=YES  ：允许匿名用户写入其他权限</code></pre><p> 2.修改/var/ftp/pub目录权限</p><pre><code>chown -R ftp /var/ftp/pub/chmod 755 /var/ftp/pub/</code></pre><p> 3.再次使用匿名用户上传下载或创建文件<br> <img src="http://static.zybuluo.com/jiangpeisi/4n3ayp2k2sy9zizujaga57kl/image_1d5dajp5nbqa1eohmlu98rr4h55.png" alt="image_1d5dajp5nbqa1eohmlu98rr4h55.png-74.8kB"><br> 4.检查是否上传成功<br> <img src="http://static.zybuluo.com/jiangpeisi/cbqrh4frjai4u1zsnaqho5w3/image_1d5dalcqo1csv6hd1fm11h1010585i.png" alt="image_1d5dalcqo1csv6hd1fm11h1010585i.png-15.8kB"><br> 5.修改匿名用户和本地用户根目录：</p><pre><code>local_root=/var/www/htmlchroot_local_user=YES 将用户活动范围限制在主目录anon_root=/var/www/html</code></pre></li><li><p><strong>配置本地用户</strong><br>1.本地创建用户：</p><p> useradd ftpuser1 -s /sbin/nologin<br> echo 123456 | passwd –stdin ftpuser1</p><p> 修改配置文件:</p><pre><code>local_enable=YESanonymous_enable=YES</code></pre><p> 2.重启服务：</p><pre><code>systemctl restart vsftpd.service</code></pre><p> 3.验证：<br> <img src="http://static.zybuluo.com/jiangpeisi/z4ajomazutk2km68axqhsen0/image_1d5dbl2qootj1rtk169j1us1cld6c.png" alt="image_1d5dbl2qootj1rtk169j1us1cld6c.png-28kB"><br> ftp本地用户默认登陆后进入用户的家目录。</p></li><li><p><strong>ftp虚拟用户配置</strong><br>虚拟用户在FTP服务器上并不真实存在，而是映射到某一个系统真实用户及设置相应的权限来实现访问验证。<br>1.安装虚拟用户认证所需模块及软件：<br>yum install db4 db4_utils</p><p> 2.创建虚拟用户文件</p><pre><code>touch ftpuser.txt </code></pre><p> 3.在文件内添加虚拟用户</p><pre><code>ftpuser1123456ftpuser2123456</code></pre><p> 奇数行写账户，偶数行写密码<br> 4.生成虚拟用户认证数据库文件</p><pre><code>db_load -T -t hash -f /etc/vsftpd/ftpuser.txt /etc/vsftpd/vsftpd_login.db chmod 600 /etc/vsftpd/vsftpd_login.db</code></pre><p> 5.配置PAM认证文件：</p><pre><code>vim /etc/pam.d/vsftpd 把其他行注释掉添加如下配置auth       required     pam_userdb.so db=/etc/vsftpd/vsftpd_loginaccount    required     pamuserdb.so db=/etc/vsftpd/vsftpd_login</code></pre><p> 6.修改配置文件：</p><pre><code>pam_service_name=vsftpdguest_enable=YESguest_username=jiangpeisiuser_config_dir=/etc/vsftpd/vsftpd_guestuser_confvirtual_use_local_privs=YES 匿名用户具有与本地用户相同的权限chroot_local_user=YESchroot_list_enable=YESallow_writeable_chroot=YES 如果使用chroot，需要设置此项chroot_list_file=/etc/vsftpd/chroot_list</code></pre><p> 7.创建虚拟用户配置文件</p><pre><code>mkdir /etc/vsftpd/vsftpd_guestuser_conf/touch /etc/vsftpd/vsftpd_guestuser_conf/ ftpguest{1,2} </code></pre><p>  此处文件名必须与虚拟用户同名<br> 配置ftpguest1</p><pre><code>local_root=/home/jiangpeisi/ftpguest1write_enable=YESanon_world_readable_only=YESanon_upload_enable=YESanon_mkdir_write_enable=YESanon_other_write_enable=YES</code></pre><p> ftpguest2与ftpguest2类似<br> 8.创建虚拟用户家目录</p><pre><code>mkdir /home/jiangpeisi/ftpguest{1,2}chown -R jiangpeisi:jiangpeisi /home/jiangpeisi/</code></pre><p> 注：2.3.5之后，vsftpd增强了安全检查，如果用户被限定在了其主目录下，则该用户的主目录不能再具有写权限了！如果检查发现还有写权限，就会报该错误。</p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;FTP简介&quot;&gt;&lt;a href=&quot;#FTP简介&quot; class=&quot;headerlink&quot; title=&quot;FTP简介&quot;&gt;&lt;/a&gt;FTP简介&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;FTP端口号&lt;/strong&gt;&lt;br&gt;FTP使用20和21端口，FTP服务器使用21端口
+      
+    
+    </summary>
+    
+      <category term="FTP" scheme="http://yoursite.com/categories/FTP/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="FTP" scheme="http://yoursite.com/tags/FTP/"/>
+    
+  </entry>
   
   <entry>
     <title>Docker基本原理</title>
@@ -135,11 +192,40 @@
   </entry>
   
   <entry>
+    <title>日志切割</title>
+    <link href="http://yoursite.com/2019/03/03/%E6%97%A5%E5%BF%97%E5%88%87%E5%89%B2/"/>
+    <id>http://yoursite.com/2019/03/03/日志切割/</id>
+    <published>2019-03-03T14:45:56.000Z</published>
+    <updated>2019-03-09T07:02:02.832Z</updated>
+    
+    <content type="html"><![CDATA[<ol><li><strong>日志分类</strong><br>access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；<br>error.log 记录服务器错误的日志</li><li><strong>日志配置</strong><br>配置日志的存储路径：<br>location / {<pre><code>access_log          /usr/local/nginx/logs/access.log;error_log           /usr/local/nginx/logs/error.log;</code></pre>}<br>配置日志格式：<br><img src="http://static.zybuluo.com/jiangpeisi/n4fibrzee1r5ku7hb41mmrux/image_1d4vf79fh5k2m2j1si8ada19dj4r.png" alt="image_1d4vf79fh5k2m2j1si8ada19dj4r.png-20.5kB"></li><li><strong>日志切割脚本</strong><br><img src="http://static.zybuluo.com/jiangpeisi/18tztm3bn4ygddpy3bjhle69/image_1d4veqc8v177mam71tlgseh160p2n.png" alt="image_1d4veqc8v177mam71tlgseh160p2n.png-31.2kB"></li><li><strong>创建定时任务每日零点切割日志</strong><br>crontab –e<br>59 23 <em> </em> * bash /usr/local/nginx/shell/cut_ngnix_log.sh</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;日志分类&lt;/strong&gt;&lt;br&gt;access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；&lt;br&gt;error.log 记录服务器错误的日志&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;日志配置&lt;/strong&gt;&lt;br&gt;配置日志的存储路径
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
+    
+  </entry>
+  
+  <entry>
     <title>LNMP架构中Nginx如何与PHP进行交互</title>
     <link href="http://yoursite.com/2019/03/03/LNMP%E6%9E%B6%E6%9E%84%E4%B8%ADNginx%E5%A6%82%E4%BD%95%E4%B8%8EPHP%E4%BA%A4%E4%BA%92/"/>
     <id>http://yoursite.com/2019/03/03/LNMP架构中Nginx如何与PHP交互/</id>
     <published>2019-03-03T14:45:56.000Z</published>
-    <updated>2019-03-04T02:58:47.206Z</updated>
+    <updated>2019-03-09T07:00:47.830Z</updated>
     
     <content type="html"><![CDATA[<ol><li><p><strong>简述</strong><br>因为nginx不支持对动态脚本文件的解析，所以如果客户端浏览器有对动态脚本文件的请求时，nginx就需要调用动态文本解析程序即php来处理请求。</p></li><li><p><strong>原理：</strong><br>1.nginx紧紧作为一个web服务器，接收和响应客户浏览器发送来的请求，其worker进程直接管理每一个请求。<br>2.php作为后端程序，处理客户端请求动态脚本文件，并将处理后的结果返回给web服务器，web服务器在将处理结果按一定的格式封装返回给浏览器。<br>3.对于nginx而言，php是与之同级别的一个外部程序，两者之间的交互需要通过CGI（通用网关接口），及nginx通过CGI对php进行调用来处理浏览器请求。<br>4.普通的CGI每接收到一次请求会重新解析配置文件php.ini，效率低，其衍生协议FastCGI解决了这个问题，服务端会通过php-fpm创建一个master进程，同时加载配置文件，然后在创建多个worker进程，处理客户端请求。当请求到来时master会将请求传递给worker进程处理，然后立即可以接收下一个请求，这样可以提高并发性。（真正解析动态文件的是php.cgi，php-fpm是管理php-cgi的软件）<br>5.FastCGI接口方式采用C/S架构，可以将HTTP服务器和脚本解析服务器分开，同时在脚本解析服务器上启动一个或多个脚本解析守护进程。当HTTP服务器每次遇到动态程序时，可以将其直接交付给脚本分析服务器执行，然后将得到的结构返回给浏览器。这种方式可以让HTTP服务器专一地处理静态请求或者将动态脚本服务器的结果返回给客户端，这在很大程度上提高了整个应用系统的性能。<br>6.FastCGI上游为nginx服务器，作为FastCGI的客户端，下游为外部程序，在LNMP架构中指的时PHP。<br>原理图：<br><img src="http://static.zybuluo.com/jiangpeisi/pnhxcqlstwg4ajivhfebzx1l/image_1d51agce9ssucna1v2qnoq118616.png" alt="image_1d51agce9ssucna1v2qnoq118616.png-75.9kB"></p></li><li><p><strong>过程分析</strong><br>1.用户发送http请求报文给nginx服务器<br>2.nginx会根据文件url和后缀来判断请求<br>3.如果请求的是静态内容,nginx会将结果直接返回给用户<br>4.如果请求的是动态内容,nginx会将请求交给fastcgi客户端,通过fastcgi_pass将这个请求发送给php-fpm<br>5.php-fpm会将请求交给wrapper（即master进程）<br>6.wrapper收到请求会生成新的线程（worker进程）调用php动态程序解析服务器<br>7.如果用户请求的是博文、或者内容、PHP会请求MySQL查询结果<br>8.如果用户请求的是图片、附件、PHP会请求nfs存储查询结果<br>9.php会将查询到的结果交给Nginx<br>10.nginx会生成一个响应报文返还给用户</p></li><li><p><strong>通信方式</strong><br>1.TCP方式<br>nginx配置文件：<br>fastcgi_pass 127.0.0.1:9000;<br>php-fpm配置文件：<br>listen = 127.0.0.1:9000<br>2.socket方式<br>nginx配置文件：<br>fastcgi_pass unix:/run/php/php7.0-fpm.sock;<br>php-fpm配置文件：<br>listen = /run/php/php7.0-fpm.sock</p></li></ol>]]></content>
     
@@ -155,69 +241,12 @@
     
     </summary>
     
-      <category term="liux" scheme="http://yoursite.com/categories/liux/"/>
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
     
-    
-      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
     
       <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
     
-  </entry>
-  
-  <entry>
-    <title>日志切割</title>
-    <link href="http://yoursite.com/2019/03/03/%E6%97%A5%E5%BF%97%E5%88%87%E5%89%B2/"/>
-    <id>http://yoursite.com/2019/03/03/日志切割/</id>
-    <published>2019-03-03T14:45:56.000Z</published>
-    <updated>2019-03-04T02:59:39.593Z</updated>
-    
-    <content type="html"><![CDATA[<ol><li><strong>日志分类</strong><br>access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；<br>error.log 记录服务器错误的日志</li><li><strong>日志配置</strong><br>配置日志的存储路径：<br>location / {<pre><code>access_log          /usr/local/nginx/logs/access.log;error_log           /usr/local/nginx/logs/error.log;</code></pre>}<br>配置日志格式：<br><img src="http://static.zybuluo.com/jiangpeisi/n4fibrzee1r5ku7hb41mmrux/image_1d4vf79fh5k2m2j1si8ada19dj4r.png" alt="image_1d4vf79fh5k2m2j1si8ada19dj4r.png-20.5kB"></li><li><strong>日志切割脚本</strong><br><img src="http://static.zybuluo.com/jiangpeisi/18tztm3bn4ygddpy3bjhle69/image_1d4veqc8v177mam71tlgseh160p2n.png" alt="image_1d4veqc8v177mam71tlgseh160p2n.png-31.2kB"></li><li><strong>创建定时任务每日零点切割日志</strong><br>crontab –e<br>59 23 <em> </em> * bash /usr/local/nginx/shell/cut_ngnix_log.sh</li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;日志分类&lt;/strong&gt;&lt;br&gt;access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；&lt;br&gt;error.log 记录服务器错误的日志&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;日志配置&lt;/strong&gt;&lt;br&gt;配置日志的存储路径
-      
-    
-    </summary>
-    
-      <category term="liux" scheme="http://yoursite.com/categories/liux/"/>
-    
-    
       <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Rewrite重写URL</title>
-    <link href="http://yoursite.com/2019/03/02/Rewrite%E9%87%8D%E5%86%99URL/"/>
-    <id>http://yoursite.com/2019/03/02/Rewrite重写URL/</id>
-    <published>2019-03-02T14:45:56.000Z</published>
-    <updated>2019-03-03T14:01:27.899Z</updated>
-    
-    <content type="html"><![CDATA[<ol><li><strong>Rewrite重写用来做些什么</strong><br>URL重写就是首先获得一个进入的URL请求，然后使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位把它重新写成网站可以处理的另一个URL的过程。rewrite只能放在配置文件的server{},location{},if{}中，并且只能对域名后边的除去传递的参数外的字符串起作用。</li><li><strong>Rewrite执行顺序</strong><br>1.执行server块的rewrite指令<br>2.执行location匹配<br>3.执行选定的location中的rewrite指令<br>4.执行if条件匹配<br>5.执行if块中的rewrite指令</li><li><strong>rewrite语法</strong><br><img src="http://static.zybuluo.com/jiangpeisi/mi0e0s061is56an6tkuxmmud/image_1d5142otn17uq1lmmhis17l21jr52a.png" alt="image_1d5142otn17uq1lmmhis17l21jr52a.png-4kB"><br>关键字：其中关键字error_log不能改变<br>正则： perl兼容正则表达式语句进行规则匹配<br>替代内容：将正则匹配的内容替换成repl acement<br>filag标记： rewrite支持的fl ag标记<br>flag标记说明：<br>Last #本条规则匹配完成后，继续向下匹配新的location URI规则<br>break #本条规则匹配完成即终止，不再匹配后面的任何规则<br>redirect #返回302临时重定向，浏览器地址会显示跳转后的URL.地址<br>permanent #返回301永久重定向，浏览器地址栏会显示跳转后的URL她址</li><li><strong>指令详解</strong><br>1.if指令<br>语法为if(condition){…}<br>condition常用判断条件：<br>-f和!-f用来判断请求文件是否存在<br>-d和!-d用来判断请求目录是否存在<br>-e和!-e用来判断是请求的文件或者目录否存在<br>-x和!-x用来判断请求的文件是否可执行<br>condition可用的nginx变量：<br><img src="http://static.zybuluo.com/jiangpeisi/vbwm6czsg5ns6990jucbve0t/image_1d518ruaobbb1vcict8pvjal03h.png" alt="image_1d518ruaobbb1vcict8pvjal03h.png-810.5kB"><br>2.break指令<br>用于中断当前相同作用域中的Nginx配置，和Java中的break语法类似，可以在server块和location以及if块中使用。<br>3.return指令<br>该指令用于完成对请求的处理，直接向客户端响应状态的代码。和Java中的return语法类似。可以再server块和location以及if块中使用。<br>4.set指令<br>用来设置新的变量<br>  语法: set variable value</li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Rewrite重写用来做些什么&lt;/strong&gt;&lt;br&gt;URL重写就是首先获得一个进入的URL请求，然后使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位把它重新写成网站可以处理的另一个URL的过程。rewrite只能放在配置文
-      
-    
-    </summary>
-    
-      <category term="liux" scheme="http://yoursite.com/categories/liux/"/>
-    
-    
-      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
     
   </entry>
   
@@ -226,7 +255,7 @@
     <link href="http://yoursite.com/2019/03/02/Memcache/"/>
     <id>http://yoursite.com/2019/03/02/Memcache/</id>
     <published>2019-03-02T14:45:56.000Z</published>
-    <updated>2019-03-03T13:58:44.863Z</updated>
+    <updated>2019-03-09T07:02:29.068Z</updated>
     
     <content type="html"><![CDATA[<ol><li><strong>Memcache概述</strong><br>memcache:是高性能的分布式内存缓存服务器.通过缓存数据库的查询结果,减少数据库的访问次数,以提高web应用的速度,提高可扩展性.缓存方式是将缓存结果存储在内存中,通过内存来维护一个hash表.<br>Memcache是一个c/s软件,默认间通过端口为11211</li><li><strong>Memcache工作原理</strong><br>1.memcached是以守护程序方式运行于一个或多个服务器中，随时会接收客户端的连接和操作。<br>2.如何减轻数据库压力：当web访问数据库时，首先会先访问Memcache缓存服务器，查找是否有相应的数据，若没有则去访问数据库查询，返回结果给web应用并且再Memcache服务器留一份缓存，如果web访问Memcache服务器查询得到相应数据，就不会再去访问数据库，以此来减轻数据库的I/O。</li><li><strong>Memcache作为高速运行的分布式内存缓存服务器,具有以下几点</strong><br>1&gt; 本身是开源的,占用资源小,协议简单的软件,将数据库和web之间的数据缓存,减少数据库的检索次数,减少数据库的i/o<br>2&gt; 基于livevent的时间处理,因为libevent库将linux,bsd,solaris等这些操作系统上的kqueue等时间处理功能功能封装成统一接口,面对连接数增加,也能在linux,bsd,solaris等操作系统上发挥其高性能(i/o).<br>3&gt; 存储方式:内置于内存存储方式,存取的效率高,执行的速度快<br>4&gt; memcache不互相通信的分布式:同个客户端使得key有规律的封装,实现memcache实现分布式,采用多台cached服务器,增加缓存的横向延伸</li><li><strong>Memcache具体实现方式</strong><br>Memcached 的目前版本是通过C实现，采用了单进程，单线程，异步I/O，基于事件 (event_based) 的服务方式.使用 libevent 作为事件通知实现。多个 Server 可以协同工作，但这些 Server 之间是没有任何通讯联系的，每个 Server 只是对自己的数据进行管理。Client 端通过指定 Server 端的 ip 地址(通过域名应该也可以)。需要缓存的对象或数据是以 key-&gt;value 对的形式保存在Server端。key 的值通过 hash 进行转换，根据 hash 值把 value 传递到对应的具体的某个 Server 上。当需要获取对象数据时，也根据 key 进行。首先对 key 进行 hash，通过获得的值可以确定它被保存在了哪台 Server 上，然后再向该 Server 发出请求。Client 端只需要知道保存 hash(key) 的值在哪台服务器上就可以了。 memcache的工作就是在专门的机器的内存里维护一张巨大的hash表，来存储经常请求的数据。</li><li><strong>安装Memcache</strong><br>1 安装libevent时<br>./configure –prefix=/usr/local/libevent<br>Make &amp;&amp; make install<br>2 安装memcached<br>./configure –prefix=/usr/local/memcached –with-libevent=/usr/local/libevent<br>Make &amp;&amp; make install</li><li><strong>管理Memcache</strong><br>启动Memcache：<br>/usr/local/bin/memcached -d -m 2048 -u root -l 192.168.1.20 -p 12111 -c 1024 -P /tmp/memcached.pid<br>停止Memcache:<br>kill ‘cat /tmp/memcached.pid’;<br>Kill all memcached<br>参数说明：<br>-d 启动为守护进程<br>-m <num> 分配给Memcached使用的内存数量，单位是MB，默认为64MB<br>-u <username> 运行Memcached的用户，仅当作为root运行时<br>-l &lt;ip_addr&gt; 监听的服务器IP地址，默认为环境变量INDRR_ANY的值<br>-p <num> 设置Memcached监听的端口，最好是1024以上的端口<br>-c <num> 设置最大并发连接数，默认为1024<br>-P <file> 设置保存Memcached的pid文件，与-d选择同时使用 </file></num></num></username></num></li></ol>]]></content>
     
@@ -240,12 +269,40 @@
     
     </summary>
     
-      <category term="liux" scheme="http://yoursite.com/categories/liux/"/>
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
     
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
     
       <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
     
+  </entry>
+  
+  <entry>
+    <title>Rewrite重写URL</title>
+    <link href="http://yoursite.com/2019/03/02/Rewrite%E9%87%8D%E5%86%99URL/"/>
+    <id>http://yoursite.com/2019/03/02/Rewrite重写URL/</id>
+    <published>2019-03-02T14:45:56.000Z</published>
+    <updated>2019-03-09T07:01:55.101Z</updated>
+    
+    <content type="html"><![CDATA[<ol><li><strong>Rewrite重写用来做些什么</strong><br>URL重写就是首先获得一个进入的URL请求，然后使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位把它重新写成网站可以处理的另一个URL的过程。rewrite只能放在配置文件的server{},location{},if{}中，并且只能对域名后边的除去传递的参数外的字符串起作用。</li><li><strong>Rewrite执行顺序</strong><br>1.执行server块的rewrite指令<br>2.执行location匹配<br>3.执行选定的location中的rewrite指令<br>4.执行if条件匹配<br>5.执行if块中的rewrite指令</li><li><strong>rewrite语法</strong><br><img src="http://static.zybuluo.com/jiangpeisi/mi0e0s061is56an6tkuxmmud/image_1d5142otn17uq1lmmhis17l21jr52a.png" alt="image_1d5142otn17uq1lmmhis17l21jr52a.png-4kB"><br>关键字：其中关键字error_log不能改变<br>正则： perl兼容正则表达式语句进行规则匹配<br>替代内容：将正则匹配的内容替换成repl acement<br>filag标记： rewrite支持的fl ag标记<br>flag标记说明：<br>Last #本条规则匹配完成后，继续向下匹配新的location URI规则<br>break #本条规则匹配完成即终止，不再匹配后面的任何规则<br>redirect #返回302临时重定向，浏览器地址会显示跳转后的URL.地址<br>permanent #返回301永久重定向，浏览器地址栏会显示跳转后的URL她址</li><li><strong>指令详解</strong><br>1.if指令<br>语法为if(condition){…}<br>condition常用判断条件：<br>-f和!-f用来判断请求文件是否存在<br>-d和!-d用来判断请求目录是否存在<br>-e和!-e用来判断是请求的文件或者目录否存在<br>-x和!-x用来判断请求的文件是否可执行<br>condition可用的nginx变量：<br><img src="http://static.zybuluo.com/jiangpeisi/vbwm6czsg5ns6990jucbve0t/image_1d518ruaobbb1vcict8pvjal03h.png" alt="image_1d518ruaobbb1vcict8pvjal03h.png-810.5kB"><br>2.break指令<br>用于中断当前相同作用域中的Nginx配置，和Java中的break语法类似，可以在server块和location以及if块中使用。<br>3.return指令<br>该指令用于完成对请求的处理，直接向客户端响应状态的代码。和Java中的return语法类似。可以再server块和location以及if块中使用。<br>4.set指令<br>用来设置新的变量<br>  语法: set variable value</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Rewrite重写用来做些什么&lt;/strong&gt;&lt;br&gt;URL重写就是首先获得一个进入的URL请求，然后使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位把它重新写成网站可以处理的另一个URL的过程。rewrite只能放在配置文
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+    
       <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
     
   </entry>
   
@@ -254,7 +311,7 @@
     <link href="http://yoursite.com/2019/03/02/Nginx%E4%B9%8BLocation/"/>
     <id>http://yoursite.com/2019/03/02/Nginx之Location/</id>
     <published>2019-03-02T14:45:56.000Z</published>
-    <updated>2019-03-03T14:00:13.965Z</updated>
+    <updated>2019-03-09T07:01:46.219Z</updated>
     
     <content type="html"><![CDATA[<ol><li><strong>什么是location，location都做些什么工作</strong><br>上文有提到，nginx内核完成的工作就是查找配置文件，将客户请求映射到一个location block，然后再执行location中的相应指令，所以说，location的作用就是用于匹配客户请求，并做出相应动作。<br>location如何匹配用户请求呢，先对URL进行剖析你就会知道，URL的格式由下列三部分组成：<br>第一部分是协议（或称为服务方式）；<br>第二部分是存有该资源的主机IP地址（有时也包括端口号）；<br>第三部分是主机资源的具体地址。，如目录和文件名等；<br>当一个请求到达服务器后，服务器接受到这个请求时，前两部分的匹配工作就已经完成，现在要做的就是在服务器上找到资源，location就是匹配的URL的第三部分内容。</li><li><strong>匹配模式</strong><br>location = /uri =开头表示精确匹配，只有完全匹配上才能生效。<br>location ^~ /uri ^~ 开头对URL路径进行前缀匹配，并且在正则之前。<br>location ~ pattern ~开头表示区分大小写的正则匹配。<br>location ~<em> pattern ~</em>开头表示不区分大小写的正则匹配。<br>location /uri 不带任何修饰符，也表示前缀匹配，但是在正则匹配之后。<br>location / 通用匹配，任何未匹配到其它location的请求都会匹配到，相当于switch中的default。</li><li><strong>匹配顺序</strong><br><img src="http://static.zybuluo.com/jiangpeisi/guoanpfc3d7zixyx7pynowiu/qqqq%20%282%29.png" alt="qqqq (2).png-42.5kB"><br>精确匹配&gt;正则匹配&gt;普通字符匹配  普通匹配看字符串长短，正则匹配看顺序</li></ol>]]></content>
     
@@ -268,12 +325,12 @@
     
     </summary>
     
-      <category term="liux" scheme="http://yoursite.com/categories/liux/"/>
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
     
-    
-      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
     
       <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
     
   </entry>
   
@@ -282,7 +339,7 @@
     <link href="http://yoursite.com/2019/02/28/Nginx%E6%A8%A1%E5%9D%97%E5%88%86%E7%B1%BB%E4%B8%8E%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/"/>
     <id>http://yoursite.com/2019/02/28/Nginx模块分类与工作原理/</id>
     <published>2019-02-28T01:40:56.000Z</published>
-    <updated>2019-03-07T01:09:58.612Z</updated>
+    <updated>2019-03-09T07:01:36.921Z</updated>
     
     <content type="html"><![CDATA[<p>nginx主要是由内核和模块组成的。</p><ol><li><strong>内核</strong><br>内核的设计非常简洁，完成的工作主要是查找配置文件找到访问的URL所匹配的location block，并实现location中的相应指令。而location中的每个指令会调用不同的模块去完成相应的工作<br><img src="http://static.zybuluo.com/jiangpeisi/01ebv3v6btag0lzdyl0h1rf4/qqqq.png" alt="qqqq.png-278.1kB"></li><li><strong>模块</strong><br>从结构上分：<br>核心模块：HTTP模块、event模块和mail模块等<br>基础模块：HTTP access 模块HTTP FastCGI模块、HTTP proxy 模块和HTTP rewrite模块等<br>第三方模块：HTTP upstream request hash模块、notice 模块 和HTTP access key模块、limit_req模块等<br>从功能上分：<br>handers（处理器模块）：用于处理请求，并进行输出内容和修改headers信息等操作，一般只能有一个<br>filters（过滤模块）：主要对其他模块处理后的数据进行修改，最后交给nginx返回给浏览器<br>proxies（代理模块）：主要与后端的一些服务进行交互，例如FastCGI等，实现服务代理及负载均衡</li><li><strong>nginx高并发</strong><br>nginx高并发是因为采用了epoll模块，异步非阻塞。与Apache相比，Apache采用的时select模块，select模块在选择句柄的时候是遍历所有句柄，选择其中有事件通知的句柄去响应。而epoll模块是不需要遍历句柄链表，一但有句柄有事件通知立马就可以做出响应，所以效率更高一些。</li><li><strong>master进程</strong><br>nginx在服务端默认监听80端口，服务一旦启动服务器就会创建一个master进程，同时由mater进程可以生成多个worker进程对请求做出响应。<br><img src="http://static.zybuluo.com/jiangpeisi/l9m2d3wifpmyykcg3nepjnmk/z.png" alt="z.png-326.6kB"><br>服务器启动后创建master进程，并在master进程内创建一个监听80端口的socket，master进程会fork多个woker进程，每个worker进程一旦获得连接处理，会把listend变的仅可读，这样可以保证每个worker进程只对一个连接进行处理，当一个worker进程在accept一个连接后就会读取请求、解析请求、处理请求、产生数据，并将产生的数据返回给客户端，并断开连接。</li></ol>]]></content>
     
@@ -297,7 +354,7 @@
     
     </summary>
     
-      <category term="liux" scheme="http://yoursite.com/categories/liux/"/>
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
     
     
       <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
@@ -309,7 +366,7 @@
     <link href="http://yoursite.com/2019/02/28/Nginx%E5%AE%89%E8%A3%85/"/>
     <id>http://yoursite.com/2019/02/28/Nginx安装/</id>
     <published>2019-02-27T16:24:56.000Z</published>
-    <updated>2019-03-07T01:09:33.716Z</updated>
+    <updated>2019-03-09T07:01:08.257Z</updated>
     
     <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Nginx是一个轻量型web服务器，也可以用来做负载均衡及反向代理。</p><hr><h2 id="安装环境准备"><a href="#安装环境准备" class="headerlink" title="安装环境准备"></a>安装环境准备</h2><p>nginx是C语言开发，建议在linux上运行，本次使用Centos7.3作为安装环境。</p><ol><li><p>gcc<br>nginx是用c语言编写，如果使用源码安装，需要先对源码进行编译，gcc作为linux上的c编译器来完成这个工作，所以事先要安装好gcc</p><p>yum install gcc-c++ -y</p></li><li><p>pcre<br>PCRE(Perl Compatible Regular Expressions)是一个Perl库，包括 perl 兼容的正则表达式库。nginx的http模块使用pcre来解析正则表达式，所以需要在linux上安装pcre库。</p><p>yum install pcre pcre-devel -y</p></li><li><p>zlib<br>zlib库提供了很多种压缩和解压缩的方式，nginx使用zlib对http包的内容进行gzip，所以需要在linux上安装zlib库。</p><p>yum install zlib zlib-devel -y</p></li><li><p>openssl<br>OpenSSL 是一个强大的安全套接字层密码库，囊括主要的密码算法、常用的密钥和证书封装管理功能及SSL协议，并提供丰富的应用程序供测试或其它目的使用。</p><p>yum install openssl openssl-devel -y</p></li></ol><hr><h2 id="下载编译安装nginx"><a href="#下载编译安装nginx" class="headerlink" title="下载编译安装nginx"></a>下载编译安装nginx</h2><ol><li><p>下载nginx源码</p><p>cd /usr/local/src<br>wget <a href="http://nginx.org/download/nginx-1.14.2.tar.gz" target="_blank" rel="noopener">http://nginx.org/download/nginx-1.14.2.tar.gz</a></p></li><li><p>解压源码</p><p>tar -xvf nginx-1.14.2.tar.gz </p></li><li><p>编译安装</p><p>cd nginx-1.14.2<br>./configure –prefix=/usr/local/nginx<br>make &amp;&amp; make install</p></li><li><p>启动服务</p><p>cd /usr/local/nginx/<br>./sbin/nginx </p></li></ol><p>若出现如下情况：<br><img src="http://static.zybuluo.com/jiangpeisi/ualmx38mtswvj4wv2oejoafk/aaa.png" alt="aaa.png-9.4kB"><br>说明80端口已经被其他进程占用，需要把占用端口的进程先杀掉在重新启动服务。有两种解决办法：</p><pre><code>1.使用netstat命令查看占用端口的进程![q.png-9.2kB][2]kill -9 [进程号]  杀死占用80端口的进程即可2.修改nginx配置文件中监听的端口号server {        listen       80;  #修改为8080        server_name  localhost;        #charset koi8-r;        #access_log  logs/host.access.log  main;        location / {            root   html;            index  index.html index.htm;        }浏览器访问时使用   IP：8080  访问即可</code></pre><p> 5.安装成功</p><p><img src="http://static.zybuluo.com/jiangpeisi/blkn5f588xbdg772ct0pa0tn/ads.png" alt="ads.png-8.5kB"></p>]]></content>
     
@@ -324,7 +381,7 @@
     
     </summary>
     
-      <category term="liux" scheme="http://yoursite.com/categories/liux/"/>
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
     
     
       <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
