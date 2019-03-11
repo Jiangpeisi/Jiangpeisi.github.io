@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="linux,FTP,">
+  <meta name="keywords" content="hexo,">
 
 
 
@@ -79,25 +79,24 @@
 
 
 
-<meta name="description" content="FTP简介 FTP端口号FTP使用20和21端口，FTP服务器使用21端口来等待控制连接建立请求,并通过控制连接传送命令及命令的响应。控制连接与数据连接相互独立，首先建立控制连接，通过身份验证后才会建立数据连接。数据连接是传输文件时临时建立的，服务器使用20端口建立数据连接并传送数据。数据连接存在时，控制连接一定是存在的。 FTP传输模式FTP基于C/S模式,服务端与客户端传输数据有两种模式：主动">
-<meta name="keywords" content="linux,FTP">
+<meta name="description" content="创建.bat文件  @echo off F: cd F:\Myblog hexo clean&amp;amp;&amp;amp;hexo g&amp;amp;&amp;amp;hexo d  指令解释第一条指令@echo off，关闭回显。第二叫指令F:，切换到博客站点目录所在的盘符，我这里是F盘，第三条指令cd F:\Myblog，进入站点目录，我这里是cd F:\Myblog第四条指令hexo clean&amp;amp;&amp;amp">
+<meta name="keywords" content="hexo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="FTP传输模式及安装配置">
-<meta property="og:url" content="http://yoursite.com/2019/03/08/FTP简介/index.html">
+<meta property="og:title" content="自动部署博客">
+<meta property="og:url" content="http://yoursite.com/2019/03/11/自动部署博客/index.html">
 <meta property="og:site_name" content="我在看着你">
-<meta property="og:description" content="FTP简介 FTP端口号FTP使用20和21端口，FTP服务器使用21端口来等待控制连接建立请求,并通过控制连接传送命令及命令的响应。控制连接与数据连接相互独立，首先建立控制连接，通过身份验证后才会建立数据连接。数据连接是传输文件时临时建立的，服务器使用20端口建立数据连接并传送数据。数据连接存在时，控制连接一定是存在的。 FTP传输模式FTP基于C/S模式,服务端与客户端传输数据有两种模式：主动">
+<meta property="og:description" content="创建.bat文件  @echo off F: cd F:\Myblog hexo clean&amp;amp;&amp;amp;hexo g&amp;amp;&amp;amp;hexo d  指令解释第一条指令@echo off，关闭回显。第二叫指令F:，切换到博客站点目录所在的盘符，我这里是F盘，第三条指令cd F:\Myblog，进入站点目录，我这里是cd F:\Myblog第四条指令hexo clean&amp;amp;&amp;amp">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/hbcn913ox83o6ro98pntmfwf/image_1d5cdv1gs6ekcda1mh6t3b10vt34.png">
-<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/0qjgorj8harhooz0p4x7d1bj/image_1d5ce2ntsuod178hh971kj5nmq3h.png">
-<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/xs13r9jhp14kgbmrs47dple6/image_1d5ceqrh5r63c2a6doqio3qh4o.png">
-<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/4n3ayp2k2sy9zizujaga57kl/image_1d5dajp5nbqa1eohmlu98rr4h55.png">
-<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/cbqrh4frjai4u1zsnaqho5w3/image_1d5dalcqo1csv6hd1fm11h1010585i.png">
-<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/z4ajomazutk2km68axqhsen0/image_1d5dbl2qootj1rtk169j1us1cld6c.png">
-<meta property="og:updated_time" content="2019-03-09T07:00:27.040Z">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/j8ot6tcf8hoof0njcrsdkqpw/image_1d5k75ao212b417581b3af55n2l9.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/cwatgva011d8kkyfh8wmwu11/image_1d5k7ni3vhidici170ilj7t9im.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/hc4rw8qux0q4wqxgwyot9bv4/image_1d5k7oebm1tcq9rcj810s81us613.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/cor89r9jlgzq10c1yf890rt2/image_1d5k7r28bbak1il4fauih41h2p1g.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/m13bs2pvltlgrhx578qnpbvz/image_1d5k7sspa1jog1nlo10jlicb1gc2d.png">
+<meta property="og:updated_time" content="2019-03-10T16:58:54.531Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="FTP传输模式及安装配置">
-<meta name="twitter:description" content="FTP简介 FTP端口号FTP使用20和21端口，FTP服务器使用21端口来等待控制连接建立请求,并通过控制连接传送命令及命令的响应。控制连接与数据连接相互独立，首先建立控制连接，通过身份验证后才会建立数据连接。数据连接是传输文件时临时建立的，服务器使用20端口建立数据连接并传送数据。数据连接存在时，控制连接一定是存在的。 FTP传输模式FTP基于C/S模式,服务端与客户端传输数据有两种模式：主动">
-<meta name="twitter:image" content="http://static.zybuluo.com/jiangpeisi/hbcn913ox83o6ro98pntmfwf/image_1d5cdv1gs6ekcda1mh6t3b10vt34.png">
+<meta name="twitter:title" content="自动部署博客">
+<meta name="twitter:description" content="创建.bat文件  @echo off F: cd F:\Myblog hexo clean&amp;amp;&amp;amp;hexo g&amp;amp;&amp;amp;hexo d  指令解释第一条指令@echo off，关闭回显。第二叫指令F:，切换到博客站点目录所在的盘符，我这里是F盘，第三条指令cd F:\Myblog，进入站点目录，我这里是cd F:\Myblog第四条指令hexo clean&amp;amp;&amp;amp">
+<meta name="twitter:image" content="http://static.zybuluo.com/jiangpeisi/j8ot6tcf8hoof0njcrsdkqpw/image_1d5k75ao212b417581b3af55n2l9.png">
 
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
 <link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
@@ -142,13 +141,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/03/08/FTP简介/">
+  <link rel="canonical" href="http://yoursite.com/2019/03/11/自动部署博客/">
 
 
 
 
 
-  <title>FTP传输模式及安装配置 | 我在看着你</title>
+  <title>自动部署博客 | 我在看着你</title>
   
 
 
@@ -279,7 +278,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/08/FTP简介/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/11/自动部署博客/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="镜子">
@@ -296,7 +295,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">FTP传输模式及安装配置</h1>
+          <h1 class="post-title" itemprop="name headline">自动部署博客</h1>
         
 
         <div class="post-meta">
@@ -308,8 +307,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-08T22:45:56+08:00">
-                2019-03-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-11T22:04:56+08:00">
+                2019-03-11
               </time>
             
 
@@ -331,8 +330,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/FTP/" itemprop="url" rel="index">
-                    <span itemprop="name">FTP</span>
+                  <a href="/categories/hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">hexo</span>
                   </a>
                 </span>
 
@@ -362,7 +361,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.4k
+                  167
                 </span>
               
 
@@ -378,7 +377,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  5
+                  1
                 </span>
               
             </div>
@@ -399,83 +398,18 @@
       
 
       
-        <h2 id="FTP简介"><a href="#FTP简介" class="headerlink" title="FTP简介"></a>FTP简介</h2><ul>
-<li><strong>FTP端口号</strong><br>FTP使用20和21端口，FTP服务器使用21端口来等待控制连接建立请求,并通过控制连接传送命令及命令的响应。控制连接与数据连接相互独立，首先建立控制连接，通过身份验证后才会建立数据连接。数据连接是传输文件时临时建立的，服务器使用20端口建立数据连接并传送数据。数据连接存在时，控制连接一定是存在的。</li>
-<li><p><strong>FTP传输模式</strong><br>FTP基于C/S模式,服务端与客户端传输数据有两种模式：主动模式和被动模式，主被动模式都是在建立数据链接时相对于服务器而言的。</p>
-<p> 主动模式：<br> FTP客户端随机开启一个大于1024的端口N向服务器的21号端口发起连接，并进行账户密码验证。验证通过后开放N+1端口进行监听，并向服务器发送一个PORT N+1命令，告诉服务器服务器现在使用主动模式。服务器接收到命令后会有用其本地20端口连接客户端的N+1端口进行数据传输。主动模式数控制接与数据连接方向是相反的。<br> 被动模式：</p>
-<p> FTP客户端随机开启一个大于1024的端口N向服务器的21端口发起连接，并进行账户密码验证。验证通过后开放N+1端口进行监听，并发送一个PASV命令，告诉服务器现在使用被动模式，服务器接到命令后会随机开放一个大于1024的端口P,并发送命令PORT P命令给客户端,客户端使用自己的N+1端口连接服务器的端口P。被动模式控制连接和数据连接方向是一致的。</p>
-<p> 应用场景：<br> 主动模式的FTP通常用在客户端访问处于防火墙内部的FTP服务器的情况。<br> 被动模式的FTP通常用在处于防火墙之后的FTP客户端访问外部的FTP服务器的情况。<br> 因为防火墙默认会关闭所有端口，但是在进行数据连接建立时需要开放随机端口，所以在防火墙内部的主机或服务器会因为端口被防火墙关闭而造成建立连接失败。</p>
+        <ul>
+<li><p><strong>创建.bat文件</strong></p>
+<p> @echo off<br> F:<br> cd F:\Myblog<br> hexo clean&amp;&amp;hexo g&amp;&amp;hexo d</p>
 </li>
-<li><p><strong>FTP三种用户</strong><br>匿名用户：anonymous或ftp<br>本地用户：真实用户，帐号名称、密码等信息保存在passwd、shadow文件中<br>虚拟用户：使用独立的账号/密码数据文件 </p>
+<li><p><strong>指令解释</strong><br>第一条指令@echo off，关闭回显。<br>第二叫指令F:，切换到博客站点目录所在的盘符，我这里是F盘，<br>第三条指令cd F:\Myblog，进入站点目录，我这里是cd F:\Myblog<br>第四条指令hexo clean&amp;&amp;hexo g&amp;&amp;hexo d，清楚本地缓存，重新在本地部署，在推送到GitHub上。</p>
 </li>
-</ul>
-<h2 id="FTP安装配置"><a href="#FTP安装配置" class="headerlink" title="FTP安装配置"></a>FTP安装配置</h2><ul>
-<li><p><strong>安装</strong><br>yum install vsftpd*  -y<br>systemctl start vsftp.service<br>出现问题：<br><img src="http://static.zybuluo.com/jiangpeisi/hbcn913ox83o6ro98pntmfwf/image_1d5cdv1gs6ekcda1mh6t3b10vt34.png" alt="image_1d5cdv1gs6ekcda1mh6t3b10vt34.png-12.5kB"><br>原因：使用被动模式，服务端需要开启随机端口，而服务端端口又被防火墙关闭，所以导致连接失败。<br>解决：<br>打开控制面板-&gt;Internet选项-&gt;高级-&gt;FTP被动传输模式取消<br><img src="http://static.zybuluo.com/jiangpeisi/0qjgorj8harhooz0p4x7d1bj/image_1d5ce2ntsuod178hh971kj5nmq3h.png" alt="image_1d5ce2ntsuod178hh971kj5nmq3h.png-50kB"></p>
+<li><p><strong>运行</strong><br><img src="http://static.zybuluo.com/jiangpeisi/j8ot6tcf8hoof0njcrsdkqpw/image_1d5k75ao212b417581b3af55n2l9.png" alt="image_1d5k75ao212b417581b3af55n2l9.png-65.5kB"></p>
 </li>
-<li><p><strong>配置匿名用户</strong><br>默认匿名用户不可以上传和下载文件，创建文件的，修改配置文件可对匿名用户权限进行修改。<br><img src="http://static.zybuluo.com/jiangpeisi/xs13r9jhp14kgbmrs47dple6/image_1d5ceqrh5r63c2a6doqio3qh4o.png" alt="image_1d5ceqrh5r63c2a6doqio3qh4o.png-53.7kB"><br>1.修改配置：</p>
-<p> vim /etc/vsftpd/vsftpd.conf</p>
-<p> 设置如下选项：</p>
-<pre><code>anonymous_enable=YES :允许匿名登陆
-anon_upload_enable=YES  ：允许匿名用户上传下载
-anon_mkdir_write_enable=YES  ：允许匿名用户创建目录
-anon_other_write_enable=YES  ：允许匿名用户写入其他权限
-</code></pre><p> 2.修改/var/ftp/pub目录权限</p>
-<pre><code>chown -R ftp /var/ftp/pub/
-chmod 755 /var/ftp/pub/
-</code></pre><p> 3.再次使用匿名用户上传下载或创建文件<br> <img src="http://static.zybuluo.com/jiangpeisi/4n3ayp2k2sy9zizujaga57kl/image_1d5dajp5nbqa1eohmlu98rr4h55.png" alt="image_1d5dajp5nbqa1eohmlu98rr4h55.png-74.8kB"><br> 4.检查是否上传成功<br> <img src="http://static.zybuluo.com/jiangpeisi/cbqrh4frjai4u1zsnaqho5w3/image_1d5dalcqo1csv6hd1fm11h1010585i.png" alt="image_1d5dalcqo1csv6hd1fm11h1010585i.png-15.8kB"><br> 5.修改匿名用户和本地用户根目录：</p>
-<pre><code>local_root=/var/www/html
-chroot_local_user=YES 将用户活动范围限制在主目录
-anon_root=/var/www/html
-</code></pre></li>
-<li><p><strong>配置本地用户</strong><br>1.本地创建用户：</p>
-<p> useradd ftpuser1 -s /sbin/nologin<br> echo 123456 | passwd –stdin ftpuser1</p>
-<p> 修改配置文件:</p>
-<pre><code>local_enable=YES
-anonymous_enable=YES
-</code></pre><p> 2.重启服务：</p>
-<pre><code>systemctl restart vsftpd.service
-</code></pre><p> 3.验证：<br> <img src="http://static.zybuluo.com/jiangpeisi/z4ajomazutk2km68axqhsen0/image_1d5dbl2qootj1rtk169j1us1cld6c.png" alt="image_1d5dbl2qootj1rtk169j1us1cld6c.png-28kB"><br> ftp本地用户默认登陆后进入用户的家目录。</p>
-</li>
-<li><p><strong>ftp虚拟用户配置</strong><br>虚拟用户在FTP服务器上并不真实存在，而是映射到某一个系统真实用户及设置相应的权限来实现访问验证。<br>1.安装虚拟用户认证所需模块及软件：<br>yum install db4 db4_utils</p>
-<p> 2.创建虚拟用户文件</p>
-<pre><code>touch ftpuser.txt 
-</code></pre><p> 3.在文件内添加虚拟用户</p>
-<pre><code>ftpuser1
-123456
-ftpuser2
-123456
-</code></pre><p> 奇数行写账户，偶数行写密码<br> 4.生成虚拟用户认证数据库文件</p>
-<pre><code>db_load -T -t hash -f /etc/vsftpd/ftpuser.txt /etc/vsftpd/vsftpd_login.db
- chmod 600 /etc/vsftpd/vsftpd_login.db
-</code></pre><p> 5.配置PAM认证文件：</p>
-<pre><code>vim /etc/pam.d/vsftpd 
-把其他行注释掉添加如下配置
-auth       required     pam_userdb.so db=/etc/vsftpd/vsftpd_login
-account    required     pamuserdb.so db=/etc/vsftpd/vsftpd_login
-</code></pre><p> 6.修改配置文件：</p>
-<pre><code>pam_service_name=vsftpd
-guest_enable=YES
-guest_username=jiangpeisi
-user_config_dir=/etc/vsftpd/vsftpd_guestuser_conf
-virtual_use_local_privs=YES 匿名用户具有与本地用户相同的权限
-chroot_local_user=YES
-chroot_list_enable=YES
-allow_writeable_chroot=YES 如果使用chroot，需要设置此项
-chroot_list_file=/etc/vsftpd/chroot_list
-</code></pre><p> 7.创建虚拟用户配置文件</p>
-<pre><code>mkdir /etc/vsftpd/vsftpd_guestuser_conf/
-touch /etc/vsftpd/vsftpd_guestuser_conf/ ftpguest{1,2} 
-</code></pre><p>  此处文件名必须与虚拟用户同名<br> 配置ftpguest1</p>
-<pre><code>local_root=/home/jiangpeisi/ftpguest1
-write_enable=YES
-anon_world_readable_only=YES
-anon_upload_enable=YES
-anon_mkdir_write_enable=YES
-anon_other_write_enable=YES
-</code></pre><p> ftpguest2与ftpguest2类似<br> 8.创建虚拟用户家目录</p>
-<pre><code>mkdir /home/jiangpeisi/ftpguest{1,2}
-chown -R jiangpeisi:jiangpeisi /home/jiangpeisi/
-</code></pre><p> 注：2.3.5之后，vsftpd增强了安全检查，如果用户被限定在了其主目录下，则该用户的主目录不能再具有写权限了！如果检查发现还有写权限，就会报该错误。</p>
+<li><p><strong>添加定时任务</strong><br>Win+R 输入 compmgmt.msc 打开计算机管理，添加计划任务<br><img src="http://static.zybuluo.com/jiangpeisi/cwatgva011d8kkyfh8wmwu11/image_1d5k7ni3vhidici170ilj7t9im.png" alt="image_1d5k7ni3vhidici170ilj7t9im.png-35.1kB"></p>
+<p> 设置计划任务执行时间<br> <img src="http://static.zybuluo.com/jiangpeisi/hc4rw8qux0q4wqxgwyot9bv4/image_1d5k7oebm1tcq9rcj810s81us613.png" alt="image_1d5k7oebm1tcq9rcj810s81us613.png-39.6kB"></p>
+<p> 设置计划任务执行程序<br> <img src="http://static.zybuluo.com/jiangpeisi/cor89r9jlgzq10c1yf890rt2/image_1d5k7r28bbak1il4fauih41h2p1g.png" alt="image_1d5k7r28bbak1il4fauih41h2p1g.png-18.9kB"></p>
+<p> 添加完成<br> <img src="http://static.zybuluo.com/jiangpeisi/m13bs2pvltlgrhx578qnpbvz/image_1d5k7sspa1jog1nlo10jlicb1gc2d.png" alt="image_1d5k7sspa1jog1nlo10jlicb1gc2d.png-117kB"></p>
 </li>
 </ul>
 
@@ -501,9 +435,7 @@ chown -R jiangpeisi:jiangpeisi /home/jiangpeisi/
       
         <div class="post-tags">
           
-            <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
-          
-            <a href="/tags/FTP/" rel="tag"><i class="fa fa-tag"></i> FTP</a>
+            <a href="/tags/hexo/" rel="tag"><i class="fa fa-tag"></i> hexo</a>
           
         </div>
       
@@ -516,8 +448,8 @@ chown -R jiangpeisi:jiangpeisi /home/jiangpeisi/
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/07/Docker安装并使用docker部署多个nginx/" rel="next" title="Dokcer安装并部署多个nginx">
-                <i class="fa fa-chevron-left"></i> Dokcer安装并部署多个nginx
+              <a href="/2019/03/09/DNS解析过程及查询模式/" rel="next" title="DNS解析过程及查询模式">
+                <i class="fa fa-chevron-left"></i> DNS解析过程及查询模式
               </a>
             
           </div>
@@ -525,10 +457,6 @@ chown -R jiangpeisi:jiangpeisi /home/jiangpeisi/
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/09/DNS解析过程及查询模式/" rel="prev" title="DNS解析过程及查询模式">
-                DNS解析过程及查询模式 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -580,17 +508,8 @@ chown -R jiangpeisi:jiangpeisi /home/jiangpeisi/
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -659,22 +578,6 @@ chown -R jiangpeisi:jiangpeisi /home/jiangpeisi/
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#FTP简介"><span class="nav-number">1.</span> <span class="nav-text">FTP简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FTP安装配置"><span class="nav-number">2.</span> <span class="nav-text">FTP安装配置</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

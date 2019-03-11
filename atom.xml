@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-03-09T07:05:02.927Z</updated>
+  <updated>2019-03-10T16:58:54.531Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>自动部署博客</title>
+    <link href="http://yoursite.com/2019/03/11/%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E5%8D%9A%E5%AE%A2/"/>
+    <id>http://yoursite.com/2019/03/11/自动部署博客/</id>
+    <published>2019-03-11T14:04:56.000Z</published>
+    <updated>2019-03-10T16:58:54.531Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li><p><strong>创建.bat文件</strong></p><p> @echo off<br> F:<br> cd F:\Myblog<br> hexo clean&amp;&amp;hexo g&amp;&amp;hexo d</p></li><li><p><strong>指令解释</strong><br>第一条指令@echo off，关闭回显。<br>第二叫指令F:，切换到博客站点目录所在的盘符，我这里是F盘，<br>第三条指令cd F:\Myblog，进入站点目录，我这里是cd F:\Myblog<br>第四条指令hexo clean&amp;&amp;hexo g&amp;&amp;hexo d，清楚本地缓存，重新在本地部署，在推送到GitHub上。</p></li><li><p><strong>运行</strong><br><img src="http://static.zybuluo.com/jiangpeisi/j8ot6tcf8hoof0njcrsdkqpw/image_1d5k75ao212b417581b3af55n2l9.png" alt="image_1d5k75ao212b417581b3af55n2l9.png-65.5kB"></p></li><li><p><strong>添加定时任务</strong><br>Win+R 输入 compmgmt.msc 打开计算机管理，添加计划任务<br><img src="http://static.zybuluo.com/jiangpeisi/cwatgva011d8kkyfh8wmwu11/image_1d5k7ni3vhidici170ilj7t9im.png" alt="image_1d5k7ni3vhidici170ilj7t9im.png-35.1kB"></p><p> 设置计划任务执行时间<br> <img src="http://static.zybuluo.com/jiangpeisi/hc4rw8qux0q4wqxgwyot9bv4/image_1d5k7oebm1tcq9rcj810s81us613.png" alt="image_1d5k7oebm1tcq9rcj810s81us613.png-39.6kB"></p><p> 设置计划任务执行程序<br> <img src="http://static.zybuluo.com/jiangpeisi/cor89r9jlgzq10c1yf890rt2/image_1d5k7r28bbak1il4fauih41h2p1g.png" alt="image_1d5k7r28bbak1il4fauih41h2p1g.png-18.9kB"></p><p> 添加完成<br> <img src="http://static.zybuluo.com/jiangpeisi/m13bs2pvltlgrhx578qnpbvz/image_1d5k7sspa1jog1nlo10jlicb1gc2d.png" alt="image_1d5k7sspa1jog1nlo10jlicb1gc2d.png-117kB"></p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;创建.bat文件&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt; @echo off&lt;br&gt; F:&lt;br&gt; cd F:\Myblog&lt;br&gt; hexo clean&amp;amp;&amp;amp;hexo g&amp;amp;&amp;amp;hexo d&lt;/p&gt;
+&lt;/li&gt;
+&lt;li
+      
+    
+    </summary>
+    
+      <category term="hexo" scheme="http://yoursite.com/categories/hexo/"/>
+    
+    
+      <category term="hexo" scheme="http://yoursite.com/tags/hexo/"/>
+    
+  </entry>
   
   <entry>
     <title>DNS解析过程及查询模式</title>
@@ -192,35 +221,6 @@
   </entry>
   
   <entry>
-    <title>日志切割</title>
-    <link href="http://yoursite.com/2019/03/03/%E6%97%A5%E5%BF%97%E5%88%87%E5%89%B2/"/>
-    <id>http://yoursite.com/2019/03/03/日志切割/</id>
-    <published>2019-03-03T14:45:56.000Z</published>
-    <updated>2019-03-09T07:02:02.832Z</updated>
-    
-    <content type="html"><![CDATA[<ol><li><strong>日志分类</strong><br>access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；<br>error.log 记录服务器错误的日志</li><li><strong>日志配置</strong><br>配置日志的存储路径：<br>location / {<pre><code>access_log          /usr/local/nginx/logs/access.log;error_log           /usr/local/nginx/logs/error.log;</code></pre>}<br>配置日志格式：<br><img src="http://static.zybuluo.com/jiangpeisi/n4fibrzee1r5ku7hb41mmrux/image_1d4vf79fh5k2m2j1si8ada19dj4r.png" alt="image_1d4vf79fh5k2m2j1si8ada19dj4r.png-20.5kB"></li><li><strong>日志切割脚本</strong><br><img src="http://static.zybuluo.com/jiangpeisi/18tztm3bn4ygddpy3bjhle69/image_1d4veqc8v177mam71tlgseh160p2n.png" alt="image_1d4veqc8v177mam71tlgseh160p2n.png-31.2kB"></li><li><strong>创建定时任务每日零点切割日志</strong><br>crontab –e<br>59 23 <em> </em> * bash /usr/local/nginx/shell/cut_ngnix_log.sh</li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;日志分类&lt;/strong&gt;&lt;br&gt;access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；&lt;br&gt;error.log 记录服务器错误的日志&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;日志配置&lt;/strong&gt;&lt;br&gt;配置日志的存储路径
-      
-    
-    </summary>
-    
-      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
-    
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
-    
-  </entry>
-  
-  <entry>
     <title>LNMP架构中Nginx如何与PHP进行交互</title>
     <link href="http://yoursite.com/2019/03/03/LNMP%E6%9E%B6%E6%9E%84%E4%B8%ADNginx%E5%A6%82%E4%BD%95%E4%B8%8EPHP%E4%BA%A4%E4%BA%92/"/>
     <id>http://yoursite.com/2019/03/03/LNMP架构中Nginx如何与PHP交互/</id>
@@ -237,6 +237,35 @@
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;简述&lt;/strong&gt;&lt;br&gt;因为nginx不支持对动态脚本文件的解析，所以如果客户端浏览器有对动态脚本文件的请求时，nginx就需要调用动态文本解析程序即php来处理请求。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;原理：&lt;/st
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>日志切割</title>
+    <link href="http://yoursite.com/2019/03/03/%E6%97%A5%E5%BF%97%E5%88%87%E5%89%B2/"/>
+    <id>http://yoursite.com/2019/03/03/日志切割/</id>
+    <published>2019-03-03T14:45:56.000Z</published>
+    <updated>2019-03-09T07:02:02.832Z</updated>
+    
+    <content type="html"><![CDATA[<ol><li><strong>日志分类</strong><br>access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；<br>error.log 记录服务器错误的日志</li><li><strong>日志配置</strong><br>配置日志的存储路径：<br>location / {<pre><code>access_log          /usr/local/nginx/logs/access.log;error_log           /usr/local/nginx/logs/error.log;</code></pre>}<br>配置日志格式：<br><img src="http://static.zybuluo.com/jiangpeisi/n4fibrzee1r5ku7hb41mmrux/image_1d4vf79fh5k2m2j1si8ada19dj4r.png" alt="image_1d4vf79fh5k2m2j1si8ada19dj4r.png-20.5kB"></li><li><strong>日志切割脚本</strong><br><img src="http://static.zybuluo.com/jiangpeisi/18tztm3bn4ygddpy3bjhle69/image_1d4veqc8v177mam71tlgseh160p2n.png" alt="image_1d4veqc8v177mam71tlgseh160p2n.png-31.2kB"></li><li><strong>创建定时任务每日零点切割日志</strong><br>crontab –e<br>59 23 <em> </em> * bash /usr/local/nginx/shell/cut_ngnix_log.sh</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;日志分类&lt;/strong&gt;&lt;br&gt;access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；&lt;br&gt;error.log 记录服务器错误的日志&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;日志配置&lt;/strong&gt;&lt;br&gt;配置日志的存储路径
       
     
     </summary>
