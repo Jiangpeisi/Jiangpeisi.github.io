@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-03-10T16:58:54.531Z</updated>
+  <updated>2019-03-13T05:35:25.639Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>DNS解析过程及查询模式</title>
+    <link href="http://yoursite.com/2019/03/13/DNS%E9%85%8D%E7%BD%AE/"/>
+    <id>http://yoursite.com/2019/03/13/DNS配置/</id>
+    <published>2019-03-13T14:45:56.000Z</published>
+    <updated>2019-03-13T05:35:25.639Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li><p><strong>基本IP配置</strong><br>服务器：</p><p> BOOTPROTO=static<br> IPADDR=192.168.32.152<br> NETMASK=255.255.255.0<br> GATEWAY=192.168.32.2<br> ONBOOT=yes<br>客户端：</p><p> BOOTPROTO=static<br> ONBOOT=yes<br> IPADDR=192.168.32.151<br> NETMASK=255.255.255.0<br> GATEWAY=192.168.32.2</p></li><li><p><strong>安装bind</strong></p><p> yum install bind bind-devel bind-utils bind-libs bind-chroot -y</p></li><li><p><strong>修改主配置文件：/etc/named.conf</strong><br><img src="http://static.zybuluo.com/jiangpeisi/6y4auc81ay92fwny3fobq8fs/image_1d5qnrnal1sip1p47198s1m7712le4h.png" alt="image_1d5qnrnal1sip1p47198s1m7712le4h.png-128.6kB"><br> listen-on port 53 { any; };  //监听所有IP地址<br> listen-on-v6 port 53 { ::1; };  //可以注释掉<br> directory       “/var/named”;  //定义区域数据库文件位置<br> dump-file       “/var/named/data/cache_dump.db”;  //域名缓存数据库文件位置<br> statistics-file “/var/named/data/named_stats.txt”; //状态统计文件位置<br> memstatistics-file “/var/named/data/named_mem_stats.txt”;  //内存使用统计文件位置<br> allow-query     { any; };  //允许查询的客户端IP地址<br> recursion yes;  //是否企业轮询查询模式<br> dnssec-enable yes;  //是否启用DNSSEC支持<br> severity dynamic;  //定义日志输出的安全级别<br> include “/etc/named.rfc1912.zones”;  //包含辅助区域配置文件的所有配置</p></li><li><strong>修改服务区域文件：/etc/named.rfc1912.zones</strong><br>设置正向区域<br><img src="http://static.zybuluo.com/jiangpeisi/t4ufb51tooz40udtyppgem1k/image_1d5qnvdrp1lgs7jg1ro71ree2lk5b.png" alt="image_1d5qnvdrp1lgs7jg1ro71ree2lk5b.png-4.4kB"><br>设置逆向区域<br><img src="http://static.zybuluo.com/jiangpeisi/ozeiepuknyo7hfauan0zixqe/image_1d5qnvstf78b166r1nk499iap25o.png" alt="image_1d5qnvstf78b166r1nk499iap25o.png-5.7kB"></li><li><strong>设置正向解析区域数据配置文件：/var/named/mirror.com.zone</strong><br><img src="http://static.zybuluo.com/jiangpeisi/tnc15ph3708hdhdhsbjgzskl/image_1d5qo7b0s1obg1qv5vmo614miu9b.png" alt="image_1d5qo7b0s1obg1qv5vmo614miu9b.png-10.2kB"><br>@       IN      NS      <a href="http://www.mirror.com" target="_blank" rel="noopener">www.mirror.com</a>.  //指定DNS服务器域名，必须有一天A记录与之对应<br>www     IN      A       192.168.32.152  //www表示域的名称</li><li><p><strong>设置逆向解析区域配置文件：/var/named/192.168.32.arpa</strong><br><img src="http://static.zybuluo.com/jiangpeisi/xm1ohm3ajuiwiae761ksw7l7/image_1d5qoba55qdtag31v30ps49n9o.png" alt="image_1d5qoba55qdtag31v30ps49n9o.png-9kB"><br> 152     IN      PTR     <a href="http://www.mirror.com" target="_blank" rel="noopener">www.mirror.com</a>.  //152表示192.168.32.152</p></li><li><p><strong>防火墙放行服务</strong></p><p> firewall-cmd –add-service=dns </p></li><li><p><strong>重启named.service</strong></p><p> systemctl restart named.service</p></li><li><p><strong>修改dns配置文件：/etc/resolv.conf</strong></p><p> nameserver 192.168.32.152</p></li><li><p><strong>正向解析测试</strong></p><p> [root@jiangpeisi named]# nslookup <a href="http://www.mirror.com" target="_blank" rel="noopener">www.mirror.com</a><br> Server:        192.168.32.152<br> Address:    192.168.32.152#53</p><p> Name:    <a href="http://www.mirror.com" target="_blank" rel="noopener">www.mirror.com</a><br> Address: 192.168.32.152</p></li><li><p><strong>逆向解析测试</strong></p><p> [root@jiangpeisi named]# nslookup 192.168.32.152<br> Server:        192.168.32.152<br> Address:    192.168.32.152#53</p><p> 152.32.168.192.in-addr.arpa    name = <a href="http://www.mirror.com" target="_blank" rel="noopener">www.mirror.com</a>.</p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;基本IP配置&lt;/strong&gt;&lt;br&gt;服务器：&lt;/p&gt;
+&lt;p&gt; BOOTPROTO=static&lt;br&gt; IPADDR=192.168.32.152&lt;br&gt; NETMASK=255.255.255.0&lt;br&gt; GATEWAY=192.168
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+      <category term="DNS" scheme="http://yoursite.com/categories/linux/DNS/"/>
+    
+    
+      <category term="DNS" scheme="http://yoursite.com/tags/DNS/"/>
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+  </entry>
   
   <entry>
     <title>自动部署博客</title>
@@ -50,7 +81,7 @@
     <link href="http://yoursite.com/2019/03/09/DNS%E8%A7%A3%E6%9E%90%E8%BF%87%E7%A8%8B%E5%8F%8A%E6%9F%A5%E8%AF%A2%E6%A8%A1%E5%BC%8F/"/>
     <id>http://yoursite.com/2019/03/09/DNS解析过程及查询模式/</id>
     <published>2019-03-09T14:45:56.000Z</published>
-    <updated>2019-03-09T07:05:02.927Z</updated>
+    <updated>2019-03-13T05:35:49.345Z</updated>
     
     <content type="html"><![CDATA[<ul><li><strong>DNS简介</strong><br> DNS（Domain Name Server）是一种主机域名和IP地址转换机制，使用一种分层的分布式数据库来处理Internet上成千上万个主机和IP地址的转换。基于C/S模式设计</li><li><strong>域名层次结构</strong><br><img src="http://static.zybuluo.com/jiangpeisi/yo9xyl3z4p3lt133f9btnyw3/image_1d5gj25qdr8k1jsc1mkn1dj8kq03n.png" alt="image_1d5gj25qdr8k1jsc1mkn1dj8kq03n.png-27.2kB"><br><img src="http://static.zybuluo.com/jiangpeisi/dy5ox1fmut0rykilknfx5isc/image_1d5giqc091h5di6rphm1gpuepg1g.png" alt="image_1d5giqc091h5di6rphm1gpuepg1g.png-89.4kB"></li><li><strong>DNS解析过程</strong><br><img src="http://static.zybuluo.com/jiangpeisi/7r01q8cf9wow42cuksr79cxv/image_1d5gis09d1b5s1seu1k781f57ed92t.png" alt="image_1d5gis09d1b5s1seu1k781f57ed92t.png-47.3kB"><br> 当我们去解析一个域名时，比如解析xxx.sh.com,会经过如下步骤:<br> 1.查看本机的缓存有无该域名记录，如果没有，查看本机的host文件有无该域名记录，如果没有，则发个请求到本地DNS服务器。<br> 2.本地DNS服务器收到请求后，查看是否有该域名的解析，如果有，返回解析记录给主机，如果没有，则请求根域名服务器.。<br> 3.根域名服务器收到请求后，返回该域名对应的顶级域名服务器,比如这次请求返回.com的服务器地址。<br> 4.本地域名服务器接到顶级域名服务器地址后，向该顶级域名服务器请求。<br> 5.顶级域名服务器返回该域名的二级域名务器地址，返回.sh.com对应的二级服务器地址。<br> 6.本地域名服务器获得该地址后，发请求到该域名的二级域名服务器。<br> 7.二级域名服务器解析xxx.sh.com，并将解析结果返回给本地域名服务器。<br> 8.本地域名服务器获取该解析后，返回给主机，解析完成。</li><li><strong>DNS解析模式</strong><br> 1.递归查询 ：当服务器收到DNS客户发来的请求，如果本地没有客户请求的数据就代替客户向其他DNS服务器请求，并将结果返回给客户，所以递归查询只会向客户返回查询结果或查询失败两种信息。<br> 2.迭代查询：当服务器收到DNS客户发来的请求，如果在服务器内没有查到客户需要的数据，会返回给客户另外一台DNS服务器的地址。客户就会向下一台DNS服务器进行查询，这样一直查询下去，一直查询到所需要的数据或没有DNS服务器可以查询为止。</li><li><strong>常用DNS服务器地址</strong><br>国内：114.114.114.114 备用：114.114.114.115<br>国外：8.8.8.8 备用：8.8.4.4</li></ul>]]></content>
     
@@ -65,7 +96,9 @@
     
     </summary>
     
-      <category term="DNS" scheme="http://yoursite.com/categories/DNS/"/>
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+      <category term="DNS" scheme="http://yoursite.com/categories/linux/DNS/"/>
     
     
       <category term="DNS" scheme="http://yoursite.com/tags/DNS/"/>
@@ -79,7 +112,7 @@
     <link href="http://yoursite.com/2019/03/08/FTP%E7%AE%80%E4%BB%8B/"/>
     <id>http://yoursite.com/2019/03/08/FTP简介/</id>
     <published>2019-03-08T14:45:56.000Z</published>
-    <updated>2019-03-09T07:00:27.040Z</updated>
+    <updated>2019-03-13T05:36:34.680Z</updated>
     
     <content type="html"><![CDATA[<h2 id="FTP简介"><a href="#FTP简介" class="headerlink" title="FTP简介"></a>FTP简介</h2><ul><li><strong>FTP端口号</strong><br>FTP使用20和21端口，FTP服务器使用21端口来等待控制连接建立请求,并通过控制连接传送命令及命令的响应。控制连接与数据连接相互独立，首先建立控制连接，通过身份验证后才会建立数据连接。数据连接是传输文件时临时建立的，服务器使用20端口建立数据连接并传送数据。数据连接存在时，控制连接一定是存在的。</li><li><p><strong>FTP传输模式</strong><br>FTP基于C/S模式,服务端与客户端传输数据有两种模式：主动模式和被动模式，主被动模式都是在建立数据链接时相对于服务器而言的。</p><p> 主动模式：<br> FTP客户端随机开启一个大于1024的端口N向服务器的21号端口发起连接，并进行账户密码验证。验证通过后开放N+1端口进行监听，并向服务器发送一个PORT N+1命令，告诉服务器服务器现在使用主动模式。服务器接收到命令后会有用其本地20端口连接客户端的N+1端口进行数据传输。主动模式数控制接与数据连接方向是相反的。<br> 被动模式：</p><p> FTP客户端随机开启一个大于1024的端口N向服务器的21端口发起连接，并进行账户密码验证。验证通过后开放N+1端口进行监听，并发送一个PASV命令，告诉服务器现在使用被动模式，服务器接到命令后会随机开放一个大于1024的端口P,并发送命令PORT P命令给客户端,客户端使用自己的N+1端口连接服务器的端口P。被动模式控制连接和数据连接方向是一致的。</p><p> 应用场景：<br> 主动模式的FTP通常用在客户端访问处于防火墙内部的FTP服务器的情况。<br> 被动模式的FTP通常用在处于防火墙之后的FTP客户端访问外部的FTP服务器的情况。<br> 因为防火墙默认会关闭所有端口，但是在进行数据连接建立时需要开放随机端口，所以在防火墙内部的主机或服务器会因为端口被防火墙关闭而造成建立连接失败。</p></li><li><p><strong>FTP三种用户</strong><br>匿名用户：anonymous或ftp<br>本地用户：真实用户，帐号名称、密码等信息保存在passwd、shadow文件中<br>虚拟用户：使用独立的账号/密码数据文件 </p></li></ul><h2 id="FTP安装配置"><a href="#FTP安装配置" class="headerlink" title="FTP安装配置"></a>FTP安装配置</h2><ul><li><p><strong>安装</strong><br>yum install vsftpd*  -y<br>systemctl start vsftp.service<br>出现问题：<br><img src="http://static.zybuluo.com/jiangpeisi/hbcn913ox83o6ro98pntmfwf/image_1d5cdv1gs6ekcda1mh6t3b10vt34.png" alt="image_1d5cdv1gs6ekcda1mh6t3b10vt34.png-12.5kB"><br>原因：使用被动模式，服务端需要开启随机端口，而服务端端口又被防火墙关闭，所以导致连接失败。<br>解决：<br>打开控制面板-&gt;Internet选项-&gt;高级-&gt;FTP被动传输模式取消<br><img src="http://static.zybuluo.com/jiangpeisi/0qjgorj8harhooz0p4x7d1bj/image_1d5ce2ntsuod178hh971kj5nmq3h.png" alt="image_1d5ce2ntsuod178hh971kj5nmq3h.png-50kB"></p></li><li><p><strong>配置匿名用户</strong><br>默认匿名用户不可以上传和下载文件，创建文件的，修改配置文件可对匿名用户权限进行修改。<br><img src="http://static.zybuluo.com/jiangpeisi/xs13r9jhp14kgbmrs47dple6/image_1d5ceqrh5r63c2a6doqio3qh4o.png" alt="image_1d5ceqrh5r63c2a6doqio3qh4o.png-53.7kB"><br>1.修改配置：</p><p> vim /etc/vsftpd/vsftpd.conf</p><p> 设置如下选项：</p><pre><code>anonymous_enable=YES :允许匿名登陆anon_upload_enable=YES  ：允许匿名用户上传下载anon_mkdir_write_enable=YES  ：允许匿名用户创建目录anon_other_write_enable=YES  ：允许匿名用户写入其他权限</code></pre><p> 2.修改/var/ftp/pub目录权限</p><pre><code>chown -R ftp /var/ftp/pub/chmod 755 /var/ftp/pub/</code></pre><p> 3.再次使用匿名用户上传下载或创建文件<br> <img src="http://static.zybuluo.com/jiangpeisi/4n3ayp2k2sy9zizujaga57kl/image_1d5dajp5nbqa1eohmlu98rr4h55.png" alt="image_1d5dajp5nbqa1eohmlu98rr4h55.png-74.8kB"><br> 4.检查是否上传成功<br> <img src="http://static.zybuluo.com/jiangpeisi/cbqrh4frjai4u1zsnaqho5w3/image_1d5dalcqo1csv6hd1fm11h1010585i.png" alt="image_1d5dalcqo1csv6hd1fm11h1010585i.png-15.8kB"><br> 5.修改匿名用户和本地用户根目录：</p><pre><code>local_root=/var/www/htmlchroot_local_user=YES 将用户活动范围限制在主目录anon_root=/var/www/html</code></pre></li><li><p><strong>配置本地用户</strong><br>1.本地创建用户：</p><p> useradd ftpuser1 -s /sbin/nologin<br> echo 123456 | passwd –stdin ftpuser1</p><p> 修改配置文件:</p><pre><code>local_enable=YESanonymous_enable=YES</code></pre><p> 2.重启服务：</p><pre><code>systemctl restart vsftpd.service</code></pre><p> 3.验证：<br> <img src="http://static.zybuluo.com/jiangpeisi/z4ajomazutk2km68axqhsen0/image_1d5dbl2qootj1rtk169j1us1cld6c.png" alt="image_1d5dbl2qootj1rtk169j1us1cld6c.png-28kB"><br> ftp本地用户默认登陆后进入用户的家目录。</p></li><li><p><strong>ftp虚拟用户配置</strong><br>虚拟用户在FTP服务器上并不真实存在，而是映射到某一个系统真实用户及设置相应的权限来实现访问验证。<br>1.安装虚拟用户认证所需模块及软件：<br>yum install db4 db4_utils</p><p> 2.创建虚拟用户文件</p><pre><code>touch ftpuser.txt </code></pre><p> 3.在文件内添加虚拟用户</p><pre><code>ftpuser1123456ftpuser2123456</code></pre><p> 奇数行写账户，偶数行写密码<br> 4.生成虚拟用户认证数据库文件</p><pre><code>db_load -T -t hash -f /etc/vsftpd/ftpuser.txt /etc/vsftpd/vsftpd_login.db chmod 600 /etc/vsftpd/vsftpd_login.db</code></pre><p> 5.配置PAM认证文件：</p><pre><code>vim /etc/pam.d/vsftpd 把其他行注释掉添加如下配置auth       required     pam_userdb.so db=/etc/vsftpd/vsftpd_loginaccount    required     pamuserdb.so db=/etc/vsftpd/vsftpd_login</code></pre><p> 6.修改配置文件：</p><pre><code>pam_service_name=vsftpdguest_enable=YESguest_username=jiangpeisiuser_config_dir=/etc/vsftpd/vsftpd_guestuser_confvirtual_use_local_privs=YES 匿名用户具有与本地用户相同的权限chroot_local_user=YESchroot_list_enable=YESallow_writeable_chroot=YES 如果使用chroot，需要设置此项chroot_list_file=/etc/vsftpd/chroot_list</code></pre><p> 7.创建虚拟用户配置文件</p><pre><code>mkdir /etc/vsftpd/vsftpd_guestuser_conf/touch /etc/vsftpd/vsftpd_guestuser_conf/ ftpguest{1,2} </code></pre><p>  此处文件名必须与虚拟用户同名<br> 配置ftpguest1</p><pre><code>local_root=/home/jiangpeisi/ftpguest1write_enable=YESanon_world_readable_only=YESanon_upload_enable=YESanon_mkdir_write_enable=YESanon_other_write_enable=YES</code></pre><p> ftpguest2与ftpguest2类似<br> 8.创建虚拟用户家目录</p><pre><code>mkdir /home/jiangpeisi/ftpguest{1,2}chown -R jiangpeisi:jiangpeisi /home/jiangpeisi/</code></pre><p> 注：2.3.5之后，vsftpd增强了安全检查，如果用户被限定在了其主目录下，则该用户的主目录不能再具有写权限了！如果检查发现还有写权限，就会报该错误。</p></li></ul>]]></content>
     
@@ -93,44 +126,14 @@
     
     </summary>
     
-      <category term="FTP" scheme="http://yoursite.com/categories/FTP/"/>
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+      <category term="FTP" scheme="http://yoursite.com/categories/linux/FTP/"/>
     
     
       <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
     
       <category term="FTP" scheme="http://yoursite.com/tags/FTP/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Dokcer安装并部署多个nginx</title>
-    <link href="http://yoursite.com/2019/03/07/Docker%E5%AE%89%E8%A3%85%E5%B9%B6%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2%E5%A4%9A%E4%B8%AAnginx/"/>
-    <id>http://yoursite.com/2019/03/07/Docker安装并使用docker部署多个nginx/</id>
-    <published>2019-03-07T14:45:56.000Z</published>
-    <updated>2019-03-07T03:13:22.661Z</updated>
-    
-    <content type="html"><![CDATA[<ul><li><p><strong>Docker 安装</strong></p><p> 1.查看当前内核版本，要求3.10及以上版本</p><pre><code>uname -r</code></pre><p> 2.安装相关的包</p><pre><code>yum install -y yum-utils device-mapper-persistent-data lvm2 lxc libcgroup</code></pre><p> 3.安装docker</p><pre><code>yum install docker docker-* -y</code></pre><p> 4.关闭selinux并重启</p><pre><code>sed -i &apos;/SELINUX/s/enforcing/disabled/g&apos; /etc/selinux/config &amp;&amp; reboot</code></pre><p> 5.启动docker</p><pre><code>systemctl start docker </code></pre><p> 6.使用脚本一键安装</p><pre><code>curl -fsSL https://get.docker.com -o get-docker.shsh get-docker.sh</code></pre></li><li><p><strong>部署多台nginx服务器</strong></p><p> 1.获取Nginx镜像</p><pre><code>docker pull nginx</code></pre><p> 2.创建容器，并将容器内的80端口分别映射到宿主机的8080|8088端口，将容器的nginx配置文件挂载到本地，方便绕过写时复制，提高容器读写效率</p><pre><code>docker run -it --name nginx1 -h nginx1 -v /usr/local/etc/nginx1/html/:/usr/share/nginx/html -p 8080:80 nginx /bin/bashdocker run -it --name nginx2 -h nginx2 -v /usr/local/etc/nginx2/html/:/usr/share/nginx/html -p 8088:80 nginx /bin/bash</code></pre><p> <img src="http://static.zybuluo.com/jiangpeisi/gkzpvqgz3wxx28fda28r1zq7/image_1d5b1a092dct8lt1s331b451tm20.png" alt="image_1d5b1a092dct8lt1s331b451tm20.png-10.2kB"><br> 3.开启刚刚创建的容器</p><pre><code>docker start $(docker ps -qa)</code></pre><p> <img src="http://static.zybuluo.com/jiangpeisi/mrha1024sock53rz1ccnhoi9/image_1d5b1c9qvtf818bm2si498kiv2t.png" alt="image_1d5b1c9qvtf818bm2si498kiv2t.png-10.6kB"><br> 4.将容器内的nginx放置在后台运行</p><pre><code>docker exec -it nginx1 nginx &amp;docker exec -it nginx2 nginx &amp;</code></pre><p> 5.修改配置文件</p><pre><code>cd /usr/local/etc/nginx1/html/echo &quot;&lt;h1&gt;This is Nginx1&lt;/h1&gt;&quot; &gt; index.html cd /usr/local/etc/nginx2/html/echo &quot;&lt;h1&gt;This is Nginx2&lt;/h1&gt;&quot; &gt; index.html </code></pre><p> 6.浏览器访问<br><img src="http://static.zybuluo.com/jiangpeisi/faqgy3uozt8ukvbvi09tcmxt/image_1d5b1kdms3me1ssi1npr15m9h1m44.png" alt="image_1d5b1kdms3me1ssi1npr15m9h1m44.png-14kB"><br><img src="http://static.zybuluo.com/jiangpeisi/f47wg1yoq5zs0ioziifpy26e/image_1d5b1kp8f1d6712h81hap13le68f51.png" alt="image_1d5b1kp8f1d6712h81hap13le68f51.png-14.2kB"></p></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Docker 安装&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt; 1.查看当前内核版本，要求3.10及以上版本&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;uname -r
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt; 2.安装相关的包&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;yum i
-      
-    
-    </summary>
-    
-      <category term="虚拟化" scheme="http://yoursite.com/categories/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
-    
-    
-      <category term="docker" scheme="http://yoursite.com/tags/docker/"/>
-    
-      <category term="虚拟化" scheme="http://yoursite.com/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
     
   </entry>
   
@@ -153,6 +156,38 @@
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;四种模式&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt; host模式：host模式下的容器不会独立创建
+      
+    
+    </summary>
+    
+      <category term="虚拟化" scheme="http://yoursite.com/categories/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
+    
+    
+      <category term="docker" scheme="http://yoursite.com/tags/docker/"/>
+    
+      <category term="虚拟化" scheme="http://yoursite.com/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Dokcer安装并部署多个nginx</title>
+    <link href="http://yoursite.com/2019/03/07/Docker%E5%AE%89%E8%A3%85%E5%B9%B6%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2%E5%A4%9A%E4%B8%AAnginx/"/>
+    <id>http://yoursite.com/2019/03/07/Docker安装并使用docker部署多个nginx/</id>
+    <published>2019-03-07T14:45:56.000Z</published>
+    <updated>2019-03-07T03:13:22.661Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li><p><strong>Docker 安装</strong></p><p> 1.查看当前内核版本，要求3.10及以上版本</p><pre><code>uname -r</code></pre><p> 2.安装相关的包</p><pre><code>yum install -y yum-utils device-mapper-persistent-data lvm2 lxc libcgroup</code></pre><p> 3.安装docker</p><pre><code>yum install docker docker-* -y</code></pre><p> 4.关闭selinux并重启</p><pre><code>sed -i &apos;/SELINUX/s/enforcing/disabled/g&apos; /etc/selinux/config &amp;&amp; reboot</code></pre><p> 5.启动docker</p><pre><code>systemctl start docker </code></pre><p> 6.使用脚本一键安装</p><pre><code>curl -fsSL https://get.docker.com -o get-docker.shsh get-docker.sh</code></pre></li><li><p><strong>部署多台nginx服务器</strong></p><p> 1.获取Nginx镜像</p><pre><code>docker pull nginx</code></pre><p> 2.创建容器，并将容器内的80端口分别映射到宿主机的8080|8088端口，将容器的nginx配置文件挂载到本地，方便绕过写时复制，提高容器读写效率</p><pre><code>docker run -it --name nginx1 -h nginx1 -v /usr/local/etc/nginx1/html/:/usr/share/nginx/html -p 8080:80 nginx /bin/bashdocker run -it --name nginx2 -h nginx2 -v /usr/local/etc/nginx2/html/:/usr/share/nginx/html -p 8088:80 nginx /bin/bash</code></pre><p> <img src="http://static.zybuluo.com/jiangpeisi/gkzpvqgz3wxx28fda28r1zq7/image_1d5b1a092dct8lt1s331b451tm20.png" alt="image_1d5b1a092dct8lt1s331b451tm20.png-10.2kB"><br> 3.开启刚刚创建的容器</p><pre><code>docker start $(docker ps -qa)</code></pre><p> <img src="http://static.zybuluo.com/jiangpeisi/mrha1024sock53rz1ccnhoi9/image_1d5b1c9qvtf818bm2si498kiv2t.png" alt="image_1d5b1c9qvtf818bm2si498kiv2t.png-10.6kB"><br> 4.将容器内的nginx放置在后台运行</p><pre><code>docker exec -it nginx1 nginx &amp;docker exec -it nginx2 nginx &amp;</code></pre><p> 5.修改配置文件</p><pre><code>cd /usr/local/etc/nginx1/html/echo &quot;&lt;h1&gt;This is Nginx1&lt;/h1&gt;&quot; &gt; index.html cd /usr/local/etc/nginx2/html/echo &quot;&lt;h1&gt;This is Nginx2&lt;/h1&gt;&quot; &gt; index.html </code></pre><p> 6.浏览器访问<br><img src="http://static.zybuluo.com/jiangpeisi/faqgy3uozt8ukvbvi09tcmxt/image_1d5b1kdms3me1ssi1npr15m9h1m44.png" alt="image_1d5b1kdms3me1ssi1npr15m9h1m44.png-14kB"><br><img src="http://static.zybuluo.com/jiangpeisi/f47wg1yoq5zs0ioziifpy26e/image_1d5b1kp8f1d6712h81hap13le68f51.png" alt="image_1d5b1kp8f1d6712h81hap13le68f51.png-14.2kB"></p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Docker 安装&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt; 1.查看当前内核版本，要求3.10及以上版本&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;uname -r
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt; 2.安装相关的包&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;yum i
       
     
     </summary>
@@ -308,34 +343,6 @@
   </entry>
   
   <entry>
-    <title>Rewrite重写URL</title>
-    <link href="http://yoursite.com/2019/03/02/Rewrite%E9%87%8D%E5%86%99URL/"/>
-    <id>http://yoursite.com/2019/03/02/Rewrite重写URL/</id>
-    <published>2019-03-02T14:45:56.000Z</published>
-    <updated>2019-03-09T07:01:55.101Z</updated>
-    
-    <content type="html"><![CDATA[<ol><li><strong>Rewrite重写用来做些什么</strong><br>URL重写就是首先获得一个进入的URL请求，然后使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位把它重新写成网站可以处理的另一个URL的过程。rewrite只能放在配置文件的server{},location{},if{}中，并且只能对域名后边的除去传递的参数外的字符串起作用。</li><li><strong>Rewrite执行顺序</strong><br>1.执行server块的rewrite指令<br>2.执行location匹配<br>3.执行选定的location中的rewrite指令<br>4.执行if条件匹配<br>5.执行if块中的rewrite指令</li><li><strong>rewrite语法</strong><br><img src="http://static.zybuluo.com/jiangpeisi/mi0e0s061is56an6tkuxmmud/image_1d5142otn17uq1lmmhis17l21jr52a.png" alt="image_1d5142otn17uq1lmmhis17l21jr52a.png-4kB"><br>关键字：其中关键字error_log不能改变<br>正则： perl兼容正则表达式语句进行规则匹配<br>替代内容：将正则匹配的内容替换成repl acement<br>filag标记： rewrite支持的fl ag标记<br>flag标记说明：<br>Last #本条规则匹配完成后，继续向下匹配新的location URI规则<br>break #本条规则匹配完成即终止，不再匹配后面的任何规则<br>redirect #返回302临时重定向，浏览器地址会显示跳转后的URL.地址<br>permanent #返回301永久重定向，浏览器地址栏会显示跳转后的URL她址</li><li><strong>指令详解</strong><br>1.if指令<br>语法为if(condition){…}<br>condition常用判断条件：<br>-f和!-f用来判断请求文件是否存在<br>-d和!-d用来判断请求目录是否存在<br>-e和!-e用来判断是请求的文件或者目录否存在<br>-x和!-x用来判断请求的文件是否可执行<br>condition可用的nginx变量：<br><img src="http://static.zybuluo.com/jiangpeisi/vbwm6czsg5ns6990jucbve0t/image_1d518ruaobbb1vcict8pvjal03h.png" alt="image_1d518ruaobbb1vcict8pvjal03h.png-810.5kB"><br>2.break指令<br>用于中断当前相同作用域中的Nginx配置，和Java中的break语法类似，可以在server块和location以及if块中使用。<br>3.return指令<br>该指令用于完成对请求的处理，直接向客户端响应状态的代码。和Java中的return语法类似。可以再server块和location以及if块中使用。<br>4.set指令<br>用来设置新的变量<br>  语法: set variable value</li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Rewrite重写用来做些什么&lt;/strong&gt;&lt;br&gt;URL重写就是首先获得一个进入的URL请求，然后使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位把它重新写成网站可以处理的另一个URL的过程。rewrite只能放在配置文
-      
-    
-    </summary>
-    
-      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
-    
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
-    
-  </entry>
-  
-  <entry>
     <title>nginx之Location</title>
     <link href="http://yoursite.com/2019/03/02/Nginx%E4%B9%8BLocation/"/>
     <id>http://yoursite.com/2019/03/02/Nginx之Location/</id>
@@ -350,6 +357,34 @@
       
         &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;什么是location，location都做些什么工作&lt;/strong&gt;&lt;br&gt;上文有提到，nginx内核完成的工作就是查找配置文件，将客户请求映射到一个location block，然后再执行location中的相应指令，所以说，locatio
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Rewrite重写URL</title>
+    <link href="http://yoursite.com/2019/03/02/Rewrite%E9%87%8D%E5%86%99URL/"/>
+    <id>http://yoursite.com/2019/03/02/Rewrite重写URL/</id>
+    <published>2019-03-02T14:45:56.000Z</published>
+    <updated>2019-03-09T07:01:55.101Z</updated>
+    
+    <content type="html"><![CDATA[<ol><li><strong>Rewrite重写用来做些什么</strong><br>URL重写就是首先获得一个进入的URL请求，然后使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位把它重新写成网站可以处理的另一个URL的过程。rewrite只能放在配置文件的server{},location{},if{}中，并且只能对域名后边的除去传递的参数外的字符串起作用。</li><li><strong>Rewrite执行顺序</strong><br>1.执行server块的rewrite指令<br>2.执行location匹配<br>3.执行选定的location中的rewrite指令<br>4.执行if条件匹配<br>5.执行if块中的rewrite指令</li><li><strong>rewrite语法</strong><br><img src="http://static.zybuluo.com/jiangpeisi/mi0e0s061is56an6tkuxmmud/image_1d5142otn17uq1lmmhis17l21jr52a.png" alt="image_1d5142otn17uq1lmmhis17l21jr52a.png-4kB"><br>关键字：其中关键字error_log不能改变<br>正则： perl兼容正则表达式语句进行规则匹配<br>替代内容：将正则匹配的内容替换成repl acement<br>filag标记： rewrite支持的fl ag标记<br>flag标记说明：<br>Last #本条规则匹配完成后，继续向下匹配新的location URI规则<br>break #本条规则匹配完成即终止，不再匹配后面的任何规则<br>redirect #返回302临时重定向，浏览器地址会显示跳转后的URL.地址<br>permanent #返回301永久重定向，浏览器地址栏会显示跳转后的URL她址</li><li><strong>指令详解</strong><br>1.if指令<br>语法为if(condition){…}<br>condition常用判断条件：<br>-f和!-f用来判断请求文件是否存在<br>-d和!-d用来判断请求目录是否存在<br>-e和!-e用来判断是请求的文件或者目录否存在<br>-x和!-x用来判断请求的文件是否可执行<br>condition可用的nginx变量：<br><img src="http://static.zybuluo.com/jiangpeisi/vbwm6czsg5ns6990jucbve0t/image_1d518ruaobbb1vcict8pvjal03h.png" alt="image_1d518ruaobbb1vcict8pvjal03h.png-810.5kB"><br>2.break指令<br>用于中断当前相同作用域中的Nginx配置，和Java中的break语法类似，可以在server块和location以及if块中使用。<br>3.return指令<br>该指令用于完成对请求的处理，直接向客户端响应状态的代码。和Java中的return语法类似。可以再server块和location以及if块中使用。<br>4.set指令<br>用来设置新的变量<br>  语法: set variable value</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Rewrite重写用来做些什么&lt;/strong&gt;&lt;br&gt;URL重写就是首先获得一个进入的URL请求，然后使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位把它重新写成网站可以处理的另一个URL的过程。rewrite只能放在配置文
       
     
     </summary>
