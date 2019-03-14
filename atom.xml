@@ -138,24 +138,24 @@
   </entry>
   
   <entry>
-    <title>Dokcer安装并部署多个nginx</title>
-    <link href="http://yoursite.com/2019/03/07/Docker%E5%AE%89%E8%A3%85%E5%B9%B6%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2%E5%A4%9A%E4%B8%AAnginx/"/>
-    <id>http://yoursite.com/2019/03/07/Docker安装并使用docker部署多个nginx/</id>
+    <title>Docker容器网络模式</title>
+    <link href="http://yoursite.com/2019/03/07/Docker%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F/"/>
+    <id>http://yoursite.com/2019/03/07/Docker容器网络模式/</id>
     <published>2019-03-07T14:45:56.000Z</published>
-    <updated>2019-03-07T03:13:22.661Z</updated>
+    <updated>2019-03-07T01:08:04.722Z</updated>
     
-    <content type="html"><![CDATA[<ul><li><p><strong>Docker 安装</strong></p><p> 1.查看当前内核版本，要求3.10及以上版本</p><pre><code>uname -r</code></pre><p> 2.安装相关的包</p><pre><code>yum install -y yum-utils device-mapper-persistent-data lvm2 lxc libcgroup</code></pre><p> 3.安装docker</p><pre><code>yum install docker docker-* -y</code></pre><p> 4.关闭selinux并重启</p><pre><code>sed -i &apos;/SELINUX/s/enforcing/disabled/g&apos; /etc/selinux/config &amp;&amp; reboot</code></pre><p> 5.启动docker</p><pre><code>systemctl start docker </code></pre><p> 6.使用脚本一键安装</p><pre><code>curl -fsSL https://get.docker.com -o get-docker.shsh get-docker.sh</code></pre></li><li><p><strong>部署多台nginx服务器</strong></p><p> 1.获取Nginx镜像</p><pre><code>docker pull nginx</code></pre><p> 2.创建容器，并将容器内的80端口分别映射到宿主机的8080|8088端口，将容器的nginx配置文件挂载到本地，方便绕过写时复制，提高容器读写效率</p><pre><code>docker run -it --name nginx1 -h nginx1 -v /usr/local/etc/nginx1/html/:/usr/share/nginx/html -p 8080:80 nginx /bin/bashdocker run -it --name nginx2 -h nginx2 -v /usr/local/etc/nginx2/html/:/usr/share/nginx/html -p 8088:80 nginx /bin/bash</code></pre><p> <img src="http://static.zybuluo.com/jiangpeisi/gkzpvqgz3wxx28fda28r1zq7/image_1d5b1a092dct8lt1s331b451tm20.png" alt="image_1d5b1a092dct8lt1s331b451tm20.png-10.2kB"><br> 3.开启刚刚创建的容器</p><pre><code>docker start $(docker ps -qa)</code></pre><p> <img src="http://static.zybuluo.com/jiangpeisi/mrha1024sock53rz1ccnhoi9/image_1d5b1c9qvtf818bm2si498kiv2t.png" alt="image_1d5b1c9qvtf818bm2si498kiv2t.png-10.6kB"><br> 4.将容器内的nginx放置在后台运行</p><pre><code>docker exec -it nginx1 nginx &amp;docker exec -it nginx2 nginx &amp;</code></pre><p> 5.修改配置文件</p><pre><code>cd /usr/local/etc/nginx1/html/echo &quot;&lt;h1&gt;This is Nginx1&lt;/h1&gt;&quot; &gt; index.html cd /usr/local/etc/nginx2/html/echo &quot;&lt;h1&gt;This is Nginx2&lt;/h1&gt;&quot; &gt; index.html </code></pre><p> 6.浏览器访问<br><img src="http://static.zybuluo.com/jiangpeisi/faqgy3uozt8ukvbvi09tcmxt/image_1d5b1kdms3me1ssi1npr15m9h1m44.png" alt="image_1d5b1kdms3me1ssi1npr15m9h1m44.png-14kB"><br><img src="http://static.zybuluo.com/jiangpeisi/f47wg1yoq5zs0ioziifpy26e/image_1d5b1kp8f1d6712h81hap13le68f51.png" alt="image_1d5b1kp8f1d6712h81hap13le68f51.png-14.2kB"></p></li></ul>]]></content>
+    <content type="html"><![CDATA[<ul><li><p><strong>配置容器网络模式</strong></p><p> Docker run -net=pattern</p></li><li><p><strong>四种模式</strong></p><p> host模式：host模式下的容器不会独立创建一个network namespace,而是与宿主机公用一个network namespace。容器不会再虚拟出自己的网卡，配置IP，直接使用宿主机的IP及端口。</p><p> container模式：container模式下的容器与host模式下的容器类似，同样不会独立创建一个network namespace，而是和其他容器共用一个network namespace。两个容器除了network namespace是共享的之外，其他的如文件系统、进程列表等还是相互隔离的。</p><p> none模式：none模式下的容器拥有自己的network namespace，但是不会为容器进行任何网络配置，需要人工添加网卡、配置IP等信息，典型的pipework工具可以为此模式下的容器配置IP等信息。</p><p> bridge模式：docker容器默认的网络模式，该模式会为每一个容器分配一个network namespace，设置IP、路由等信息，并且默认会将这些容器连接到一个虚拟的交换机docker0上。</p></li><li><p><strong>bridge模式下的docker 容器创建过程</strong><br>1.启动docker容器，docker宿主机会创建一对虚拟网卡，veth pair设备，用于两个设备通信。<br>2.Docker 将veth pair 的一端放在新创建的docker 容器中，并命名为eth0，另一端放在宿主机中，以veth-container-id的方式命名，并将这个veth加入到docker0中。<br>3.Docker0从子网中分配一个IP给容器使用，并将容器的网关设置为docker0的IP地址。<br>此时容器间，容器与宿主机之间是可以通信的，容器也可以访问外网，但是其他宿主机不可以访问容器内的IP地址，需要通过NAT将容器IP的port映射为宿主机的IP和port，方可访问。</p></li><li><p><strong>docker桥接网络拓扑</strong><br><img src="http://static.zybuluo.com/jiangpeisi/062j0akdehbba7vej72yb1o3/image_1d5aqqol11q8733oqtbjqm1e4ic.png" alt="image_1d5aqqol11q8733oqtbjqm1e4ic.png-27.1kB"></p></li></ul>]]></content>
     
     <summary type="html">
     
       
       
         &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Docker 安装&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt; 1.查看当前内核版本，要求3.10及以上版本&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;uname -r
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt; 2.安装相关的包&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;yum i
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;配置容器网络模式&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt; Docker run -net=pattern&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;四种模式&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt; host模式：host模式下的容器不会独立创建
       
     
     </summary>
@@ -198,24 +198,24 @@
   </entry>
   
   <entry>
-    <title>Docker容器网络模式</title>
-    <link href="http://yoursite.com/2019/03/07/Docker%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F/"/>
-    <id>http://yoursite.com/2019/03/07/Docker容器网络模式/</id>
+    <title>Dokcer安装并部署多个nginx</title>
+    <link href="http://yoursite.com/2019/03/07/Docker%E5%AE%89%E8%A3%85%E5%B9%B6%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2%E5%A4%9A%E4%B8%AAnginx/"/>
+    <id>http://yoursite.com/2019/03/07/Docker安装并使用docker部署多个nginx/</id>
     <published>2019-03-07T14:45:56.000Z</published>
-    <updated>2019-03-07T01:08:04.722Z</updated>
+    <updated>2019-03-07T03:13:22.661Z</updated>
     
-    <content type="html"><![CDATA[<ul><li><p><strong>配置容器网络模式</strong></p><p> Docker run -net=pattern</p></li><li><p><strong>四种模式</strong></p><p> host模式：host模式下的容器不会独立创建一个network namespace,而是与宿主机公用一个network namespace。容器不会再虚拟出自己的网卡，配置IP，直接使用宿主机的IP及端口。</p><p> container模式：container模式下的容器与host模式下的容器类似，同样不会独立创建一个network namespace，而是和其他容器共用一个network namespace。两个容器除了network namespace是共享的之外，其他的如文件系统、进程列表等还是相互隔离的。</p><p> none模式：none模式下的容器拥有自己的network namespace，但是不会为容器进行任何网络配置，需要人工添加网卡、配置IP等信息，典型的pipework工具可以为此模式下的容器配置IP等信息。</p><p> bridge模式：docker容器默认的网络模式，该模式会为每一个容器分配一个network namespace，设置IP、路由等信息，并且默认会将这些容器连接到一个虚拟的交换机docker0上。</p></li><li><p><strong>bridge模式下的docker 容器创建过程</strong><br>1.启动docker容器，docker宿主机会创建一对虚拟网卡，veth pair设备，用于两个设备通信。<br>2.Docker 将veth pair 的一端放在新创建的docker 容器中，并命名为eth0，另一端放在宿主机中，以veth-container-id的方式命名，并将这个veth加入到docker0中。<br>3.Docker0从子网中分配一个IP给容器使用，并将容器的网关设置为docker0的IP地址。<br>此时容器间，容器与宿主机之间是可以通信的，容器也可以访问外网，但是其他宿主机不可以访问容器内的IP地址，需要通过NAT将容器IP的port映射为宿主机的IP和port，方可访问。</p></li><li><p><strong>docker桥接网络拓扑</strong><br><img src="http://static.zybuluo.com/jiangpeisi/062j0akdehbba7vej72yb1o3/image_1d5aqqol11q8733oqtbjqm1e4ic.png" alt="image_1d5aqqol11q8733oqtbjqm1e4ic.png-27.1kB"></p></li></ul>]]></content>
+    <content type="html"><![CDATA[<ul><li><p><strong>Docker 安装</strong></p><p> 1.查看当前内核版本，要求3.10及以上版本</p><pre><code>uname -r</code></pre><p> 2.安装相关的包</p><pre><code>yum install -y yum-utils device-mapper-persistent-data lvm2 lxc libcgroup</code></pre><p> 3.安装docker</p><pre><code>yum install docker docker-* -y</code></pre><p> 4.关闭selinux并重启</p><pre><code>sed -i &apos;/SELINUX/s/enforcing/disabled/g&apos; /etc/selinux/config &amp;&amp; reboot</code></pre><p> 5.启动docker</p><pre><code>systemctl start docker </code></pre><p> 6.使用脚本一键安装</p><pre><code>curl -fsSL https://get.docker.com -o get-docker.shsh get-docker.sh</code></pre></li><li><p><strong>部署多台nginx服务器</strong></p><p> 1.获取Nginx镜像</p><pre><code>docker pull nginx</code></pre><p> 2.创建容器，并将容器内的80端口分别映射到宿主机的8080|8088端口，将容器的nginx配置文件挂载到本地，方便绕过写时复制，提高容器读写效率</p><pre><code>docker run -it --name nginx1 -h nginx1 -v /usr/local/etc/nginx1/html/:/usr/share/nginx/html -p 8080:80 nginx /bin/bashdocker run -it --name nginx2 -h nginx2 -v /usr/local/etc/nginx2/html/:/usr/share/nginx/html -p 8088:80 nginx /bin/bash</code></pre><p> <img src="http://static.zybuluo.com/jiangpeisi/gkzpvqgz3wxx28fda28r1zq7/image_1d5b1a092dct8lt1s331b451tm20.png" alt="image_1d5b1a092dct8lt1s331b451tm20.png-10.2kB"><br> 3.开启刚刚创建的容器</p><pre><code>docker start $(docker ps -qa)</code></pre><p> <img src="http://static.zybuluo.com/jiangpeisi/mrha1024sock53rz1ccnhoi9/image_1d5b1c9qvtf818bm2si498kiv2t.png" alt="image_1d5b1c9qvtf818bm2si498kiv2t.png-10.6kB"><br> 4.将容器内的nginx放置在后台运行</p><pre><code>docker exec -it nginx1 nginx &amp;docker exec -it nginx2 nginx &amp;</code></pre><p> 5.修改配置文件</p><pre><code>cd /usr/local/etc/nginx1/html/echo &quot;&lt;h1&gt;This is Nginx1&lt;/h1&gt;&quot; &gt; index.html cd /usr/local/etc/nginx2/html/echo &quot;&lt;h1&gt;This is Nginx2&lt;/h1&gt;&quot; &gt; index.html </code></pre><p> 6.浏览器访问<br><img src="http://static.zybuluo.com/jiangpeisi/faqgy3uozt8ukvbvi09tcmxt/image_1d5b1kdms3me1ssi1npr15m9h1m44.png" alt="image_1d5b1kdms3me1ssi1npr15m9h1m44.png-14kB"><br><img src="http://static.zybuluo.com/jiangpeisi/f47wg1yoq5zs0ioziifpy26e/image_1d5b1kp8f1d6712h81hap13le68f51.png" alt="image_1d5b1kp8f1d6712h81hap13le68f51.png-14.2kB"></p></li></ul>]]></content>
     
     <summary type="html">
     
       
       
         &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;配置容器网络模式&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt; Docker run -net=pattern&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;四种模式&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt; host模式：host模式下的容器不会独立创建
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Docker 安装&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt; 1.查看当前内核版本，要求3.10及以上版本&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;uname -r
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt; 2.安装相关的包&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;yum i
       
     
     </summary>
@@ -315,20 +315,20 @@
   </entry>
   
   <entry>
-    <title>Rewrite重写URL</title>
-    <link href="http://yoursite.com/2019/03/02/Rewrite%E9%87%8D%E5%86%99URL/"/>
-    <id>http://yoursite.com/2019/03/02/Rewrite重写URL/</id>
+    <title>Memcached缓存服务器</title>
+    <link href="http://yoursite.com/2019/03/02/Memcache/"/>
+    <id>http://yoursite.com/2019/03/02/Memcache/</id>
     <published>2019-03-02T14:45:56.000Z</published>
-    <updated>2019-03-09T07:01:55.101Z</updated>
+    <updated>2019-03-09T07:02:29.068Z</updated>
     
-    <content type="html"><![CDATA[<ol><li><strong>Rewrite重写用来做些什么</strong><br>URL重写就是首先获得一个进入的URL请求，然后使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位把它重新写成网站可以处理的另一个URL的过程。rewrite只能放在配置文件的server{},location{},if{}中，并且只能对域名后边的除去传递的参数外的字符串起作用。</li><li><strong>Rewrite执行顺序</strong><br>1.执行server块的rewrite指令<br>2.执行location匹配<br>3.执行选定的location中的rewrite指令<br>4.执行if条件匹配<br>5.执行if块中的rewrite指令</li><li><strong>rewrite语法</strong><br><img src="http://static.zybuluo.com/jiangpeisi/mi0e0s061is56an6tkuxmmud/image_1d5142otn17uq1lmmhis17l21jr52a.png" alt="image_1d5142otn17uq1lmmhis17l21jr52a.png-4kB"><br>关键字：其中关键字error_log不能改变<br>正则： perl兼容正则表达式语句进行规则匹配<br>替代内容：将正则匹配的内容替换成repl acement<br>filag标记： rewrite支持的fl ag标记<br>flag标记说明：<br>Last #本条规则匹配完成后，继续向下匹配新的location URI规则<br>break #本条规则匹配完成即终止，不再匹配后面的任何规则<br>redirect #返回302临时重定向，浏览器地址会显示跳转后的URL.地址<br>permanent #返回301永久重定向，浏览器地址栏会显示跳转后的URL她址</li><li><strong>指令详解</strong><br>1.if指令<br>语法为if(condition){…}<br>condition常用判断条件：<br>-f和!-f用来判断请求文件是否存在<br>-d和!-d用来判断请求目录是否存在<br>-e和!-e用来判断是请求的文件或者目录否存在<br>-x和!-x用来判断请求的文件是否可执行<br>condition可用的nginx变量：<br><img src="http://static.zybuluo.com/jiangpeisi/vbwm6czsg5ns6990jucbve0t/image_1d518ruaobbb1vcict8pvjal03h.png" alt="image_1d518ruaobbb1vcict8pvjal03h.png-810.5kB"><br>2.break指令<br>用于中断当前相同作用域中的Nginx配置，和Java中的break语法类似，可以在server块和location以及if块中使用。<br>3.return指令<br>该指令用于完成对请求的处理，直接向客户端响应状态的代码。和Java中的return语法类似。可以再server块和location以及if块中使用。<br>4.set指令<br>用来设置新的变量<br>  语法: set variable value</li></ol>]]></content>
+    <content type="html"><![CDATA[<ol><li><strong>Memcache概述</strong><br>memcache:是高性能的分布式内存缓存服务器.通过缓存数据库的查询结果,减少数据库的访问次数,以提高web应用的速度,提高可扩展性.缓存方式是将缓存结果存储在内存中,通过内存来维护一个hash表.<br>Memcache是一个c/s软件,默认间通过端口为11211</li><li><strong>Memcache工作原理</strong><br>1.memcached是以守护程序方式运行于一个或多个服务器中，随时会接收客户端的连接和操作。<br>2.如何减轻数据库压力：当web访问数据库时，首先会先访问Memcache缓存服务器，查找是否有相应的数据，若没有则去访问数据库查询，返回结果给web应用并且再Memcache服务器留一份缓存，如果web访问Memcache服务器查询得到相应数据，就不会再去访问数据库，以此来减轻数据库的I/O。</li><li><strong>Memcache作为高速运行的分布式内存缓存服务器,具有以下几点</strong><br>1&gt; 本身是开源的,占用资源小,协议简单的软件,将数据库和web之间的数据缓存,减少数据库的检索次数,减少数据库的i/o<br>2&gt; 基于livevent的时间处理,因为libevent库将linux,bsd,solaris等这些操作系统上的kqueue等时间处理功能功能封装成统一接口,面对连接数增加,也能在linux,bsd,solaris等操作系统上发挥其高性能(i/o).<br>3&gt; 存储方式:内置于内存存储方式,存取的效率高,执行的速度快<br>4&gt; memcache不互相通信的分布式:同个客户端使得key有规律的封装,实现memcache实现分布式,采用多台cached服务器,增加缓存的横向延伸</li><li><strong>Memcache具体实现方式</strong><br>Memcached 的目前版本是通过C实现，采用了单进程，单线程，异步I/O，基于事件 (event_based) 的服务方式.使用 libevent 作为事件通知实现。多个 Server 可以协同工作，但这些 Server 之间是没有任何通讯联系的，每个 Server 只是对自己的数据进行管理。Client 端通过指定 Server 端的 ip 地址(通过域名应该也可以)。需要缓存的对象或数据是以 key-&gt;value 对的形式保存在Server端。key 的值通过 hash 进行转换，根据 hash 值把 value 传递到对应的具体的某个 Server 上。当需要获取对象数据时，也根据 key 进行。首先对 key 进行 hash，通过获得的值可以确定它被保存在了哪台 Server 上，然后再向该 Server 发出请求。Client 端只需要知道保存 hash(key) 的值在哪台服务器上就可以了。 memcache的工作就是在专门的机器的内存里维护一张巨大的hash表，来存储经常请求的数据。</li><li><strong>安装Memcache</strong><br>1 安装libevent时<br>./configure –prefix=/usr/local/libevent<br>Make &amp;&amp; make install<br>2 安装memcached<br>./configure –prefix=/usr/local/memcached –with-libevent=/usr/local/libevent<br>Make &amp;&amp; make install</li><li><strong>管理Memcache</strong><br>启动Memcache：<br>/usr/local/bin/memcached -d -m 2048 -u root -l 192.168.1.20 -p 12111 -c 1024 -P /tmp/memcached.pid<br>停止Memcache:<br>kill ‘cat /tmp/memcached.pid’;<br>Kill all memcached<br>参数说明：<br>-d 启动为守护进程<br>-m <num> 分配给Memcached使用的内存数量，单位是MB，默认为64MB<br>-u <username> 运行Memcached的用户，仅当作为root运行时<br>-l &lt;ip_addr&gt; 监听的服务器IP地址，默认为环境变量INDRR_ANY的值<br>-p <num> 设置Memcached监听的端口，最好是1024以上的端口<br>-c <num> 设置最大并发连接数，默认为1024<br>-P <file> 设置保存Memcached的pid文件，与-d选择同时使用 </file></num></num></username></num></li></ol>]]></content>
     
     <summary type="html">
     
       
       
         &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Rewrite重写用来做些什么&lt;/strong&gt;&lt;br&gt;URL重写就是首先获得一个进入的URL请求，然后使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位把它重新写成网站可以处理的另一个URL的过程。rewrite只能放在配置文
+&lt;li&gt;&lt;strong&gt;Memcache概述&lt;/strong&gt;&lt;br&gt;memcache:是高性能的分布式内存缓存服务器.通过缓存数据库的查询结果,减少数据库的访问次数,以提高web应用的速度,提高可扩展性.缓存方式是将缓存结果存储在内存中,通过内存来维护一个hash表.
       
     
     </summary>
@@ -371,20 +371,20 @@
   </entry>
   
   <entry>
-    <title>Memcached缓存服务器</title>
-    <link href="http://yoursite.com/2019/03/02/Memcache/"/>
-    <id>http://yoursite.com/2019/03/02/Memcache/</id>
+    <title>Rewrite重写URL</title>
+    <link href="http://yoursite.com/2019/03/02/Rewrite%E9%87%8D%E5%86%99URL/"/>
+    <id>http://yoursite.com/2019/03/02/Rewrite重写URL/</id>
     <published>2019-03-02T14:45:56.000Z</published>
-    <updated>2019-03-09T07:02:29.068Z</updated>
+    <updated>2019-03-09T07:01:55.101Z</updated>
     
-    <content type="html"><![CDATA[<ol><li><strong>Memcache概述</strong><br>memcache:是高性能的分布式内存缓存服务器.通过缓存数据库的查询结果,减少数据库的访问次数,以提高web应用的速度,提高可扩展性.缓存方式是将缓存结果存储在内存中,通过内存来维护一个hash表.<br>Memcache是一个c/s软件,默认间通过端口为11211</li><li><strong>Memcache工作原理</strong><br>1.memcached是以守护程序方式运行于一个或多个服务器中，随时会接收客户端的连接和操作。<br>2.如何减轻数据库压力：当web访问数据库时，首先会先访问Memcache缓存服务器，查找是否有相应的数据，若没有则去访问数据库查询，返回结果给web应用并且再Memcache服务器留一份缓存，如果web访问Memcache服务器查询得到相应数据，就不会再去访问数据库，以此来减轻数据库的I/O。</li><li><strong>Memcache作为高速运行的分布式内存缓存服务器,具有以下几点</strong><br>1&gt; 本身是开源的,占用资源小,协议简单的软件,将数据库和web之间的数据缓存,减少数据库的检索次数,减少数据库的i/o<br>2&gt; 基于livevent的时间处理,因为libevent库将linux,bsd,solaris等这些操作系统上的kqueue等时间处理功能功能封装成统一接口,面对连接数增加,也能在linux,bsd,solaris等操作系统上发挥其高性能(i/o).<br>3&gt; 存储方式:内置于内存存储方式,存取的效率高,执行的速度快<br>4&gt; memcache不互相通信的分布式:同个客户端使得key有规律的封装,实现memcache实现分布式,采用多台cached服务器,增加缓存的横向延伸</li><li><strong>Memcache具体实现方式</strong><br>Memcached 的目前版本是通过C实现，采用了单进程，单线程，异步I/O，基于事件 (event_based) 的服务方式.使用 libevent 作为事件通知实现。多个 Server 可以协同工作，但这些 Server 之间是没有任何通讯联系的，每个 Server 只是对自己的数据进行管理。Client 端通过指定 Server 端的 ip 地址(通过域名应该也可以)。需要缓存的对象或数据是以 key-&gt;value 对的形式保存在Server端。key 的值通过 hash 进行转换，根据 hash 值把 value 传递到对应的具体的某个 Server 上。当需要获取对象数据时，也根据 key 进行。首先对 key 进行 hash，通过获得的值可以确定它被保存在了哪台 Server 上，然后再向该 Server 发出请求。Client 端只需要知道保存 hash(key) 的值在哪台服务器上就可以了。 memcache的工作就是在专门的机器的内存里维护一张巨大的hash表，来存储经常请求的数据。</li><li><strong>安装Memcache</strong><br>1 安装libevent时<br>./configure –prefix=/usr/local/libevent<br>Make &amp;&amp; make install<br>2 安装memcached<br>./configure –prefix=/usr/local/memcached –with-libevent=/usr/local/libevent<br>Make &amp;&amp; make install</li><li><strong>管理Memcache</strong><br>启动Memcache：<br>/usr/local/bin/memcached -d -m 2048 -u root -l 192.168.1.20 -p 12111 -c 1024 -P /tmp/memcached.pid<br>停止Memcache:<br>kill ‘cat /tmp/memcached.pid’;<br>Kill all memcached<br>参数说明：<br>-d 启动为守护进程<br>-m <num> 分配给Memcached使用的内存数量，单位是MB，默认为64MB<br>-u <username> 运行Memcached的用户，仅当作为root运行时<br>-l &lt;ip_addr&gt; 监听的服务器IP地址，默认为环境变量INDRR_ANY的值<br>-p <num> 设置Memcached监听的端口，最好是1024以上的端口<br>-c <num> 设置最大并发连接数，默认为1024<br>-P <file> 设置保存Memcached的pid文件，与-d选择同时使用 </file></num></num></username></num></li></ol>]]></content>
+    <content type="html"><![CDATA[<ol><li><strong>Rewrite重写用来做些什么</strong><br>URL重写就是首先获得一个进入的URL请求，然后使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位把它重新写成网站可以处理的另一个URL的过程。rewrite只能放在配置文件的server{},location{},if{}中，并且只能对域名后边的除去传递的参数外的字符串起作用。</li><li><strong>Rewrite执行顺序</strong><br>1.执行server块的rewrite指令<br>2.执行location匹配<br>3.执行选定的location中的rewrite指令<br>4.执行if条件匹配<br>5.执行if块中的rewrite指令</li><li><strong>rewrite语法</strong><br><img src="http://static.zybuluo.com/jiangpeisi/mi0e0s061is56an6tkuxmmud/image_1d5142otn17uq1lmmhis17l21jr52a.png" alt="image_1d5142otn17uq1lmmhis17l21jr52a.png-4kB"><br>关键字：其中关键字error_log不能改变<br>正则： perl兼容正则表达式语句进行规则匹配<br>替代内容：将正则匹配的内容替换成repl acement<br>filag标记： rewrite支持的fl ag标记<br>flag标记说明：<br>Last #本条规则匹配完成后，继续向下匹配新的location URI规则<br>break #本条规则匹配完成即终止，不再匹配后面的任何规则<br>redirect #返回302临时重定向，浏览器地址会显示跳转后的URL.地址<br>permanent #返回301永久重定向，浏览器地址栏会显示跳转后的URL她址</li><li><strong>指令详解</strong><br>1.if指令<br>语法为if(condition){…}<br>condition常用判断条件：<br>-f和!-f用来判断请求文件是否存在<br>-d和!-d用来判断请求目录是否存在<br>-e和!-e用来判断是请求的文件或者目录否存在<br>-x和!-x用来判断请求的文件是否可执行<br>condition可用的nginx变量：<br><img src="http://static.zybuluo.com/jiangpeisi/vbwm6czsg5ns6990jucbve0t/image_1d518ruaobbb1vcict8pvjal03h.png" alt="image_1d518ruaobbb1vcict8pvjal03h.png-810.5kB"><br>2.break指令<br>用于中断当前相同作用域中的Nginx配置，和Java中的break语法类似，可以在server块和location以及if块中使用。<br>3.return指令<br>该指令用于完成对请求的处理，直接向客户端响应状态的代码。和Java中的return语法类似。可以再server块和location以及if块中使用。<br>4.set指令<br>用来设置新的变量<br>  语法: set variable value</li></ol>]]></content>
     
     <summary type="html">
     
       
       
         &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Memcache概述&lt;/strong&gt;&lt;br&gt;memcache:是高性能的分布式内存缓存服务器.通过缓存数据库的查询结果,减少数据库的访问次数,以提高web应用的速度,提高可扩展性.缓存方式是将缓存结果存储在内存中,通过内存来维护一个hash表.
+&lt;li&gt;&lt;strong&gt;Rewrite重写用来做些什么&lt;/strong&gt;&lt;br&gt;URL重写就是首先获得一个进入的URL请求，然后使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位把它重新写成网站可以处理的另一个URL的过程。rewrite只能放在配置文
       
     
     </summary>
