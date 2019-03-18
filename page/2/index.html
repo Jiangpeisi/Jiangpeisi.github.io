@@ -457,7 +457,7 @@ error_
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/02/Nginx之Location/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/03/LNMP架构中Nginx如何与PHP交互/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="镜子">
@@ -476,7 +476,193 @@ error_
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/03/02/Nginx之Location/" itemprop="url">nginx之Location</a></h1>
+                <a class="post-title-link" href="/2019/03/03/LNMP架构中Nginx如何与PHP交互/" itemprop="url">LNMP架构中Nginx如何与PHP进行交互</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-03T22:45:56+08:00">
+                2019-03-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  801
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  2
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          
+简述因为nginx不支持对动态脚本文件的解析，所以如果客户端浏览器有对动态脚本文件的请求时，nginx就需要调用动态文本解析程序即php来处理请求。
+
+原理：1.nginx紧紧作为一个web服务器，接收和响应客户浏览器发送来的请求，其worker进程直接管理每一个请求。2.php作为后端程序，处理
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/03/03/LNMP架构中Nginx如何与PHP交互/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+      <div>
+      
+      </div>
+    
+	
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/02/Memcache/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="镜子">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/bg.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我在看着你">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/02/Memcache/" itemprop="url">Memcached缓存服务器</a></h1>
         
 
         <div class="post-meta">
@@ -542,7 +728,7 @@ error_
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  409
+                  933
                 </span>
               
 
@@ -558,7 +744,7 @@ error_
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  3
                 </span>
               
             </div>
@@ -582,11 +768,12 @@ error_
         
           
           
-什么是location，location都做些什么工作上文有提到，nginx内核完成的工作就是查找配置文件，将客户请求映射到一个location block，然后再执行location中的相应指令，所以说，location的作用就是用于匹配客户请求，并做出相应动作。location如何匹配用户请求
+Memcache概述memcache:是高性能的分布式内存缓存服务器.通过缓存数据库的查询结果,减少数据库的访问次数,以提高web应用的速度,提高可扩展性.缓存方式是将缓存结果存储在内存中,通过内存来维护一个hash表.Memcache是一个c/s软件,默认间通过端口为11211
+Memcache
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/03/02/Nginx之Location/#more" rel="contents">
+            <a class="btn" href="/2019/03/02/Memcache/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -825,7 +1012,7 @@ Rewrite重写用来做些什么URL重写就是首先获得一个进入的URL请�
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/02/Memcache/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/02/Nginx之Location/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="镜子">
@@ -844,7 +1031,7 @@ Rewrite重写用来做些什么URL重写就是首先获得一个进入的URL请�
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/03/02/Memcache/" itemprop="url">Memcached缓存服务器</a></h1>
+                <a class="post-title-link" href="/2019/03/02/Nginx之Location/" itemprop="url">nginx之Location</a></h1>
         
 
         <div class="post-meta">
@@ -910,7 +1097,7 @@ Rewrite重写用来做些什么URL重写就是首先获得一个进入的URL请�
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  933
+                  409
                 </span>
               
 
@@ -926,7 +1113,7 @@ Rewrite重写用来做些什么URL重写就是首先获得一个进入的URL请�
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  3
+                  1
                 </span>
               
             </div>
@@ -950,12 +1137,11 @@ Rewrite重写用来做些什么URL重写就是首先获得一个进入的URL请�
         
           
           
-Memcache概述memcache:是高性能的分布式内存缓存服务器.通过缓存数据库的查询结果,减少数据库的访问次数,以提高web应用的速度,提高可扩展性.缓存方式是将缓存结果存储在内存中,通过内存来维护一个hash表.Memcache是一个c/s软件,默认间通过端口为11211
-Memcache
+什么是location，location都做些什么工作上文有提到，nginx内核完成的工作就是查找配置文件，将客户请求映射到一个location block，然后再执行location中的相应指令，所以说，location的作用就是用于匹配客户请求，并做出相应动作。location如何匹配用户请求
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/03/02/Memcache/#more" rel="contents">
+            <a class="btn" href="/2019/03/02/Nginx之Location/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1613,7 +1799,7 @@ gccnginx是用c语言编写，如果使用源码安装，需要先对源码进�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1624,7 +1810,7 @@ gccnginx是用c语言编写，如果使用源码安装，需要先对源码进�
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1635,7 +1821,7 @@ gccnginx是用c语言编写，如果使用源码安装，需要先对源码进�
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1700,7 +1886,7 @@ gccnginx是用c语言编写，如果使用源码安装，需要先对源码进�
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">10.3k</span>
+    <span title="Site words total count">11.4k</span>
   
 </div>
 
@@ -1713,7 +1899,7 @@ gccnginx是用c语言编写，如果使用源码安装，需要先对源码进�
 
   <div class="theme-info">
     <div class="powered-by"></div>
-    <span class="post-count">博客全站共10.3k字</span>
+    <span class="post-count">博客全站共11.4k字</span>
   </div>
 
         

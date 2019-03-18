@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="DNS,linux,">
+  <meta name="keywords" content="linux,shell,">
 
 
 
@@ -79,22 +79,18 @@
 
 
 
-<meta name="description" content="DNS简介 DNS（Domain Name Server）是一种主机域名和IP地址转换机制，使用一种分层的分布式数据库来处理Internet上成千上万个主机和IP地址的转换。基于C/S模式设计 域名层次结构 DNS解析过程 当我们去解析一个域名时，比如解析xxx.sh.com,会经过如下步骤: 1.查看本机的缓存有无该域名记录，如果没有，查看本机的host文件有无该域名记录，如果没有，则发个请求">
-<meta name="keywords" content="DNS,linux">
+<meta name="description" content="变量得定义格式：变量名称 = 变量值 [root@jiangpeisi ~]# name=Andy [root@jiangpeisi ~]# echo $name Andy 1.变量名称不能以数字、特殊字符开头2.=代表为变量赋值3.变量的值可以是数字、字符串、文件的位置、命令、命令的结果  变量的分类自定义变量 Hostname=Andy IP=192.168.32.1 echo $Hostna">
+<meta name="keywords" content="linux,shell">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DNS解析过程及查询模式">
-<meta property="og:url" content="http://yoursite.com/2019/03/09/DNS解析过程及查询模式/index.html">
+<meta property="og:title" content="shell脚本学习之变量得使用">
+<meta property="og:url" content="http://yoursite.com/2019/03/18/shell脚本学习之变量得使用/index.html">
 <meta property="og:site_name" content="我在看着你">
-<meta property="og:description" content="DNS简介 DNS（Domain Name Server）是一种主机域名和IP地址转换机制，使用一种分层的分布式数据库来处理Internet上成千上万个主机和IP地址的转换。基于C/S模式设计 域名层次结构 DNS解析过程 当我们去解析一个域名时，比如解析xxx.sh.com,会经过如下步骤: 1.查看本机的缓存有无该域名记录，如果没有，查看本机的host文件有无该域名记录，如果没有，则发个请求">
+<meta property="og:description" content="变量得定义格式：变量名称 = 变量值 [root@jiangpeisi ~]# name=Andy [root@jiangpeisi ~]# echo $name Andy 1.变量名称不能以数字、特殊字符开头2.=代表为变量赋值3.变量的值可以是数字、字符串、文件的位置、命令、命令的结果  变量的分类自定义变量 Hostname=Andy IP=192.168.32.1 echo $Hostna">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/yo9xyl3z4p3lt133f9btnyw3/image_1d5gj25qdr8k1jsc1mkn1dj8kq03n.png">
-<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/dy5ox1fmut0rykilknfx5isc/image_1d5giqc091h5di6rphm1gpuepg1g.png">
-<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/7r01q8cf9wow42cuksr79cxv/image_1d5gis09d1b5s1seu1k781f57ed92t.png">
-<meta property="og:updated_time" content="2019-03-13T05:35:49.345Z">
+<meta property="og:updated_time" content="2019-03-18T03:49:52.166Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DNS解析过程及查询模式">
-<meta name="twitter:description" content="DNS简介 DNS（Domain Name Server）是一种主机域名和IP地址转换机制，使用一种分层的分布式数据库来处理Internet上成千上万个主机和IP地址的转换。基于C/S模式设计 域名层次结构 DNS解析过程 当我们去解析一个域名时，比如解析xxx.sh.com,会经过如下步骤: 1.查看本机的缓存有无该域名记录，如果没有，查看本机的host文件有无该域名记录，如果没有，则发个请求">
-<meta name="twitter:image" content="http://static.zybuluo.com/jiangpeisi/yo9xyl3z4p3lt133f9btnyw3/image_1d5gj25qdr8k1jsc1mkn1dj8kq03n.png">
+<meta name="twitter:title" content="shell脚本学习之变量得使用">
+<meta name="twitter:description" content="变量得定义格式：变量名称 = 变量值 [root@jiangpeisi ~]# name=Andy [root@jiangpeisi ~]# echo $name Andy 1.变量名称不能以数字、特殊字符开头2.=代表为变量赋值3.变量的值可以是数字、字符串、文件的位置、命令、命令的结果  变量的分类自定义变量 Hostname=Andy IP=192.168.32.1 echo $Hostna">
 
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
 <link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
@@ -139,13 +135,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/03/09/DNS解析过程及查询模式/">
+  <link rel="canonical" href="http://yoursite.com/2019/03/18/shell脚本学习之变量得使用/">
 
 
 
 
 
-  <title>DNS解析过程及查询模式 | 我在看着你</title>
+  <title>shell脚本学习之变量得使用 | 我在看着你</title>
   
 
 
@@ -276,7 +272,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/09/DNS解析过程及查询模式/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/18/shell脚本学习之变量得使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="镜子">
@@ -293,7 +289,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">DNS解析过程及查询模式</h1>
+          <h1 class="post-title" itemprop="name headline">shell脚本学习之变量得使用</h1>
         
 
         <div class="post-meta">
@@ -305,8 +301,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-09T22:45:56+08:00">
-                2019-03-09
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-18T22:45:56+08:00">
+                2019-03-18
               </time>
             
 
@@ -339,8 +335,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/DNS/" itemprop="url" rel="index">
-                    <span itemprop="name">DNS</span>
+                  <a href="/categories/linux/shell/" itemprop="url" rel="index">
+                    <span itemprop="name">shell</span>
                   </a>
                 </span>
 
@@ -370,7 +366,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  605
+                  1.1k
                 </span>
               
 
@@ -386,7 +382,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  2
+                  5
                 </span>
               
             </div>
@@ -407,14 +403,88 @@
       
 
       
-        <ul>
-<li><strong>DNS简介</strong><br> DNS（Domain Name Server）是一种主机域名和IP地址转换机制，使用一种分层的分布式数据库来处理Internet上成千上万个主机和IP地址的转换。基于C/S模式设计</li>
-<li><strong>域名层次结构</strong><br><img src="http://static.zybuluo.com/jiangpeisi/yo9xyl3z4p3lt133f9btnyw3/image_1d5gj25qdr8k1jsc1mkn1dj8kq03n.png" alt="image_1d5gj25qdr8k1jsc1mkn1dj8kq03n.png-27.2kB"><br><img src="http://static.zybuluo.com/jiangpeisi/dy5ox1fmut0rykilknfx5isc/image_1d5giqc091h5di6rphm1gpuepg1g.png" alt="image_1d5giqc091h5di6rphm1gpuepg1g.png-89.4kB"></li>
-<li><strong>DNS解析过程</strong><br><img src="http://static.zybuluo.com/jiangpeisi/7r01q8cf9wow42cuksr79cxv/image_1d5gis09d1b5s1seu1k781f57ed92t.png" alt="image_1d5gis09d1b5s1seu1k781f57ed92t.png-47.3kB"><br> 当我们去解析一个域名时，比如解析xxx.sh.com,会经过如下步骤:<br> 1.查看本机的缓存有无该域名记录，如果没有，查看本机的host文件有无该域名记录，如果没有，则发个请求到本地DNS服务器。<br> 2.本地DNS服务器收到请求后，查看是否有该域名的解析，如果有，返回解析记录给主机，如果没有，则请求根域名服务器.。<br> 3.根域名服务器收到请求后，返回该域名对应的顶级域名服务器,比如这次请求返回.com的服务器地址。<br> 4.本地域名服务器接到顶级域名服务器地址后，向该顶级域名服务器请求。<br> 5.顶级域名服务器返回该域名的二级域名务器地址，返回.sh.com对应的二级服务器地址。<br> 6.本地域名服务器获得该地址后，发请求到该域名的二级域名服务器。<br> 7.二级域名服务器解析xxx.sh.com，并将解析结果返回给本地域名服务器。<br> 8.本地域名服务器获取该解析后，返回给主机，解析完成。</li>
-<li><strong>DNS解析模式</strong><br> 1.递归查询 ：当服务器收到DNS客户发来的请求，如果本地没有客户请求的数据就代替客户向其他DNS服务器请求，并将结果返回给客户，所以递归查询只会向客户返回查询结果或查询失败两种信息。<br> 2.迭代查询：当服务器收到DNS客户发来的请求，如果在服务器内没有查到客户需要的数据，会返回给客户另外一台DNS服务器的地址。客户就会向下一台DNS服务器进行查询，这样一直查询下去，一直查询到所需要的数据或没有DNS服务器可以查询为止。</li>
-<li><strong>常用DNS服务器地址</strong><br>国内：114.114.114.114 备用：114.114.114.115<br>国外：8.8.8.8 备用：8.8.4.4</li>
-</ul>
+        <h2 id="变量得定义"><a href="#变量得定义" class="headerlink" title="变量得定义"></a>变量得定义</h2><p>格式：变量名称 = 变量值</p>
+<pre><code>[root@jiangpeisi ~]# name=Andy
+[root@jiangpeisi ~]# echo $name
+Andy
+</code></pre><p>1.变量名称不能以数字、特殊字符开头<br>2.=代表为变量赋值<br>3.变量的值可以是数字、字符串、文件的位置、命令、命令的结果</p>
+<hr>
+<h2 id="变量的分类"><a href="#变量的分类" class="headerlink" title="变量的分类"></a>变量的分类</h2><p><strong>自定义变量</strong></p>
+<pre><code>Hostname=Andy
+IP=192.168.32.1
+echo $Hostname &quot;- $IP&quot;
+echo $Hostname &apos;- $IP&apos;
 
+[root@jiangpeisi ~]# sh d.sh 
+Andy - 192.168.32.1
+Andy - $IP
+</code></pre><p>引号的区别：<br>    单引号与双引号的区别在于：单引号内若存在变量，存在的变量当做字符串不会被解析，原样输出；而双引号中若存在变量，该变量会被解析出其具体的值再加入到字符串中。<br>引号用法：<br>    1.不加引号可以直接定义内容包含数字、字符串、路径名等，适合定义数字<br>    2.单引号适合于纯定义字符串，<br>    3.而双引号适合于字符串的内容中包含有变量的内容的定义。</p>
+<p><strong>环境变量</strong><br>使用env命令显示当前系统的环境变量</p>
+<pre><code>[root@jiangpeisi ~]# env
+XDG_SESSION_ID=1189
+HOSTNAME=jiangpeisi
+TERM=xterm
+SHELL=/bin/bash
+HISTSIZE=1000
+SSH_CLIENT=49.70.204.253 2085 22
+SSH_TTY=/dev/pts/0
+USER=root
+LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=01;05;37;41:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=01;36:*.au=01;36:*.flac=01;36:*.mid=01;36:*.midi=01;36:*.mka=01;36:*.mp3=01;36:*.mpc=01;36:*.ogg=01;36:*.ra=01;36:*.wav=01;36:*.axa=01;36:*.oga=01;36:*.spx=01;36:*.xspf=01;36:
+MAIL=/var/spool/mail/root
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin
+PWD=/root
+LANG=en_US.UTF-8
+HISTCONTROL=ignoredups
+SHLVL=1
+HOME=/root
+LOGNAME=root
+SSH_CONNECTION=49.70.204.253 2085 172.16.30.80 22
+LESSOPEN=||/usr/bin/lesspipe.sh %s
+XDG_RUNTIME_DIR=/run/user/0
+_=/usr/bin/env
+</code></pre><p>定义全局变量</p>
+<pre><code>export 变量名=变量值
+</code></pre><p>定义路径变量</p>
+<pre><code>export PATH=$PATH:/root/bin    Export PATH=$PATH:格式不能错
+</code></pre><p>  单纯使用export命令设置全局变量仅临时有效，在机器重启后会失效，若想设置永久全局变量需要将环境变量的定义写在开机加载的配置文件中。例如：/etc/profile、/etc/profile.d、/etc/bashrc</p>
+<p><strong>位置变量</strong><br>主要是向脚本中传递数据，变量名不能自定义，变量作用是固定的$n</p>
+<pre><code>$0：代表命令本身，$1-9代表接受的第1-9个参数，10以上需要用{}括起来比如${10}代表接收的第10个参数
+
+$*：代表接收所有的参数，将所有参数看作一个整体
+
+$@：代表接收的所有参数，将每个参数区别对待
+
+$#：代表接收的参数个数
+
+dirname $0     获取目录名部分
+
+basename $0   获取文件名部分
+</code></pre><p>实例：</p>
+<pre><code>echo &quot;path of script : $0&quot;
+echo &quot;name of script : $(basename $0)&quot;
+echo &quot;parameter 1 : $1&quot;
+echo &quot;parameter 2 : $2&quot;
+echo &quot;parameter 3 : $3&quot;
+echo &quot;parameter 4 : $4&quot;
+echo &quot;parameter 5 : $5&quot;
+echo &quot;The number of arguments passed : $#&quot;
+echo &quot;Show all arguments : $*&quot;
+echo &quot;Prncess TD : $$&quot;
+echo &quot;errors : $?&quot;
+
+[root@jiangpeisi ~]# sh /opt/e.sh a b c d e 
+path of script : /opt/e.sh
+name of script : e.sh
+parameter 1 : a
+parameter 2 : b
+parameter 3 : c
+parameter 4 : d
+parameter 5 : e
+The number of arguments passed : 5
+Show all arguments : a b c d e
+Prncess TD : 12807
+errors : 0
+</code></pre>
       
     </div>
     
@@ -437,9 +507,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/DNS/" rel="tag"><i class="fa fa-tag"></i> DNS</a>
-          
             <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
+          
+            <a href="/tags/shell/" rel="tag"><i class="fa fa-tag"></i> shell</a>
           
         </div>
       
@@ -452,8 +522,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/08/FTP简介/" rel="next" title="FTP传输模式及安装配置">
-                <i class="fa fa-chevron-left"></i> FTP传输模式及安装配置
+              <a href="/2019/03/15/Docker镜像构建/" rel="next" title="Docker镜像构建">
+                <i class="fa fa-chevron-left"></i> Docker镜像构建
               </a>
             
           </div>
@@ -461,10 +531,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/11/自动部署博客/" rel="prev" title="自动部署博客">
-                自动部署博客 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -516,8 +582,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -586,6 +661,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#变量得定义"><span class="nav-number">1.</span> <span class="nav-text">变量得定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量的分类"><span class="nav-number">2.</span> <span class="nav-text">变量的分类</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

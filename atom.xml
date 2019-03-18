@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-03-15T15:36:18.553Z</updated>
+  <updated>2019-03-18T03:49:52.166Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>shell脚本学习之变量得使用</title>
+    <link href="http://yoursite.com/2019/03/18/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%8F%98%E9%87%8F%E5%BE%97%E4%BD%BF%E7%94%A8/"/>
+    <id>http://yoursite.com/2019/03/18/shell脚本学习之变量得使用/</id>
+    <published>2019-03-18T14:45:56.000Z</published>
+    <updated>2019-03-18T03:49:52.166Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="变量得定义"><a href="#变量得定义" class="headerlink" title="变量得定义"></a>变量得定义</h2><p>格式：变量名称 = 变量值</p><pre><code>[root@jiangpeisi ~]# name=Andy[root@jiangpeisi ~]# echo $nameAndy</code></pre><p>1.变量名称不能以数字、特殊字符开头<br>2.=代表为变量赋值<br>3.变量的值可以是数字、字符串、文件的位置、命令、命令的结果</p><hr><h2 id="变量的分类"><a href="#变量的分类" class="headerlink" title="变量的分类"></a>变量的分类</h2><p><strong>自定义变量</strong></p><pre><code>Hostname=AndyIP=192.168.32.1echo $Hostname &quot;- $IP&quot;echo $Hostname &apos;- $IP&apos;[root@jiangpeisi ~]# sh d.sh Andy - 192.168.32.1Andy - $IP</code></pre><p>引号的区别：<br>    单引号与双引号的区别在于：单引号内若存在变量，存在的变量当做字符串不会被解析，原样输出；而双引号中若存在变量，该变量会被解析出其具体的值再加入到字符串中。<br>引号用法：<br>    1.不加引号可以直接定义内容包含数字、字符串、路径名等，适合定义数字<br>    2.单引号适合于纯定义字符串，<br>    3.而双引号适合于字符串的内容中包含有变量的内容的定义。</p><p><strong>环境变量</strong><br>使用env命令显示当前系统的环境变量</p><pre><code>[root@jiangpeisi ~]# envXDG_SESSION_ID=1189HOSTNAME=jiangpeisiTERM=xtermSHELL=/bin/bashHISTSIZE=1000SSH_CLIENT=49.70.204.253 2085 22SSH_TTY=/dev/pts/0USER=rootLS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=01;05;37;41:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=01;36:*.au=01;36:*.flac=01;36:*.mid=01;36:*.midi=01;36:*.mka=01;36:*.mp3=01;36:*.mpc=01;36:*.ogg=01;36:*.ra=01;36:*.wav=01;36:*.axa=01;36:*.oga=01;36:*.spx=01;36:*.xspf=01;36:MAIL=/var/spool/mail/rootPATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/binPWD=/rootLANG=en_US.UTF-8HISTCONTROL=ignoredupsSHLVL=1HOME=/rootLOGNAME=rootSSH_CONNECTION=49.70.204.253 2085 172.16.30.80 22LESSOPEN=||/usr/bin/lesspipe.sh %sXDG_RUNTIME_DIR=/run/user/0_=/usr/bin/env</code></pre><p>定义全局变量</p><pre><code>export 变量名=变量值</code></pre><p>定义路径变量</p><pre><code>export PATH=$PATH:/root/bin    Export PATH=$PATH:格式不能错</code></pre><p>  单纯使用export命令设置全局变量仅临时有效，在机器重启后会失效，若想设置永久全局变量需要将环境变量的定义写在开机加载的配置文件中。例如：/etc/profile、/etc/profile.d、/etc/bashrc</p><p><strong>位置变量</strong><br>主要是向脚本中传递数据，变量名不能自定义，变量作用是固定的$n</p><pre><code>$0：代表命令本身，$1-9代表接受的第1-9个参数，10以上需要用{}括起来比如${10}代表接收的第10个参数$*：代表接收所有的参数，将所有参数看作一个整体$@：代表接收的所有参数，将每个参数区别对待$#：代表接收的参数个数dirname $0     获取目录名部分basename $0   获取文件名部分</code></pre><p>实例：</p><pre><code>echo &quot;path of script : $0&quot;echo &quot;name of script : $(basename $0)&quot;echo &quot;parameter 1 : $1&quot;echo &quot;parameter 2 : $2&quot;echo &quot;parameter 3 : $3&quot;echo &quot;parameter 4 : $4&quot;echo &quot;parameter 5 : $5&quot;echo &quot;The number of arguments passed : $#&quot;echo &quot;Show all arguments : $*&quot;echo &quot;Prncess TD : $$&quot;echo &quot;errors : $?&quot;[root@jiangpeisi ~]# sh /opt/e.sh a b c d e path of script : /opt/e.shname of script : e.shparameter 1 : aparameter 2 : bparameter 3 : cparameter 4 : dparameter 5 : eThe number of arguments passed : 5Show all arguments : a b c d ePrncess TD : 12807errors : 0</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;变量得定义&quot;&gt;&lt;a href=&quot;#变量得定义&quot; class=&quot;headerlink&quot; title=&quot;变量得定义&quot;&gt;&lt;/a&gt;变量得定义&lt;/h2&gt;&lt;p&gt;格式：变量名称 = 变量值&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[root@jiangpeisi ~]# name=And
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
+    
+  </entry>
   
   <entry>
     <title>Docker镜像构建</title>
@@ -167,40 +197,6 @@
   </entry>
   
   <entry>
-    <title>Dokcer安装并部署多个nginx</title>
-    <link href="http://yoursite.com/2019/03/07/Docker%E5%AE%89%E8%A3%85%E5%B9%B6%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2%E5%A4%9A%E4%B8%AAnginx/"/>
-    <id>http://yoursite.com/2019/03/07/Docker安装并使用docker部署多个nginx/</id>
-    <published>2019-03-07T14:45:56.000Z</published>
-    <updated>2019-03-15T15:27:41.031Z</updated>
-    
-    <content type="html"><![CDATA[<ul><li><p><strong>Docker 安装</strong></p><p> 1.查看当前内核版本，要求3.10及以上版本</p><pre><code>uname -r</code></pre><p> 2.安装相关的包</p><pre><code>yum install -y yum-utils device-mapper-persistent-data lvm2 lxc libcgroup</code></pre><p> 3.安装docker</p><pre><code>yum install docker docker-* -y</code></pre><p> 4.关闭selinux并重启</p><pre><code>sed -i &apos;/SELINUX/s/enforcing/disabled/g&apos; /etc/selinux/config &amp;&amp; reboot</code></pre><p> 5.启动docker</p><pre><code>systemctl start docker </code></pre><p> 6.使用脚本一键安装</p><pre><code>curl -fsSL https://get.docker.com -o get-docker.shsh get-docker.sh</code></pre></li><li><p><strong>部署多台nginx服务器</strong></p><p> 1.获取Nginx镜像</p><pre><code>docker pull nginx</code></pre><p> 2.创建容器，并将容器内的80端口分别映射到宿主机的8080|8088端口，将容器的nginx配置文件挂载到本地，方便绕过写时复制，提高容器读写效率</p><pre><code>docker run -it --name nginx1 -h nginx1 -v /usr/local/etc/nginx1/html/:/usr/share/nginx/html -p 8080:80 nginx /bin/bashdocker run -it --name nginx2 -h nginx2 -v /usr/local/etc/nginx2/html/:/usr/share/nginx/html -p 8088:80 nginx /bin/bash</code></pre><p> <img src="http://static.zybuluo.com/jiangpeisi/gkzpvqgz3wxx28fda28r1zq7/image_1d5b1a092dct8lt1s331b451tm20.png" alt="image_1d5b1a092dct8lt1s331b451tm20.png-10.2kB"><br> 3.开启刚刚创建的容器</p><pre><code>docker start $(docker ps -qa)</code></pre><p> <img src="http://static.zybuluo.com/jiangpeisi/mrha1024sock53rz1ccnhoi9/image_1d5b1c9qvtf818bm2si498kiv2t.png" alt="image_1d5b1c9qvtf818bm2si498kiv2t.png-10.6kB"><br> 4.将容器内的nginx放置在后台运行</p><pre><code>docker exec -it nginx1 nginx &amp;docker exec -it nginx2 nginx &amp;</code></pre><p> 5.修改配置文件</p><pre><code>cd /usr/local/etc/nginx1/html/echo &quot;&lt;h1&gt;This is Nginx1&lt;/h1&gt;&quot; &gt; index.html cd /usr/local/etc/nginx2/html/echo &quot;&lt;h1&gt;This is Nginx2&lt;/h1&gt;&quot; &gt; index.html </code></pre><p> 6.浏览器访问<br><img src="http://static.zybuluo.com/jiangpeisi/faqgy3uozt8ukvbvi09tcmxt/image_1d5b1kdms3me1ssi1npr15m9h1m44.png" alt="image_1d5b1kdms3me1ssi1npr15m9h1m44.png-14kB"><br><img src="http://static.zybuluo.com/jiangpeisi/f47wg1yoq5zs0ioziifpy26e/image_1d5b1kp8f1d6712h81hap13le68f51.png" alt="image_1d5b1kp8f1d6712h81hap13le68f51.png-14.2kB"></p></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Docker 安装&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt; 1.查看当前内核版本，要求3.10及以上版本&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;uname -r
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt; 2.安装相关的包&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;yum i
-      
-    
-    </summary>
-    
-      <category term="虚拟化" scheme="http://yoursite.com/categories/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
-    
-      <category term="Docker" scheme="http://yoursite.com/categories/%E8%99%9A%E6%8B%9F%E5%8C%96/Docker/"/>
-    
-    
-      <category term="docker" scheme="http://yoursite.com/tags/docker/"/>
-    
-      <category term="虚拟化" scheme="http://yoursite.com/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Docker基本原理</title>
     <link href="http://yoursite.com/2019/03/07/Docker%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/"/>
     <id>http://yoursite.com/2019/03/07/Docker基本原理/</id>
@@ -265,6 +261,40 @@
   </entry>
   
   <entry>
+    <title>Dokcer安装并部署多个nginx</title>
+    <link href="http://yoursite.com/2019/03/07/Docker%E5%AE%89%E8%A3%85%E5%B9%B6%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2%E5%A4%9A%E4%B8%AAnginx/"/>
+    <id>http://yoursite.com/2019/03/07/Docker安装并使用docker部署多个nginx/</id>
+    <published>2019-03-07T14:45:56.000Z</published>
+    <updated>2019-03-15T15:27:41.031Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li><p><strong>Docker 安装</strong></p><p> 1.查看当前内核版本，要求3.10及以上版本</p><pre><code>uname -r</code></pre><p> 2.安装相关的包</p><pre><code>yum install -y yum-utils device-mapper-persistent-data lvm2 lxc libcgroup</code></pre><p> 3.安装docker</p><pre><code>yum install docker docker-* -y</code></pre><p> 4.关闭selinux并重启</p><pre><code>sed -i &apos;/SELINUX/s/enforcing/disabled/g&apos; /etc/selinux/config &amp;&amp; reboot</code></pre><p> 5.启动docker</p><pre><code>systemctl start docker </code></pre><p> 6.使用脚本一键安装</p><pre><code>curl -fsSL https://get.docker.com -o get-docker.shsh get-docker.sh</code></pre></li><li><p><strong>部署多台nginx服务器</strong></p><p> 1.获取Nginx镜像</p><pre><code>docker pull nginx</code></pre><p> 2.创建容器，并将容器内的80端口分别映射到宿主机的8080|8088端口，将容器的nginx配置文件挂载到本地，方便绕过写时复制，提高容器读写效率</p><pre><code>docker run -it --name nginx1 -h nginx1 -v /usr/local/etc/nginx1/html/:/usr/share/nginx/html -p 8080:80 nginx /bin/bashdocker run -it --name nginx2 -h nginx2 -v /usr/local/etc/nginx2/html/:/usr/share/nginx/html -p 8088:80 nginx /bin/bash</code></pre><p> <img src="http://static.zybuluo.com/jiangpeisi/gkzpvqgz3wxx28fda28r1zq7/image_1d5b1a092dct8lt1s331b451tm20.png" alt="image_1d5b1a092dct8lt1s331b451tm20.png-10.2kB"><br> 3.开启刚刚创建的容器</p><pre><code>docker start $(docker ps -qa)</code></pre><p> <img src="http://static.zybuluo.com/jiangpeisi/mrha1024sock53rz1ccnhoi9/image_1d5b1c9qvtf818bm2si498kiv2t.png" alt="image_1d5b1c9qvtf818bm2si498kiv2t.png-10.6kB"><br> 4.将容器内的nginx放置在后台运行</p><pre><code>docker exec -it nginx1 nginx &amp;docker exec -it nginx2 nginx &amp;</code></pre><p> 5.修改配置文件</p><pre><code>cd /usr/local/etc/nginx1/html/echo &quot;&lt;h1&gt;This is Nginx1&lt;/h1&gt;&quot; &gt; index.html cd /usr/local/etc/nginx2/html/echo &quot;&lt;h1&gt;This is Nginx2&lt;/h1&gt;&quot; &gt; index.html </code></pre><p> 6.浏览器访问<br><img src="http://static.zybuluo.com/jiangpeisi/faqgy3uozt8ukvbvi09tcmxt/image_1d5b1kdms3me1ssi1npr15m9h1m44.png" alt="image_1d5b1kdms3me1ssi1npr15m9h1m44.png-14kB"><br><img src="http://static.zybuluo.com/jiangpeisi/f47wg1yoq5zs0ioziifpy26e/image_1d5b1kp8f1d6712h81hap13le68f51.png" alt="image_1d5b1kp8f1d6712h81hap13le68f51.png-14.2kB"></p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Docker 安装&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt; 1.查看当前内核版本，要求3.10及以上版本&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;uname -r
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt; 2.安装相关的包&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;yum i
+      
+    
+    </summary>
+    
+      <category term="虚拟化" scheme="http://yoursite.com/categories/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
+    
+      <category term="Docker" scheme="http://yoursite.com/categories/%E8%99%9A%E6%8B%9F%E5%8C%96/Docker/"/>
+    
+    
+      <category term="docker" scheme="http://yoursite.com/tags/docker/"/>
+    
+      <category term="虚拟化" scheme="http://yoursite.com/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Raid常见分类</title>
     <link href="http://yoursite.com/2019/03/04/Raid%E5%88%86%E7%B1%BB/"/>
     <id>http://yoursite.com/2019/03/04/Raid分类/</id>
@@ -287,6 +317,35 @@
     
     
       <category term="Raid" scheme="http://yoursite.com/tags/Raid/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>日志切割</title>
+    <link href="http://yoursite.com/2019/03/03/%E6%97%A5%E5%BF%97%E5%88%87%E5%89%B2/"/>
+    <id>http://yoursite.com/2019/03/03/日志切割/</id>
+    <published>2019-03-03T14:45:56.000Z</published>
+    <updated>2019-03-09T07:02:02.832Z</updated>
+    
+    <content type="html"><![CDATA[<ol><li><strong>日志分类</strong><br>access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；<br>error.log 记录服务器错误的日志</li><li><strong>日志配置</strong><br>配置日志的存储路径：<br>location / {<pre><code>access_log          /usr/local/nginx/logs/access.log;error_log           /usr/local/nginx/logs/error.log;</code></pre>}<br>配置日志格式：<br><img src="http://static.zybuluo.com/jiangpeisi/n4fibrzee1r5ku7hb41mmrux/image_1d4vf79fh5k2m2j1si8ada19dj4r.png" alt="image_1d4vf79fh5k2m2j1si8ada19dj4r.png-20.5kB"></li><li><strong>日志切割脚本</strong><br><img src="http://static.zybuluo.com/jiangpeisi/18tztm3bn4ygddpy3bjhle69/image_1d4veqc8v177mam71tlgseh160p2n.png" alt="image_1d4veqc8v177mam71tlgseh160p2n.png-31.2kB"></li><li><strong>创建定时任务每日零点切割日志</strong><br>crontab –e<br>59 23 <em> </em> * bash /usr/local/nginx/shell/cut_ngnix_log.sh</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;日志分类&lt;/strong&gt;&lt;br&gt;access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；&lt;br&gt;error.log 记录服务器错误的日志&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;日志配置&lt;/strong&gt;&lt;br&gt;配置日志的存储路径
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
     
   </entry>
   
@@ -321,49 +380,20 @@
   </entry>
   
   <entry>
-    <title>日志切割</title>
-    <link href="http://yoursite.com/2019/03/03/%E6%97%A5%E5%BF%97%E5%88%87%E5%89%B2/"/>
-    <id>http://yoursite.com/2019/03/03/日志切割/</id>
-    <published>2019-03-03T14:45:56.000Z</published>
-    <updated>2019-03-09T07:02:02.832Z</updated>
-    
-    <content type="html"><![CDATA[<ol><li><strong>日志分类</strong><br>access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；<br>error.log 记录服务器错误的日志</li><li><strong>日志配置</strong><br>配置日志的存储路径：<br>location / {<pre><code>access_log          /usr/local/nginx/logs/access.log;error_log           /usr/local/nginx/logs/error.log;</code></pre>}<br>配置日志格式：<br><img src="http://static.zybuluo.com/jiangpeisi/n4fibrzee1r5ku7hb41mmrux/image_1d4vf79fh5k2m2j1si8ada19dj4r.png" alt="image_1d4vf79fh5k2m2j1si8ada19dj4r.png-20.5kB"></li><li><strong>日志切割脚本</strong><br><img src="http://static.zybuluo.com/jiangpeisi/18tztm3bn4ygddpy3bjhle69/image_1d4veqc8v177mam71tlgseh160p2n.png" alt="image_1d4veqc8v177mam71tlgseh160p2n.png-31.2kB"></li><li><strong>创建定时任务每日零点切割日志</strong><br>crontab –e<br>59 23 <em> </em> * bash /usr/local/nginx/shell/cut_ngnix_log.sh</li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;日志分类&lt;/strong&gt;&lt;br&gt;access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；&lt;br&gt;error.log 记录服务器错误的日志&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;日志配置&lt;/strong&gt;&lt;br&gt;配置日志的存储路径
-      
-    
-    </summary>
-    
-      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
-    
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>nginx之Location</title>
-    <link href="http://yoursite.com/2019/03/02/Nginx%E4%B9%8BLocation/"/>
-    <id>http://yoursite.com/2019/03/02/Nginx之Location/</id>
+    <title>Memcached缓存服务器</title>
+    <link href="http://yoursite.com/2019/03/02/Memcache/"/>
+    <id>http://yoursite.com/2019/03/02/Memcache/</id>
     <published>2019-03-02T14:45:56.000Z</published>
-    <updated>2019-03-09T07:01:46.219Z</updated>
+    <updated>2019-03-09T07:02:29.068Z</updated>
     
-    <content type="html"><![CDATA[<ol><li><strong>什么是location，location都做些什么工作</strong><br>上文有提到，nginx内核完成的工作就是查找配置文件，将客户请求映射到一个location block，然后再执行location中的相应指令，所以说，location的作用就是用于匹配客户请求，并做出相应动作。<br>location如何匹配用户请求呢，先对URL进行剖析你就会知道，URL的格式由下列三部分组成：<br>第一部分是协议（或称为服务方式）；<br>第二部分是存有该资源的主机IP地址（有时也包括端口号）；<br>第三部分是主机资源的具体地址。，如目录和文件名等；<br>当一个请求到达服务器后，服务器接受到这个请求时，前两部分的匹配工作就已经完成，现在要做的就是在服务器上找到资源，location就是匹配的URL的第三部分内容。</li><li><strong>匹配模式</strong><br>location = /uri =开头表示精确匹配，只有完全匹配上才能生效。<br>location ^~ /uri ^~ 开头对URL路径进行前缀匹配，并且在正则之前。<br>location ~ pattern ~开头表示区分大小写的正则匹配。<br>location ~<em> pattern ~</em>开头表示不区分大小写的正则匹配。<br>location /uri 不带任何修饰符，也表示前缀匹配，但是在正则匹配之后。<br>location / 通用匹配，任何未匹配到其它location的请求都会匹配到，相当于switch中的default。</li><li><strong>匹配顺序</strong><br><img src="http://static.zybuluo.com/jiangpeisi/guoanpfc3d7zixyx7pynowiu/qqqq%20%282%29.png" alt="qqqq (2).png-42.5kB"><br>精确匹配&gt;正则匹配&gt;普通字符匹配  普通匹配看字符串长短，正则匹配看顺序</li></ol>]]></content>
+    <content type="html"><![CDATA[<ol><li><strong>Memcache概述</strong><br>memcache:是高性能的分布式内存缓存服务器.通过缓存数据库的查询结果,减少数据库的访问次数,以提高web应用的速度,提高可扩展性.缓存方式是将缓存结果存储在内存中,通过内存来维护一个hash表.<br>Memcache是一个c/s软件,默认间通过端口为11211</li><li><strong>Memcache工作原理</strong><br>1.memcached是以守护程序方式运行于一个或多个服务器中，随时会接收客户端的连接和操作。<br>2.如何减轻数据库压力：当web访问数据库时，首先会先访问Memcache缓存服务器，查找是否有相应的数据，若没有则去访问数据库查询，返回结果给web应用并且再Memcache服务器留一份缓存，如果web访问Memcache服务器查询得到相应数据，就不会再去访问数据库，以此来减轻数据库的I/O。</li><li><strong>Memcache作为高速运行的分布式内存缓存服务器,具有以下几点</strong><br>1&gt; 本身是开源的,占用资源小,协议简单的软件,将数据库和web之间的数据缓存,减少数据库的检索次数,减少数据库的i/o<br>2&gt; 基于livevent的时间处理,因为libevent库将linux,bsd,solaris等这些操作系统上的kqueue等时间处理功能功能封装成统一接口,面对连接数增加,也能在linux,bsd,solaris等操作系统上发挥其高性能(i/o).<br>3&gt; 存储方式:内置于内存存储方式,存取的效率高,执行的速度快<br>4&gt; memcache不互相通信的分布式:同个客户端使得key有规律的封装,实现memcache实现分布式,采用多台cached服务器,增加缓存的横向延伸</li><li><strong>Memcache具体实现方式</strong><br>Memcached 的目前版本是通过C实现，采用了单进程，单线程，异步I/O，基于事件 (event_based) 的服务方式.使用 libevent 作为事件通知实现。多个 Server 可以协同工作，但这些 Server 之间是没有任何通讯联系的，每个 Server 只是对自己的数据进行管理。Client 端通过指定 Server 端的 ip 地址(通过域名应该也可以)。需要缓存的对象或数据是以 key-&gt;value 对的形式保存在Server端。key 的值通过 hash 进行转换，根据 hash 值把 value 传递到对应的具体的某个 Server 上。当需要获取对象数据时，也根据 key 进行。首先对 key 进行 hash，通过获得的值可以确定它被保存在了哪台 Server 上，然后再向该 Server 发出请求。Client 端只需要知道保存 hash(key) 的值在哪台服务器上就可以了。 memcache的工作就是在专门的机器的内存里维护一张巨大的hash表，来存储经常请求的数据。</li><li><strong>安装Memcache</strong><br>1 安装libevent时<br>./configure –prefix=/usr/local/libevent<br>Make &amp;&amp; make install<br>2 安装memcached<br>./configure –prefix=/usr/local/memcached –with-libevent=/usr/local/libevent<br>Make &amp;&amp; make install</li><li><strong>管理Memcache</strong><br>启动Memcache：<br>/usr/local/bin/memcached -d -m 2048 -u root -l 192.168.1.20 -p 12111 -c 1024 -P /tmp/memcached.pid<br>停止Memcache:<br>kill ‘cat /tmp/memcached.pid’;<br>Kill all memcached<br>参数说明：<br>-d 启动为守护进程<br>-m <num> 分配给Memcached使用的内存数量，单位是MB，默认为64MB<br>-u <username> 运行Memcached的用户，仅当作为root运行时<br>-l &lt;ip_addr&gt; 监听的服务器IP地址，默认为环境变量INDRR_ANY的值<br>-p <num> 设置Memcached监听的端口，最好是1024以上的端口<br>-c <num> 设置最大并发连接数，默认为1024<br>-P <file> 设置保存Memcached的pid文件，与-d选择同时使用 </file></num></num></username></num></li></ol>]]></content>
     
     <summary type="html">
     
       
       
         &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;什么是location，location都做些什么工作&lt;/strong&gt;&lt;br&gt;上文有提到，nginx内核完成的工作就是查找配置文件，将客户请求映射到一个location block，然后再执行location中的相应指令，所以说，locatio
+&lt;li&gt;&lt;strong&gt;Memcache概述&lt;/strong&gt;&lt;br&gt;memcache:是高性能的分布式内存缓存服务器.通过缓存数据库的查询结果,减少数据库的访问次数,以提高web应用的速度,提高可扩展性.缓存方式是将缓存结果存储在内存中,通过内存来维护一个hash表.
       
     
     </summary>
@@ -406,20 +436,20 @@
   </entry>
   
   <entry>
-    <title>Memcached缓存服务器</title>
-    <link href="http://yoursite.com/2019/03/02/Memcache/"/>
-    <id>http://yoursite.com/2019/03/02/Memcache/</id>
+    <title>nginx之Location</title>
+    <link href="http://yoursite.com/2019/03/02/Nginx%E4%B9%8BLocation/"/>
+    <id>http://yoursite.com/2019/03/02/Nginx之Location/</id>
     <published>2019-03-02T14:45:56.000Z</published>
-    <updated>2019-03-09T07:02:29.068Z</updated>
+    <updated>2019-03-09T07:01:46.219Z</updated>
     
-    <content type="html"><![CDATA[<ol><li><strong>Memcache概述</strong><br>memcache:是高性能的分布式内存缓存服务器.通过缓存数据库的查询结果,减少数据库的访问次数,以提高web应用的速度,提高可扩展性.缓存方式是将缓存结果存储在内存中,通过内存来维护一个hash表.<br>Memcache是一个c/s软件,默认间通过端口为11211</li><li><strong>Memcache工作原理</strong><br>1.memcached是以守护程序方式运行于一个或多个服务器中，随时会接收客户端的连接和操作。<br>2.如何减轻数据库压力：当web访问数据库时，首先会先访问Memcache缓存服务器，查找是否有相应的数据，若没有则去访问数据库查询，返回结果给web应用并且再Memcache服务器留一份缓存，如果web访问Memcache服务器查询得到相应数据，就不会再去访问数据库，以此来减轻数据库的I/O。</li><li><strong>Memcache作为高速运行的分布式内存缓存服务器,具有以下几点</strong><br>1&gt; 本身是开源的,占用资源小,协议简单的软件,将数据库和web之间的数据缓存,减少数据库的检索次数,减少数据库的i/o<br>2&gt; 基于livevent的时间处理,因为libevent库将linux,bsd,solaris等这些操作系统上的kqueue等时间处理功能功能封装成统一接口,面对连接数增加,也能在linux,bsd,solaris等操作系统上发挥其高性能(i/o).<br>3&gt; 存储方式:内置于内存存储方式,存取的效率高,执行的速度快<br>4&gt; memcache不互相通信的分布式:同个客户端使得key有规律的封装,实现memcache实现分布式,采用多台cached服务器,增加缓存的横向延伸</li><li><strong>Memcache具体实现方式</strong><br>Memcached 的目前版本是通过C实现，采用了单进程，单线程，异步I/O，基于事件 (event_based) 的服务方式.使用 libevent 作为事件通知实现。多个 Server 可以协同工作，但这些 Server 之间是没有任何通讯联系的，每个 Server 只是对自己的数据进行管理。Client 端通过指定 Server 端的 ip 地址(通过域名应该也可以)。需要缓存的对象或数据是以 key-&gt;value 对的形式保存在Server端。key 的值通过 hash 进行转换，根据 hash 值把 value 传递到对应的具体的某个 Server 上。当需要获取对象数据时，也根据 key 进行。首先对 key 进行 hash，通过获得的值可以确定它被保存在了哪台 Server 上，然后再向该 Server 发出请求。Client 端只需要知道保存 hash(key) 的值在哪台服务器上就可以了。 memcache的工作就是在专门的机器的内存里维护一张巨大的hash表，来存储经常请求的数据。</li><li><strong>安装Memcache</strong><br>1 安装libevent时<br>./configure –prefix=/usr/local/libevent<br>Make &amp;&amp; make install<br>2 安装memcached<br>./configure –prefix=/usr/local/memcached –with-libevent=/usr/local/libevent<br>Make &amp;&amp; make install</li><li><strong>管理Memcache</strong><br>启动Memcache：<br>/usr/local/bin/memcached -d -m 2048 -u root -l 192.168.1.20 -p 12111 -c 1024 -P /tmp/memcached.pid<br>停止Memcache:<br>kill ‘cat /tmp/memcached.pid’;<br>Kill all memcached<br>参数说明：<br>-d 启动为守护进程<br>-m <num> 分配给Memcached使用的内存数量，单位是MB，默认为64MB<br>-u <username> 运行Memcached的用户，仅当作为root运行时<br>-l &lt;ip_addr&gt; 监听的服务器IP地址，默认为环境变量INDRR_ANY的值<br>-p <num> 设置Memcached监听的端口，最好是1024以上的端口<br>-c <num> 设置最大并发连接数，默认为1024<br>-P <file> 设置保存Memcached的pid文件，与-d选择同时使用 </file></num></num></username></num></li></ol>]]></content>
+    <content type="html"><![CDATA[<ol><li><strong>什么是location，location都做些什么工作</strong><br>上文有提到，nginx内核完成的工作就是查找配置文件，将客户请求映射到一个location block，然后再执行location中的相应指令，所以说，location的作用就是用于匹配客户请求，并做出相应动作。<br>location如何匹配用户请求呢，先对URL进行剖析你就会知道，URL的格式由下列三部分组成：<br>第一部分是协议（或称为服务方式）；<br>第二部分是存有该资源的主机IP地址（有时也包括端口号）；<br>第三部分是主机资源的具体地址。，如目录和文件名等；<br>当一个请求到达服务器后，服务器接受到这个请求时，前两部分的匹配工作就已经完成，现在要做的就是在服务器上找到资源，location就是匹配的URL的第三部分内容。</li><li><strong>匹配模式</strong><br>location = /uri =开头表示精确匹配，只有完全匹配上才能生效。<br>location ^~ /uri ^~ 开头对URL路径进行前缀匹配，并且在正则之前。<br>location ~ pattern ~开头表示区分大小写的正则匹配。<br>location ~<em> pattern ~</em>开头表示不区分大小写的正则匹配。<br>location /uri 不带任何修饰符，也表示前缀匹配，但是在正则匹配之后。<br>location / 通用匹配，任何未匹配到其它location的请求都会匹配到，相当于switch中的default。</li><li><strong>匹配顺序</strong><br><img src="http://static.zybuluo.com/jiangpeisi/guoanpfc3d7zixyx7pynowiu/qqqq%20%282%29.png" alt="qqqq (2).png-42.5kB"><br>精确匹配&gt;正则匹配&gt;普通字符匹配  普通匹配看字符串长短，正则匹配看顺序</li></ol>]]></content>
     
     <summary type="html">
     
       
       
         &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Memcache概述&lt;/strong&gt;&lt;br&gt;memcache:是高性能的分布式内存缓存服务器.通过缓存数据库的查询结果,减少数据库的访问次数,以提高web应用的速度,提高可扩展性.缓存方式是将缓存结果存储在内存中,通过内存来维护一个hash表.
+&lt;li&gt;&lt;strong&gt;什么是location，location都做些什么工作&lt;/strong&gt;&lt;br&gt;上文有提到，nginx内核完成的工作就是查找配置文件，将客户请求映射到一个location block，然后再执行location中的相应指令，所以说，locatio
       
     
     </summary>
