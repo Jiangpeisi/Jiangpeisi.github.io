@@ -343,6 +343,40 @@ fi
   </entry>
   
   <entry>
+    <title>Docker容器网络模式</title>
+    <link href="http://yoursite.com/2019/03/07/Docker%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F/"/>
+    <id>http://yoursite.com/2019/03/07/Docker容器网络模式/</id>
+    <published>2019-03-07T14:45:56.000Z</published>
+    <updated>2019-03-15T15:25:05.858Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li><p><strong>配置容器网络模式</strong></p><p> Docker run -net=pattern</p></li><li><p><strong>四种模式</strong></p><p> host模式：host模式下的容器不会独立创建一个network namespace,而是与宿主机公用一个network namespace。容器不会再虚拟出自己的网卡，配置IP，直接使用宿主机的IP及端口。</p><p> container模式：container模式下的容器与host模式下的容器类似，同样不会独立创建一个network namespace，而是和其他容器共用一个network namespace。两个容器除了network namespace是共享的之外，其他的如文件系统、进程列表等还是相互隔离的。</p><p> none模式：none模式下的容器拥有自己的network namespace，但是不会为容器进行任何网络配置，需要人工添加网卡、配置IP等信息，典型的pipework工具可以为此模式下的容器配置IP等信息。</p><p> bridge模式：docker容器默认的网络模式，该模式会为每一个容器分配一个network namespace，设置IP、路由等信息，并且默认会将这些容器连接到一个虚拟的交换机docker0上。</p></li><li><p><strong>bridge模式下的docker 容器创建过程</strong><br>1.启动docker容器，docker宿主机会创建一对虚拟网卡，veth pair设备，用于两个设备通信。<br>2.Docker 将veth pair 的一端放在新创建的docker 容器中，并命名为eth0，另一端放在宿主机中，以veth-container-id的方式命名，并将这个veth加入到docker0中。<br>3.Docker0从子网中分配一个IP给容器使用，并将容器的网关设置为docker0的IP地址。<br>此时容器间，容器与宿主机之间是可以通信的，容器也可以访问外网，但是其他宿主机不可以访问容器内的IP地址，需要通过NAT将容器IP的port映射为宿主机的IP和port，方可访问。</p></li><li><p><strong>docker桥接网络拓扑</strong><br><img src="http://static.zybuluo.com/jiangpeisi/062j0akdehbba7vej72yb1o3/image_1d5aqqol11q8733oqtbjqm1e4ic.png" alt="image_1d5aqqol11q8733oqtbjqm1e4ic.png-27.1kB"></p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;配置容器网络模式&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt; Docker run -net=pattern&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;四种模式&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt; host模式：host模式下的容器不会独立创建
+      
+    
+    </summary>
+    
+      <category term="虚拟化" scheme="http://yoursite.com/categories/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
+    
+      <category term="Docker" scheme="http://yoursite.com/categories/%E8%99%9A%E6%8B%9F%E5%8C%96/Docker/"/>
+    
+    
+      <category term="docker" scheme="http://yoursite.com/tags/docker/"/>
+    
+      <category term="虚拟化" scheme="http://yoursite.com/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Dokcer安装并部署多个nginx</title>
     <link href="http://yoursite.com/2019/03/07/Docker%E5%AE%89%E8%A3%85%E5%B9%B6%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2%E5%A4%9A%E4%B8%AAnginx/"/>
     <id>http://yoursite.com/2019/03/07/Docker安装并使用docker部署多个nginx/</id>
@@ -407,40 +441,6 @@ fi
   </entry>
   
   <entry>
-    <title>Docker容器网络模式</title>
-    <link href="http://yoursite.com/2019/03/07/Docker%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F/"/>
-    <id>http://yoursite.com/2019/03/07/Docker容器网络模式/</id>
-    <published>2019-03-07T14:45:56.000Z</published>
-    <updated>2019-03-15T15:25:05.858Z</updated>
-    
-    <content type="html"><![CDATA[<ul><li><p><strong>配置容器网络模式</strong></p><p> Docker run -net=pattern</p></li><li><p><strong>四种模式</strong></p><p> host模式：host模式下的容器不会独立创建一个network namespace,而是与宿主机公用一个network namespace。容器不会再虚拟出自己的网卡，配置IP，直接使用宿主机的IP及端口。</p><p> container模式：container模式下的容器与host模式下的容器类似，同样不会独立创建一个network namespace，而是和其他容器共用一个network namespace。两个容器除了network namespace是共享的之外，其他的如文件系统、进程列表等还是相互隔离的。</p><p> none模式：none模式下的容器拥有自己的network namespace，但是不会为容器进行任何网络配置，需要人工添加网卡、配置IP等信息，典型的pipework工具可以为此模式下的容器配置IP等信息。</p><p> bridge模式：docker容器默认的网络模式，该模式会为每一个容器分配一个network namespace，设置IP、路由等信息，并且默认会将这些容器连接到一个虚拟的交换机docker0上。</p></li><li><p><strong>bridge模式下的docker 容器创建过程</strong><br>1.启动docker容器，docker宿主机会创建一对虚拟网卡，veth pair设备，用于两个设备通信。<br>2.Docker 将veth pair 的一端放在新创建的docker 容器中，并命名为eth0，另一端放在宿主机中，以veth-container-id的方式命名，并将这个veth加入到docker0中。<br>3.Docker0从子网中分配一个IP给容器使用，并将容器的网关设置为docker0的IP地址。<br>此时容器间，容器与宿主机之间是可以通信的，容器也可以访问外网，但是其他宿主机不可以访问容器内的IP地址，需要通过NAT将容器IP的port映射为宿主机的IP和port，方可访问。</p></li><li><p><strong>docker桥接网络拓扑</strong><br><img src="http://static.zybuluo.com/jiangpeisi/062j0akdehbba7vej72yb1o3/image_1d5aqqol11q8733oqtbjqm1e4ic.png" alt="image_1d5aqqol11q8733oqtbjqm1e4ic.png-27.1kB"></p></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;配置容器网络模式&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt; Docker run -net=pattern&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;四种模式&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt; host模式：host模式下的容器不会独立创建
-      
-    
-    </summary>
-    
-      <category term="虚拟化" scheme="http://yoursite.com/categories/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
-    
-      <category term="Docker" scheme="http://yoursite.com/categories/%E8%99%9A%E6%8B%9F%E5%8C%96/Docker/"/>
-    
-    
-      <category term="docker" scheme="http://yoursite.com/tags/docker/"/>
-    
-      <category term="虚拟化" scheme="http://yoursite.com/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Raid常见分类</title>
     <link href="http://yoursite.com/2019/03/04/Raid%E5%88%86%E7%B1%BB/"/>
     <id>http://yoursite.com/2019/03/04/Raid分类/</id>
@@ -463,6 +463,35 @@ fi
     
     
       <category term="Raid" scheme="http://yoursite.com/tags/Raid/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>日志切割</title>
+    <link href="http://yoursite.com/2019/03/03/%E6%97%A5%E5%BF%97%E5%88%87%E5%89%B2/"/>
+    <id>http://yoursite.com/2019/03/03/日志切割/</id>
+    <published>2019-03-03T14:45:56.000Z</published>
+    <updated>2019-03-09T07:02:02.832Z</updated>
+    
+    <content type="html"><![CDATA[<ol><li><strong>日志分类</strong><br>access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；<br>error.log 记录服务器错误的日志</li><li><strong>日志配置</strong><br>配置日志的存储路径：<br>location / {<pre><code>access_log          /usr/local/nginx/logs/access.log;error_log           /usr/local/nginx/logs/error.log;</code></pre>}<br>配置日志格式：<br><img src="http://static.zybuluo.com/jiangpeisi/n4fibrzee1r5ku7hb41mmrux/image_1d4vf79fh5k2m2j1si8ada19dj4r.png" alt="image_1d4vf79fh5k2m2j1si8ada19dj4r.png-20.5kB"></li><li><strong>日志切割脚本</strong><br><img src="http://static.zybuluo.com/jiangpeisi/18tztm3bn4ygddpy3bjhle69/image_1d4veqc8v177mam71tlgseh160p2n.png" alt="image_1d4veqc8v177mam71tlgseh160p2n.png-31.2kB"></li><li><strong>创建定时任务每日零点切割日志</strong><br>crontab –e<br>59 23 <em> </em> * bash /usr/local/nginx/shell/cut_ngnix_log.sh</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;日志分类&lt;/strong&gt;&lt;br&gt;access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；&lt;br&gt;error.log 记录服务器错误的日志&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;日志配置&lt;/strong&gt;&lt;br&gt;配置日志的存储路径
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
     
   </entry>
   
@@ -497,49 +526,20 @@ fi
   </entry>
   
   <entry>
-    <title>日志切割</title>
-    <link href="http://yoursite.com/2019/03/03/%E6%97%A5%E5%BF%97%E5%88%87%E5%89%B2/"/>
-    <id>http://yoursite.com/2019/03/03/日志切割/</id>
-    <published>2019-03-03T14:45:56.000Z</published>
-    <updated>2019-03-09T07:02:02.832Z</updated>
-    
-    <content type="html"><![CDATA[<ol><li><strong>日志分类</strong><br>access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；<br>error.log 记录服务器错误的日志</li><li><strong>日志配置</strong><br>配置日志的存储路径：<br>location / {<pre><code>access_log          /usr/local/nginx/logs/access.log;error_log           /usr/local/nginx/logs/error.log;</code></pre>}<br>配置日志格式：<br><img src="http://static.zybuluo.com/jiangpeisi/n4fibrzee1r5ku7hb41mmrux/image_1d4vf79fh5k2m2j1si8ada19dj4r.png" alt="image_1d4vf79fh5k2m2j1si8ada19dj4r.png-20.5kB"></li><li><strong>日志切割脚本</strong><br><img src="http://static.zybuluo.com/jiangpeisi/18tztm3bn4ygddpy3bjhle69/image_1d4veqc8v177mam71tlgseh160p2n.png" alt="image_1d4veqc8v177mam71tlgseh160p2n.png-31.2kB"></li><li><strong>创建定时任务每日零点切割日志</strong><br>crontab –e<br>59 23 <em> </em> * bash /usr/local/nginx/shell/cut_ngnix_log.sh</li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;日志分类&lt;/strong&gt;&lt;br&gt;access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；&lt;br&gt;error.log 记录服务器错误的日志&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;日志配置&lt;/strong&gt;&lt;br&gt;配置日志的存储路径
-      
-    
-    </summary>
-    
-      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
-    
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Rewrite重写URL</title>
-    <link href="http://yoursite.com/2019/03/02/Rewrite%E9%87%8D%E5%86%99URL/"/>
-    <id>http://yoursite.com/2019/03/02/Rewrite重写URL/</id>
+    <title>nginx之Location</title>
+    <link href="http://yoursite.com/2019/03/02/Nginx%E4%B9%8BLocation/"/>
+    <id>http://yoursite.com/2019/03/02/Nginx之Location/</id>
     <published>2019-03-02T14:45:56.000Z</published>
-    <updated>2019-03-09T07:01:55.101Z</updated>
+    <updated>2019-03-09T07:01:46.219Z</updated>
     
-    <content type="html"><![CDATA[<ol><li><strong>Rewrite重写用来做些什么</strong><br>URL重写就是首先获得一个进入的URL请求，然后使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位把它重新写成网站可以处理的另一个URL的过程。rewrite只能放在配置文件的server{},location{},if{}中，并且只能对域名后边的除去传递的参数外的字符串起作用。</li><li><strong>Rewrite执行顺序</strong><br>1.执行server块的rewrite指令<br>2.执行location匹配<br>3.执行选定的location中的rewrite指令<br>4.执行if条件匹配<br>5.执行if块中的rewrite指令</li><li><strong>rewrite语法</strong><br><img src="http://static.zybuluo.com/jiangpeisi/mi0e0s061is56an6tkuxmmud/image_1d5142otn17uq1lmmhis17l21jr52a.png" alt="image_1d5142otn17uq1lmmhis17l21jr52a.png-4kB"><br>关键字：其中关键字error_log不能改变<br>正则： perl兼容正则表达式语句进行规则匹配<br>替代内容：将正则匹配的内容替换成repl acement<br>filag标记： rewrite支持的fl ag标记<br>flag标记说明：<br>Last #本条规则匹配完成后，继续向下匹配新的location URI规则<br>break #本条规则匹配完成即终止，不再匹配后面的任何规则<br>redirect #返回302临时重定向，浏览器地址会显示跳转后的URL.地址<br>permanent #返回301永久重定向，浏览器地址栏会显示跳转后的URL她址</li><li><strong>指令详解</strong><br>1.if指令<br>语法为if(condition){…}<br>condition常用判断条件：<br>-f和!-f用来判断请求文件是否存在<br>-d和!-d用来判断请求目录是否存在<br>-e和!-e用来判断是请求的文件或者目录否存在<br>-x和!-x用来判断请求的文件是否可执行<br>condition可用的nginx变量：<br><img src="http://static.zybuluo.com/jiangpeisi/vbwm6czsg5ns6990jucbve0t/image_1d518ruaobbb1vcict8pvjal03h.png" alt="image_1d518ruaobbb1vcict8pvjal03h.png-810.5kB"><br>2.break指令<br>用于中断当前相同作用域中的Nginx配置，和Java中的break语法类似，可以在server块和location以及if块中使用。<br>3.return指令<br>该指令用于完成对请求的处理，直接向客户端响应状态的代码。和Java中的return语法类似。可以再server块和location以及if块中使用。<br>4.set指令<br>用来设置新的变量<br>  语法: set variable value</li></ol>]]></content>
+    <content type="html"><![CDATA[<ol><li><strong>什么是location，location都做些什么工作</strong><br>上文有提到，nginx内核完成的工作就是查找配置文件，将客户请求映射到一个location block，然后再执行location中的相应指令，所以说，location的作用就是用于匹配客户请求，并做出相应动作。<br>location如何匹配用户请求呢，先对URL进行剖析你就会知道，URL的格式由下列三部分组成：<br>第一部分是协议（或称为服务方式）；<br>第二部分是存有该资源的主机IP地址（有时也包括端口号）；<br>第三部分是主机资源的具体地址。，如目录和文件名等；<br>当一个请求到达服务器后，服务器接受到这个请求时，前两部分的匹配工作就已经完成，现在要做的就是在服务器上找到资源，location就是匹配的URL的第三部分内容。</li><li><strong>匹配模式</strong><br>location = /uri =开头表示精确匹配，只有完全匹配上才能生效。<br>location ^~ /uri ^~ 开头对URL路径进行前缀匹配，并且在正则之前。<br>location ~ pattern ~开头表示区分大小写的正则匹配。<br>location ~<em> pattern ~</em>开头表示不区分大小写的正则匹配。<br>location /uri 不带任何修饰符，也表示前缀匹配，但是在正则匹配之后。<br>location / 通用匹配，任何未匹配到其它location的请求都会匹配到，相当于switch中的default。</li><li><strong>匹配顺序</strong><br><img src="http://static.zybuluo.com/jiangpeisi/guoanpfc3d7zixyx7pynowiu/qqqq%20%282%29.png" alt="qqqq (2).png-42.5kB"><br>精确匹配&gt;正则匹配&gt;普通字符匹配  普通匹配看字符串长短，正则匹配看顺序</li></ol>]]></content>
     
     <summary type="html">
     
       
       
         &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Rewrite重写用来做些什么&lt;/strong&gt;&lt;br&gt;URL重写就是首先获得一个进入的URL请求，然后使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位把它重新写成网站可以处理的另一个URL的过程。rewrite只能放在配置文
+&lt;li&gt;&lt;strong&gt;什么是location，location都做些什么工作&lt;/strong&gt;&lt;br&gt;上文有提到，nginx内核完成的工作就是查找配置文件，将客户请求映射到一个location block，然后再执行location中的相应指令，所以说，locatio
       
     
     </summary>
@@ -582,20 +582,20 @@ fi
   </entry>
   
   <entry>
-    <title>nginx之Location</title>
-    <link href="http://yoursite.com/2019/03/02/Nginx%E4%B9%8BLocation/"/>
-    <id>http://yoursite.com/2019/03/02/Nginx之Location/</id>
+    <title>Rewrite重写URL</title>
+    <link href="http://yoursite.com/2019/03/02/Rewrite%E9%87%8D%E5%86%99URL/"/>
+    <id>http://yoursite.com/2019/03/02/Rewrite重写URL/</id>
     <published>2019-03-02T14:45:56.000Z</published>
-    <updated>2019-03-09T07:01:46.219Z</updated>
+    <updated>2019-03-09T07:01:55.101Z</updated>
     
-    <content type="html"><![CDATA[<ol><li><strong>什么是location，location都做些什么工作</strong><br>上文有提到，nginx内核完成的工作就是查找配置文件，将客户请求映射到一个location block，然后再执行location中的相应指令，所以说，location的作用就是用于匹配客户请求，并做出相应动作。<br>location如何匹配用户请求呢，先对URL进行剖析你就会知道，URL的格式由下列三部分组成：<br>第一部分是协议（或称为服务方式）；<br>第二部分是存有该资源的主机IP地址（有时也包括端口号）；<br>第三部分是主机资源的具体地址。，如目录和文件名等；<br>当一个请求到达服务器后，服务器接受到这个请求时，前两部分的匹配工作就已经完成，现在要做的就是在服务器上找到资源，location就是匹配的URL的第三部分内容。</li><li><strong>匹配模式</strong><br>location = /uri =开头表示精确匹配，只有完全匹配上才能生效。<br>location ^~ /uri ^~ 开头对URL路径进行前缀匹配，并且在正则之前。<br>location ~ pattern ~开头表示区分大小写的正则匹配。<br>location ~<em> pattern ~</em>开头表示不区分大小写的正则匹配。<br>location /uri 不带任何修饰符，也表示前缀匹配，但是在正则匹配之后。<br>location / 通用匹配，任何未匹配到其它location的请求都会匹配到，相当于switch中的default。</li><li><strong>匹配顺序</strong><br><img src="http://static.zybuluo.com/jiangpeisi/guoanpfc3d7zixyx7pynowiu/qqqq%20%282%29.png" alt="qqqq (2).png-42.5kB"><br>精确匹配&gt;正则匹配&gt;普通字符匹配  普通匹配看字符串长短，正则匹配看顺序</li></ol>]]></content>
+    <content type="html"><![CDATA[<ol><li><strong>Rewrite重写用来做些什么</strong><br>URL重写就是首先获得一个进入的URL请求，然后使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位把它重新写成网站可以处理的另一个URL的过程。rewrite只能放在配置文件的server{},location{},if{}中，并且只能对域名后边的除去传递的参数外的字符串起作用。</li><li><strong>Rewrite执行顺序</strong><br>1.执行server块的rewrite指令<br>2.执行location匹配<br>3.执行选定的location中的rewrite指令<br>4.执行if条件匹配<br>5.执行if块中的rewrite指令</li><li><strong>rewrite语法</strong><br><img src="http://static.zybuluo.com/jiangpeisi/mi0e0s061is56an6tkuxmmud/image_1d5142otn17uq1lmmhis17l21jr52a.png" alt="image_1d5142otn17uq1lmmhis17l21jr52a.png-4kB"><br>关键字：其中关键字error_log不能改变<br>正则： perl兼容正则表达式语句进行规则匹配<br>替代内容：将正则匹配的内容替换成repl acement<br>filag标记： rewrite支持的fl ag标记<br>flag标记说明：<br>Last #本条规则匹配完成后，继续向下匹配新的location URI规则<br>break #本条规则匹配完成即终止，不再匹配后面的任何规则<br>redirect #返回302临时重定向，浏览器地址会显示跳转后的URL.地址<br>permanent #返回301永久重定向，浏览器地址栏会显示跳转后的URL她址</li><li><strong>指令详解</strong><br>1.if指令<br>语法为if(condition){…}<br>condition常用判断条件：<br>-f和!-f用来判断请求文件是否存在<br>-d和!-d用来判断请求目录是否存在<br>-e和!-e用来判断是请求的文件或者目录否存在<br>-x和!-x用来判断请求的文件是否可执行<br>condition可用的nginx变量：<br><img src="http://static.zybuluo.com/jiangpeisi/vbwm6czsg5ns6990jucbve0t/image_1d518ruaobbb1vcict8pvjal03h.png" alt="image_1d518ruaobbb1vcict8pvjal03h.png-810.5kB"><br>2.break指令<br>用于中断当前相同作用域中的Nginx配置，和Java中的break语法类似，可以在server块和location以及if块中使用。<br>3.return指令<br>该指令用于完成对请求的处理，直接向客户端响应状态的代码。和Java中的return语法类似。可以再server块和location以及if块中使用。<br>4.set指令<br>用来设置新的变量<br>  语法: set variable value</li></ol>]]></content>
     
     <summary type="html">
     
       
       
         &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;什么是location，location都做些什么工作&lt;/strong&gt;&lt;br&gt;上文有提到，nginx内核完成的工作就是查找配置文件，将客户请求映射到一个location block，然后再执行location中的相应指令，所以说，locatio
+&lt;li&gt;&lt;strong&gt;Rewrite重写用来做些什么&lt;/strong&gt;&lt;br&gt;URL重写就是首先获得一个进入的URL请求，然后使用nginx提供的全局变量或自己设置的变量，结合正则表达式和标志位把它重新写成网站可以处理的另一个URL的过程。rewrite只能放在配置文
       
     
     </summary>
