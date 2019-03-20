@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-03-18T03:49:52.166Z</updated>
+  <updated>2019-03-19T16:24:27.690Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,78 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>shell脚本学习之循环语句</title>
+    <link href="http://yoursite.com/2019/03/19/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5%20/"/>
+    <id>http://yoursite.com/2019/03/19/shell脚本学习之循环语句 /</id>
+    <published>2019-03-19T14:45:56.000Z</published>
+    <updated>2019-03-19T16:24:27.690Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>for循环语句格式</strong></p><pre><code>for var in （表达式）do    Commanddone</code></pre><p><strong>实例：计算1-100和</strong></p><pre><code>#!/bin/bashsum=0for i in `seq 1 100`do  sum=$(expr $sum + $i)doneecho $sum[root@jiangpeisi shell]# sh for.sh 5050</code></pre><p><strong>while循环语句格式</strong></p><pre><code>while（表达式）do    commanddone</code></pre><p><strong>实例：循环按行打印文件内容</strong></p><pre><code>#!/bin/bashwhile read linedo   echo $linedone &lt; /root/shell/a.txt[root@jiangpeisi shell]# sh while.sh lkitd:x:998:997:User for polkitd:/:/sbin/nologintss:x:59:59:Account used by the trousers package to sandbox the tcsd daemon:/dev/null:/sbin/nologinsshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologinpostfix:x:89:89::/var/spool/postfix:/sbin/nologinchrony:x:997:995::/var/lib/chrony:/sbin/nologinntp:x:38:38::/etc/ntp:/sbin/nologinnscd:x:28:28:NSCD Daemon:/:/sbin/nologintcpdump:x:72:72::/:/sbin/nologinadmin:x:1000:1000::/home/admin:/bin/bashdockerroot:x:996:993:Docker User:/var/lib/docker:/sbin/nologindockerroot-latest:x:995:992:Docker User:/var/lib/docker-latest:/sbin/nologinzarafa:x:994:991:Zarafa Service Account:/var/lib/zarafa:/sbin/nologintest1:x:1002:1002::/home/test1:/bin/bashjiangpeisi:x:1004:1004::/home/jiangpeisi:/bin/bashftpuser1:x:1005:1005::/home/ftpuser1:/bin/bashnamed:x:25:25:Named:/var/named:/bin/falsedhcpd:x:177:177:DHCP server:/:/sbin/nologinmysql:x:27:27:MariaDB Server:/var/lib/mysql:/sbin/nologinsaslauth:x:993:76:Saslauthd user:/run/saslauthd:/sbin/nologinapache:x:48:48:Apache:/usr/share/httpd:/sbin/nologin</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;for循环语句格式&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;for var in （表达式）
+do
+    Command
+done
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;实例：计算1-100和&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;cod
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>shell脚本学习之if条件判断</title>
+    <link href="http://yoursite.com/2019/03/19/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8Bif%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD/"/>
+    <id>http://yoursite.com/2019/03/19/shell脚本学习之if条件判断/</id>
+    <published>2019-03-19T14:45:56.000Z</published>
+    <updated>2019-03-19T15:57:03.332Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>语句格式：</strong></p><pre><code>if(条件表达式)  commandelif(条件表达式)  commandelse  commandfi</code></pre><p><strong>if常见的判断逻辑运算符</strong></p><pre><code>-f: 判断文件是否存在,例如if[-f filename ]。-d: 判断目录是否存在,例如if[ -d dir]。-eq :等于,应用于整型比较,即equal.-ne:不等于,应用于整型比较,即not equal。-lt: 小于,应用于整型比较,即letter。-gt:大于,应用于整型比较,即greater。-le: 小于或等于,应用于整型比较。-ge: 大于或等于,应用于整型比较。-a:双方都成立(and) ,用法为逻辑表达式-a逻辑表达式-o:单方成立(or),用法为逻辑表达式-o逻辑表达式。-z:空字符串。||:单方成立。&amp;&amp;:双方都成立表达式。</code></pre><p><strong>实例：</strong><br>使用if条件判断分数</p><pre><code>#!/bin/bashscores=$1if [ $scores -eq 100 ]; then   echo &quot; very good!&quot; ;elif [ $scores -gt 85 ];then   echo &quot;good!&quot; ;elif [ $scores -gt 60 ];then   echo &quot; pass! &quot; ;elif [ $scores -lt 60 ]; then   echo &quot;no pass!&quot;;fi[root@jiangpeisi shell]# sh scores.sh 95good!</code></pre><p>判断网络主机状态</p><pre><code>#!/bin/bashping -c2 -W1 $1 &amp;&gt;/dev/nullif [ $? -eq 0 ];then  echo &quot;$1 is UP&quot;else  echo &quot;$1[root@jiangpeisi shell]# sh state.sh 192.168.32.2192.168.32.2 is DOWN</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;语句格式：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;if(条件表达式)
+  command
+elif(条件表达式)
+  command
+else
+  command
+fi
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;if常见的判断逻辑运算符&lt;/s
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
+    
+  </entry>
   
   <entry>
     <title>shell脚本学习之变量得使用</title>
@@ -227,40 +299,6 @@
   </entry>
   
   <entry>
-    <title>Docker容器网络模式</title>
-    <link href="http://yoursite.com/2019/03/07/Docker%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F/"/>
-    <id>http://yoursite.com/2019/03/07/Docker容器网络模式/</id>
-    <published>2019-03-07T14:45:56.000Z</published>
-    <updated>2019-03-15T15:25:05.858Z</updated>
-    
-    <content type="html"><![CDATA[<ul><li><p><strong>配置容器网络模式</strong></p><p> Docker run -net=pattern</p></li><li><p><strong>四种模式</strong></p><p> host模式：host模式下的容器不会独立创建一个network namespace,而是与宿主机公用一个network namespace。容器不会再虚拟出自己的网卡，配置IP，直接使用宿主机的IP及端口。</p><p> container模式：container模式下的容器与host模式下的容器类似，同样不会独立创建一个network namespace，而是和其他容器共用一个network namespace。两个容器除了network namespace是共享的之外，其他的如文件系统、进程列表等还是相互隔离的。</p><p> none模式：none模式下的容器拥有自己的network namespace，但是不会为容器进行任何网络配置，需要人工添加网卡、配置IP等信息，典型的pipework工具可以为此模式下的容器配置IP等信息。</p><p> bridge模式：docker容器默认的网络模式，该模式会为每一个容器分配一个network namespace，设置IP、路由等信息，并且默认会将这些容器连接到一个虚拟的交换机docker0上。</p></li><li><p><strong>bridge模式下的docker 容器创建过程</strong><br>1.启动docker容器，docker宿主机会创建一对虚拟网卡，veth pair设备，用于两个设备通信。<br>2.Docker 将veth pair 的一端放在新创建的docker 容器中，并命名为eth0，另一端放在宿主机中，以veth-container-id的方式命名，并将这个veth加入到docker0中。<br>3.Docker0从子网中分配一个IP给容器使用，并将容器的网关设置为docker0的IP地址。<br>此时容器间，容器与宿主机之间是可以通信的，容器也可以访问外网，但是其他宿主机不可以访问容器内的IP地址，需要通过NAT将容器IP的port映射为宿主机的IP和port，方可访问。</p></li><li><p><strong>docker桥接网络拓扑</strong><br><img src="http://static.zybuluo.com/jiangpeisi/062j0akdehbba7vej72yb1o3/image_1d5aqqol11q8733oqtbjqm1e4ic.png" alt="image_1d5aqqol11q8733oqtbjqm1e4ic.png-27.1kB"></p></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;配置容器网络模式&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt; Docker run -net=pattern&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;四种模式&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt; host模式：host模式下的容器不会独立创建
-      
-    
-    </summary>
-    
-      <category term="虚拟化" scheme="http://yoursite.com/categories/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
-    
-      <category term="Docker" scheme="http://yoursite.com/categories/%E8%99%9A%E6%8B%9F%E5%8C%96/Docker/"/>
-    
-    
-      <category term="docker" scheme="http://yoursite.com/tags/docker/"/>
-    
-      <category term="虚拟化" scheme="http://yoursite.com/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Dokcer安装并部署多个nginx</title>
     <link href="http://yoursite.com/2019/03/07/Docker%E5%AE%89%E8%A3%85%E5%B9%B6%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2%E5%A4%9A%E4%B8%AAnginx/"/>
     <id>http://yoursite.com/2019/03/07/Docker安装并使用docker部署多个nginx/</id>
@@ -279,6 +317,40 @@
 &lt;pre&gt;&lt;code&gt;uname -r
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt; 2.安装相关的包&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;yum i
+      
+    
+    </summary>
+    
+      <category term="虚拟化" scheme="http://yoursite.com/categories/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
+    
+      <category term="Docker" scheme="http://yoursite.com/categories/%E8%99%9A%E6%8B%9F%E5%8C%96/Docker/"/>
+    
+    
+      <category term="docker" scheme="http://yoursite.com/tags/docker/"/>
+    
+      <category term="虚拟化" scheme="http://yoursite.com/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Docker容器网络模式</title>
+    <link href="http://yoursite.com/2019/03/07/Docker%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F/"/>
+    <id>http://yoursite.com/2019/03/07/Docker容器网络模式/</id>
+    <published>2019-03-07T14:45:56.000Z</published>
+    <updated>2019-03-15T15:25:05.858Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li><p><strong>配置容器网络模式</strong></p><p> Docker run -net=pattern</p></li><li><p><strong>四种模式</strong></p><p> host模式：host模式下的容器不会独立创建一个network namespace,而是与宿主机公用一个network namespace。容器不会再虚拟出自己的网卡，配置IP，直接使用宿主机的IP及端口。</p><p> container模式：container模式下的容器与host模式下的容器类似，同样不会独立创建一个network namespace，而是和其他容器共用一个network namespace。两个容器除了network namespace是共享的之外，其他的如文件系统、进程列表等还是相互隔离的。</p><p> none模式：none模式下的容器拥有自己的network namespace，但是不会为容器进行任何网络配置，需要人工添加网卡、配置IP等信息，典型的pipework工具可以为此模式下的容器配置IP等信息。</p><p> bridge模式：docker容器默认的网络模式，该模式会为每一个容器分配一个network namespace，设置IP、路由等信息，并且默认会将这些容器连接到一个虚拟的交换机docker0上。</p></li><li><p><strong>bridge模式下的docker 容器创建过程</strong><br>1.启动docker容器，docker宿主机会创建一对虚拟网卡，veth pair设备，用于两个设备通信。<br>2.Docker 将veth pair 的一端放在新创建的docker 容器中，并命名为eth0，另一端放在宿主机中，以veth-container-id的方式命名，并将这个veth加入到docker0中。<br>3.Docker0从子网中分配一个IP给容器使用，并将容器的网关设置为docker0的IP地址。<br>此时容器间，容器与宿主机之间是可以通信的，容器也可以访问外网，但是其他宿主机不可以访问容器内的IP地址，需要通过NAT将容器IP的port映射为宿主机的IP和port，方可访问。</p></li><li><p><strong>docker桥接网络拓扑</strong><br><img src="http://static.zybuluo.com/jiangpeisi/062j0akdehbba7vej72yb1o3/image_1d5aqqol11q8733oqtbjqm1e4ic.png" alt="image_1d5aqqol11q8733oqtbjqm1e4ic.png-27.1kB"></p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;配置容器网络模式&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt; Docker run -net=pattern&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;四种模式&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt; host模式：host模式下的容器不会独立创建
       
     
     </summary>
@@ -321,35 +393,6 @@
   </entry>
   
   <entry>
-    <title>日志切割</title>
-    <link href="http://yoursite.com/2019/03/03/%E6%97%A5%E5%BF%97%E5%88%87%E5%89%B2/"/>
-    <id>http://yoursite.com/2019/03/03/日志切割/</id>
-    <published>2019-03-03T14:45:56.000Z</published>
-    <updated>2019-03-09T07:02:02.832Z</updated>
-    
-    <content type="html"><![CDATA[<ol><li><strong>日志分类</strong><br>access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；<br>error.log 记录服务器错误的日志</li><li><strong>日志配置</strong><br>配置日志的存储路径：<br>location / {<pre><code>access_log          /usr/local/nginx/logs/access.log;error_log           /usr/local/nginx/logs/error.log;</code></pre>}<br>配置日志格式：<br><img src="http://static.zybuluo.com/jiangpeisi/n4fibrzee1r5ku7hb41mmrux/image_1d4vf79fh5k2m2j1si8ada19dj4r.png" alt="image_1d4vf79fh5k2m2j1si8ada19dj4r.png-20.5kB"></li><li><strong>日志切割脚本</strong><br><img src="http://static.zybuluo.com/jiangpeisi/18tztm3bn4ygddpy3bjhle69/image_1d4veqc8v177mam71tlgseh160p2n.png" alt="image_1d4veqc8v177mam71tlgseh160p2n.png-31.2kB"></li><li><strong>创建定时任务每日零点切割日志</strong><br>crontab –e<br>59 23 <em> </em> * bash /usr/local/nginx/shell/cut_ngnix_log.sh</li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;日志分类&lt;/strong&gt;&lt;br&gt;access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；&lt;br&gt;error.log 记录服务器错误的日志&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;日志配置&lt;/strong&gt;&lt;br&gt;配置日志的存储路径
-      
-    
-    </summary>
-    
-      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
-    
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
-    
-  </entry>
-  
-  <entry>
     <title>LNMP架构中Nginx如何与PHP进行交互</title>
     <link href="http://yoursite.com/2019/03/03/LNMP%E6%9E%B6%E6%9E%84%E4%B8%ADNginx%E5%A6%82%E4%BD%95%E4%B8%8EPHP%E4%BA%A4%E4%BA%92/"/>
     <id>http://yoursite.com/2019/03/03/LNMP架构中Nginx如何与PHP交互/</id>
@@ -366,6 +409,35 @@
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;简述&lt;/strong&gt;&lt;br&gt;因为nginx不支持对动态脚本文件的解析，所以如果客户端浏览器有对动态脚本文件的请求时，nginx就需要调用动态文本解析程序即php来处理请求。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;原理：&lt;/st
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>日志切割</title>
+    <link href="http://yoursite.com/2019/03/03/%E6%97%A5%E5%BF%97%E5%88%87%E5%89%B2/"/>
+    <id>http://yoursite.com/2019/03/03/日志切割/</id>
+    <published>2019-03-03T14:45:56.000Z</published>
+    <updated>2019-03-09T07:02:02.832Z</updated>
+    
+    <content type="html"><![CDATA[<ol><li><strong>日志分类</strong><br>access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；<br>error.log 记录服务器错误的日志</li><li><strong>日志配置</strong><br>配置日志的存储路径：<br>location / {<pre><code>access_log          /usr/local/nginx/logs/access.log;error_log           /usr/local/nginx/logs/error.log;</code></pre>}<br>配置日志格式：<br><img src="http://static.zybuluo.com/jiangpeisi/n4fibrzee1r5ku7hb41mmrux/image_1d4vf79fh5k2m2j1si8ada19dj4r.png" alt="image_1d4vf79fh5k2m2j1si8ada19dj4r.png-20.5kB"></li><li><strong>日志切割脚本</strong><br><img src="http://static.zybuluo.com/jiangpeisi/18tztm3bn4ygddpy3bjhle69/image_1d4veqc8v177mam71tlgseh160p2n.png" alt="image_1d4veqc8v177mam71tlgseh160p2n.png-31.2kB"></li><li><strong>创建定时任务每日零点切割日志</strong><br>crontab –e<br>59 23 <em> </em> * bash /usr/local/nginx/shell/cut_ngnix_log.sh</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;日志分类&lt;/strong&gt;&lt;br&gt;access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；&lt;br&gt;error.log 记录服务器错误的日志&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;日志配置&lt;/strong&gt;&lt;br&gt;配置日志的存储路径
       
     
     </summary>
