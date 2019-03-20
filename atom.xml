@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-03-19T16:24:27.690Z</updated>
+  <updated>2019-03-20T14:50:35.384Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,80 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>shell脚本学习之选择语句</title>
+    <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%80%89%E6%8B%A9%E8%AF%AD%E5%8F%A5/"/>
+    <id>http://yoursite.com/2019/03/20/shell脚本学习之选择语句/</id>
+    <published>2019-03-20T14:45:56.000Z</published>
+    <updated>2019-03-20T14:50:35.384Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>case 语句格式：</strong></p><pre><code>case value in （表达式）pattern1)    command    ;;pattern2）    command    ;;*）   commandesac</code></pre><p><strong>实例：菜单选择</strong></p><pre><code>#!/bin/bashMenu=(beef,noodles,rice,juice)echo &quot;The menu is:&quot;for i in ${Menu[*]}do   echo  &quot;$i&quot;doneread -p &quot;Please choose one:&quot; foodcase $food in        beef)         echo &quot;You choose beef!&quot;        ;;        noodles)          echo &quot;You choose noodles!&quot;        ;;        rice)          echo &quot;You choose rice!&quot;        ;;        juice)          echo &quot;You choose juice!&quot;        ;;        *)          echo &quot;Don&apos;t have this one!&quot;        ;;esac[root@jiangpeisi shell]# sh menu.sh The menu is:beef,noodles,rice,juicePlease choose one:noodlesYou choose noodles!</code></pre><p><strong>select 语法格式：</strong></p><pre><code>select i in （表达式）do   commanddone</code></pre><p><strong>实例：测试服务状态</strong></p><pre><code>#!/bin/bashPS3=&quot;Please enter your select menu:&quot;select i in http php mysql quitdocase $i in        http)          echo &quot;Test http&apos;s state!&quot;        ;;        php)          echo &quot;Test php&apos;s state!&quot;        ;;        mysql)          echo &quot;Test mysql&apos;s state!&quot;        ;;        quit)          echo &quot;Exit!&quot;          exitesacdone[root@jiangpeisi shell]# sh lnmp.sh1) http2) php3) mysql4) quitPlease enter your select menu:1Test http&apos;s state!Please enter your select menu:2Test php&apos;s state!Please enter your select menu:3Test mysql&apos;s state!Please enter your select menu:4Exit!</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;case 语句格式：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;case value in （表达式）
+pattern1)
+    command
+    ;;
+pattern2）
+    command
+    ;;
+*）
+   command
+es
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>shell脚本学习之函数</title>
+    <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%87%BD%E6%95%B0/"/>
+    <id>http://yoursite.com/2019/03/20/shell脚本学习之函数/</id>
+    <published>2019-03-20T14:45:56.000Z</published>
+    <updated>2019-03-20T14:55:31.064Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>函数定义格式：</strong></p><pre><code>function name（）{command}</code></pre><p><strong>调用：</strong></p><pre><code>name argv1 argv2  </code></pre><p><strong>实例：安装Apache函数</strong></p><pre><code>#!/bin/bash#Auto install appache#By Auther jiangpeisiURL=http://mirrors.shu.edu.cn/apache//httpdFILE=httpd-2.4.38.tar.gzFILES_DIR=httpd-2.4.38PREFIX=/usr/local/apachefunction Apache_install(){if [ $1 -eq 1 ];then        yum install  openssl openssl-devel zlib zlib-devel gcc-c++ pcre pcre-devel -y &amp;&amp; cd /usr/local/src/ &amp;&amp; wget $URL/$FILE &amp;&amp; tar -xvf $FILE &amp;&amp; cd $FILES_DIR &amp;&amp; ./configure --prefix=$PREFIX  if [ $? -eq 0 ];then    make&amp;&amp;make install    echo &quot;The $FILES_DIR Server Install Sucess!&quot;    . /usr/local/apache/bin/httpd  else    echo &quot;The $FILES_DIR Server Install Fail!&quot;  fifi}Apache_install 1</code></pre><p><strong>测试：</strong></p><p><img src="http://static.zybuluo.com/jiangpeisi/369raax3bt02mth1v541lp5z/image_1d6dpfhvfkkohu3fk21gg8185116.png" alt="image_1d6dpfhvfkkohu3fk21gg8185116.png-23.1kB"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;函数定义格式：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;function name（）
+{
+command
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;调用：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;name argv1 argv2 
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
+    
+  </entry>
   
   <entry>
     <title>shell脚本学习之循环语句</title>
@@ -269,40 +343,6 @@ fi
   </entry>
   
   <entry>
-    <title>Docker容器网络模式</title>
-    <link href="http://yoursite.com/2019/03/07/Docker%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F/"/>
-    <id>http://yoursite.com/2019/03/07/Docker容器网络模式/</id>
-    <published>2019-03-07T14:45:56.000Z</published>
-    <updated>2019-03-15T15:25:05.858Z</updated>
-    
-    <content type="html"><![CDATA[<ul><li><p><strong>配置容器网络模式</strong></p><p> Docker run -net=pattern</p></li><li><p><strong>四种模式</strong></p><p> host模式：host模式下的容器不会独立创建一个network namespace,而是与宿主机公用一个network namespace。容器不会再虚拟出自己的网卡，配置IP，直接使用宿主机的IP及端口。</p><p> container模式：container模式下的容器与host模式下的容器类似，同样不会独立创建一个network namespace，而是和其他容器共用一个network namespace。两个容器除了network namespace是共享的之外，其他的如文件系统、进程列表等还是相互隔离的。</p><p> none模式：none模式下的容器拥有自己的network namespace，但是不会为容器进行任何网络配置，需要人工添加网卡、配置IP等信息，典型的pipework工具可以为此模式下的容器配置IP等信息。</p><p> bridge模式：docker容器默认的网络模式，该模式会为每一个容器分配一个network namespace，设置IP、路由等信息，并且默认会将这些容器连接到一个虚拟的交换机docker0上。</p></li><li><p><strong>bridge模式下的docker 容器创建过程</strong><br>1.启动docker容器，docker宿主机会创建一对虚拟网卡，veth pair设备，用于两个设备通信。<br>2.Docker 将veth pair 的一端放在新创建的docker 容器中，并命名为eth0，另一端放在宿主机中，以veth-container-id的方式命名，并将这个veth加入到docker0中。<br>3.Docker0从子网中分配一个IP给容器使用，并将容器的网关设置为docker0的IP地址。<br>此时容器间，容器与宿主机之间是可以通信的，容器也可以访问外网，但是其他宿主机不可以访问容器内的IP地址，需要通过NAT将容器IP的port映射为宿主机的IP和port，方可访问。</p></li><li><p><strong>docker桥接网络拓扑</strong><br><img src="http://static.zybuluo.com/jiangpeisi/062j0akdehbba7vej72yb1o3/image_1d5aqqol11q8733oqtbjqm1e4ic.png" alt="image_1d5aqqol11q8733oqtbjqm1e4ic.png-27.1kB"></p></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;配置容器网络模式&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt; Docker run -net=pattern&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;四种模式&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt; host模式：host模式下的容器不会独立创建
-      
-    
-    </summary>
-    
-      <category term="虚拟化" scheme="http://yoursite.com/categories/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
-    
-      <category term="Docker" scheme="http://yoursite.com/categories/%E8%99%9A%E6%8B%9F%E5%8C%96/Docker/"/>
-    
-    
-      <category term="docker" scheme="http://yoursite.com/tags/docker/"/>
-    
-      <category term="虚拟化" scheme="http://yoursite.com/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Dokcer安装并部署多个nginx</title>
     <link href="http://yoursite.com/2019/03/07/Docker%E5%AE%89%E8%A3%85%E5%B9%B6%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2%E5%A4%9A%E4%B8%AAnginx/"/>
     <id>http://yoursite.com/2019/03/07/Docker安装并使用docker部署多个nginx/</id>
@@ -351,6 +391,40 @@ fi
       
         &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;传统虚拟化与docker&lt;/strong&gt;&lt;br&gt;传统虚拟化是在宿主机上使用VMM对底层硬件资源进行管理和封装、隔离抽象为一种逻辑独立的资源，分配给上层虚拟主机使用。&lt;br&gt;Docker是直接在宿主主机操作系统的层次上通过Cgroups对物理资源
+      
+    
+    </summary>
+    
+      <category term="虚拟化" scheme="http://yoursite.com/categories/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
+    
+      <category term="Docker" scheme="http://yoursite.com/categories/%E8%99%9A%E6%8B%9F%E5%8C%96/Docker/"/>
+    
+    
+      <category term="docker" scheme="http://yoursite.com/tags/docker/"/>
+    
+      <category term="虚拟化" scheme="http://yoursite.com/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Docker容器网络模式</title>
+    <link href="http://yoursite.com/2019/03/07/Docker%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F/"/>
+    <id>http://yoursite.com/2019/03/07/Docker容器网络模式/</id>
+    <published>2019-03-07T14:45:56.000Z</published>
+    <updated>2019-03-15T15:25:05.858Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li><p><strong>配置容器网络模式</strong></p><p> Docker run -net=pattern</p></li><li><p><strong>四种模式</strong></p><p> host模式：host模式下的容器不会独立创建一个network namespace,而是与宿主机公用一个network namespace。容器不会再虚拟出自己的网卡，配置IP，直接使用宿主机的IP及端口。</p><p> container模式：container模式下的容器与host模式下的容器类似，同样不会独立创建一个network namespace，而是和其他容器共用一个network namespace。两个容器除了network namespace是共享的之外，其他的如文件系统、进程列表等还是相互隔离的。</p><p> none模式：none模式下的容器拥有自己的network namespace，但是不会为容器进行任何网络配置，需要人工添加网卡、配置IP等信息，典型的pipework工具可以为此模式下的容器配置IP等信息。</p><p> bridge模式：docker容器默认的网络模式，该模式会为每一个容器分配一个network namespace，设置IP、路由等信息，并且默认会将这些容器连接到一个虚拟的交换机docker0上。</p></li><li><p><strong>bridge模式下的docker 容器创建过程</strong><br>1.启动docker容器，docker宿主机会创建一对虚拟网卡，veth pair设备，用于两个设备通信。<br>2.Docker 将veth pair 的一端放在新创建的docker 容器中，并命名为eth0，另一端放在宿主机中，以veth-container-id的方式命名，并将这个veth加入到docker0中。<br>3.Docker0从子网中分配一个IP给容器使用，并将容器的网关设置为docker0的IP地址。<br>此时容器间，容器与宿主机之间是可以通信的，容器也可以访问外网，但是其他宿主机不可以访问容器内的IP地址，需要通过NAT将容器IP的port映射为宿主机的IP和port，方可访问。</p></li><li><p><strong>docker桥接网络拓扑</strong><br><img src="http://static.zybuluo.com/jiangpeisi/062j0akdehbba7vej72yb1o3/image_1d5aqqol11q8733oqtbjqm1e4ic.png" alt="image_1d5aqqol11q8733oqtbjqm1e4ic.png-27.1kB"></p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;配置容器网络模式&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt; Docker run -net=pattern&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;四种模式&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt; host模式：host模式下的容器不会独立创建
       
     
     </summary>
@@ -452,34 +526,6 @@ fi
   </entry>
   
   <entry>
-    <title>nginx之Location</title>
-    <link href="http://yoursite.com/2019/03/02/Nginx%E4%B9%8BLocation/"/>
-    <id>http://yoursite.com/2019/03/02/Nginx之Location/</id>
-    <published>2019-03-02T14:45:56.000Z</published>
-    <updated>2019-03-09T07:01:46.219Z</updated>
-    
-    <content type="html"><![CDATA[<ol><li><strong>什么是location，location都做些什么工作</strong><br>上文有提到，nginx内核完成的工作就是查找配置文件，将客户请求映射到一个location block，然后再执行location中的相应指令，所以说，location的作用就是用于匹配客户请求，并做出相应动作。<br>location如何匹配用户请求呢，先对URL进行剖析你就会知道，URL的格式由下列三部分组成：<br>第一部分是协议（或称为服务方式）；<br>第二部分是存有该资源的主机IP地址（有时也包括端口号）；<br>第三部分是主机资源的具体地址。，如目录和文件名等；<br>当一个请求到达服务器后，服务器接受到这个请求时，前两部分的匹配工作就已经完成，现在要做的就是在服务器上找到资源，location就是匹配的URL的第三部分内容。</li><li><strong>匹配模式</strong><br>location = /uri =开头表示精确匹配，只有完全匹配上才能生效。<br>location ^~ /uri ^~ 开头对URL路径进行前缀匹配，并且在正则之前。<br>location ~ pattern ~开头表示区分大小写的正则匹配。<br>location ~<em> pattern ~</em>开头表示不区分大小写的正则匹配。<br>location /uri 不带任何修饰符，也表示前缀匹配，但是在正则匹配之后。<br>location / 通用匹配，任何未匹配到其它location的请求都会匹配到，相当于switch中的default。</li><li><strong>匹配顺序</strong><br><img src="http://static.zybuluo.com/jiangpeisi/guoanpfc3d7zixyx7pynowiu/qqqq%20%282%29.png" alt="qqqq (2).png-42.5kB"><br>精确匹配&gt;正则匹配&gt;普通字符匹配  普通匹配看字符串长短，正则匹配看顺序</li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;什么是location，location都做些什么工作&lt;/strong&gt;&lt;br&gt;上文有提到，nginx内核完成的工作就是查找配置文件，将客户请求映射到一个location block，然后再执行location中的相应指令，所以说，locatio
-      
-    
-    </summary>
-    
-      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
-    
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Rewrite重写URL</title>
     <link href="http://yoursite.com/2019/03/02/Rewrite%E9%87%8D%E5%86%99URL/"/>
     <id>http://yoursite.com/2019/03/02/Rewrite重写URL/</id>
@@ -536,6 +582,34 @@ fi
   </entry>
   
   <entry>
+    <title>nginx之Location</title>
+    <link href="http://yoursite.com/2019/03/02/Nginx%E4%B9%8BLocation/"/>
+    <id>http://yoursite.com/2019/03/02/Nginx之Location/</id>
+    <published>2019-03-02T14:45:56.000Z</published>
+    <updated>2019-03-09T07:01:46.219Z</updated>
+    
+    <content type="html"><![CDATA[<ol><li><strong>什么是location，location都做些什么工作</strong><br>上文有提到，nginx内核完成的工作就是查找配置文件，将客户请求映射到一个location block，然后再执行location中的相应指令，所以说，location的作用就是用于匹配客户请求，并做出相应动作。<br>location如何匹配用户请求呢，先对URL进行剖析你就会知道，URL的格式由下列三部分组成：<br>第一部分是协议（或称为服务方式）；<br>第二部分是存有该资源的主机IP地址（有时也包括端口号）；<br>第三部分是主机资源的具体地址。，如目录和文件名等；<br>当一个请求到达服务器后，服务器接受到这个请求时，前两部分的匹配工作就已经完成，现在要做的就是在服务器上找到资源，location就是匹配的URL的第三部分内容。</li><li><strong>匹配模式</strong><br>location = /uri =开头表示精确匹配，只有完全匹配上才能生效。<br>location ^~ /uri ^~ 开头对URL路径进行前缀匹配，并且在正则之前。<br>location ~ pattern ~开头表示区分大小写的正则匹配。<br>location ~<em> pattern ~</em>开头表示不区分大小写的正则匹配。<br>location /uri 不带任何修饰符，也表示前缀匹配，但是在正则匹配之后。<br>location / 通用匹配，任何未匹配到其它location的请求都会匹配到，相当于switch中的default。</li><li><strong>匹配顺序</strong><br><img src="http://static.zybuluo.com/jiangpeisi/guoanpfc3d7zixyx7pynowiu/qqqq%20%282%29.png" alt="qqqq (2).png-42.5kB"><br>精确匹配&gt;正则匹配&gt;普通字符匹配  普通匹配看字符串长短，正则匹配看顺序</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;什么是location，location都做些什么工作&lt;/strong&gt;&lt;br&gt;上文有提到，nginx内核完成的工作就是查找配置文件，将客户请求映射到一个location block，然后再执行location中的相应指令，所以说，locatio
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Nginx模块与工作原理</title>
     <link href="http://yoursite.com/2019/02/28/Nginx%E6%A8%A1%E5%9D%97%E5%88%86%E7%B1%BB%E4%B8%8E%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/"/>
     <id>http://yoursite.com/2019/02/28/Nginx模块分类与工作原理/</id>
@@ -559,58 +633,6 @@ fi
     
     
       <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Nginx安装</title>
-    <link href="http://yoursite.com/2019/02/28/Nginx%E5%AE%89%E8%A3%85/"/>
-    <id>http://yoursite.com/2019/02/28/Nginx安装/</id>
-    <published>2019-02-27T16:24:56.000Z</published>
-    <updated>2019-03-09T07:01:08.257Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Nginx是一个轻量型web服务器，也可以用来做负载均衡及反向代理。</p><hr><h2 id="安装环境准备"><a href="#安装环境准备" class="headerlink" title="安装环境准备"></a>安装环境准备</h2><p>nginx是C语言开发，建议在linux上运行，本次使用Centos7.3作为安装环境。</p><ol><li><p>gcc<br>nginx是用c语言编写，如果使用源码安装，需要先对源码进行编译，gcc作为linux上的c编译器来完成这个工作，所以事先要安装好gcc</p><p>yum install gcc-c++ -y</p></li><li><p>pcre<br>PCRE(Perl Compatible Regular Expressions)是一个Perl库，包括 perl 兼容的正则表达式库。nginx的http模块使用pcre来解析正则表达式，所以需要在linux上安装pcre库。</p><p>yum install pcre pcre-devel -y</p></li><li><p>zlib<br>zlib库提供了很多种压缩和解压缩的方式，nginx使用zlib对http包的内容进行gzip，所以需要在linux上安装zlib库。</p><p>yum install zlib zlib-devel -y</p></li><li><p>openssl<br>OpenSSL 是一个强大的安全套接字层密码库，囊括主要的密码算法、常用的密钥和证书封装管理功能及SSL协议，并提供丰富的应用程序供测试或其它目的使用。</p><p>yum install openssl openssl-devel -y</p></li></ol><hr><h2 id="下载编译安装nginx"><a href="#下载编译安装nginx" class="headerlink" title="下载编译安装nginx"></a>下载编译安装nginx</h2><ol><li><p>下载nginx源码</p><p>cd /usr/local/src<br>wget <a href="http://nginx.org/download/nginx-1.14.2.tar.gz" target="_blank" rel="noopener">http://nginx.org/download/nginx-1.14.2.tar.gz</a></p></li><li><p>解压源码</p><p>tar -xvf nginx-1.14.2.tar.gz </p></li><li><p>编译安装</p><p>cd nginx-1.14.2<br>./configure –prefix=/usr/local/nginx<br>make &amp;&amp; make install</p></li><li><p>启动服务</p><p>cd /usr/local/nginx/<br>./sbin/nginx </p></li></ol><p>若出现如下情况：<br><img src="http://static.zybuluo.com/jiangpeisi/ualmx38mtswvj4wv2oejoafk/aaa.png" alt="aaa.png-9.4kB"><br>说明80端口已经被其他进程占用，需要把占用端口的进程先杀掉在重新启动服务。有两种解决办法：</p><pre><code>1.使用netstat命令查看占用端口的进程![q.png-9.2kB][2]kill -9 [进程号]  杀死占用80端口的进程即可2.修改nginx配置文件中监听的端口号server {        listen       80;  #修改为8080        server_name  localhost;        #charset koi8-r;        #access_log  logs/host.access.log  main;        location / {            root   html;            index  index.html index.htm;        }浏览器访问时使用   IP：8080  访问即可</code></pre><p> 5.安装成功</p><p><img src="http://static.zybuluo.com/jiangpeisi/blkn5f588xbdg772ct0pa0tn/ads.png" alt="ads.png-8.5kB"></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h2&gt;&lt;p&gt;Nginx是一个轻量型web服务器，也可以用来做负载均衡及反向代理。&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;安装环境准备&quot;&gt;&lt;a href=&quot;#
-      
-    
-    </summary>
-    
-      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
-    
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>hexo+GitHub搭建个人博客</title>
-    <link href="http://yoursite.com/2019/02/27/hexo+GitHub%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/"/>
-    <id>http://yoursite.com/2019/02/27/hexo+GitHub搭建个人博客/</id>
-    <published>2019-02-27T14:04:56.000Z</published>
-    <updated>2019-02-27T14:10:52.012Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="hexo-GitHub搭建个人博客"><a href="#hexo-GitHub搭建个人博客" class="headerlink" title="hexo+GitHub搭建个人博客"></a>hexo+GitHub搭建个人博客</h2><h1 id="一、基本环境"><a href="#一、基本环境" class="headerlink" title="一、基本环境"></a>一、基本环境</h1><ol><li>注册GitHub账户<br><a href="https://git-scm.com/downloads" target="_blank" rel="noopener">GitHub注册教程</a></li><li>安装Node.js<br><a href="https://jingyan.baidu.com/article/48b37f8dd141b41a646488bc.html" target="_blank" rel="noopener">Node.js安装教程</a></li><li>安装git并且配置好git的基本环境<br><a href="https://git-scm.com/downloads" target="_blank" rel="noopener">官网</a>下载自己电脑对应的版本直接安装即可</li></ol><hr><h1 id="二、本地部署Hexo"><a href="#二、本地部署Hexo" class="headerlink" title="二、本地部署Hexo"></a>二、本地部署Hexo</h1><ol><li>首先在合适的地方创建一个本地文件夹，用于部署hexo。</li><li>打开上面安装Git Bash,进入刚刚创建的本地目录<br><img src="http://static.zybuluo.com/jiangpeisi/3nl5jgu8pxbp4ahm8w3foq37/image_1d4n4ll4i17ms1hhu1565hsu8mi11.png" alt="image_1d4n4ll4i17ms1hhu1565hsu8mi11.png-4.7kB"></li><li>安装hexo</li></ol><blockquote><p>npm install hexo-cli -g</p><p>hexo -v 检查版本</p></blockquote><ol start="4"><li>初始化文件夹</li></ol><blockquote><p>hexo init</p></blockquote><ol start="5"><li>安装所需组件</li></ol><blockquote><p>npm install</p></blockquote><ol start="6"><li>在本地生成静态文件</li></ol><blockquote><p>hexo generate</p></blockquote><ol start="7"><li>启动本地服务</li></ol><blockquote><p>hexo server</p></blockquote><p>  此时我们就可以通过浏览器访问本地部署的博客了，浏览器输入localhost：4000 查看刚刚部署的博客框架了，若是界面一直加载不出，可能是因为4000端口被其他端口占用了，此时需要用ctrl+c停止服务，重新用hexo -s -p 5000  指定使用5000端口，然后在访问localhost：5000即可。</p><ol start="8"><li>完成结果<br><img src="http://static.zybuluo.com/jiangpeisi/6iv0zcf9ity2eywtme9q4az3/N_HY4B2PTW%7D2O4FX4G@2BX5.png" alt="N_HY4B2PTW}2O4FX4G@2BX5.png-80.3kB"></li></ol><hr><h1 id="三、GitHub托管"><a href="#三、GitHub托管" class="headerlink" title="三、GitHub托管"></a>三、GitHub托管</h1><ol><li>更改Git的name和email</li></ol><blockquote><p>git config –list</p></blockquote><p> 查看当前name和email是否与注册GitHub时的相同若不相同 </p><blockquote><p>git config –global user.name “你的GitHub用户名”</p><p>git config –global user.email “你的GitHub邮箱”</p></blockquote><ol start="2"><li>创建SSH Key</li></ol><blockquote><p>ssh-keygen -t rsa -C “你的邮箱”</p></blockquote><p>一路回车，然后进入.ssh目录可以看到以下文件<br><img src="http://static.zybuluo.com/jiangpeisi/jxjji70g1rxltwkgg3bf5aan/sdas.png" alt="sdas.png-7.9kB"><br>id_rsa是私钥，不能泄露出去，id_rsa.pub是公钥，可以放心地告诉任何人。</p><ol start="3"><li>在GitHub上添加SSH Key<br>1.登陆GitHub，打开“settings”，“SSH and GPG Keys”页面<br>2.填上任意Title，在Key文本框里粘贴id_rsa.pub文件的内容<br>3.点“Add Key”，你就应该看到已经添加的Key<br>4.输入ssh -T <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>，测试添加ssh是否成功。如果看到Hi后面是你的用户名，就说明成功了<br><img src="http://static.zybuluo.com/jiangpeisi/6zekv8cd5t02kiiyrajbz8le/adasd.png" alt="adasd.png-5kB"></li><li>关联hexo与GitHub<br>在创建博客的根目录下找到_config.yml，这个文件是站点配置文件，关于站点的基本配置都在此文件中。</li></ol><blockquote><p>deploy:<br>    type: git<br>    repo: <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:Jiangpeisi/Jiangpeisi.github.io.git<br>    branch: master</p></blockquote><p>repo后面跟你自己注册的GitHub仓库地址</p><ol start="5"><li>安装拓展模块</li></ol><blockquote><p>npm install hexo-deployer-git –save</p></blockquote><ol start="6"><li>将本地部署推送到GitHub上</li></ol><blockquote><p>hexo g</p><p>hexo d</p></blockquote><ol start="7"><li>访问</li></ol><blockquote><p>http://用户名.github.io 将看到自己的博客</p></blockquote><hr><h1 id="四、设置主题"><a href="#四、设置主题" class="headerlink" title="四、设置主题"></a>四、设置主题</h1><p>在 Hexo 中有两份主要的配置文件，其名称都是 _config.yml。 其中，一份位于站点根目录下，主要包含 Hexo 本身的配置；另一份位于主题目录下，这份配置由主题作者提供，主要用于配置主题相关的选项。</p><ol><li>安装next<br>在站点目录下执行以下代码：</li></ol><blockquote><p>git clone <a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">https://github.com/iissnan/hexo-theme-next</a> themes/next</p></blockquote><ol start="2"><li>使用主题<br>当克隆/下载完成后，打开站点配置文件，找到 theme 字段，并将其值更改为 next。</li><li>验证主题</li></ol><blockquote><p>hexo clean 清楚之前的缓存</p><p>hexo g 本地部署</p><p>hexo s   浏览器访问localhost：4000</p><p>hexo d   浏览器访问看到笑过后推送到GitHub进行托管即可</p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;hexo-GitHub搭建个人博客&quot;&gt;&lt;a href=&quot;#hexo-GitHub搭建个人博客&quot; class=&quot;headerlink&quot; title=&quot;hexo+GitHub搭建个人博客&quot;&gt;&lt;/a&gt;hexo+GitHub搭建个人博客&lt;/h2&gt;&lt;h1 id=&quot;一、基本环
-      
-    
-    </summary>
-    
-      <category term="hexo" scheme="http://yoursite.com/categories/hexo/"/>
-    
-    
-      <category term="hexo" scheme="http://yoursite.com/tags/hexo/"/>
     
   </entry>
   
