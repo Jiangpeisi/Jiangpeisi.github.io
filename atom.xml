@@ -56,6 +56,35 @@ es
   </entry>
   
   <entry>
+    <title>shell脚本学习之四剑客find</title>
+    <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9B%E5%89%91%E5%AE%A2find/"/>
+    <id>http://yoursite.com/2019/03/20/shell脚本学习之四剑客find/</id>
+    <published>2019-03-20T14:45:56.000Z</published>
+    <updated>2019-03-20T16:02:35.465Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>简述</strong><br>  find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。<br><strong>语句格式：</strong></p><pre><code>find path -option [ -print ] [ -exec -ok command ] {} \;-print ：表示find命令将匹配的文件输出到标准输出中，默认执行该命令-exec  ：表示find命令对匹配的文件执行该参数给出的shell命令。相应命令的形式为 cmd {} \;-ok      ：它的作用和-exec一样，只是需要用户交互，更安全</code></pre><p><strong>option参数说明：</strong></p><pre><code>-name ：按照文件名查找文件-perm  ：按照权限查找文件-prune ：使find命令不在当前指定的目录中查找，如果同时使用-depth选项，那么-prune将被find命令忽略-user  ： 按照文件属主来查找文件-group  ：按照文件数组来查找文件-mtime -n +n  ：按照文件的更改时间来查找文件    -n ：表示从此刻算起，文件的更改是在n天以内    +n ：表示文件的更改时间是在n天以前-atime -n +n ： 按文件访问时间来查询-ctime -n +n ：按文件创建时间来查询 -nogroup  ：查找无有效属组的文件，即该文件所属的组在/etc/groups中不存在-nouser  :：查找无有效属主的文件，即该文件的属主在/etc/passwd中不存在-newer file1 ！ file2  :查找更改时间比file1新但比file2旧的文件-type      b：表示块设备文件     block     d：表示目录         directory     c：表示字符设备文件   char     p：表示管道文件      pipe     l：表示符号链接文件   link     f：表示普通文件      file-depth ：在查找文件时，首先查找当前目录中的文件，然后再在其子目录中查找-fstype ：表示查找位于某一类型文件系统中的文件，这些文件系统类型通常可以在配置文件/etc/fstab中找到，该配置文件中包含了本系统中有关文件系统的信息-mount  ：表示在查找文件时不跨越文件系统的mount点-follow   ：表示如果find命令遇到符号链接文件，就跟踪至链接所指向的文件-cpio      ：表示对匹配的文件使用cpio命令，将这些文件备份至磁带设备中</code></pre><p><strong>实例：</strong><br>实例1：查找/root/shell目录下以.sh结尾 并且创建时间在1天以内的文件</p><pre><code>[root@jiangpeisi ~]# find /root/shell/ -name *.sh -ctime -1/root/shell/menu.sh/root/shell/apache-install.sh/root/shell/lnmp.sh/root/shell/select.sh/root/shell/sum.sh/root/shell/while.sh</code></pre><p>实例2：查找/root/shell目录下以.sh结尾 并且创建时间在1天以内的文件，并将文件移动到/opt/目录下</p><pre><code>[root@jiangpeisi ~]# find /root/shell/ -name *.sh -ctime -1 -exec mv {} /opt/ \; [root@jiangpeisi ~]# ll /opt/total 36-rw-r--r-- 1 root root  621 Mar 20 15:32 apache-install.sh-rw-r--r-- 1 root root   48 Mar 17 11:08 b.sh-rw-r--r-- 1 root root  303 Mar 18 11:28 e.sh-rw-r--r-- 1 root root  258 Mar 20 14:25 lnmp.sh-rw-r--r-- 1 root root  357 Mar 20 08:49 menu.shdrwxr-xr-x 2 root root 4096 Mar 15 15:41 nginx-rw-r--r-- 1 root root  138 Mar 20 14:12 select.sh-rw-r--r-- 1 root root   82 Mar 20 00:00 sum.sh-rw-r--r-- 1 root root   70 Mar 20 00:07 while.sh</code></pre><p>实例3：查找/data目录下以.log结尾，修改时间在1天以内，文件大小大于10M的文件，并将文件打包</p><pre><code>[root@jiangpeisi ~]# find /data/ -name *.log -ctime -1 -size +10k -exec tar -czPf /datacd/backup.tar.gz {} \;</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;简述&lt;/strong&gt;&lt;br&gt;  find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。&lt;br&gt;&lt;str
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
+    
+  </entry>
+  
+  <entry>
     <title>shell脚本学习之函数</title>
     <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%87%BD%E6%95%B0/"/>
     <id>http://yoursite.com/2019/03/20/shell脚本学习之函数/</id>
@@ -467,35 +496,6 @@ fi
   </entry>
   
   <entry>
-    <title>日志切割</title>
-    <link href="http://yoursite.com/2019/03/03/%E6%97%A5%E5%BF%97%E5%88%87%E5%89%B2/"/>
-    <id>http://yoursite.com/2019/03/03/日志切割/</id>
-    <published>2019-03-03T14:45:56.000Z</published>
-    <updated>2019-03-09T07:02:02.832Z</updated>
-    
-    <content type="html"><![CDATA[<ol><li><strong>日志分类</strong><br>access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；<br>error.log 记录服务器错误的日志</li><li><strong>日志配置</strong><br>配置日志的存储路径：<br>location / {<pre><code>access_log          /usr/local/nginx/logs/access.log;error_log           /usr/local/nginx/logs/error.log;</code></pre>}<br>配置日志格式：<br><img src="http://static.zybuluo.com/jiangpeisi/n4fibrzee1r5ku7hb41mmrux/image_1d4vf79fh5k2m2j1si8ada19dj4r.png" alt="image_1d4vf79fh5k2m2j1si8ada19dj4r.png-20.5kB"></li><li><strong>日志切割脚本</strong><br><img src="http://static.zybuluo.com/jiangpeisi/18tztm3bn4ygddpy3bjhle69/image_1d4veqc8v177mam71tlgseh160p2n.png" alt="image_1d4veqc8v177mam71tlgseh160p2n.png-31.2kB"></li><li><strong>创建定时任务每日零点切割日志</strong><br>crontab –e<br>59 23 <em> </em> * bash /usr/local/nginx/shell/cut_ngnix_log.sh</li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;日志分类&lt;/strong&gt;&lt;br&gt;access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；&lt;br&gt;error.log 记录服务器错误的日志&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;日志配置&lt;/strong&gt;&lt;br&gt;配置日志的存储路径
-      
-    
-    </summary>
-    
-      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
-    
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
-    
-  </entry>
-  
-  <entry>
     <title>LNMP架构中Nginx如何与PHP进行交互</title>
     <link href="http://yoursite.com/2019/03/03/LNMP%E6%9E%B6%E6%9E%84%E4%B8%ADNginx%E5%A6%82%E4%BD%95%E4%B8%8EPHP%E4%BA%A4%E4%BA%92/"/>
     <id>http://yoursite.com/2019/03/03/LNMP架构中Nginx如何与PHP交互/</id>
@@ -526,48 +526,21 @@ fi
   </entry>
   
   <entry>
-    <title>nginx之Location</title>
-    <link href="http://yoursite.com/2019/03/02/Nginx%E4%B9%8BLocation/"/>
-    <id>http://yoursite.com/2019/03/02/Nginx之Location/</id>
-    <published>2019-03-02T14:45:56.000Z</published>
-    <updated>2019-03-09T07:01:46.219Z</updated>
+    <title>日志切割</title>
+    <link href="http://yoursite.com/2019/03/03/%E6%97%A5%E5%BF%97%E5%88%87%E5%89%B2/"/>
+    <id>http://yoursite.com/2019/03/03/日志切割/</id>
+    <published>2019-03-03T14:45:56.000Z</published>
+    <updated>2019-03-09T07:02:02.832Z</updated>
     
-    <content type="html"><![CDATA[<ol><li><strong>什么是location，location都做些什么工作</strong><br>上文有提到，nginx内核完成的工作就是查找配置文件，将客户请求映射到一个location block，然后再执行location中的相应指令，所以说，location的作用就是用于匹配客户请求，并做出相应动作。<br>location如何匹配用户请求呢，先对URL进行剖析你就会知道，URL的格式由下列三部分组成：<br>第一部分是协议（或称为服务方式）；<br>第二部分是存有该资源的主机IP地址（有时也包括端口号）；<br>第三部分是主机资源的具体地址。，如目录和文件名等；<br>当一个请求到达服务器后，服务器接受到这个请求时，前两部分的匹配工作就已经完成，现在要做的就是在服务器上找到资源，location就是匹配的URL的第三部分内容。</li><li><strong>匹配模式</strong><br>location = /uri =开头表示精确匹配，只有完全匹配上才能生效。<br>location ^~ /uri ^~ 开头对URL路径进行前缀匹配，并且在正则之前。<br>location ~ pattern ~开头表示区分大小写的正则匹配。<br>location ~<em> pattern ~</em>开头表示不区分大小写的正则匹配。<br>location /uri 不带任何修饰符，也表示前缀匹配，但是在正则匹配之后。<br>location / 通用匹配，任何未匹配到其它location的请求都会匹配到，相当于switch中的default。</li><li><strong>匹配顺序</strong><br><img src="http://static.zybuluo.com/jiangpeisi/guoanpfc3d7zixyx7pynowiu/qqqq%20%282%29.png" alt="qqqq (2).png-42.5kB"><br>精确匹配&gt;正则匹配&gt;普通字符匹配  普通匹配看字符串长短，正则匹配看顺序</li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;什么是location，location都做些什么工作&lt;/strong&gt;&lt;br&gt;上文有提到，nginx内核完成的工作就是查找配置文件，将客户请求映射到一个location block，然后再执行location中的相应指令，所以说，locatio
-      
-    
-    </summary>
-    
-      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
-    
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Memcached缓存服务器</title>
-    <link href="http://yoursite.com/2019/03/02/Memcache/"/>
-    <id>http://yoursite.com/2019/03/02/Memcache/</id>
-    <published>2019-03-02T14:45:56.000Z</published>
-    <updated>2019-03-09T07:02:29.068Z</updated>
-    
-    <content type="html"><![CDATA[<ol><li><strong>Memcache概述</strong><br>memcache:是高性能的分布式内存缓存服务器.通过缓存数据库的查询结果,减少数据库的访问次数,以提高web应用的速度,提高可扩展性.缓存方式是将缓存结果存储在内存中,通过内存来维护一个hash表.<br>Memcache是一个c/s软件,默认间通过端口为11211</li><li><strong>Memcache工作原理</strong><br>1.memcached是以守护程序方式运行于一个或多个服务器中，随时会接收客户端的连接和操作。<br>2.如何减轻数据库压力：当web访问数据库时，首先会先访问Memcache缓存服务器，查找是否有相应的数据，若没有则去访问数据库查询，返回结果给web应用并且再Memcache服务器留一份缓存，如果web访问Memcache服务器查询得到相应数据，就不会再去访问数据库，以此来减轻数据库的I/O。</li><li><strong>Memcache作为高速运行的分布式内存缓存服务器,具有以下几点</strong><br>1&gt; 本身是开源的,占用资源小,协议简单的软件,将数据库和web之间的数据缓存,减少数据库的检索次数,减少数据库的i/o<br>2&gt; 基于livevent的时间处理,因为libevent库将linux,bsd,solaris等这些操作系统上的kqueue等时间处理功能功能封装成统一接口,面对连接数增加,也能在linux,bsd,solaris等操作系统上发挥其高性能(i/o).<br>3&gt; 存储方式:内置于内存存储方式,存取的效率高,执行的速度快<br>4&gt; memcache不互相通信的分布式:同个客户端使得key有规律的封装,实现memcache实现分布式,采用多台cached服务器,增加缓存的横向延伸</li><li><strong>Memcache具体实现方式</strong><br>Memcached 的目前版本是通过C实现，采用了单进程，单线程，异步I/O，基于事件 (event_based) 的服务方式.使用 libevent 作为事件通知实现。多个 Server 可以协同工作，但这些 Server 之间是没有任何通讯联系的，每个 Server 只是对自己的数据进行管理。Client 端通过指定 Server 端的 ip 地址(通过域名应该也可以)。需要缓存的对象或数据是以 key-&gt;value 对的形式保存在Server端。key 的值通过 hash 进行转换，根据 hash 值把 value 传递到对应的具体的某个 Server 上。当需要获取对象数据时，也根据 key 进行。首先对 key 进行 hash，通过获得的值可以确定它被保存在了哪台 Server 上，然后再向该 Server 发出请求。Client 端只需要知道保存 hash(key) 的值在哪台服务器上就可以了。 memcache的工作就是在专门的机器的内存里维护一张巨大的hash表，来存储经常请求的数据。</li><li><strong>安装Memcache</strong><br>1 安装libevent时<br>./configure –prefix=/usr/local/libevent<br>Make &amp;&amp; make install<br>2 安装memcached<br>./configure –prefix=/usr/local/memcached –with-libevent=/usr/local/libevent<br>Make &amp;&amp; make install</li><li><strong>管理Memcache</strong><br>启动Memcache：<br>/usr/local/bin/memcached -d -m 2048 -u root -l 192.168.1.20 -p 12111 -c 1024 -P /tmp/memcached.pid<br>停止Memcache:<br>kill ‘cat /tmp/memcached.pid’;<br>Kill all memcached<br>参数说明：<br>-d 启动为守护进程<br>-m <num> 分配给Memcached使用的内存数量，单位是MB，默认为64MB<br>-u <username> 运行Memcached的用户，仅当作为root运行时<br>-l &lt;ip_addr&gt; 监听的服务器IP地址，默认为环境变量INDRR_ANY的值<br>-p <num> 设置Memcached监听的端口，最好是1024以上的端口<br>-c <num> 设置最大并发连接数，默认为1024<br>-P <file> 设置保存Memcached的pid文件，与-d选择同时使用 </file></num></num></username></num></li></ol>]]></content>
+    <content type="html"><![CDATA[<ol><li><strong>日志分类</strong><br>access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；<br>error.log 记录服务器错误的日志</li><li><strong>日志配置</strong><br>配置日志的存储路径：<br>location / {<pre><code>access_log          /usr/local/nginx/logs/access.log;error_log           /usr/local/nginx/logs/error.log;</code></pre>}<br>配置日志格式：<br><img src="http://static.zybuluo.com/jiangpeisi/n4fibrzee1r5ku7hb41mmrux/image_1d4vf79fh5k2m2j1si8ada19dj4r.png" alt="image_1d4vf79fh5k2m2j1si8ada19dj4r.png-20.5kB"></li><li><strong>日志切割脚本</strong><br><img src="http://static.zybuluo.com/jiangpeisi/18tztm3bn4ygddpy3bjhle69/image_1d4veqc8v177mam71tlgseh160p2n.png" alt="image_1d4veqc8v177mam71tlgseh160p2n.png-31.2kB"></li><li><strong>创建定时任务每日零点切割日志</strong><br>crontab –e<br>59 23 <em> </em> * bash /usr/local/nginx/shell/cut_ngnix_log.sh</li></ol>]]></content>
     
     <summary type="html">
     
       
       
         &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Memcache概述&lt;/strong&gt;&lt;br&gt;memcache:是高性能的分布式内存缓存服务器.通过缓存数据库的查询结果,减少数据库的访问次数,以提高web应用的速度,提高可扩展性.缓存方式是将缓存结果存储在内存中,通过内存来维护一个hash表.
+&lt;li&gt;&lt;strong&gt;日志分类&lt;/strong&gt;&lt;br&gt;access.log 记录哪些用户,哪些页面以及用户浏览器,IP等访问信息；&lt;br&gt;error.log 记录服务器错误的日志&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;日志配置&lt;/strong&gt;&lt;br&gt;配置日志的存储路径
       
     
     </summary>
@@ -610,21 +583,20 @@ fi
   </entry>
   
   <entry>
-    <title>Nginx模块与工作原理</title>
-    <link href="http://yoursite.com/2019/02/28/Nginx%E6%A8%A1%E5%9D%97%E5%88%86%E7%B1%BB%E4%B8%8E%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/"/>
-    <id>http://yoursite.com/2019/02/28/Nginx模块分类与工作原理/</id>
-    <published>2019-02-28T01:40:56.000Z</published>
-    <updated>2019-03-09T07:01:36.921Z</updated>
+    <title>Memcached缓存服务器</title>
+    <link href="http://yoursite.com/2019/03/02/Memcache/"/>
+    <id>http://yoursite.com/2019/03/02/Memcache/</id>
+    <published>2019-03-02T14:45:56.000Z</published>
+    <updated>2019-03-09T07:02:29.068Z</updated>
     
-    <content type="html"><![CDATA[<p>nginx主要是由内核和模块组成的。</p><ol><li><strong>内核</strong><br>内核的设计非常简洁，完成的工作主要是查找配置文件找到访问的URL所匹配的location block，并实现location中的相应指令。而location中的每个指令会调用不同的模块去完成相应的工作<br><img src="http://static.zybuluo.com/jiangpeisi/01ebv3v6btag0lzdyl0h1rf4/qqqq.png" alt="qqqq.png-278.1kB"></li><li><strong>模块</strong><br>从结构上分：<br>核心模块：HTTP模块、event模块和mail模块等<br>基础模块：HTTP access 模块HTTP FastCGI模块、HTTP proxy 模块和HTTP rewrite模块等<br>第三方模块：HTTP upstream request hash模块、notice 模块 和HTTP access key模块、limit_req模块等<br>从功能上分：<br>handers（处理器模块）：用于处理请求，并进行输出内容和修改headers信息等操作，一般只能有一个<br>filters（过滤模块）：主要对其他模块处理后的数据进行修改，最后交给nginx返回给浏览器<br>proxies（代理模块）：主要与后端的一些服务进行交互，例如FastCGI等，实现服务代理及负载均衡</li><li><strong>nginx高并发</strong><br>nginx高并发是因为采用了epoll模块，异步非阻塞。与Apache相比，Apache采用的时select模块，select模块在选择句柄的时候是遍历所有句柄，选择其中有事件通知的句柄去响应。而epoll模块是不需要遍历句柄链表，一但有句柄有事件通知立马就可以做出响应，所以效率更高一些。</li><li><strong>master进程</strong><br>nginx在服务端默认监听80端口，服务一旦启动服务器就会创建一个master进程，同时由mater进程可以生成多个worker进程对请求做出响应。<br><img src="http://static.zybuluo.com/jiangpeisi/l9m2d3wifpmyykcg3nepjnmk/z.png" alt="z.png-326.6kB"><br>服务器启动后创建master进程，并在master进程内创建一个监听80端口的socket，master进程会fork多个woker进程，每个worker进程一旦获得连接处理，会把listend变的仅可读，这样可以保证每个worker进程只对一个连接进行处理，当一个worker进程在accept一个连接后就会读取请求、解析请求、处理请求、产生数据，并将产生的数据返回给客户端，并断开连接。</li></ol>]]></content>
+    <content type="html"><![CDATA[<ol><li><strong>Memcache概述</strong><br>memcache:是高性能的分布式内存缓存服务器.通过缓存数据库的查询结果,减少数据库的访问次数,以提高web应用的速度,提高可扩展性.缓存方式是将缓存结果存储在内存中,通过内存来维护一个hash表.<br>Memcache是一个c/s软件,默认间通过端口为11211</li><li><strong>Memcache工作原理</strong><br>1.memcached是以守护程序方式运行于一个或多个服务器中，随时会接收客户端的连接和操作。<br>2.如何减轻数据库压力：当web访问数据库时，首先会先访问Memcache缓存服务器，查找是否有相应的数据，若没有则去访问数据库查询，返回结果给web应用并且再Memcache服务器留一份缓存，如果web访问Memcache服务器查询得到相应数据，就不会再去访问数据库，以此来减轻数据库的I/O。</li><li><strong>Memcache作为高速运行的分布式内存缓存服务器,具有以下几点</strong><br>1&gt; 本身是开源的,占用资源小,协议简单的软件,将数据库和web之间的数据缓存,减少数据库的检索次数,减少数据库的i/o<br>2&gt; 基于livevent的时间处理,因为libevent库将linux,bsd,solaris等这些操作系统上的kqueue等时间处理功能功能封装成统一接口,面对连接数增加,也能在linux,bsd,solaris等操作系统上发挥其高性能(i/o).<br>3&gt; 存储方式:内置于内存存储方式,存取的效率高,执行的速度快<br>4&gt; memcache不互相通信的分布式:同个客户端使得key有规律的封装,实现memcache实现分布式,采用多台cached服务器,增加缓存的横向延伸</li><li><strong>Memcache具体实现方式</strong><br>Memcached 的目前版本是通过C实现，采用了单进程，单线程，异步I/O，基于事件 (event_based) 的服务方式.使用 libevent 作为事件通知实现。多个 Server 可以协同工作，但这些 Server 之间是没有任何通讯联系的，每个 Server 只是对自己的数据进行管理。Client 端通过指定 Server 端的 ip 地址(通过域名应该也可以)。需要缓存的对象或数据是以 key-&gt;value 对的形式保存在Server端。key 的值通过 hash 进行转换，根据 hash 值把 value 传递到对应的具体的某个 Server 上。当需要获取对象数据时，也根据 key 进行。首先对 key 进行 hash，通过获得的值可以确定它被保存在了哪台 Server 上，然后再向该 Server 发出请求。Client 端只需要知道保存 hash(key) 的值在哪台服务器上就可以了。 memcache的工作就是在专门的机器的内存里维护一张巨大的hash表，来存储经常请求的数据。</li><li><strong>安装Memcache</strong><br>1 安装libevent时<br>./configure –prefix=/usr/local/libevent<br>Make &amp;&amp; make install<br>2 安装memcached<br>./configure –prefix=/usr/local/memcached –with-libevent=/usr/local/libevent<br>Make &amp;&amp; make install</li><li><strong>管理Memcache</strong><br>启动Memcache：<br>/usr/local/bin/memcached -d -m 2048 -u root -l 192.168.1.20 -p 12111 -c 1024 -P /tmp/memcached.pid<br>停止Memcache:<br>kill ‘cat /tmp/memcached.pid’;<br>Kill all memcached<br>参数说明：<br>-d 启动为守护进程<br>-m <num> 分配给Memcached使用的内存数量，单位是MB，默认为64MB<br>-u <username> 运行Memcached的用户，仅当作为root运行时<br>-l &lt;ip_addr&gt; 监听的服务器IP地址，默认为环境变量INDRR_ANY的值<br>-p <num> 设置Memcached监听的端口，最好是1024以上的端口<br>-c <num> 设置最大并发连接数，默认为1024<br>-P <file> 设置保存Memcached的pid文件，与-d选择同时使用 </file></num></num></username></num></li></ol>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;nginx主要是由内核和模块组成的。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;内核&lt;/strong&gt;&lt;br&gt;内核的设计非常简洁，完成的工作主要是查找配置文件找到访问的URL所匹配的location block，并实现location中的相应指令。而location中的每个
+        &lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Memcache概述&lt;/strong&gt;&lt;br&gt;memcache:是高性能的分布式内存缓存服务器.通过缓存数据库的查询结果,减少数据库的访问次数,以提高web应用的速度,提高可扩展性.缓存方式是将缓存结果存储在内存中,通过内存来维护一个hash表.
       
     
     </summary>
@@ -633,6 +605,36 @@ fi
     
     
       <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>nginx之Location</title>
+    <link href="http://yoursite.com/2019/03/02/Nginx%E4%B9%8BLocation/"/>
+    <id>http://yoursite.com/2019/03/02/Nginx之Location/</id>
+    <published>2019-03-02T14:45:56.000Z</published>
+    <updated>2019-03-09T07:01:46.219Z</updated>
+    
+    <content type="html"><![CDATA[<ol><li><strong>什么是location，location都做些什么工作</strong><br>上文有提到，nginx内核完成的工作就是查找配置文件，将客户请求映射到一个location block，然后再执行location中的相应指令，所以说，location的作用就是用于匹配客户请求，并做出相应动作。<br>location如何匹配用户请求呢，先对URL进行剖析你就会知道，URL的格式由下列三部分组成：<br>第一部分是协议（或称为服务方式）；<br>第二部分是存有该资源的主机IP地址（有时也包括端口号）；<br>第三部分是主机资源的具体地址。，如目录和文件名等；<br>当一个请求到达服务器后，服务器接受到这个请求时，前两部分的匹配工作就已经完成，现在要做的就是在服务器上找到资源，location就是匹配的URL的第三部分内容。</li><li><strong>匹配模式</strong><br>location = /uri =开头表示精确匹配，只有完全匹配上才能生效。<br>location ^~ /uri ^~ 开头对URL路径进行前缀匹配，并且在正则之前。<br>location ~ pattern ~开头表示区分大小写的正则匹配。<br>location ~<em> pattern ~</em>开头表示不区分大小写的正则匹配。<br>location /uri 不带任何修饰符，也表示前缀匹配，但是在正则匹配之后。<br>location / 通用匹配，任何未匹配到其它location的请求都会匹配到，相当于switch中的default。</li><li><strong>匹配顺序</strong><br><img src="http://static.zybuluo.com/jiangpeisi/guoanpfc3d7zixyx7pynowiu/qqqq%20%282%29.png" alt="qqqq (2).png-42.5kB"><br>精确匹配&gt;正则匹配&gt;普通字符匹配  普通匹配看字符串长短，正则匹配看顺序</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;什么是location，location都做些什么工作&lt;/strong&gt;&lt;br&gt;上文有提到，nginx内核完成的工作就是查找配置文件，将客户请求映射到一个location block，然后再执行location中的相应指令，所以说，locatio
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
     
   </entry>
   
