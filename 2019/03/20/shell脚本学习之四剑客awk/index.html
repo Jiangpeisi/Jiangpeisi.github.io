@@ -79,20 +79,18 @@
 
 
 
-<meta name="description" content="函数定义格式： function name（） { command } 调用： name argv1 argv2   实例：安装Apache函数 #!/bin/bash #Auto install appache #By Auther jiangpeisi URL=http://mirrors.shu.edu.cn/apache//httpd FILE=httpd-2.4.38.tar.gz FI">
+<meta name="description" content="简述awk本身就是一种编程语言，它支持条件判断、循环、数组遍历等功能。我们可以使用它来对文本进行分析和处理。与sed相比，sed是逐行处理文本内数据，awk也是，不过awk又在此基础上实现对每一行每一列的操作。专业的角度来讲awk是一个报告生成器，因为awk可以对行和列进行操作，所以在awk命令下，一个文本就像是一个表格。默认列之间的分隔符是空格，行之间分隔符是\n，可以通过-F或者-v FS:指">
 <meta name="keywords" content="linux,shell">
 <meta property="og:type" content="article">
-<meta property="og:title" content="shell脚本学习之函数">
-<meta property="og:url" content="http://yoursite.com/2019/03/20/shell脚本学习之函数/index.html">
+<meta property="og:title" content="shell脚本学习之四剑客awk">
+<meta property="og:url" content="http://yoursite.com/2019/03/20/shell脚本学习之四剑客awk/index.html">
 <meta property="og:site_name" content="我在看着你">
-<meta property="og:description" content="函数定义格式： function name（） { command } 调用： name argv1 argv2   实例：安装Apache函数 #!/bin/bash #Auto install appache #By Auther jiangpeisi URL=http://mirrors.shu.edu.cn/apache//httpd FILE=httpd-2.4.38.tar.gz FI">
+<meta property="og:description" content="简述awk本身就是一种编程语言，它支持条件判断、循环、数组遍历等功能。我们可以使用它来对文本进行分析和处理。与sed相比，sed是逐行处理文本内数据，awk也是，不过awk又在此基础上实现对每一行每一列的操作。专业的角度来讲awk是一个报告生成器，因为awk可以对行和列进行操作，所以在awk命令下，一个文本就像是一个表格。默认列之间的分隔符是空格，行之间分隔符是\n，可以通过-F或者-v FS:指">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/369raax3bt02mth1v541lp5z/image_1d6dpfhvfkkohu3fk21gg8185116.png">
-<meta property="og:updated_time" content="2019-03-20T14:55:31.064Z">
+<meta property="og:updated_time" content="2019-03-21T10:35:08.717Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="shell脚本学习之函数">
-<meta name="twitter:description" content="函数定义格式： function name（） { command } 调用： name argv1 argv2   实例：安装Apache函数 #!/bin/bash #Auto install appache #By Auther jiangpeisi URL=http://mirrors.shu.edu.cn/apache//httpd FILE=httpd-2.4.38.tar.gz FI">
-<meta name="twitter:image" content="http://static.zybuluo.com/jiangpeisi/369raax3bt02mth1v541lp5z/image_1d6dpfhvfkkohu3fk21gg8185116.png">
+<meta name="twitter:title" content="shell脚本学习之四剑客awk">
+<meta name="twitter:description" content="简述awk本身就是一种编程语言，它支持条件判断、循环、数组遍历等功能。我们可以使用它来对文本进行分析和处理。与sed相比，sed是逐行处理文本内数据，awk也是，不过awk又在此基础上实现对每一行每一列的操作。专业的角度来讲awk是一个报告生成器，因为awk可以对行和列进行操作，所以在awk命令下，一个文本就像是一个表格。默认列之间的分隔符是空格，行之间分隔符是\n，可以通过-F或者-v FS:指">
 
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
 <link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
@@ -137,13 +135,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/03/20/shell脚本学习之函数/">
+  <link rel="canonical" href="http://yoursite.com/2019/03/20/shell脚本学习之四剑客awk/">
 
 
 
 
 
-  <title>shell脚本学习之函数 | 我在看着你</title>
+  <title>shell脚本学习之四剑客awk | 我在看着你</title>
   
 
 
@@ -274,7 +272,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/20/shell脚本学习之函数/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/20/shell脚本学习之四剑客awk/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="镜子">
@@ -291,7 +289,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">shell脚本学习之函数</h1>
+          <h1 class="post-title" itemprop="name headline">shell脚本学习之四剑客awk</h1>
         
 
         <div class="post-meta">
@@ -368,7 +366,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  136
+                  912
                 </span>
               
 
@@ -384,7 +382,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  4
                 </span>
               
             </div>
@@ -405,38 +403,69 @@
       
 
       
-        <p><strong>函数定义格式：</strong></p>
-<pre><code>function name（）
-{
-command
-}
-</code></pre><p><strong>调用：</strong></p>
-<pre><code>name argv1 argv2  
-</code></pre><p><strong>实例：安装Apache函数</strong></p>
-<pre><code>#!/bin/bash
-#Auto install appache
-#By Auther jiangpeisi
-URL=http://mirrors.shu.edu.cn/apache//httpd
-FILE=httpd-2.4.38.tar.gz
-FILES_DIR=httpd-2.4.38
-PREFIX=/usr/local/apache
-function Apache_install()
-{
-if [ $1 -eq 1 ];then
-        yum install  openssl openssl-devel zlib zlib-devel gcc-c++ pcre pcre-devel -y &amp;&amp; cd /usr/local/src/ &amp;&amp; wget $URL/$FILE &amp;&amp; tar -xvf $FILE &amp;&amp; cd $FILES_DIR &amp;&amp; ./configure --prefix=$PREFIX
-  if [ $? -eq 0 ];then
-    make&amp;&amp;make install
-    echo &quot;The $FILES_DIR Server Install Sucess!&quot;
-    . /usr/local/apache/bin/httpd
-  else
-    echo &quot;The $FILES_DIR Server Install Fail!&quot;
-  fi
-fi
-}
-Apache_install 1
-</code></pre><p><strong>测试：</strong></p>
-<p><img src="http://static.zybuluo.com/jiangpeisi/369raax3bt02mth1v541lp5z/image_1d6dpfhvfkkohu3fk21gg8185116.png" alt="image_1d6dpfhvfkkohu3fk21gg8185116.png-23.1kB"></p>
+        <p><strong>简述</strong><br>awk本身就是一种编程语言，它支持条件判断、循环、数组遍历等功能。我们可以使用它来对文本进行分析和处理。与sed相比，sed是逐行处理文本内数据，awk也是，不过awk又在此基础上实现对每一行每一列的操作。专业的角度来讲awk是一个报告生成器，因为awk可以对行和列进行操作，所以在awk命令下，一个文本就像是一个表格。默认列之间的分隔符是空格，行之间分隔符是\n，可以通过-F或者-v FS:指定分割符。</p>
+<hr>
+<p><strong>命令格式</strong></p>
+<pre><code>awk &apos;{pattern + action}&apos; {filenames}
+</code></pre><p><strong>1.基本语法参数</strong><br>1.单引号‘’：为了和shell语法分开，防止混淆<br>2.大括号{}：用来表示一组命令<br>3.pattern：一个过滤器，表示匹配pattern的条件的行才可以执行action<br>4.pattern可以是以下任意一种<br>    -正则表达式：使用通配符匹配<br>    -关系表达式：使用关系运算符<br>    -模式匹配表达式：使用运算符~或者！~匹配<br>5.action：处理动作，一系列命令，常见的动作为print</p>
+<p>实例：抓取IP地址</p>
+<pre><code>[root@jiangpeisi ~]# ifconfig eth0 |awk  &apos;/inet/{print $2}&apos;
+172.16.30.80
 
+[root@jiangpeisi ~]# ifconfig eth0 | grep inet | awk &apos;{print $2}&apos;
+172.16.30.80
+
+[root@jiangpeisi ~]# ip addr | awk &apos;/eth0/&apos; | awk &apos;/inet/{print $2}&apos;
+172.16.30.80/18
+</code></pre><p><strong>2.内置参数</strong><br>FS：分隔符，默认是空格作为分隔符<br>OFS：输出行分隔符<br>NR：当前行数，从1开始<br>NF：当前行的字段（列）个数<br>$0：当前记录<br><code>$1~$n</code>：当前记录的第n个字段</p>
+<p>实例：输出字段个数</p>
+<pre><code>[root@jiangpeisi ~]# who
+root     pts/1        2019-03-21 11:14 (49.70.207.182)
+[root@jiangpeisi ~]# who | awk &apos;{print NF}&apos;
+5
+</code></pre><p>实例：打印奇数行的行号和第一列内容</p>
+<pre><code>[root@jiangpeisi ~]# awk -F: &apos;NR%2==0{next}{print NR,$1}&apos; /etc/passwd
+1 root
+3 daemon
+5 lp
+7 shutdown
+9 mail
+11 games
+13 nobody
+15 systemd-network
+17 polkitd
+19 sshd
+21 chrony
+23 nscd
+25 admin
+27 dockerroot-latest
+29 test1
+31 ftpuser1
+33 dhcpd
+35 saslauth
+</code></pre><p><strong>3.内置函数</strong><br>1.gsub（r，s）：在$0中用s代替r<br>2.index（s，t）：返回s中t的第一个位置<br>3.length（s）：返回s的长度<br>4.match（s，r）：s是否匹配r<br>5.split（s，a，fs）：在fs上讲s分成序列a<br>6.substr（s，p）：返回s从p开始的子串</p>
+<p>实例：输出字段长度</p>
+<pre><code>[root@jiangpeisi ~]# who
+root     pts/1        2019-03-21 11:14 (49.70.207.182)
+[root@jiangpeisi ~]# who | awk &apos;{print length($2)}&apos;
+5
+</code></pre><p><strong>4.流程控制语句</strong><br>1.if（condition）{}else{}<br>2.while（condition）{}<br>3.for（init；condition；step）{}<br>4.Break/contitnue<br>实例：比较大小</p>
+<pre><code>[root@jiangpeisi ~]# echo 2 3 |awk &apos;{if($1&gt;$2){print $1}else{print $2}}&apos;
+3
+
+[root@jiangpeisi ~]# echo 3 2 |awk &apos;{if($1&gt;$2){print $1}else{print $2}}&apos;
+3
+</code></pre><p><strong>补充</strong><br>使用awk可以对一个文件写一个脚本，格式：</p>
+<pre><code>awk &apos;BEGIN{ commands } pattern{ commands } END{ commands }&apos; file 
+</code></pre><p>执行顺序：<br>第一步： 执行BEGIN { commands } pattern 语句块中的语句，在对文件操作前执行<br>第二步：从文件或标准输入中读取一行，然后执行pattern{ commands }语句块。它逐行扫描文件，从第一行到最后一行重复这个过程，直到全部文件都被读取完毕。<br>第三步：当读至输入流末尾时，执行END { commands }语句块</p>
+<p>实例：计算用户数量</p>
+<pre><code>[root@jiangpeisi ~]# awk &apos;BEGIN {count=0;print &quot;[start] user count is &quot;,count} {;;count++} END{print &quot;[end] user count is &quot;,count}&apos; /etc/passwd
+[start] user count is  0
+[end] user count is  36
+</code></pre><p>实例：计算文件夹大小</p>
+<pre><code>[root@jiangpeisi ~]# ls -lF /etc/ | awk &apos;BEGIN {sum=0}{sum+=$5}END{print &quot;The size of this dir is&quot;,sum/1024/1024,&quot;M&quot;}&apos;
+The size of this dir is 1.30004 M
+</code></pre>
       
     </div>
     
@@ -474,8 +503,8 @@ Apache_install 1
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/20/shell脚本学习之四剑客find/" rel="next" title="shell脚本学习之四剑客find">
-                <i class="fa fa-chevron-left"></i> shell脚本学习之四剑客find
+              <a href="/2019/03/20/shell脚本学习之函数/" rel="next" title="shell脚本学习之函数">
+                <i class="fa fa-chevron-left"></i> shell脚本学习之函数
               </a>
             
           </div>
@@ -484,8 +513,8 @@ Apache_install 1
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/03/20/shell脚本学习之四剑客awk/" rel="prev" title="shell脚本学习之四剑客awk">
-                shell脚本学习之四剑客awk <i class="fa fa-chevron-right"></i>
+              <a href="/2019/03/21/shell脚本学习之四剑客sed/" rel="prev" title="shell脚本学习之四剑客sed">
+                shell脚本学习之四剑客sed <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
