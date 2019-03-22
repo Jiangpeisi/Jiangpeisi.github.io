@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="简述grep是一种强大的文本搜索工具，与正则表达式配合搜索文本，并把匹配的行打印出来。  语句格式：grep -options ‘word’ filename常用参数：-a：以文本文件方式搜索-c：计算找到的符合行的次数-i：忽略大小写-n：顺便输出行号-v：反向选择，输出不包含匹配的所有行-h：查询多文件时不现实文件名-l：查询多文件时，只输出包含匹配字符的文件名-s：不显示不存在或无匹配文本的">
+<meta name="description" content="简述grep是一种强大的文本搜索工具，与正则表达式配合搜索文本，并把匹配的行打印出来。  语句格式： grep -options ‘word’ filename 常用参数：-a：以文本文件方式搜索-c：计算找到的符合行的次数-i：忽略大小写-n：顺便输出行号-v：反向选择，输出不包含匹配的所有行-h：查询多文件时不现实文件名-l：查询多文件时，只输出包含匹配字符的文件名-s：不显示不存在或无匹配文">
 <meta name="keywords" content="linux,shell">
 <meta property="og:type" content="article">
 <meta property="og:title" content="shell脚本学习之四剑客grep">
 <meta property="og:url" content="http://yoursite.com/2019/03/22/shell脚本学习之四剑客grep/index.html">
 <meta property="og:site_name" content="我在看着你">
-<meta property="og:description" content="简述grep是一种强大的文本搜索工具，与正则表达式配合搜索文本，并把匹配的行打印出来。  语句格式：grep -options ‘word’ filename常用参数：-a：以文本文件方式搜索-c：计算找到的符合行的次数-i：忽略大小写-n：顺便输出行号-v：反向选择，输出不包含匹配的所有行-h：查询多文件时不现实文件名-l：查询多文件时，只输出包含匹配字符的文件名-s：不显示不存在或无匹配文本的">
+<meta property="og:description" content="简述grep是一种强大的文本搜索工具，与正则表达式配合搜索文本，并把匹配的行打印出来。  语句格式： grep -options ‘word’ filename 常用参数：-a：以文本文件方式搜索-c：计算找到的符合行的次数-i：忽略大小写-n：顺便输出行号-v：反向选择，输出不包含匹配的所有行-h：查询多文件时不现实文件名-l：查询多文件时，只输出包含匹配字符的文件名-s：不显示不存在或无匹配文">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-22T03:36:02.993Z">
+<meta property="og:updated_time" content="2019-03-22T03:43:06.363Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="shell脚本学习之四剑客grep">
-<meta name="twitter:description" content="简述grep是一种强大的文本搜索工具，与正则表达式配合搜索文本，并把匹配的行打印出来。  语句格式：grep -options ‘word’ filename常用参数：-a：以文本文件方式搜索-c：计算找到的符合行的次数-i：忽略大小写-n：顺便输出行号-v：反向选择，输出不包含匹配的所有行-h：查询多文件时不现实文件名-l：查询多文件时，只输出包含匹配字符的文件名-s：不显示不存在或无匹配文本的">
+<meta name="twitter:description" content="简述grep是一种强大的文本搜索工具，与正则表达式配合搜索文本，并把匹配的行打印出来。  语句格式： grep -options ‘word’ filename 常用参数：-a：以文本文件方式搜索-c：计算找到的符合行的次数-i：忽略大小写-n：顺便输出行号-v：反向选择，输出不包含匹配的所有行-h：查询多文件时不现实文件名-l：查询多文件时，只输出包含匹配字符的文件名-s：不显示不存在或无匹配文">
 
 <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
 <link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
@@ -366,7 +366,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  314
+                  329
                 </span>
               
 
@@ -405,14 +405,30 @@
       
         <p><strong>简述</strong><br>grep是一种强大的文本搜索工具，与正则表达式配合搜索文本，并把匹配的行打印出来。</p>
 <hr>
-<p><strong>语句格式：</strong><br>grep -options ‘word’ filename<br>常用参数：<br>-a：以文本文件方式搜索<br>-c：计算找到的符合行的次数<br>-i：忽略大小写<br>-n：顺便输出行号<br>-v：反向选择，输出不包含匹配的所有行<br>-h：查询多文件时不现实文件名<br>-l：查询多文件时，只输出包含匹配字符的文件名<br>-s：不显示不存在或无匹配文本的错误信息<br>-E：使用egrep扩展匹配模式<br>– color：指定匹配输出字符的颜色<br><strong>正则表达式</strong><br>点这里<br><strong>实例</strong></p>
-<p>[root@jiangpeisi shell]# cat a.txt | grep ‘^m.*l$’<br>mysql</p>
-<p>[root@jiangpeisi shell]# cat a.txt | grep -E “\&lt;([0-9]{1,3}.){3}([0-9]{1,3})>“<br>192.168.32.1</p>
-<p>[root@jiangpeisi shell]# cat a.txt | grep -c  ‘^m.*l$’<br>1</p>
-<p>[root@jiangpeisi shell]# cat a.txt | grep  -n ‘^m.*l$’<br>2:mysql</p>
-<p>[root@jiangpeisi shell]# cat a.txt | grep  -i -n  ‘^M.*l$’<br>2:mysql</p>
-<p>[root@jiangpeisi shell]# netstat -ntlp | grep named<br>tcp        0      0 172.17.0.1:53           0.0.0.0:<em>               LISTEN      3585/named<br>tcp        0      0 172.16.30.80:53         0.0.0.0:</em>               LISTEN      3585/named<br>tcp        0      0 127.0.0.1:53            0.0.0.0:<em>               LISTEN      3585/named<br>tcp        0      0 127.0.0.1:953           0.0.0.0:</em>               LISTEN      3585/named  </p>
+<p><strong>语句格式：</strong></p>
+<pre><code>grep -options ‘word’ filename
+</code></pre><p><strong>常用参数：</strong><br>-a：以文本文件方式搜索<br>-c：计算找到的符合行的次数<br>-i：忽略大小写<br>-n：顺便输出行号<br>-v：反向选择，输出不包含匹配的所有行<br>-h：查询多文件时不现实文件名<br>-l：查询多文件时，只输出包含匹配字符的文件名<br>-s：不显示不存在或无匹配文本的错误信息<br>-E：使用egrep扩展匹配模式<br>– color：指定匹配输出字符的颜色<br><strong>正则表达式</strong><br><a href="https://jiangpeisi.github.io/2019/03/22/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" target="_blank" rel="noopener">点这里</a><br><strong>实例</strong></p>
+<pre><code>[root@jiangpeisi shell]# cat a.txt | grep &apos;^m.*l$&apos; 
+mysql
 
+[root@jiangpeisi shell]# cat a.txt | grep -E &quot;\&lt;([0-9]{1,3}\.){3}([0-9]{1,3})\&gt;&quot; 
+192.168.32.1
+
+[root@jiangpeisi shell]# cat a.txt | grep -c  &apos;^m.*l$&apos; 
+1
+
+[root@jiangpeisi shell]# cat a.txt | grep  -n &apos;^m.*l$&apos; 
+2:mysql
+
+[root@jiangpeisi shell]# cat a.txt | grep  -i -n  &apos;^M.*l$&apos; 
+2:mysql
+
+[root@jiangpeisi shell]# netstat -ntlp | grep named
+tcp        0      0 172.17.0.1:53           0.0.0.0:*               LISTEN      3585/named          
+tcp        0      0 172.16.30.80:53         0.0.0.0:*               LISTEN      3585/named          
+tcp        0      0 127.0.0.1:53            0.0.0.0:*               LISTEN      3585/named          
+tcp        0      0 127.0.0.1:953           0.0.0.0:*               LISTEN      3585/named  
+</code></pre>
       
     </div>
     
@@ -450,8 +466,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/22/shell脚本学习之正则表达式/" rel="next" title="shell脚本学习之正则表达式">
-                <i class="fa fa-chevron-left"></i> shell脚本学习之正则表达式
+              <a href="/2019/03/21/shell脚本学习之四剑客sed/" rel="next" title="shell脚本学习之四剑客sed">
+                <i class="fa fa-chevron-left"></i> shell脚本学习之四剑客sed
               </a>
             
           </div>
@@ -459,6 +475,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/22/shell脚本学习之正则表达式/" rel="prev" title="shell脚本学习之正则表达式">
+                shell脚本学习之正则表达式 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
