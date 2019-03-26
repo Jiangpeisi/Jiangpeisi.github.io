@@ -1649,7 +1649,7 @@ FTP端口号FTP使用20和21端口，FTP服务器使用21端口来等待控制�
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/07/Docker基本原理/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/07/Docker容器网络模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="镜子">
@@ -1668,7 +1668,7 @@ FTP端口号FTP使用20和21端口，FTP服务器使用21端口来等待控制�
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/03/07/Docker基本原理/" itemprop="url">Docker基本原理</a></h1>
+                <a class="post-title-link" href="/2019/03/07/Docker容器网络模式/" itemprop="url">Docker容器网络模式</a></h1>
         
 
         <div class="post-meta">
@@ -1745,7 +1745,7 @@ FTP端口号FTP使用20和21端口，FTP服务器使用21端口来等待控制�
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.1k
+                  475
                 </span>
               
 
@@ -1761,7 +1761,7 @@ FTP端口号FTP使用20和21端口，FTP服务器使用21端口来等待控制�
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  4
+                  1
                 </span>
               
             </div>
@@ -1785,11 +1785,16 @@ FTP端口号FTP使用20和21端口，FTP服务器使用21端口来等待控制�
         
           
           
-传统虚拟化与docker传统虚拟化是在宿主机上使用VMM对底层硬件资源进行管理和封装、隔离抽象为一种逻辑独立的资源，分配给上层虚拟主机使用。Docker是直接在宿主主机操作系统的层次上通过Cgroups对物理资源隔离和Namespace对系统资源隔离，直接实现APP或者应用的虚拟化，实现轻量级的虚
+配置容器网络模式
+ Docker run -net=pattern
+
+四种模式
+ host模式：host模式下的容器不会独立创建一个network namespace,而是与宿主机公用一个network namespace。容器不会再虚拟出自己的网卡，配置IP，直接使用宿主机的IP及端口。
+ co
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/03/07/Docker基本原理/#more" rel="contents">
+            <a class="btn" href="/2019/03/07/Docker容器网络模式/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -2045,7 +2050,7 @@ yum instal
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/07/Docker容器网络模式/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/07/Docker基本原理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="镜子">
@@ -2064,7 +2069,7 @@ yum instal
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/03/07/Docker容器网络模式/" itemprop="url">Docker容器网络模式</a></h1>
+                <a class="post-title-link" href="/2019/03/07/Docker基本原理/" itemprop="url">Docker基本原理</a></h1>
         
 
         <div class="post-meta">
@@ -2141,7 +2146,7 @@ yum instal
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  475
+                  1.1k
                 </span>
               
 
@@ -2157,7 +2162,7 @@ yum instal
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  4
                 </span>
               
             </div>
@@ -2181,16 +2186,11 @@ yum instal
         
           
           
-配置容器网络模式
- Docker run -net=pattern
-
-四种模式
- host模式：host模式下的容器不会独立创建一个network namespace,而是与宿主机公用一个network namespace。容器不会再虚拟出自己的网卡，配置IP，直接使用宿主机的IP及端口。
- co
+传统虚拟化与docker传统虚拟化是在宿主机上使用VMM对底层硬件资源进行管理和封装、隔离抽象为一种逻辑独立的资源，分配给上层虚拟主机使用。Docker是直接在宿主主机操作系统的层次上通过Cgroups对物理资源隔离和Namespace对系统资源隔离，直接实现APP或者应用的虚拟化，实现轻量级的虚
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/03/07/Docker容器网络模式/#more" rel="contents">
+            <a class="btn" href="/2019/03/07/Docker基本原理/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
