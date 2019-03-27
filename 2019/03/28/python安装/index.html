@@ -88,7 +88,7 @@
 <meta property="og:description" content="简介Centos系统本身自带python2.7版本，使用python –version可以查看当前系统python版本，由于系统内某些命令会用到python2，所以python2不可以卸载.  安装1.由于是基于源码安装，首先需要安装gcc make yum -y install gcc  make 2.安装依赖的软件包 yum -y install zlib-devel bzip2-devel">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/n25m8enf3ysp9snd9eezrsze/image_1d6vu31311fbmead1o9l167m10gn34.png">
-<meta property="og:updated_time" content="2019-03-27T16:14:58.978Z">
+<meta property="og:updated_time" content="2019-03-27T16:19:06.274Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Centos安装python3.7">
 <meta name="twitter:description" content="简介Centos系统本身自带python2.7版本，使用python –version可以查看当前系统python版本，由于系统内某些命令会用到python2，所以python2不可以卸载.  安装1.由于是基于源码安装，首先需要安装gcc make yum -y install gcc  make 2.安装依赖的软件包 yum -y install zlib-devel bzip2-devel">
@@ -411,7 +411,7 @@ make &amp;&amp; make install
 <pre><code>rm -f /usr/bin/{python，pip}
 ln -s /usr/local/python3/bin/python3.7   /usr/bin/python3
 ln -s /usr/local/python3/bin/pip3.7 /usr/bin/pip
-</code></pre><p><img src="http://static.zybuluo.com/jiangpeisi/n25m8enf3ysp9snd9eezrsze/image_1d6vu31311fbmead1o9l167m10gn34.png" alt="image_1d6vu31311fbmead1o9l167m10gn34.png-20.4kB"><br>修改完连接可能会造成yum不可用，查看此处<br>(2)设置环境变量</p>
+</code></pre><p><img src="http://static.zybuluo.com/jiangpeisi/n25m8enf3ysp9snd9eezrsze/image_1d6vu31311fbmead1o9l167m10gn34.png" alt="image_1d6vu31311fbmead1o9l167m10gn34.png-20.4kB"><br>修改完连接可能会造成yum不可用，<a href="https://jiangpeisi.github.io/2019/03/28/%E5%AE%89%E8%A3%85%E6%96%B0%E7%89%88python%E5%AF%BC%E8%87%B4yum%E4%B8%8D%E5%8F%AF%E7%94%A8/#more" target="_blank" rel="noopener">查看此处</a><br>(2)设置环境变量</p>
 <pre><code>export PATH=&quot;$PATH:/usr/local/python3/bin/python3.7&quot;
 </code></pre><p>（3）两者选择一种就可以，前者直接使用python启用python解释器，后者需要使用python3启用python解释器。</p>
 <p>6.查看python版本</p>

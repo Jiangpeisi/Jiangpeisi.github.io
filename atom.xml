@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-03-27T16:14:58.978Z</updated>
+  <updated>2019-03-27T16:19:06.274Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://yoursite.com/2019/03/28/python%E5%AE%89%E8%A3%85/"/>
     <id>http://yoursite.com/2019/03/28/python安装/</id>
     <published>2019-03-28T14:45:56.000Z</published>
-    <updated>2019-03-27T16:14:58.978Z</updated>
+    <updated>2019-03-27T16:19:06.274Z</updated>
     
-    <content type="html"><![CDATA[<p><strong>简介</strong><br>Centos系统本身自带python2.7版本，使用python –version可以查看当前系统python版本，由于系统内某些命令会用到python2，所以python2不可以卸载.</p><hr><p><strong>安装</strong><br>1.由于是基于源码安装，首先需要安装gcc make</p><pre><code>yum -y install gcc  make</code></pre><p>2.安装依赖的软件包</p><pre><code>yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel libffi-devel</code></pre><p>3.下载源码压缩包<br><a href="https://www.python.org/ftp/python/" target="_blank" rel="noopener">官网下载</a></p><pre><code>wget https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz</code></pre><p>4.解压编译</p><pre><code>tar -zxvf Python-3.7.0.tgzcd Python-3.7.0./configure --prefix=/usr/local/python3make &amp;&amp; make install</code></pre><p>5.设置软连接或者环境变量<br>(1)删除旧的软连接并创建新的软连接</p><pre><code>rm -f /usr/bin/{python，pip}ln -s /usr/local/python3/bin/python3.7   /usr/bin/python3ln -s /usr/local/python3/bin/pip3.7 /usr/bin/pip</code></pre><p><img src="http://static.zybuluo.com/jiangpeisi/n25m8enf3ysp9snd9eezrsze/image_1d6vu31311fbmead1o9l167m10gn34.png" alt="image_1d6vu31311fbmead1o9l167m10gn34.png-20.4kB"><br>修改完连接可能会造成yum不可用，查看此处<br>(2)设置环境变量</p><pre><code>export PATH=&quot;$PATH:/usr/local/python3/bin/python3.7&quot;</code></pre><p>（3）两者选择一种就可以，前者直接使用python启用python解释器，后者需要使用python3启用python解释器。</p><p>6.查看python版本</p><pre><code>python --version</code></pre>]]></content>
+    <content type="html"><![CDATA[<p><strong>简介</strong><br>Centos系统本身自带python2.7版本，使用python –version可以查看当前系统python版本，由于系统内某些命令会用到python2，所以python2不可以卸载.</p><hr><p><strong>安装</strong><br>1.由于是基于源码安装，首先需要安装gcc make</p><pre><code>yum -y install gcc  make</code></pre><p>2.安装依赖的软件包</p><pre><code>yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel libffi-devel</code></pre><p>3.下载源码压缩包<br><a href="https://www.python.org/ftp/python/" target="_blank" rel="noopener">官网下载</a></p><pre><code>wget https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz</code></pre><p>4.解压编译</p><pre><code>tar -zxvf Python-3.7.0.tgzcd Python-3.7.0./configure --prefix=/usr/local/python3make &amp;&amp; make install</code></pre><p>5.设置软连接或者环境变量<br>(1)删除旧的软连接并创建新的软连接</p><pre><code>rm -f /usr/bin/{python，pip}ln -s /usr/local/python3/bin/python3.7   /usr/bin/python3ln -s /usr/local/python3/bin/pip3.7 /usr/bin/pip</code></pre><p><img src="http://static.zybuluo.com/jiangpeisi/n25m8enf3ysp9snd9eezrsze/image_1d6vu31311fbmead1o9l167m10gn34.png" alt="image_1d6vu31311fbmead1o9l167m10gn34.png-20.4kB"><br>修改完连接可能会造成yum不可用，<a href="https://jiangpeisi.github.io/2019/03/28/%E5%AE%89%E8%A3%85%E6%96%B0%E7%89%88python%E5%AF%BC%E8%87%B4yum%E4%B8%8D%E5%8F%AF%E7%94%A8/#more" target="_blank" rel="noopener">查看此处</a><br>(2)设置环境变量</p><pre><code>export PATH=&quot;$PATH:/usr/local/python3/bin/python3.7&quot;</code></pre><p>（3）两者选择一种就可以，前者直接使用python启用python解释器，后者需要使用python3启用python解释器。</p><p>6.查看python版本</p><pre><code>python --version</code></pre>]]></content>
     
     <summary type="html">
     
@@ -189,6 +189,35 @@ except Ke
   </entry>
   
   <entry>
+    <title>shell脚本学习之四剑客sed</title>
+    <link href="http://yoursite.com/2019/03/21/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9B%E5%89%91%E5%AE%A2sed/"/>
+    <id>http://yoursite.com/2019/03/21/shell脚本学习之四剑客sed/</id>
+    <published>2019-03-21T14:45:56.000Z</published>
+    <updated>2019-03-21T06:25:04.419Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="sed简介"><a href="#sed简介" class="headerlink" title="sed简介"></a>sed简介</h1><p>sed是一个非交互式文本编辑器，它可以对文本文件和标准输入进行编辑，标志输入可以来自键盘输入、文本重定向、字符串、变量、甚至来自于管道符。逐行处理内容，一次只处理一行内容。</p><h1 id="sed工作流程"><a href="#sed工作流程" class="headerlink" title="sed工作流程"></a>sed工作流程</h1><p>1、读新的一行到缓存空间（pattern space）<br>2、从指定的操作指令中依次取出指令执行，判断是否匹配缓存空间内容<br>3、如果不匹配则忽略后续的编辑命令，回到第2步继续取出下一条指令<br>4、如果匹配，则针对缓存的行执行后续的编辑命令；完成后，回到第2步继续取出下一条指令<br>5、当所有指令都应用之后，输出缓存行的内容；回到第1步继续读入下一行内容<br>6、当所有行都处理完之后，结束；<br>sed操作的所有数据都是pattern space缓存空间内的数据，原文件并没有发生该表。如果想保留sed操作后的数据，可以使用重定向符输出到新的文件中。或者使用- i参数更改原文件。</p><h1 id="命令详解"><a href="#命令详解" class="headerlink" title="命令详解"></a>命令详解</h1><h2 id="命令格式："><a href="#命令格式：" class="headerlink" title="命令格式："></a>命令格式：</h2><pre><code>sed  [options]  [commands]  filename;</code></pre><h2 id="常用参数"><a href="#常用参数" class="headerlink" title="常用参数"></a>常用参数</h2><p>x：指定行号<br>x,y：指定从x行到y行<br>/pattern/：指定包含模式的行<br>/pattern/,n：指定包含模式的行到第n行<br>p：打印匹配行<br>n：读取下一个输入行，用下一个命令处理新的行<br>a：在匹配行后面新的一行追加内容<br>i：在匹配行前面新的一行插入内容<br>d：删除匹配的行<br>c：用指定内容替代匹配的内容，一般操作多行<br>s：用指定内容替代匹配的内容，一般替代具体单词</p><h2 id="常用参数实例"><a href="#常用参数实例" class="headerlink" title="常用参数实例"></a>常用参数实例</h2><p><strong>原文本</strong></p><pre><code>[root@jiangpeisi shell]# cat a.txt mysqlappachenginxredismemachedphppython</code></pre><p><strong>1.打印指定行内容</strong></p><pre><code>[root@jiangpeisi shell]# sed -n &apos;1,3p&apos; a.txt mysqlappachenginx</code></pre><p><strong>2.删除指定行</strong></p><pre><code>[root@jiangpeisi shell]# sed &apos;/php/,$d&apos; a.txt mysqlappachenginxredismemached</code></pre><p><strong>3.在指定行前后添加内容</strong></p><pre><code>[root@jiangpeisi shell]# sed &apos;$a java&apos; a.txt mysqlappachenginxredismemachedphppythonJava[root@jiangpeisi shell]# sed &apos;$i java&apos; a.txt mysqlappachenginxredismemachedphpjavaPython</code></pre><p><strong>4.替换指定内容</strong></p><pre><code>[root@jiangpeisi shell]# sed &apos;2,3c java&apos; a.txt mysqljavaredismemachedphppython</code></pre><p>[root@jiangpeisi shell]# sed ‘s/php/java/‘ a.txt </p><pre><code>mysqlappachenginxredismemachedjavapython</code></pre><p><strong>5.多个命令组合 使用；或者-e参数</strong></p><pre><code>[root@jiangpeisi shell]# sed -e &apos;$a java&apos; -e &apos;s/php/java/&apos; a.txt mysqlappachenginxredismemachedjavapythonjava[root@jiangpeisi shell]# sed &apos;/mysql/d ; s/php/java/&apos;  a.txt appachenginxredismemachedjavapython</code></pre><h2 id="进阶参数"><a href="#进阶参数" class="headerlink" title="进阶参数"></a>进阶参数</h2><p>N：将当前读入行的下一行读取到当前的模式空间<br><img src="http://static.zybuluo.com/jiangpeisi/kwppvxf1du6mj1c0w55iuulz/image_1d6fdc4i41r4rujbos01old5h23j.png" alt="image_1d6fdc4i41r4rujbos01old5h23j.png-2.5kB"><br>h：将模式缓存区的文本复制到保持缓冲区<br><img src="http://static.zybuluo.com/jiangpeisi/c0yf7m2q8chbvbixsh5qxii4/image_1d6fdcepm13br129vmfuh7615sm40.png" alt="image_1d6fdcepm13br129vmfuh7615sm40.png-3.4kB"><br>H：将模式缓冲区的文本追加到保持缓冲区<br><img src="http://static.zybuluo.com/jiangpeisi/hrya3jucdxeg5ayw8luxhiri/image_1d6fdcn2u1iiv3gllj7mats94d.png" alt="image_1d6fdcn2u1iiv3gllj7mats94d.png-3.4kB"><br>x：互换模式缓冲区和保持缓冲区的内容<br><img src="http://static.zybuluo.com/jiangpeisi/qu8oykohe71m6an3sipqvdms/image_1d6fdfb8cbj61u0a18rs1cfi5b470.png" alt="image_1d6fdfb8cbj61u0a18rs1cfi5b470.png-2.8kB"><br>g：将保持缓冲区的内容复制到模式缓冲区<br><img src="http://static.zybuluo.com/jiangpeisi/hlk49s1ai3igt6tviirme4xi/image_1d6fdfjoi1u9qgts1hqp4701doo7d.png" alt="image_1d6fdfjoi1u9qgts1hqp4701doo7d.png-3.3kB"><br>G：将保持缓冲区的内容追加到模式缓冲区<br><img src="http://static.zybuluo.com/jiangpeisi/479c4zr05uucdwqfijkfm2uj/image_1d6fdfom84pco1qehi1hvk1ua77q.png" alt="image_1d6fdfom84pco1qehi1hvk1ua77q.png-3.5kB"><br>两个缓冲空间pattern space与hold space。pattern space是一个临时缓冲区，用于保存当前读入的行信息，每处理完一行就会清除缓存内的信息，读取下一行。hold space 同样也是一个临时缓冲去，在处理行信息时，可以与pattern space之间进行互相拷贝。</p><h2 id="进阶参数实例"><a href="#进阶参数实例" class="headerlink" title="进阶参数实例"></a>进阶参数实例</h2><p><strong>1.在每一行后添加一个空行</strong></p><pre><code>[root@jiangpeisi shell]# sed &apos;/^ $/p;G&apos; a.txt mysqlappachenginxredismemachedphppython</code></pre><p><strong>2.将指定行的后一行与指定行合并为一行</strong></p><pre><code>[root@jiangpeisi shell]# sed  &apos;3N;s/\n/ /&apos; a.txt mysqlappachenginx redismemachedphppython</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;sed简介&quot;&gt;&lt;a href=&quot;#sed简介&quot; class=&quot;headerlink&quot; title=&quot;sed简介&quot;&gt;&lt;/a&gt;sed简介&lt;/h1&gt;&lt;p&gt;sed是一个非交互式文本编辑器，它可以对文本文件和标准输入进行编辑，标志输入可以来自键盘输入、文本重定向、字符串、变
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
+    
+  </entry>
+  
+  <entry>
     <title>shell脚本学习之四剑客awk</title>
     <link href="http://yoursite.com/2019/03/21/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9B%E5%89%91%E5%AE%A2awk/"/>
     <id>http://yoursite.com/2019/03/21/shell脚本学习之四剑客awk/</id>
@@ -218,19 +247,19 @@ except Ke
   </entry>
   
   <entry>
-    <title>shell脚本学习之四剑客sed</title>
-    <link href="http://yoursite.com/2019/03/21/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9B%E5%89%91%E5%AE%A2sed/"/>
-    <id>http://yoursite.com/2019/03/21/shell脚本学习之四剑客sed/</id>
-    <published>2019-03-21T14:45:56.000Z</published>
-    <updated>2019-03-21T06:25:04.419Z</updated>
+    <title>shell脚本学习之四剑客find</title>
+    <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9B%E5%89%91%E5%AE%A2find/"/>
+    <id>http://yoursite.com/2019/03/20/shell脚本学习之四剑客find/</id>
+    <published>2019-03-20T14:45:56.000Z</published>
+    <updated>2019-03-20T16:02:35.465Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="sed简介"><a href="#sed简介" class="headerlink" title="sed简介"></a>sed简介</h1><p>sed是一个非交互式文本编辑器，它可以对文本文件和标准输入进行编辑，标志输入可以来自键盘输入、文本重定向、字符串、变量、甚至来自于管道符。逐行处理内容，一次只处理一行内容。</p><h1 id="sed工作流程"><a href="#sed工作流程" class="headerlink" title="sed工作流程"></a>sed工作流程</h1><p>1、读新的一行到缓存空间（pattern space）<br>2、从指定的操作指令中依次取出指令执行，判断是否匹配缓存空间内容<br>3、如果不匹配则忽略后续的编辑命令，回到第2步继续取出下一条指令<br>4、如果匹配，则针对缓存的行执行后续的编辑命令；完成后，回到第2步继续取出下一条指令<br>5、当所有指令都应用之后，输出缓存行的内容；回到第1步继续读入下一行内容<br>6、当所有行都处理完之后，结束；<br>sed操作的所有数据都是pattern space缓存空间内的数据，原文件并没有发生该表。如果想保留sed操作后的数据，可以使用重定向符输出到新的文件中。或者使用- i参数更改原文件。</p><h1 id="命令详解"><a href="#命令详解" class="headerlink" title="命令详解"></a>命令详解</h1><h2 id="命令格式："><a href="#命令格式：" class="headerlink" title="命令格式："></a>命令格式：</h2><pre><code>sed  [options]  [commands]  filename;</code></pre><h2 id="常用参数"><a href="#常用参数" class="headerlink" title="常用参数"></a>常用参数</h2><p>x：指定行号<br>x,y：指定从x行到y行<br>/pattern/：指定包含模式的行<br>/pattern/,n：指定包含模式的行到第n行<br>p：打印匹配行<br>n：读取下一个输入行，用下一个命令处理新的行<br>a：在匹配行后面新的一行追加内容<br>i：在匹配行前面新的一行插入内容<br>d：删除匹配的行<br>c：用指定内容替代匹配的内容，一般操作多行<br>s：用指定内容替代匹配的内容，一般替代具体单词</p><h2 id="常用参数实例"><a href="#常用参数实例" class="headerlink" title="常用参数实例"></a>常用参数实例</h2><p><strong>原文本</strong></p><pre><code>[root@jiangpeisi shell]# cat a.txt mysqlappachenginxredismemachedphppython</code></pre><p><strong>1.打印指定行内容</strong></p><pre><code>[root@jiangpeisi shell]# sed -n &apos;1,3p&apos; a.txt mysqlappachenginx</code></pre><p><strong>2.删除指定行</strong></p><pre><code>[root@jiangpeisi shell]# sed &apos;/php/,$d&apos; a.txt mysqlappachenginxredismemached</code></pre><p><strong>3.在指定行前后添加内容</strong></p><pre><code>[root@jiangpeisi shell]# sed &apos;$a java&apos; a.txt mysqlappachenginxredismemachedphppythonJava[root@jiangpeisi shell]# sed &apos;$i java&apos; a.txt mysqlappachenginxredismemachedphpjavaPython</code></pre><p><strong>4.替换指定内容</strong></p><pre><code>[root@jiangpeisi shell]# sed &apos;2,3c java&apos; a.txt mysqljavaredismemachedphppython</code></pre><p>[root@jiangpeisi shell]# sed ‘s/php/java/‘ a.txt </p><pre><code>mysqlappachenginxredismemachedjavapython</code></pre><p><strong>5.多个命令组合 使用；或者-e参数</strong></p><pre><code>[root@jiangpeisi shell]# sed -e &apos;$a java&apos; -e &apos;s/php/java/&apos; a.txt mysqlappachenginxredismemachedjavapythonjava[root@jiangpeisi shell]# sed &apos;/mysql/d ; s/php/java/&apos;  a.txt appachenginxredismemachedjavapython</code></pre><h2 id="进阶参数"><a href="#进阶参数" class="headerlink" title="进阶参数"></a>进阶参数</h2><p>N：将当前读入行的下一行读取到当前的模式空间<br><img src="http://static.zybuluo.com/jiangpeisi/kwppvxf1du6mj1c0w55iuulz/image_1d6fdc4i41r4rujbos01old5h23j.png" alt="image_1d6fdc4i41r4rujbos01old5h23j.png-2.5kB"><br>h：将模式缓存区的文本复制到保持缓冲区<br><img src="http://static.zybuluo.com/jiangpeisi/c0yf7m2q8chbvbixsh5qxii4/image_1d6fdcepm13br129vmfuh7615sm40.png" alt="image_1d6fdcepm13br129vmfuh7615sm40.png-3.4kB"><br>H：将模式缓冲区的文本追加到保持缓冲区<br><img src="http://static.zybuluo.com/jiangpeisi/hrya3jucdxeg5ayw8luxhiri/image_1d6fdcn2u1iiv3gllj7mats94d.png" alt="image_1d6fdcn2u1iiv3gllj7mats94d.png-3.4kB"><br>x：互换模式缓冲区和保持缓冲区的内容<br><img src="http://static.zybuluo.com/jiangpeisi/qu8oykohe71m6an3sipqvdms/image_1d6fdfb8cbj61u0a18rs1cfi5b470.png" alt="image_1d6fdfb8cbj61u0a18rs1cfi5b470.png-2.8kB"><br>g：将保持缓冲区的内容复制到模式缓冲区<br><img src="http://static.zybuluo.com/jiangpeisi/hlk49s1ai3igt6tviirme4xi/image_1d6fdfjoi1u9qgts1hqp4701doo7d.png" alt="image_1d6fdfjoi1u9qgts1hqp4701doo7d.png-3.3kB"><br>G：将保持缓冲区的内容追加到模式缓冲区<br><img src="http://static.zybuluo.com/jiangpeisi/479c4zr05uucdwqfijkfm2uj/image_1d6fdfom84pco1qehi1hvk1ua77q.png" alt="image_1d6fdfom84pco1qehi1hvk1ua77q.png-3.5kB"><br>两个缓冲空间pattern space与hold space。pattern space是一个临时缓冲区，用于保存当前读入的行信息，每处理完一行就会清除缓存内的信息，读取下一行。hold space 同样也是一个临时缓冲去，在处理行信息时，可以与pattern space之间进行互相拷贝。</p><h2 id="进阶参数实例"><a href="#进阶参数实例" class="headerlink" title="进阶参数实例"></a>进阶参数实例</h2><p><strong>1.在每一行后添加一个空行</strong></p><pre><code>[root@jiangpeisi shell]# sed &apos;/^ $/p;G&apos; a.txt mysqlappachenginxredismemachedphppython</code></pre><p><strong>2.将指定行的后一行与指定行合并为一行</strong></p><pre><code>[root@jiangpeisi shell]# sed  &apos;3N;s/\n/ /&apos; a.txt mysqlappachenginx redismemachedphppython</code></pre>]]></content>
+    <content type="html"><![CDATA[<p><strong>简述</strong><br>  find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。<br><strong>语句格式：</strong></p><pre><code>find path -option [ -print ] [ -exec -ok command ] {} \;-print ：表示find命令将匹配的文件输出到标准输出中，默认执行该命令-exec  ：表示find命令对匹配的文件执行该参数给出的shell命令。相应命令的形式为 cmd {} \;-ok      ：它的作用和-exec一样，只是需要用户交互，更安全</code></pre><p><strong>option参数说明：</strong></p><pre><code>-name ：按照文件名查找文件-perm  ：按照权限查找文件-prune ：使find命令不在当前指定的目录中查找，如果同时使用-depth选项，那么-prune将被find命令忽略-user  ： 按照文件属主来查找文件-group  ：按照文件数组来查找文件-mtime -n +n  ：按照文件的更改时间来查找文件    -n ：表示从此刻算起，文件的更改是在n天以内    +n ：表示文件的更改时间是在n天以前-atime -n +n ： 按文件访问时间来查询-ctime -n +n ：按文件创建时间来查询 -nogroup  ：查找无有效属组的文件，即该文件所属的组在/etc/groups中不存在-nouser  :：查找无有效属主的文件，即该文件的属主在/etc/passwd中不存在-newer file1 ！ file2  :查找更改时间比file1新但比file2旧的文件-type      b：表示块设备文件     block     d：表示目录         directory     c：表示字符设备文件   char     p：表示管道文件      pipe     l：表示符号链接文件   link     f：表示普通文件      file-depth ：在查找文件时，首先查找当前目录中的文件，然后再在其子目录中查找-fstype ：表示查找位于某一类型文件系统中的文件，这些文件系统类型通常可以在配置文件/etc/fstab中找到，该配置文件中包含了本系统中有关文件系统的信息-mount  ：表示在查找文件时不跨越文件系统的mount点-follow   ：表示如果find命令遇到符号链接文件，就跟踪至链接所指向的文件-cpio      ：表示对匹配的文件使用cpio命令，将这些文件备份至磁带设备中</code></pre><p><strong>实例：</strong><br>实例1：查找/root/shell目录下以.sh结尾 并且创建时间在1天以内的文件</p><pre><code>[root@jiangpeisi ~]# find /root/shell/ -name *.sh -ctime -1/root/shell/menu.sh/root/shell/apache-install.sh/root/shell/lnmp.sh/root/shell/select.sh/root/shell/sum.sh/root/shell/while.sh</code></pre><p>实例2：查找/root/shell目录下以.sh结尾 并且创建时间在1天以内的文件，并将文件移动到/opt/目录下</p><pre><code>[root@jiangpeisi ~]# find /root/shell/ -name *.sh -ctime -1 -exec mv {} /opt/ \; [root@jiangpeisi ~]# ll /opt/total 36-rw-r--r-- 1 root root  621 Mar 20 15:32 apache-install.sh-rw-r--r-- 1 root root   48 Mar 17 11:08 b.sh-rw-r--r-- 1 root root  303 Mar 18 11:28 e.sh-rw-r--r-- 1 root root  258 Mar 20 14:25 lnmp.sh-rw-r--r-- 1 root root  357 Mar 20 08:49 menu.shdrwxr-xr-x 2 root root 4096 Mar 15 15:41 nginx-rw-r--r-- 1 root root  138 Mar 20 14:12 select.sh-rw-r--r-- 1 root root   82 Mar 20 00:00 sum.sh-rw-r--r-- 1 root root   70 Mar 20 00:07 while.sh</code></pre><p>实例3：查找/data目录下以.log结尾，修改时间在1天以内，文件大小大于10M的文件，并将文件打包</p><pre><code>[root@jiangpeisi ~]# find /data/ -name *.log -ctime -1 -size +10k -exec tar -czPf /datacd/backup.tar.gz {} \;</code></pre>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;h1 id=&quot;sed简介&quot;&gt;&lt;a href=&quot;#sed简介&quot; class=&quot;headerlink&quot; title=&quot;sed简介&quot;&gt;&lt;/a&gt;sed简介&lt;/h1&gt;&lt;p&gt;sed是一个非交互式文本编辑器，它可以对文本文件和标准输入进行编辑，标志输入可以来自键盘输入、文本重定向、字符串、变
+        &lt;p&gt;&lt;strong&gt;简述&lt;/strong&gt;&lt;br&gt;  find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。&lt;br&gt;&lt;str
       
     
     </summary>
@@ -270,35 +299,6 @@ pattern2）
 *）
    command
 es
-      
-    
-    </summary>
-    
-      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
-    
-      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
-    
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>shell脚本学习之四剑客find</title>
-    <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9B%E5%89%91%E5%AE%A2find/"/>
-    <id>http://yoursite.com/2019/03/20/shell脚本学习之四剑客find/</id>
-    <published>2019-03-20T14:45:56.000Z</published>
-    <updated>2019-03-20T16:02:35.465Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>简述</strong><br>  find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。<br><strong>语句格式：</strong></p><pre><code>find path -option [ -print ] [ -exec -ok command ] {} \;-print ：表示find命令将匹配的文件输出到标准输出中，默认执行该命令-exec  ：表示find命令对匹配的文件执行该参数给出的shell命令。相应命令的形式为 cmd {} \;-ok      ：它的作用和-exec一样，只是需要用户交互，更安全</code></pre><p><strong>option参数说明：</strong></p><pre><code>-name ：按照文件名查找文件-perm  ：按照权限查找文件-prune ：使find命令不在当前指定的目录中查找，如果同时使用-depth选项，那么-prune将被find命令忽略-user  ： 按照文件属主来查找文件-group  ：按照文件数组来查找文件-mtime -n +n  ：按照文件的更改时间来查找文件    -n ：表示从此刻算起，文件的更改是在n天以内    +n ：表示文件的更改时间是在n天以前-atime -n +n ： 按文件访问时间来查询-ctime -n +n ：按文件创建时间来查询 -nogroup  ：查找无有效属组的文件，即该文件所属的组在/etc/groups中不存在-nouser  :：查找无有效属主的文件，即该文件的属主在/etc/passwd中不存在-newer file1 ！ file2  :查找更改时间比file1新但比file2旧的文件-type      b：表示块设备文件     block     d：表示目录         directory     c：表示字符设备文件   char     p：表示管道文件      pipe     l：表示符号链接文件   link     f：表示普通文件      file-depth ：在查找文件时，首先查找当前目录中的文件，然后再在其子目录中查找-fstype ：表示查找位于某一类型文件系统中的文件，这些文件系统类型通常可以在配置文件/etc/fstab中找到，该配置文件中包含了本系统中有关文件系统的信息-mount  ：表示在查找文件时不跨越文件系统的mount点-follow   ：表示如果find命令遇到符号链接文件，就跟踪至链接所指向的文件-cpio      ：表示对匹配的文件使用cpio命令，将这些文件备份至磁带设备中</code></pre><p><strong>实例：</strong><br>实例1：查找/root/shell目录下以.sh结尾 并且创建时间在1天以内的文件</p><pre><code>[root@jiangpeisi ~]# find /root/shell/ -name *.sh -ctime -1/root/shell/menu.sh/root/shell/apache-install.sh/root/shell/lnmp.sh/root/shell/select.sh/root/shell/sum.sh/root/shell/while.sh</code></pre><p>实例2：查找/root/shell目录下以.sh结尾 并且创建时间在1天以内的文件，并将文件移动到/opt/目录下</p><pre><code>[root@jiangpeisi ~]# find /root/shell/ -name *.sh -ctime -1 -exec mv {} /opt/ \; [root@jiangpeisi ~]# ll /opt/total 36-rw-r--r-- 1 root root  621 Mar 20 15:32 apache-install.sh-rw-r--r-- 1 root root   48 Mar 17 11:08 b.sh-rw-r--r-- 1 root root  303 Mar 18 11:28 e.sh-rw-r--r-- 1 root root  258 Mar 20 14:25 lnmp.sh-rw-r--r-- 1 root root  357 Mar 20 08:49 menu.shdrwxr-xr-x 2 root root 4096 Mar 15 15:41 nginx-rw-r--r-- 1 root root  138 Mar 20 14:12 select.sh-rw-r--r-- 1 root root   82 Mar 20 00:00 sum.sh-rw-r--r-- 1 root root   70 Mar 20 00:07 while.sh</code></pre><p>实例3：查找/data目录下以.log结尾，修改时间在1天以内，文件大小大于10M的文件，并将文件打包</p><pre><code>[root@jiangpeisi ~]# find /data/ -name *.log -ctime -1 -size +10k -exec tar -czPf /datacd/backup.tar.gz {} \;</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;strong&gt;简述&lt;/strong&gt;&lt;br&gt;  find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。&lt;br&gt;&lt;str
       
     
     </summary>
