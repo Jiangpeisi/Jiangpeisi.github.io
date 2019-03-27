@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-03-23T06:15:59.660Z</updated>
+  <updated>2019-03-27T16:14:58.978Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,60 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Centos安装python3.7</title>
+    <link href="http://yoursite.com/2019/03/28/python%E5%AE%89%E8%A3%85/"/>
+    <id>http://yoursite.com/2019/03/28/python安装/</id>
+    <published>2019-03-28T14:45:56.000Z</published>
+    <updated>2019-03-27T16:14:58.978Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>简介</strong><br>Centos系统本身自带python2.7版本，使用python –version可以查看当前系统python版本，由于系统内某些命令会用到python2，所以python2不可以卸载.</p><hr><p><strong>安装</strong><br>1.由于是基于源码安装，首先需要安装gcc make</p><pre><code>yum -y install gcc  make</code></pre><p>2.安装依赖的软件包</p><pre><code>yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel libffi-devel</code></pre><p>3.下载源码压缩包<br><a href="https://www.python.org/ftp/python/" target="_blank" rel="noopener">官网下载</a></p><pre><code>wget https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz</code></pre><p>4.解压编译</p><pre><code>tar -zxvf Python-3.7.0.tgzcd Python-3.7.0./configure --prefix=/usr/local/python3make &amp;&amp; make install</code></pre><p>5.设置软连接或者环境变量<br>(1)删除旧的软连接并创建新的软连接</p><pre><code>rm -f /usr/bin/{python，pip}ln -s /usr/local/python3/bin/python3.7   /usr/bin/python3ln -s /usr/local/python3/bin/pip3.7 /usr/bin/pip</code></pre><p><img src="http://static.zybuluo.com/jiangpeisi/n25m8enf3ysp9snd9eezrsze/image_1d6vu31311fbmead1o9l167m10gn34.png" alt="image_1d6vu31311fbmead1o9l167m10gn34.png-20.4kB"><br>修改完连接可能会造成yum不可用，查看此处<br>(2)设置环境变量</p><pre><code>export PATH=&quot;$PATH:/usr/local/python3/bin/python3.7&quot;</code></pre><p>（3）两者选择一种就可以，前者直接使用python启用python解释器，后者需要使用python3启用python解释器。</p><p>6.查看python版本</p><pre><code>python --version</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;简介&lt;/strong&gt;&lt;br&gt;Centos系统本身自带python2.7版本，使用python –version可以查看当前系统python版本，由于系统内某些命令会用到python2，所以python2不可以卸载.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;
+      
+    
+    </summary>
+    
+      <category term="python" scheme="http://yoursite.com/categories/python/"/>
+    
+    
+      <category term="python" scheme="http://yoursite.com/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>安装新版python导致yum不可用</title>
+    <link href="http://yoursite.com/2019/03/28/%E5%AE%89%E8%A3%85%E6%96%B0%E7%89%88python%E5%AF%BC%E8%87%B4yum%E4%B8%8D%E5%8F%AF%E7%94%A8/"/>
+    <id>http://yoursite.com/2019/03/28/安装新版python导致yum不可用/</id>
+    <published>2019-03-28T14:45:56.000Z</published>
+    <updated>2019-03-27T16:09:46.093Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>问题：</strong><br>安装完新版本python导致yum命令不可用.<br><strong>错误代码：</strong></p><pre><code>File &quot;/usr/bin/yum&quot;, line 30except KeyboardInterrupt, e:^SyntaxError: invalid syntax</code></pre><p><strong>问题原因：</strong><br>yum包管理是使用python2.x写的，将python2.x升级到python3.x以后，由于python版本语法兼容性导致问题出现 .<br><strong>解决办法：</strong><br>修改yum配置文件，将python指向老版本.</p><pre><code>vim /usr/bin/yum#!/usr/bin/python2.7vim /usr/libexec/urlgrabber-ext-down#!/usr/bin/python2.7</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;问题：&lt;/strong&gt;&lt;br&gt;安装完新版本python导致yum命令不可用.&lt;br&gt;&lt;strong&gt;错误代码：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;File &amp;quot;/usr/bin/yum&amp;quot;, line 30
+except Ke
+      
+    
+    </summary>
+    
+      <category term="python" scheme="http://yoursite.com/categories/python/"/>
+    
+    
+      <category term="python" scheme="http://yoursite.com/tags/python/"/>
+    
+  </entry>
   
   <entry>
     <title>shell脚本学习之数组</title>
@@ -193,6 +247,45 @@
   </entry>
   
   <entry>
+    <title>shell脚本学习之选择语句</title>
+    <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%80%89%E6%8B%A9%E8%AF%AD%E5%8F%A5/"/>
+    <id>http://yoursite.com/2019/03/20/shell脚本学习之选择语句/</id>
+    <published>2019-03-20T14:45:56.000Z</published>
+    <updated>2019-03-20T14:50:35.384Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>case 语句格式：</strong></p><pre><code>case value in （表达式）pattern1)    command    ;;pattern2）    command    ;;*）   commandesac</code></pre><p><strong>实例：菜单选择</strong></p><pre><code>#!/bin/bashMenu=(beef,noodles,rice,juice)echo &quot;The menu is:&quot;for i in ${Menu[*]}do   echo  &quot;$i&quot;doneread -p &quot;Please choose one:&quot; foodcase $food in        beef)         echo &quot;You choose beef!&quot;        ;;        noodles)          echo &quot;You choose noodles!&quot;        ;;        rice)          echo &quot;You choose rice!&quot;        ;;        juice)          echo &quot;You choose juice!&quot;        ;;        *)          echo &quot;Don&apos;t have this one!&quot;        ;;esac[root@jiangpeisi shell]# sh menu.sh The menu is:beef,noodles,rice,juicePlease choose one:noodlesYou choose noodles!</code></pre><p><strong>select 语法格式：</strong></p><pre><code>select i in （表达式）do   commanddone</code></pre><p><strong>实例：测试服务状态</strong></p><pre><code>#!/bin/bashPS3=&quot;Please enter your select menu:&quot;select i in http php mysql quitdocase $i in        http)          echo &quot;Test http&apos;s state!&quot;        ;;        php)          echo &quot;Test php&apos;s state!&quot;        ;;        mysql)          echo &quot;Test mysql&apos;s state!&quot;        ;;        quit)          echo &quot;Exit!&quot;          exitesacdone[root@jiangpeisi shell]# sh lnmp.sh1) http2) php3) mysql4) quitPlease enter your select menu:1Test http&apos;s state!Please enter your select menu:2Test php&apos;s state!Please enter your select menu:3Test mysql&apos;s state!Please enter your select menu:4Exit!</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;case 语句格式：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;case value in （表达式）
+pattern1)
+    command
+    ;;
+pattern2）
+    command
+    ;;
+*）
+   command
+es
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
+    
+  </entry>
+  
+  <entry>
     <title>shell脚本学习之四剑客find</title>
     <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9B%E5%89%91%E5%AE%A2find/"/>
     <id>http://yoursite.com/2019/03/20/shell脚本学习之四剑客find/</id>
@@ -257,29 +350,25 @@ command
   </entry>
   
   <entry>
-    <title>shell脚本学习之选择语句</title>
-    <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%80%89%E6%8B%A9%E8%AF%AD%E5%8F%A5/"/>
-    <id>http://yoursite.com/2019/03/20/shell脚本学习之选择语句/</id>
-    <published>2019-03-20T14:45:56.000Z</published>
-    <updated>2019-03-20T14:50:35.384Z</updated>
+    <title>shell脚本学习之循环语句</title>
+    <link href="http://yoursite.com/2019/03/19/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5/"/>
+    <id>http://yoursite.com/2019/03/19/shell脚本学习之循环语句/</id>
+    <published>2019-03-19T14:45:56.000Z</published>
+    <updated>2019-03-19T16:24:27.690Z</updated>
     
-    <content type="html"><![CDATA[<p><strong>case 语句格式：</strong></p><pre><code>case value in （表达式）pattern1)    command    ;;pattern2）    command    ;;*）   commandesac</code></pre><p><strong>实例：菜单选择</strong></p><pre><code>#!/bin/bashMenu=(beef,noodles,rice,juice)echo &quot;The menu is:&quot;for i in ${Menu[*]}do   echo  &quot;$i&quot;doneread -p &quot;Please choose one:&quot; foodcase $food in        beef)         echo &quot;You choose beef!&quot;        ;;        noodles)          echo &quot;You choose noodles!&quot;        ;;        rice)          echo &quot;You choose rice!&quot;        ;;        juice)          echo &quot;You choose juice!&quot;        ;;        *)          echo &quot;Don&apos;t have this one!&quot;        ;;esac[root@jiangpeisi shell]# sh menu.sh The menu is:beef,noodles,rice,juicePlease choose one:noodlesYou choose noodles!</code></pre><p><strong>select 语法格式：</strong></p><pre><code>select i in （表达式）do   commanddone</code></pre><p><strong>实例：测试服务状态</strong></p><pre><code>#!/bin/bashPS3=&quot;Please enter your select menu:&quot;select i in http php mysql quitdocase $i in        http)          echo &quot;Test http&apos;s state!&quot;        ;;        php)          echo &quot;Test php&apos;s state!&quot;        ;;        mysql)          echo &quot;Test mysql&apos;s state!&quot;        ;;        quit)          echo &quot;Exit!&quot;          exitesacdone[root@jiangpeisi shell]# sh lnmp.sh1) http2) php3) mysql4) quitPlease enter your select menu:1Test http&apos;s state!Please enter your select menu:2Test php&apos;s state!Please enter your select menu:3Test mysql&apos;s state!Please enter your select menu:4Exit!</code></pre>]]></content>
+    <content type="html"><![CDATA[<p><strong>for循环语句格式</strong></p><pre><code>for var in （表达式）do    Commanddone</code></pre><p><strong>实例：计算1-100和</strong></p><pre><code>#!/bin/bashsum=0for i in `seq 1 100`do  sum=$(expr $sum + $i)doneecho $sum[root@jiangpeisi shell]# sh for.sh 5050</code></pre><p><strong>while循环语句格式</strong></p><pre><code>while（表达式）do    commanddone</code></pre><p><strong>实例：循环按行打印文件内容</strong></p><pre><code>#!/bin/bashwhile read linedo   echo $linedone &lt; /root/shell/a.txt[root@jiangpeisi shell]# sh while.sh lkitd:x:998:997:User for polkitd:/:/sbin/nologintss:x:59:59:Account used by the trousers package to sandbox the tcsd daemon:/dev/null:/sbin/nologinsshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologinpostfix:x:89:89::/var/spool/postfix:/sbin/nologinchrony:x:997:995::/var/lib/chrony:/sbin/nologinntp:x:38:38::/etc/ntp:/sbin/nologinnscd:x:28:28:NSCD Daemon:/:/sbin/nologintcpdump:x:72:72::/:/sbin/nologinadmin:x:1000:1000::/home/admin:/bin/bashdockerroot:x:996:993:Docker User:/var/lib/docker:/sbin/nologindockerroot-latest:x:995:992:Docker User:/var/lib/docker-latest:/sbin/nologinzarafa:x:994:991:Zarafa Service Account:/var/lib/zarafa:/sbin/nologintest1:x:1002:1002::/home/test1:/bin/bashjiangpeisi:x:1004:1004::/home/jiangpeisi:/bin/bashftpuser1:x:1005:1005::/home/ftpuser1:/bin/bashnamed:x:25:25:Named:/var/named:/bin/falsedhcpd:x:177:177:DHCP server:/:/sbin/nologinmysql:x:27:27:MariaDB Server:/var/lib/mysql:/sbin/nologinsaslauth:x:993:76:Saslauthd user:/run/saslauthd:/sbin/nologinapache:x:48:48:Apache:/usr/share/httpd:/sbin/nologin</code></pre>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;&lt;strong&gt;case 语句格式：&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;case value in （表达式）
-pattern1)
-    command
-    ;;
-pattern2）
-    command
-    ;;
-*）
-   command
-es
+        &lt;p&gt;&lt;strong&gt;for循环语句格式&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;for var in （表达式）
+do
+    Command
+done
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;实例：计算1-100和&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;cod
       
     
     </summary>
@@ -333,46 +422,11 @@ fi
   </entry>
   
   <entry>
-    <title>shell脚本学习之循环语句</title>
-    <link href="http://yoursite.com/2019/03/19/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5/"/>
-    <id>http://yoursite.com/2019/03/19/shell脚本学习之循环语句/</id>
-    <published>2019-03-19T14:45:56.000Z</published>
-    <updated>2019-03-19T16:24:27.690Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>for循环语句格式</strong></p><pre><code>for var in （表达式）do    Commanddone</code></pre><p><strong>实例：计算1-100和</strong></p><pre><code>#!/bin/bashsum=0for i in `seq 1 100`do  sum=$(expr $sum + $i)doneecho $sum[root@jiangpeisi shell]# sh for.sh 5050</code></pre><p><strong>while循环语句格式</strong></p><pre><code>while（表达式）do    commanddone</code></pre><p><strong>实例：循环按行打印文件内容</strong></p><pre><code>#!/bin/bashwhile read linedo   echo $linedone &lt; /root/shell/a.txt[root@jiangpeisi shell]# sh while.sh lkitd:x:998:997:User for polkitd:/:/sbin/nologintss:x:59:59:Account used by the trousers package to sandbox the tcsd daemon:/dev/null:/sbin/nologinsshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologinpostfix:x:89:89::/var/spool/postfix:/sbin/nologinchrony:x:997:995::/var/lib/chrony:/sbin/nologinntp:x:38:38::/etc/ntp:/sbin/nologinnscd:x:28:28:NSCD Daemon:/:/sbin/nologintcpdump:x:72:72::/:/sbin/nologinadmin:x:1000:1000::/home/admin:/bin/bashdockerroot:x:996:993:Docker User:/var/lib/docker:/sbin/nologindockerroot-latest:x:995:992:Docker User:/var/lib/docker-latest:/sbin/nologinzarafa:x:994:991:Zarafa Service Account:/var/lib/zarafa:/sbin/nologintest1:x:1002:1002::/home/test1:/bin/bashjiangpeisi:x:1004:1004::/home/jiangpeisi:/bin/bashftpuser1:x:1005:1005::/home/ftpuser1:/bin/bashnamed:x:25:25:Named:/var/named:/bin/falsedhcpd:x:177:177:DHCP server:/:/sbin/nologinmysql:x:27:27:MariaDB Server:/var/lib/mysql:/sbin/nologinsaslauth:x:993:76:Saslauthd user:/run/saslauthd:/sbin/nologinapache:x:48:48:Apache:/usr/share/httpd:/sbin/nologin</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;strong&gt;for循环语句格式&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;for var in （表达式）
-do
-    Command
-done
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;实例：计算1-100和&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;cod
-      
-    
-    </summary>
-    
-      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
-    
-      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
-    
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
-    
-  </entry>
-  
-  <entry>
     <title>shell脚本学习之变量得使用</title>
     <link href="http://yoursite.com/2019/03/18/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%8F%98%E9%87%8F%E5%BE%97%E4%BD%BF%E7%94%A8/"/>
     <id>http://yoursite.com/2019/03/18/shell脚本学习之变量得使用/</id>
     <published>2019-03-18T14:45:56.000Z</published>
-    <updated>2019-03-18T03:49:52.166Z</updated>
+    <updated>2019-03-27T16:08:29.344Z</updated>
     
     <content type="html"><![CDATA[<h2 id="变量得定义"><a href="#变量得定义" class="headerlink" title="变量得定义"></a>变量得定义</h2><p>格式：变量名称 = 变量值</p><pre><code>[root@jiangpeisi ~]# name=Andy[root@jiangpeisi ~]# echo $nameAndy</code></pre><p>1.变量名称不能以数字、特殊字符开头<br>2.=代表为变量赋值<br>3.变量的值可以是数字、字符串、文件的位置、命令、命令的结果</p><hr><h2 id="变量的分类"><a href="#变量的分类" class="headerlink" title="变量的分类"></a>变量的分类</h2><p><strong>自定义变量</strong></p><pre><code>Hostname=AndyIP=192.168.32.1echo $Hostname &quot;- $IP&quot;echo $Hostname &apos;- $IP&apos;[root@jiangpeisi ~]# sh d.sh Andy - 192.168.32.1Andy - $IP</code></pre><p>引号的区别：<br>    单引号与双引号的区别在于：单引号内若存在变量，存在的变量当做字符串不会被解析，原样输出；而双引号中若存在变量，该变量会被解析出其具体的值再加入到字符串中。<br>引号用法：<br>    1.不加引号可以直接定义内容包含数字、字符串、路径名等，适合定义数字<br>    2.单引号适合于纯定义字符串，<br>    3.而双引号适合于字符串的内容中包含有变量的内容的定义。</p><p><strong>环境变量</strong><br>使用env命令显示当前系统的环境变量</p><pre><code>[root@jiangpeisi ~]# envXDG_SESSION_ID=1189HOSTNAME=jiangpeisiTERM=xtermSHELL=/bin/bashHISTSIZE=1000SSH_CLIENT=49.70.204.253 2085 22SSH_TTY=/dev/pts/0USER=rootLS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=01;05;37;41:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=01;36:*.au=01;36:*.flac=01;36:*.mid=01;36:*.midi=01;36:*.mka=01;36:*.mp3=01;36:*.mpc=01;36:*.ogg=01;36:*.ra=01;36:*.wav=01;36:*.axa=01;36:*.oga=01;36:*.spx=01;36:*.xspf=01;36:MAIL=/var/spool/mail/rootPATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/binPWD=/rootLANG=en_US.UTF-8HISTCONTROL=ignoredupsSHLVL=1HOME=/rootLOGNAME=rootSSH_CONNECTION=49.70.204.253 2085 172.16.30.80 22LESSOPEN=||/usr/bin/lesspipe.sh %sXDG_RUNTIME_DIR=/run/user/0_=/usr/bin/env</code></pre><p>定义全局变量</p><pre><code>export 变量名=变量值</code></pre><p>定义路径变量</p><pre><code>export PATH=$PATH:/root/bin    Export PATH=$PATH:格式不能错</code></pre><p>  单纯使用export命令设置全局变量仅临时有效，在机器重启后会失效，若想设置永久全局变量需要将环境变量的定义写在开机加载的配置文件中。例如：/etc/profile、/etc/profile.d、/etc/bashrc</p><p><strong>位置变量</strong><br>主要是向脚本中传递数据，变量名不能自定义，变量作用是固定的$n</p><pre><code>$0：代表命令本身，$1-9代表接受的第1-9个参数，10以上需要用{}括起来比如${10}代表接收的第10个参数$*：代表接收所有的参数，将所有参数看作一个整体$@：代表接收的所有参数，将每个参数区别对待$#：代表接收的参数个数dirname $0     获取目录名部分basename $0   获取文件名部分</code></pre><p>实例：</p><pre><code>echo &quot;path of script : $0&quot;echo &quot;name of script : $(basename $0)&quot;echo &quot;parameter 1 : $1&quot;echo &quot;parameter 2 : $2&quot;echo &quot;parameter 3 : $3&quot;echo &quot;parameter 4 : $4&quot;echo &quot;parameter 5 : $5&quot;echo &quot;The number of arguments passed : $#&quot;echo &quot;Show all arguments : $*&quot;echo &quot;Prncess TD : $$&quot;echo &quot;errors : $?&quot;[root@jiangpeisi ~]# sh /opt/e.sh a b c d e path of script : /opt/e.shname of script : e.shparameter 1 : aparameter 2 : bparameter 3 : cparameter 4 : dparameter 5 : eThe number of arguments passed : 5Show all arguments : a b c d ePrncess TD : 12807errors : 0</code></pre>]]></content>
     
@@ -562,74 +616,6 @@ done
       
         &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;传统虚拟化与docker&lt;/strong&gt;&lt;br&gt;传统虚拟化是在宿主机上使用VMM对底层硬件资源进行管理和封装、隔离抽象为一种逻辑独立的资源，分配给上层虚拟主机使用。&lt;br&gt;Docker是直接在宿主主机操作系统的层次上通过Cgroups对物理资源
-      
-    
-    </summary>
-    
-      <category term="虚拟化" scheme="http://yoursite.com/categories/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
-    
-      <category term="Docker" scheme="http://yoursite.com/categories/%E8%99%9A%E6%8B%9F%E5%8C%96/Docker/"/>
-    
-    
-      <category term="docker" scheme="http://yoursite.com/tags/docker/"/>
-    
-      <category term="虚拟化" scheme="http://yoursite.com/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Docker容器网络模式</title>
-    <link href="http://yoursite.com/2019/03/07/Docker%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F/"/>
-    <id>http://yoursite.com/2019/03/07/Docker容器网络模式/</id>
-    <published>2019-03-07T14:45:56.000Z</published>
-    <updated>2019-03-15T15:25:05.858Z</updated>
-    
-    <content type="html"><![CDATA[<ul><li><p><strong>配置容器网络模式</strong></p><p> Docker run -net=pattern</p></li><li><p><strong>四种模式</strong></p><p> host模式：host模式下的容器不会独立创建一个network namespace,而是与宿主机公用一个network namespace。容器不会再虚拟出自己的网卡，配置IP，直接使用宿主机的IP及端口。</p><p> container模式：container模式下的容器与host模式下的容器类似，同样不会独立创建一个network namespace，而是和其他容器共用一个network namespace。两个容器除了network namespace是共享的之外，其他的如文件系统、进程列表等还是相互隔离的。</p><p> none模式：none模式下的容器拥有自己的network namespace，但是不会为容器进行任何网络配置，需要人工添加网卡、配置IP等信息，典型的pipework工具可以为此模式下的容器配置IP等信息。</p><p> bridge模式：docker容器默认的网络模式，该模式会为每一个容器分配一个network namespace，设置IP、路由等信息，并且默认会将这些容器连接到一个虚拟的交换机docker0上。</p></li><li><p><strong>bridge模式下的docker 容器创建过程</strong><br>1.启动docker容器，docker宿主机会创建一对虚拟网卡，veth pair设备，用于两个设备通信。<br>2.Docker 将veth pair 的一端放在新创建的docker 容器中，并命名为eth0，另一端放在宿主机中，以veth-container-id的方式命名，并将这个veth加入到docker0中。<br>3.Docker0从子网中分配一个IP给容器使用，并将容器的网关设置为docker0的IP地址。<br>此时容器间，容器与宿主机之间是可以通信的，容器也可以访问外网，但是其他宿主机不可以访问容器内的IP地址，需要通过NAT将容器IP的port映射为宿主机的IP和port，方可访问。</p></li><li><p><strong>docker桥接网络拓扑</strong><br><img src="http://static.zybuluo.com/jiangpeisi/062j0akdehbba7vej72yb1o3/image_1d5aqqol11q8733oqtbjqm1e4ic.png" alt="image_1d5aqqol11q8733oqtbjqm1e4ic.png-27.1kB"></p></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;配置容器网络模式&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt; Docker run -net=pattern&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;四种模式&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt; host模式：host模式下的容器不会独立创建
-      
-    
-    </summary>
-    
-      <category term="虚拟化" scheme="http://yoursite.com/categories/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
-    
-      <category term="Docker" scheme="http://yoursite.com/categories/%E8%99%9A%E6%8B%9F%E5%8C%96/Docker/"/>
-    
-    
-      <category term="docker" scheme="http://yoursite.com/tags/docker/"/>
-    
-      <category term="虚拟化" scheme="http://yoursite.com/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Dokcer安装并部署多个nginx</title>
-    <link href="http://yoursite.com/2019/03/07/Docker%E5%AE%89%E8%A3%85%E5%B9%B6%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2%E5%A4%9A%E4%B8%AAnginx/"/>
-    <id>http://yoursite.com/2019/03/07/Docker安装并使用docker部署多个nginx/</id>
-    <published>2019-03-07T14:45:56.000Z</published>
-    <updated>2019-03-15T15:27:41.031Z</updated>
-    
-    <content type="html"><![CDATA[<ul><li><p><strong>Docker 安装</strong></p><p> 1.查看当前内核版本，要求3.10及以上版本</p><pre><code>uname -r</code></pre><p> 2.安装相关的包</p><pre><code>yum install -y yum-utils device-mapper-persistent-data lvm2 lxc libcgroup</code></pre><p> 3.安装docker</p><pre><code>yum install docker docker-* -y</code></pre><p> 4.关闭selinux并重启</p><pre><code>sed -i &apos;/SELINUX/s/enforcing/disabled/g&apos; /etc/selinux/config &amp;&amp; reboot</code></pre><p> 5.启动docker</p><pre><code>systemctl start docker </code></pre><p> 6.使用脚本一键安装</p><pre><code>curl -fsSL https://get.docker.com -o get-docker.shsh get-docker.sh</code></pre></li><li><p><strong>部署多台nginx服务器</strong></p><p> 1.获取Nginx镜像</p><pre><code>docker pull nginx</code></pre><p> 2.创建容器，并将容器内的80端口分别映射到宿主机的8080|8088端口，将容器的nginx配置文件挂载到本地，方便绕过写时复制，提高容器读写效率</p><pre><code>docker run -it --name nginx1 -h nginx1 -v /usr/local/etc/nginx1/html/:/usr/share/nginx/html -p 8080:80 nginx /bin/bashdocker run -it --name nginx2 -h nginx2 -v /usr/local/etc/nginx2/html/:/usr/share/nginx/html -p 8088:80 nginx /bin/bash</code></pre><p> <img src="http://static.zybuluo.com/jiangpeisi/gkzpvqgz3wxx28fda28r1zq7/image_1d5b1a092dct8lt1s331b451tm20.png" alt="image_1d5b1a092dct8lt1s331b451tm20.png-10.2kB"><br> 3.开启刚刚创建的容器</p><pre><code>docker start $(docker ps -qa)</code></pre><p> <img src="http://static.zybuluo.com/jiangpeisi/mrha1024sock53rz1ccnhoi9/image_1d5b1c9qvtf818bm2si498kiv2t.png" alt="image_1d5b1c9qvtf818bm2si498kiv2t.png-10.6kB"><br> 4.将容器内的nginx放置在后台运行</p><pre><code>docker exec -it nginx1 nginx &amp;docker exec -it nginx2 nginx &amp;</code></pre><p> 5.修改配置文件</p><pre><code>cd /usr/local/etc/nginx1/html/echo &quot;&lt;h1&gt;This is Nginx1&lt;/h1&gt;&quot; &gt; index.html cd /usr/local/etc/nginx2/html/echo &quot;&lt;h1&gt;This is Nginx2&lt;/h1&gt;&quot; &gt; index.html </code></pre><p> 6.浏览器访问<br><img src="http://static.zybuluo.com/jiangpeisi/faqgy3uozt8ukvbvi09tcmxt/image_1d5b1kdms3me1ssi1npr15m9h1m44.png" alt="image_1d5b1kdms3me1ssi1npr15m9h1m44.png-14kB"><br><img src="http://static.zybuluo.com/jiangpeisi/f47wg1yoq5zs0ioziifpy26e/image_1d5b1kp8f1d6712h81hap13le68f51.png" alt="image_1d5b1kp8f1d6712h81hap13le68f51.png-14.2kB"></p></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Docker 安装&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt; 1.查看当前内核版本，要求3.10及以上版本&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;uname -r
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt; 2.安装相关的包&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;yum i
       
     
     </summary>
