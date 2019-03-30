@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/about/index.html</loc>
+    
+    <lastmod>2019-03-28T05:32:52.965Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2019/03/28/python%E5%AE%89%E8%A3%85/</loc>
     
     <lastmod>2019-03-27T16:19:06.274Z</lastmod>
@@ -201,13 +208,6 @@
     <loc>http://yoursite.com/2019/03/03/LNMP%E6%9E%B6%E6%9E%84%E4%B8%ADNginx%E5%A6%82%E4%BD%95%E4%B8%8EPHP%E4%BA%A4%E4%BA%92/</loc>
     
     <lastmod>2019-03-09T07:00:47.830Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/about/index.html</loc>
-    
-    <lastmod>2019-03-07T03:10:07.127Z</lastmod>
     
   </url>
   
