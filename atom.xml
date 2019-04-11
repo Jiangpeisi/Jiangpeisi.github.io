@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-04-10T16:23:31.421Z</updated>
+  <updated>2019-04-11T00:46:20.041Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,13 +17,13 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title></title>
-    <link href="http://yoursite.com/2019/04/11/MPLS%20VPN/"/>
-    <id>http://yoursite.com/2019/04/11/MPLS VPN/</id>
-    <published>2019-04-10T16:23:24.727Z</published>
-    <updated>2019-04-10T16:23:31.421Z</updated>
+    <title>MPLS VPN</title>
+    <link href="http://yoursite.com/2019/04/10/MPLS%20VPN/"/>
+    <id>http://yoursite.com/2019/04/10/MPLS VPN/</id>
+    <published>2019-04-10T14:45:56.000Z</published>
+    <updated>2019-04-11T00:46:20.041Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><p><strong>MPLS VPN基本架构拓扑</strong><br><img src="http://static.zybuluo.com/jiangpeisi/nrg8w60xrd847bvaaf52geax/image_1d83uk98siqv159r174410e64h21j.png" alt="image_1d83uk98siqv159r174410e64h21j.png-75.1kB"></p><p>  在路由层面，客户A的站点1将到达本站点的路由信息通过MPLS VPN网络传递到远在另一个城市甚至另一个国家的站点2,反过来，站点2也是如此。对于客户而言，他们希望自己的站点路由在服务提供商的MPLS VPN网络内是不可见的，而且必须是独立传输、不会存在冲突的，他们不关心MPLS VPN骨干网络的具体形态。对于服务提供商而言，他们希望自己骨干网络内的传输设备能够专注于数据转发，而不参与客户路由的学习及交互，从而避免维护大规模路由表而导致设备负担过重。更重要是，MPLS VPN网络允许大量客户同时接入，且相互隔离。</p><p>在数据层面，当客户A的站点1将发往站点2的IP报文送入MPLS VPN骨干网络时，报文在MPLS VPN网络边界被压入标签头部，并最终被送达远端PE设备，再由该PE设备将其还原成IP报文后转发到该客户的站点2,显然，客户并不希望自己站点间相互通信的数据在MPLS VPN网络中被暴露，标签化的数据交互过程起到一定的安全作用，它使得共享式的MPLS VPN网络能够允许大量的客户同时接入，这些客户的数据不会在服务提供商的网络内出现冲突或者紊乱。</p><h2 id="四种典型设备"><a href="#四种典型设备" class="headerlink" title="四种典型设备"></a>四种典型设备</h2><p>PE（Provider Edge）设备：服务供应商边缘设备，一方接入MPLS VPN骨干网络P设备，另一方接入CE设备。用于客户两个站点间的路由信息交换。VRF（Virutual Routing and Forwarding）会部署在PE设备上来隔离不同客户路由。<br>P（Provider）设备：服务供应商设备，用于标签报文转发。<br>CE（Client Edge）设备：客户边界设备，一方连着PE设备，另一方连着C设备。用于将本区域内路由信息交给PE设备，并从PE设备学习远程站点的路由信息。一般与PE设备间启用动态路由协议来互相学习路由。<br>C（Client）设备：客户网络内部设备。</p><h2 id="六个问题了解MPLS-VPN"><a href="#六个问题了解MPLS-VPN" class="headerlink" title="六个问题了解MPLS VPN"></a>六个问题了解MPLS VPN</h2><p>  <strong>问题一</strong></p><p>多个CE设备连接一个PE设备，PE设备同时学习多个CE路由，PE设备如何区分不同CE设备发送过来的相同路由条目？<br><img src="http://static.zybuluo.com/jiangpeisi/iw2017qrqvpa2cxmd6jqmxlx/image_1d83us0061qsg1svv66dft5vdp3a.png" alt="image_1d83us0061qsg1svv66dft5vdp3a.png-93.9kB"><br><strong>答：</strong><br>使用VRF。VRF（Virtual Routing and Forwarding），主要用于区分不同客户端的路由条目，PE设备上会为每一个客户创建一个VRF专门用于存储从该客户学习来的路由条目，以此防止客户间路由发送冲突。一个VRF相当于一个虚拟设备，拥有独立的路由表，FIB表，动态路由协议进程。上例中PE设备会创建两个VRF分别存储客户A和客户B的路由。</p><hr><p> <strong>问题二</strong></p><p>PE1需要将客户A在站点1的路由发送给PE2，如何实现？<br><strong>答：</strong><br>使用BGP协议。在客户连接的两个PE设备间建立BGP对等体关系，让PE1与PE2直接交换客户的路由信息，中间P设备无需使用BGP协议。这样不仅做到了将PE1的路由信息发送给PE2，而且还可以让MPLS VPN骨干网络的设备不用维护客户的路由，仅专注于数据的转发。</p><hr><p> <strong>问题三</strong></p><p>VRF用于实现客户路由隔离并解决IP地址空间冲突的问题，但是一旦PE1设备将路由条目发送出去又会出现不同客户的路由信息混淆的问题，如何对BGP所运载的路由进行区分呢？<br><strong>答：</strong><br>使用RD（Route Distinguisher）路由区分码。对路由信息进行封装，在原IPv4（32bit）路由前缀的基础上增加一个RD（64bit），一起封装成为VPNv4（96bit）路由进行传输。例如：64519:100:172.16.18.0/24 其中172.16.18.0/24为IPv4地址，64519：100为RD值。</p><p>传统的BGP协议无法运载VPNv4路由，需要使用MP-BGP（Multi-Protolocal BGP），使得BGP可以运载VPNv4路由、IPv6路由等。</p><hr><p>现在解决了PE1从不同客户学习路由并且可以加以区分，以及怎样将路由信息发送到PE2。但是当路由到达PE2时，又出现了另一个问题，如何将路由信息区分，并放入不同的VRF?<br><img src="http://static.zybuluo.com/jiangpeisi/5dirh36m0mk1i7plmabcaxxq/image_1d83vbcsj66v1kt718ko1rfnfaa65.png" alt="image_1d83vbcsj66v1kt718ko1rfnfaa65.png-104.1kB"></p><hr><p> <strong>问题四</strong></p><p>PE2如何区分从PE1学习到的路由条目并放入相应的VRF？<br><strong>答：</strong><br>使用RT（32bit）（Route Target）路由目标。<br>Export RT：发送路由器上设置。在PE1上为客户A设置Export值为64519：1，为客户B设置Export值为64520：2，这样PE1在发送VPNv4路由的时候会将RT值作为扩展Community属性一起发送给PE2。<br>Inport RT：接收路由器上设置。在PE2上为客户A设置Import值为64519：1，为客户B设置Inport值为64520：2，与发送端对应。这样PE2将RT值为64519：1的路由放进客户A的VRF中，RT值为64520：2的路由放进客户B的VRF中。<br><img src="http://static.zybuluo.com/jiangpeisi/geiilzab4w78d2ate2r983w7/image_1d83vekbfeat16a9ackvu312d76v.png" alt="image_1d83vekbfeat16a9ackvu312d76v.png-224kB"></p><hr><p>到目前为止我们以及解决了路由信息的传递过程，但是由路由信息就一定可以传送数据吗？我们使用的是BGP协议，中间的P设备是不知道客户间路由的，所以一旦数据包发送出去，到了P设备就会被丢弃，因为P设备没有客户路由。貌似还查了一点，怎么让中间设备不管三层的目的地址，直接对数据包进行转发呢？一直在说MPLS VPN但是学到现在还没有使用到一点MPLS技术在里面，现在派上用场了。</p><hr><p> <strong>问题五</strong></p><p>如何让P设备在不知道目的地址的情况下对数据包进行转发？<br><strong>答：</strong><br>使用MPLS，让路由器根据标签转发数据。在MPLS VPN骨干网络设备上启用MPLS及LDP，并且在设备间建立LDP对等体关系，在此之前骨干区域要先实现互通。以PE1为例，PE2与各个P设备会为去往PE1的路由分配标签，并形成一条LSP，这样PE2的报文就可以沿着这条LSP传送到PE1。<br><img src="http://static.zybuluo.com/jiangpeisi/d3kddwg3yduqkcqozc07ejb2/image_1d83vhk7m77c4g01gvkdhp63786.png" alt="image_1d83vhk7m77c4g01gvkdhp63786.png-79.6kB"><br><img src="http://static.zybuluo.com/jiangpeisi/nmeoih1pasyicz1oaop6wg5u/image_1d83vhr2c149u1doi10vsdg1um18j.png" alt="image_1d83vhr2c149u1doi10vsdg1um18j.png-150.2kB"></p><hr><p>现在数据报文可以从PE2发送到PE1了，PE1收到报文后将标签弹出，然后将数据包进行转发。现在又出现了一个新的问题，因为数据包不是路由条目，路由条目可以根据扩展Community属性值发放到不同的VRF中，数据包不存在这个属性，所以PE1这时候又懵逼了，这个数据包该发送给客户A还是客户B？</p><hr><p><strong>问题六</strong></p><p>PE设备收到数据包后，如何区分，并转发到相应的VRF中去？<br><strong>答：</strong><br>采用多层标签。MPLS标签包标签头可以有多个，按顺序排序，存储在标签栈中。在数据包发送时，为数据包压入两层标签，一层是外层标签或者叫公网标签，由LDP分发，用于将报文在MPLS VPN骨干网络传输。另一层是内部标签，也叫私网标签，由MP-BGP分发，用于将报文在PE设备上对应到具体的VRF中。为了实现私网标签的分发，PE2通过MP-BGP将VPNv4路由通告给PE1时，除了携带了该路由的RT值，还会将为该路由所分配的私网标签一并携带。这样PE1在发送数据包到PE2时会给数据包打上双层标签，使用公网标签将数据包发送到PE2，出去外层标签后，由于私网标签时PE2自己设置的，所以PE2会根据内层标签决定将数据包对应到哪一个VRF，最后私网标签弹出，将正常的IP报文传输给客户端A或者B。</p><hr><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过上面六个问题的探讨，大致可以了解经典MPLS VPN的工作机制。总结一下，一个经典的MPLS VPN实现需要实现哪些功能：<br>1.在PE设备上，使用VRF来区分不同客户、维护不同客户的路由<br>2.在PE设备上，基于VRF使用路由协议实现与CE间的路由信息交换<br>3.在MPLS VPN骨干网络内部需要运行IGP路由协议，并在此基础上运行MPLS和LDP协议。<br>4.在PE之间需要建立BGP对等体，使用RD值将IPv4路由封装成VPNv4路由，通过MP-BGP传递VPNv4路由。<br>5.在PE上需要为VRF设置RT值区分接收到的路由条目。<br>6.为数据包压入双层标签，让数据包技能穿越MPLS VPN骨干网络，然后转发到相应的VRF中。</p>]]></content>
+    <content type="html"><![CDATA[<h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><p><strong>MPLS VPN基本架构拓扑</strong><br><img src="http://static.zybuluo.com/jiangpeisi/nrg8w60xrd847bvaaf52geax/image_1d83uk98siqv159r174410e64h21j.png" alt="image_1d83uk98siqv159r174410e64h21j.png-75.1kB"></p><p>  在路由层面，客户A的站点1将到达本站点的路由信息通过MPLS VPN网络传递到远在另一个城市甚至另一个国家的站点2,反过来，站点2也是如此。对于客户而言，他们希望自己的站点路由在服务提供商的MPLS VPN网络内是不可见的，而且必须是独立传输、不会存在冲突的，他们不关心MPLS VPN骨干网络的具体形态。对于服务提供商而言，他们希望自己骨干网络内的传输设备能够专注于数据转发，而不参与客户路由的学习及交互，从而避免维护大规模路由表而导致设备负担过重。更重要是，MPLS VPN网络允许大量客户同时接入，且相互隔离。</p><p>在数据层面，当客户A的站点1将发往站点2的IP报文送入MPLS VPN骨干网络时，报文在MPLS VPN网络边界被压入标签头部，并最终被送达远端PE设备，再由该PE设备将其还原成IP报文后转发到该客户的站点2,显然，客户并不希望自己站点间相互通信的数据在MPLS VPN网络中被暴露，标签化的数据交互过程起到一定的安全作用，它使得共享式的MPLS VPN网络能够允许大量的客户同时接入，这些客户的数据不会在服务提供商的网络内出现冲突或者紊乱。</p><h2 id="四种典型设备"><a href="#四种典型设备" class="headerlink" title="四种典型设备"></a>四种典型设备</h2><p>PE（Provider Edge）设备：服务供应商边缘设备，一方接入MPLS VPN骨干网络P设备，另一方接入CE设备。用于客户两个站点间的路由信息交换。VRF（Virutual Routing and Forwarding）会部署在PE设备上来隔离不同客户路由。<br>P（Provider）设备：服务供应商设备，用于标签报文转发。<br>CE（Client Edge）设备：客户边界设备，一方连着PE设备，另一方连着C设备。用于将本区域内路由信息交给PE设备，并从PE设备学习远程站点的路由信息。一般与PE设备间启用动态路由协议来互相学习路由。<br>C（Client）设备：客户网络内部设备。</p><h2 id="六个问题了解MPLS-VPN"><a href="#六个问题了解MPLS-VPN" class="headerlink" title="六个问题了解MPLS VPN"></a>六个问题了解MPLS VPN</h2><p>  <strong>问题一</strong></p><p>多个CE设备连接一个PE设备，PE设备同时学习多个CE路由，PE设备如何区分不同CE设备发送过来的相同路由条目？<br><img src="http://static.zybuluo.com/jiangpeisi/iw2017qrqvpa2cxmd6jqmxlx/image_1d83us0061qsg1svv66dft5vdp3a.png" alt="image_1d83us0061qsg1svv66dft5vdp3a.png-93.9kB"><br><strong>答：</strong><br>使用VRF。VRF（Virtual Routing and Forwarding），主要用于区分不同客户端的路由条目，PE设备上会为每一个客户创建一个VRF专门用于存储从该客户学习来的路由条目，以此防止客户间路由发送冲突。一个VRF相当于一个虚拟设备，拥有独立的路由表，FIB表，动态路由协议进程。上例中PE设备会创建两个VRF分别存储客户A和客户B的路由。</p><hr><p> <strong>问题二</strong></p><p>PE1需要将客户A在站点1的路由发送给PE2，如何实现？<br><strong>答：</strong><br>使用BGP协议。在客户连接的两个PE设备间建立BGP对等体关系，让PE1与PE2直接交换客户的路由信息，中间P设备无需使用BGP协议。这样不仅做到了将PE1的路由信息发送给PE2，而且还可以让MPLS VPN骨干网络的设备不用维护客户的路由，仅专注于数据的转发。</p><hr><p> <strong>问题三</strong></p><p>VRF用于实现客户路由隔离并解决IP地址空间冲突的问题，但是一旦PE1设备将路由条目发送出去又会出现不同客户的路由信息混淆的问题，如何对BGP所运载的路由进行区分呢？<br><strong>答：</strong><br>使用RD（Route Distinguisher）路由区分码。对路由信息进行封装，在原IPv4（32bit）路由前缀的基础上增加一个RD（64bit），一起封装成为VPNv4（96bit）路由进行传输。例如：64519:100:172.16.18.0/24 其中172.16.18.0/24为IPv4地址，64519：100为RD值。</p><p>传统的BGP协议无法运载VPNv4路由，需要使用MP-BGP（Multi-Protolocal BGP），使得BGP可以运载VPNv4路由、IPv6路由等。</p><hr><p>现在解决了PE1从不同客户学习路由并且可以加以区分，以及怎样将路由信息发送到PE2。但是当路由到达PE2时，又出现了另一个问题，如何将路由信息区分，并放入不同的VRF?<br><img src="http://static.zybuluo.com/jiangpeisi/5dirh36m0mk1i7plmabcaxxq/image_1d83vbcsj66v1kt718ko1rfnfaa65.png" alt="image_1d83vbcsj66v1kt718ko1rfnfaa65.png-104.1kB"></p><hr><p> <strong>问题四</strong></p><p>PE2如何区分从PE1学习到的路由条目并放入相应的VRF？<br><strong>答：</strong><br>使用RT（32bit）（Route Target）路由目标。<br>Export RT：发送路由器上设置。在PE1上为客户A设置Export值为64519：1，为客户B设置Export值为64520：2，这样PE1在发送VPNv4路由的时候会将RT值作为扩展Community属性一起发送给PE2。<br>Inport RT：接收路由器上设置。在PE2上为客户A设置Import值为64519：1，为客户B设置Inport值为64520：2，与发送端对应。这样PE2将RT值为64519：1的路由放进客户A的VRF中，RT值为64520：2的路由放进客户B的VRF中。<br><img src="http://static.zybuluo.com/jiangpeisi/geiilzab4w78d2ate2r983w7/image_1d83vekbfeat16a9ackvu312d76v.png" alt="image_1d83vekbfeat16a9ackvu312d76v.png-224kB"></p><hr><p>到目前为止我们以及解决了路由信息的传递过程，但是由路由信息就一定可以传送数据吗？我们使用的是BGP协议，中间的P设备是不知道客户间路由的，所以一旦数据包发送出去，到了P设备就会被丢弃，因为P设备没有客户路由。貌似还查了一点，怎么让中间设备不管三层的目的地址，直接对数据包进行转发呢？一直在说MPLS VPN但是学到现在还没有使用到一点MPLS技术在里面，现在派上用场了。</p><hr><p> <strong>问题五</strong></p><p>如何让P设备在不知道目的地址的情况下对数据包进行转发？<br><strong>答：</strong><br>使用MPLS，让路由器根据标签转发数据。在MPLS VPN骨干网络设备上启用MPLS及LDP，并且在设备间建立LDP对等体关系，在此之前骨干区域要先实现互通。以PE1为例，PE2与各个P设备会为去往PE1的路由分配标签，并形成一条LSP，这样PE2的报文就可以沿着这条LSP传送到PE1。<br><img src="http://static.zybuluo.com/jiangpeisi/d3kddwg3yduqkcqozc07ejb2/image_1d83vhk7m77c4g01gvkdhp63786.png" alt="image_1d83vhk7m77c4g01gvkdhp63786.png-79.6kB"><br><img src="http://static.zybuluo.com/jiangpeisi/nmeoih1pasyicz1oaop6wg5u/image_1d83vhr2c149u1doi10vsdg1um18j.png" alt="image_1d83vhr2c149u1doi10vsdg1um18j.png-150.2kB"></p><hr><p>现在数据报文可以从PE2发送到PE1了，PE1收到报文后将标签弹出，然后将数据包进行转发。现在又出现了一个新的问题，因为数据包不是路由条目，路由条目可以根据扩展Community属性值发放到不同的VRF中，数据包不存在这个属性，所以PE1这时候又懵逼了，这个数据包该发送给客户A还是客户B？</p><hr><p><strong>问题六</strong></p><p>PE设备收到数据包后，如何区分，并转发到相应的VRF中去？<br><strong>答：</strong><br>采用多层标签。MPLS标签包标签头可以有多个，按顺序排序，存储在标签栈中。在数据包发送时，为数据包压入两层标签，一层是外层标签或者叫公网标签，由LDP分发，用于将报文在MPLS VPN骨干网络传输。另一层是内部标签，也叫私网标签，由MP-BGP分发，用于将报文在PE设备上对应到具体的VRF中。为了实现私网标签的分发，PE2通过MP-BGP将VPNv4路由通告给PE1时，除了携带了该路由的RT值，还会将为该路由所分配的私网标签一并携带。这样PE1在发送数据包到PE2时会给数据包打上双层标签，使用公网标签将数据包发送到PE2，出去外层标签后，由于私网标签时PE2自己设置的，所以PE2会根据内层标签决定将数据包对应到哪一个VRF，最后私网标签弹出，将正常的IP报文传输给客户A或者B。</p><hr><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过上面六个问题的探讨，大致可以了解经典MPLS VPN的工作机制。总结一下，一个经典的MPLS VPN实现需要实现哪些功能：<br>1.在PE设备上，使用VRF来区分不同客户、维护不同客户的路由<br>2.在PE设备上，基于VRF使用路由协议实现与CE间的路由信息交换<br>3.在MPLS VPN骨干网络内部需要运行IGP路由协议，并在此基础上运行MPLS和LDP协议。<br>4.在PE之间需要建立BGP对等体，使用RD值将IPv4路由封装成VPNv4路由，通过MP-BGP传递VPNv4路由。<br>5.在PE上需要为VRF设置RT值区分接收到的路由条目。<br>6.为数据包压入双层标签，让数据包技能穿越MPLS VPN骨干网络，然后转发到相应的VRF中。</p>]]></content>
     
     <summary type="html">
     
@@ -34,15 +34,19 @@
     
     </summary>
     
+      <category term="网络" scheme="http://yoursite.com/categories/%E7%BD%91%E7%BB%9C/"/>
+    
+    
+      <category term="网络" scheme="http://yoursite.com/tags/%E7%BD%91%E7%BB%9C/"/>
     
   </entry>
   
   <entry>
-    <title></title>
-    <link href="http://yoursite.com/2019/04/11/MPLS/"/>
-    <id>http://yoursite.com/2019/04/11/MPLS/</id>
-    <published>2019-04-10T16:21:30.130Z</published>
-    <updated>2019-04-10T16:21:36.984Z</updated>
+    <title>MPLS</title>
+    <link href="http://yoursite.com/2019/04/10/MPLS/"/>
+    <id>http://yoursite.com/2019/04/10/MPLS/</id>
+    <published>2019-04-10T14:45:56.000Z</published>
+    <updated>2019-04-11T00:39:26.860Z</updated>
     
     <content type="html"><![CDATA[<h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><p>传统的IP路由基于报文的IP头部的目的IP地址进行寻址及转发操作，设备需要维护路由表用于指导数据转发，根据最长匹配原则进行匹配条目，速度慢，效率低。MPLS能够为IP报文添加标签信息，让路由器基于标签信息对报文进行转发，提高了数据转发的效率。后来随着硬件技术的突破，IP路由查询的执行效率已经大大提高，MPLS的速度提升优势已经不再明显。但是MPLS在其他方面有着较多的应用，例如MPLS VPN、流量工程等。</p><hr><h2 id="MPLS的典型应用"><a href="#MPLS的典型应用" class="headerlink" title="MPLS的典型应用"></a>MPLS的典型应用</h2><p>1.基于MPLS的VPN<br>2.基于MPLS的流量工程</p><h2 id="MPLS术语"><a href="#MPLS术语" class="headerlink" title="MPLS术语"></a>MPLS术语</h2><p>LSR（Labe Switch Router，标签转发路由器）：指的是激活了MPLS标签交换功能的路由器，这些路由器维护者用于知道标签报文转发的信息，并且依据这些信息对标签报文进行处理。</p><p>Ingress LSR（入站LSR）：主要用于对刚刚进入MPLS区域的报文进行处理，在报文的IP头部前插入标签头部生成标签报文。</p><p>Transit LSR（中转LSR）：主要对标签报文进行处理，对标签的置换操作。</p><p>Egress LSR（出站LSR）：主要用于对流出MPLS的报文进行处理，在标签报文离开前将标签头部移除，使标签报文变成正常的IP报文。</p><p>Label（标签）：一个正常IP数据包在进入MPLS区域时，会在二层头部和IP头部之间插入标签头部，标签指的是标签头部‘标签’字段的具体值。一个标签报文可能有多个标签头部，按一定的顺序排列，存储在标签栈中。</p><p>FEC（Forwarding Equivalence Class，等价转发类）：FEC是指具有相同特征的标签报文，这些报文在MPLS转发过程中采用相同的处理方式。FEC可以采用多种方式划分，例如目的地址、网络掩码、DSCP等特征。最为常见的是根据目的地址划分，到达同一目的地址的报文会被归为一类，并采用相同的方式来处理这些报文。</p><p>LSP（Label Switched Path，标签转发路径）：LSP是指报文在穿越MPLS区域内所经过的路径。一个数据报文在穿越MPLS区域之前，LSP就已经建立好，同一个FEC的报文采用相同的LSP穿越MPLS区域，并且LSP是单向的，所以如果想要双方互相通信，就需要在建立双向的LSP。</p><p>标.签分发协议：类似于路由协议。一个报文在穿越MPLS区域之前LSP必须要先建立。LSP的建立又分为两种方式：静态方式，动态方式。静态方式建立LSP需要在每一台LSP上为每一个FEC手工配置标签，然后手动指定LSP。动态方式就是采用标签分发协议来完成，自动为FEC分配标签并建立LSP。</p><h2 id="MPLS标签"><a href="#MPLS标签" class="headerlink" title="MPLS标签"></a>MPLS标签</h2><p> <strong>包格式</strong></p><p><img src="http://static.zybuluo.com/jiangpeisi/qlb93xefpgaj5u11e579hgzk/image_1d83shco61n9a1la81m1l1pf0121933.png" alt="image_1d83shco61n9a1la81m1l1pf0121933.png-62.5kB"></p><p><strong>四个字段</strong></p><p>Label：用于存储标签值<br>EXP：暂未表明用处<br>BoS：栈底位，为1表示本标签为栈底标签，后面就是IP头部，为0表示本标签并非栈底标签。<br>TTL：主要用于防环，防止标签被无限转发</p><h2 id="MPLS标签的基本操作"><a href="#MPLS标签的基本操作" class="headerlink" title="MPLS标签的基本操作"></a>MPLS标签的基本操作</h2><p>Push：二层头部和三层头部之间插入标签<br>Swap：在标签报文转发时，将标签头部换成下游LSR所分配标签，通常对栈顶的标签进行操作<br>Pop：当标签报文离开MPLS区域时将标签头部移除，在最后一跳节点，标签已经没有使用价值。这种情况下，可以利用倒数第二跳弹出特性PHP（Penultimate Hop Popping），在倒数第二跳节点处将标签弹出，减少最后一跳的负担。最后一跳节点直接进行IP转发或者下一层标签转发。</p><h2 id="MPLS转发过程"><a href="#MPLS转发过程" class="headerlink" title="MPLS转发过程"></a>MPLS转发过程</h2><p><strong>三张表</strong></p><p>FIB表<br><img src="http://static.zybuluo.com/jiangpeisi/wgwmgv68j6zt9uy0nys6retr/image_1d83sipnd1jr81rbkfql1dep1k8o3g.png" alt="image_1d83sipnd1jr81rbkfql1dep1k8o3g.png-22.6kB"><br>NHLFE表<br><img src="http://static.zybuluo.com/jiangpeisi/jn0tjnqkachvb6dlz02os12r/image_1d83sj0fdqdpt801ac33n81ij3t.png" alt="image_1d83sj0fdqdpt801ac33n81ij3t.png-45.6kB"><br>ILM表<br><img src="http://static.zybuluo.com/jiangpeisi/kyimxvcsrpbpyao0tavclnyh/image_1d83sjg4njqvvb100lc55a134a.png" alt="image_1d83sjg4njqvvb100lc55a134a.png-47.2kB"></p><p><strong>具体过程</strong></p><p>当IP报文进入MPLS域时，首先查看FIB表，检查目的IP地址对应的Tunnel ID值是否为0x0。<br>如果Tunnel ID值为0x0，则进入正常的IP转发流程。<br>如果Tunnel ID值不为0x0，则进入MPLS转发流程。</p><p>在MPLS转发过程中，FIB、ILM和NHLFE表项是通过Tunnel ID关联的。</p><p>IngressLSR的处理：通过查询FIB表和NHLFE表指导报文的转发。<br>查看FIB表，根据目的IP地址找到对应的Tunnel ID。<br>根据FIB表的Tunnel ID找到对应的NHLFE表项，将FIB表项和NHLFE表项关联起来。<br>查看NHLFE表项，可以得到出接口、下一跳、出标签和标签操作类型。<br>在IP报文中压入出标签，然后将封装好的MPLS报文发送给下一跳。</p><p>Transit LSR的处理：通过查询ILM表和NHLFE表指导MPLS报文的转发。<br>根据MPLS的标签值查看对应的ILM表，可以得到Tunnel ID。<br>根据ILM表的Tunnel ID找到对应的NHLFE表项。<br>查看NHLFE表项，可以得到出接口、下一跳、出标签和标签操作类型。</p><p>Egress LSR的处理：通过查询ILM表指导MPLS报文的转发或查询路由表指导IP报文的转发。<br>如果Egress收到IP报文，则查看路由表，进行IP转发。<br>如果Egress收到MPLS报文，则查看ILM表获得标签操作类型，一般为Pop。<br>如果操作为Pop需要结合BoS位指导报文转发，如果标签中的栈底标识BoS=1，表明该标签是栈底标签，直接进行IP转发。如果标签中的栈底标识BoS=0，表明还有下一层标签，继续进行下一层标签转发。</p><h2 id="LDP协议"><a href="#LDP协议" class="headerlink" title="LDP协议"></a>LDP协议</h2><p> <strong>工作过程</strong></p><p>开启LDP的路由器会自动为路由表中的FEC分配标签，并将标签映射发送给下游路由器，下游路由器接受收到标签映射后将映射存储起来，然后自己为该FEC分配标签，并传送给下游路由器，以此重复，完成LSP的建立。</p><p><strong>LDP ID</strong></p><p>每一台运行MPLS的LSR都会有一个域内唯一的LSR ID长度为32 位。需要手工指定，否则MPLS无法激活。<br>每一台运行了LDP的LSR必须拥有LDP ID长度位48位，有32位的LSR ID以及16位的 Label Space ID（标签空间标识符）构成。LDP ID= LSR ID:Label Space ID    1.1.1.1：0</p><p><strong>LDP对等体会话建立过程</strong></p><p>1.LDP设备发现<br>主要通过Hello报文，接口激活LDP后便开始发送Hello报文。报文中包含了LDP ID以及传输地址，采用UDP封装，以组播方式发送，目的IP为224.0.0.2，端口号为646 。当两个通过Hello包发现到彼此就开始建立会话。</p><p>2.LDP会话建立<br>上一步双方发现彼此后都知道了对方的传输地址，接下来开始建立会话。<br>（1）：一般传输地址大的开始主动发起TCP会话建立请求，完成三次握手过程。<br>（2）：传输地址大的一方会主动发送一个Initialization（初始化）包，包含一些协议参数，另一方接收到包后检查参数，发送自己的Initialization包和Keepalive包，主动方收到后便知道另一方接收了自己的参数，开始检查另一方的参数，如果认可就会送一个Keepalive包。<br>（3）：双发将LDP会话置为Operational状态，LDP对等体会话建立成功</p><p>3.通过标签映射<br>LDP对等体之间相互通过标签映射</p>]]></content>
     
@@ -55,6 +59,10 @@
     
     </summary>
     
+      <category term="网络" scheme="http://yoursite.com/categories/%E7%BD%91%E7%BB%9C/"/>
+    
+    
+      <category term="网络" scheme="http://yoursite.com/tags/%E7%BD%91%E7%BB%9C/"/>
     
   </entry>
   
@@ -289,6 +297,41 @@ except Ke
   </entry>
   
   <entry>
+    <title>shell脚本学习之函数</title>
+    <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%87%BD%E6%95%B0/"/>
+    <id>http://yoursite.com/2019/03/20/shell脚本学习之函数/</id>
+    <published>2019-03-20T14:45:56.000Z</published>
+    <updated>2019-03-20T14:55:31.064Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>函数定义格式：</strong></p><pre><code>function name（）{command}</code></pre><p><strong>调用：</strong></p><pre><code>name argv1 argv2  </code></pre><p><strong>实例：安装Apache函数</strong></p><pre><code>#!/bin/bash#Auto install appache#By Auther jiangpeisiURL=http://mirrors.shu.edu.cn/apache//httpdFILE=httpd-2.4.38.tar.gzFILES_DIR=httpd-2.4.38PREFIX=/usr/local/apachefunction Apache_install(){if [ $1 -eq 1 ];then        yum install  openssl openssl-devel zlib zlib-devel gcc-c++ pcre pcre-devel -y &amp;&amp; cd /usr/local/src/ &amp;&amp; wget $URL/$FILE &amp;&amp; tar -xvf $FILE &amp;&amp; cd $FILES_DIR &amp;&amp; ./configure --prefix=$PREFIX  if [ $? -eq 0 ];then    make&amp;&amp;make install    echo &quot;The $FILES_DIR Server Install Sucess!&quot;    . /usr/local/apache/bin/httpd  else    echo &quot;The $FILES_DIR Server Install Fail!&quot;  fifi}Apache_install 1</code></pre><p><strong>测试：</strong></p><p><img src="http://static.zybuluo.com/jiangpeisi/369raax3bt02mth1v541lp5z/image_1d6dpfhvfkkohu3fk21gg8185116.png" alt="image_1d6dpfhvfkkohu3fk21gg8185116.png-23.1kB"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;函数定义格式：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;function name（）
+{
+command
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;调用：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;name argv1 argv2 
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
+    
+  </entry>
+  
+  <entry>
     <title>shell脚本学习之选择语句</title>
     <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%80%89%E6%8B%A9%E8%AF%AD%E5%8F%A5/"/>
     <id>http://yoursite.com/2019/03/20/shell脚本学习之选择语句/</id>
@@ -341,41 +384,6 @@ es
       
       
         &lt;p&gt;&lt;strong&gt;简述&lt;/strong&gt;&lt;br&gt;  find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。&lt;br&gt;&lt;str
-      
-    
-    </summary>
-    
-      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
-    
-      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
-    
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>shell脚本学习之函数</title>
-    <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%87%BD%E6%95%B0/"/>
-    <id>http://yoursite.com/2019/03/20/shell脚本学习之函数/</id>
-    <published>2019-03-20T14:45:56.000Z</published>
-    <updated>2019-03-20T14:55:31.064Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>函数定义格式：</strong></p><pre><code>function name（）{command}</code></pre><p><strong>调用：</strong></p><pre><code>name argv1 argv2  </code></pre><p><strong>实例：安装Apache函数</strong></p><pre><code>#!/bin/bash#Auto install appache#By Auther jiangpeisiURL=http://mirrors.shu.edu.cn/apache//httpdFILE=httpd-2.4.38.tar.gzFILES_DIR=httpd-2.4.38PREFIX=/usr/local/apachefunction Apache_install(){if [ $1 -eq 1 ];then        yum install  openssl openssl-devel zlib zlib-devel gcc-c++ pcre pcre-devel -y &amp;&amp; cd /usr/local/src/ &amp;&amp; wget $URL/$FILE &amp;&amp; tar -xvf $FILE &amp;&amp; cd $FILES_DIR &amp;&amp; ./configure --prefix=$PREFIX  if [ $? -eq 0 ];then    make&amp;&amp;make install    echo &quot;The $FILES_DIR Server Install Sucess!&quot;    . /usr/local/apache/bin/httpd  else    echo &quot;The $FILES_DIR Server Install Fail!&quot;  fifi}Apache_install 1</code></pre><p><strong>测试：</strong></p><p><img src="http://static.zybuluo.com/jiangpeisi/369raax3bt02mth1v541lp5z/image_1d6dpfhvfkkohu3fk21gg8185116.png" alt="image_1d6dpfhvfkkohu3fk21gg8185116.png-23.1kB"></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;strong&gt;函数定义格式：&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;function name（）
-{
-command
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;调用：&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;name argv1 argv2 
       
     
     </summary>

@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="网络,">
 
 
 
@@ -80,9 +80,10 @@
 
 
 <meta name="description" content="简述MPLS VPN基本架构拓扑   在路由层面，客户A的站点1将到达本站点的路由信息通过MPLS VPN网络传递到远在另一个城市甚至另一个国家的站点2,反过来，站点2也是如此。对于客户而言，他们希望自己的站点路由在服务提供商的MPLS VPN网络内是不可见的，而且必须是独立传输、不会存在冲突的，他们不关心MPLS VPN骨干网络的具体形态。对于服务提供商而言，他们希望自己骨干网络内的传输设备能够">
+<meta name="keywords" content="网络">
 <meta property="og:type" content="article">
-<meta property="og:title" content="我在看着你">
-<meta property="og:url" content="http://yoursite.com/2019/04/11/MPLS VPN/index.html">
+<meta property="og:title" content="MPLS VPN">
+<meta property="og:url" content="http://yoursite.com/2019/04/10/MPLS VPN/index.html">
 <meta property="og:site_name" content="我在看着你">
 <meta property="og:description" content="简述MPLS VPN基本架构拓扑   在路由层面，客户A的站点1将到达本站点的路由信息通过MPLS VPN网络传递到远在另一个城市甚至另一个国家的站点2,反过来，站点2也是如此。对于客户而言，他们希望自己的站点路由在服务提供商的MPLS VPN网络内是不可见的，而且必须是独立传输、不会存在冲突的，他们不关心MPLS VPN骨干网络的具体形态。对于服务提供商而言，他们希望自己骨干网络内的传输设备能够">
 <meta property="og:locale" content="zh-Hans">
@@ -92,9 +93,9 @@
 <meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/geiilzab4w78d2ate2r983w7/image_1d83vekbfeat16a9ackvu312d76v.png">
 <meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/d3kddwg3yduqkcqozc07ejb2/image_1d83vhk7m77c4g01gvkdhp63786.png">
 <meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/nmeoih1pasyicz1oaop6wg5u/image_1d83vhr2c149u1doi10vsdg1um18j.png">
-<meta property="og:updated_time" content="2019-04-10T16:23:31.421Z">
+<meta property="og:updated_time" content="2019-04-11T00:46:20.041Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="我在看着你">
+<meta name="twitter:title" content="MPLS VPN">
 <meta name="twitter:description" content="简述MPLS VPN基本架构拓扑   在路由层面，客户A的站点1将到达本站点的路由信息通过MPLS VPN网络传递到远在另一个城市甚至另一个国家的站点2,反过来，站点2也是如此。对于客户而言，他们希望自己的站点路由在服务提供商的MPLS VPN网络内是不可见的，而且必须是独立传输、不会存在冲突的，他们不关心MPLS VPN骨干网络的具体形态。对于服务提供商而言，他们希望自己骨干网络内的传输设备能够">
 <meta name="twitter:image" content="http://static.zybuluo.com/jiangpeisi/nrg8w60xrd847bvaaf52geax/image_1d83uk98siqv159r174410e64h21j.png">
 
@@ -141,13 +142,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/04/11/MPLS VPN/">
+  <link rel="canonical" href="http://yoursite.com/2019/04/10/MPLS VPN/">
 
 
 
 
 
-  <title> | 我在看着你</title>
+  <title>MPLS VPN | 我在看着你</title>
   
 
 
@@ -278,7 +279,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/11/MPLS VPN/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/10/MPLS VPN/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="镜子">
@@ -295,7 +296,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline"></h1>
+          <h1 class="post-title" itemprop="name headline">MPLS VPN</h1>
         
 
         <div class="post-meta">
@@ -307,8 +308,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-11T00:23:24+08:00">
-                2019-04-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-10T22:45:56+08:00">
+                2019-04-10
               </time>
             
 
@@ -317,6 +318,28 @@
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/网络/" itemprop="url" rel="index">
+                    <span itemprop="name">网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -403,7 +426,7 @@
 <p>现在数据报文可以从PE2发送到PE1了，PE1收到报文后将标签弹出，然后将数据包进行转发。现在又出现了一个新的问题，因为数据包不是路由条目，路由条目可以根据扩展Community属性值发放到不同的VRF中，数据包不存在这个属性，所以PE1这时候又懵逼了，这个数据包该发送给客户A还是客户B？</p>
 <hr>
 <p><strong>问题六</strong></p>
-<p>PE设备收到数据包后，如何区分，并转发到相应的VRF中去？<br><strong>答：</strong><br>采用多层标签。MPLS标签包标签头可以有多个，按顺序排序，存储在标签栈中。在数据包发送时，为数据包压入两层标签，一层是外层标签或者叫公网标签，由LDP分发，用于将报文在MPLS VPN骨干网络传输。另一层是内部标签，也叫私网标签，由MP-BGP分发，用于将报文在PE设备上对应到具体的VRF中。为了实现私网标签的分发，PE2通过MP-BGP将VPNv4路由通告给PE1时，除了携带了该路由的RT值，还会将为该路由所分配的私网标签一并携带。这样PE1在发送数据包到PE2时会给数据包打上双层标签，使用公网标签将数据包发送到PE2，出去外层标签后，由于私网标签时PE2自己设置的，所以PE2会根据内层标签决定将数据包对应到哪一个VRF，最后私网标签弹出，将正常的IP报文传输给客户端A或者B。</p>
+<p>PE设备收到数据包后，如何区分，并转发到相应的VRF中去？<br><strong>答：</strong><br>采用多层标签。MPLS标签包标签头可以有多个，按顺序排序，存储在标签栈中。在数据包发送时，为数据包压入两层标签，一层是外层标签或者叫公网标签，由LDP分发，用于将报文在MPLS VPN骨干网络传输。另一层是内部标签，也叫私网标签，由MP-BGP分发，用于将报文在PE设备上对应到具体的VRF中。为了实现私网标签的分发，PE2通过MP-BGP将VPNv4路由通告给PE1时，除了携带了该路由的RT值，还会将为该路由所分配的私网标签一并携带。这样PE1在发送数据包到PE2时会给数据包打上双层标签，使用公网标签将数据包发送到PE2，出去外层标签后，由于私网标签时PE2自己设置的，所以PE2会根据内层标签决定将数据包对应到哪一个VRF，最后私网标签弹出，将正常的IP报文传输给客户A或者B。</p>
 <hr>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过上面六个问题的探讨，大致可以了解经典MPLS VPN的工作机制。总结一下，一个经典的MPLS VPN实现需要实现哪些功能：<br>1.在PE设备上，使用VRF来区分不同客户、维护不同客户的路由<br>2.在PE设备上，基于VRF使用路由协议实现与CE间的路由信息交换<br>3.在MPLS VPN骨干网络内部需要运行IGP路由协议，并在此基础上运行MPLS和LDP协议。<br>4.在PE之间需要建立BGP对等体，使用RD值将IPv4路由封装成VPNv4路由，通过MP-BGP传递VPNv4路由。<br>5.在PE上需要为VRF设置RT值区分接收到的路由条目。<br>6.为数据包压入双层标签，让数据包技能穿越MPLS VPN骨干网络，然后转发到相应的VRF中。</p>
 
@@ -427,6 +450,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/网络/" rel="tag"><i class="fa fa-tag"></i> 网络</a>
+          
+        </div>
+      
 
       
       
@@ -436,8 +465,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/11/MPLS/" rel="next" title>
-                <i class="fa fa-chevron-left"></i> 
+              <a href="/2019/04/10/MPLS/" rel="next" title="MPLS">
+                <i class="fa fa-chevron-left"></i> MPLS
               </a>
             
           </div>
@@ -534,7 +563,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -545,7 +574,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
