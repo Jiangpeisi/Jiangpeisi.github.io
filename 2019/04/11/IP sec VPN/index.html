@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/notebook_32px_1231001_easyicon.net.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="网络,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="我在看着你" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="简述IPSec本身不规定使用哪些算法，只提供框架，使用者可选择任一支持的算法，如果算法被破解，可随时更换。使用的参数如下：  散列函数：MD5，SHA1；  加密算法：DES，3DES，AES；  封装协议：AH，ESP；  封装模式：传输模式，隧道模式；  密钥有效期：60s~86400s； 散列函数四个特点：1.固定长度：MD5散列值128bit SHA-1散列值160bit2.雪崩效应：数据">
+<meta name="keywords" content="网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IP sev VPN">
+<meta property="og:url" content="http://yoursite.com/2019/04/11/IP sec VPN/index.html">
+<meta property="og:site_name" content="我在看着你">
+<meta property="og:description" content="简述IPSec本身不规定使用哪些算法，只提供框架，使用者可选择任一支持的算法，如果算法被破解，可随时更换。使用的参数如下：  散列函数：MD5，SHA1；  加密算法：DES，3DES，AES；  封装协议：AH，ESP；  封装模式：传输模式，隧道模式；  密钥有效期：60s~86400s； 散列函数四个特点：1.固定长度：MD5散列值128bit SHA-1散列值160bit2.雪崩效应：数据">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/ivevvy7m6n1dl3f1wsg4r4q8/image_1d856i1tr8b3u268dh95199a4d.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/mfnshd4sm0rbkvddovfgvho2/image_1d856t0pe1dos1k2v1usv60j1jr361.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/r5j24kkk1j9bqggvb6k3cpxu/image_1d856tktj1o4h11s3igi1p83150n6h.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/46l4hj78wc6wbqeszdxbvlri/image_1d857513sun918et7661bcri7i7b.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/ai3rf5wdbqfab8nqv5aos8oh/image_1d8577qc87t1kmr1gmc1v0n5v77r.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/8k1q3r5fca8f6xvpn5njpdbx/image_1d8578dgqcj88j0mcb1iss110o88.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/1f548pq29h19besehjiayuh1/image_1d857jfa51lpli4ilfg1ps51s69bo.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/klh5p62eqrmefo302cdk0yfu/image_1d8579o971tlfd0t15ik17jek4u95.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/gfkb4hcxr8i3zu9vsvo4l3jg/image_1d857cb7r1iq79ne1hh6e41avba2.png">
+<meta property="og:image" content="http://static.zybuluo.com/jiangpeisi/mhjkly6apra4g6p5zksurmt7/image_1d857gv5ft6i1je7f0iem71f09af.png">
+<meta property="og:updated_time" content="2019-04-11T05:13:05.615Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IP sev VPN">
+<meta name="twitter:description" content="简述IPSec本身不规定使用哪些算法，只提供框架，使用者可选择任一支持的算法，如果算法被破解，可随时更换。使用的参数如下：  散列函数：MD5，SHA1；  加密算法：DES，3DES，AES；  封装协议：AH，ESP；  封装模式：传输模式，隧道模式；  密钥有效期：60s~86400s； 散列函数四个特点：1.固定长度：MD5散列值128bit SHA-1散列值160bit2.雪崩效应：数据">
+<meta name="twitter:image" content="http://static.zybuluo.com/jiangpeisi/ivevvy7m6n1dl3f1wsg4r4q8/image_1d856i1tr8b3u268dh95199a4d.png">
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/11/IP sec VPN/">
+
+
+
+
+
+  <title>IP sev VPN | 我在看着你</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">我在看着你</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">by heart</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/11/IP sec VPN/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="镜子">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/bg.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我在看着你">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">IP sev VPN</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-11T22:45:56+08:00">
+                2019-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/网络/" itemprop="url" rel="index">
+                    <span itemprop="name">网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.4k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  8
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><p>IPSec本身不规定使用哪些算法，只提供框架，使用者可选择任一支持的算法，如果算法被破解，可随时更换。使用的参数如下： </p>
+<p><1>散列函数：MD5，SHA1； </1></p>
+<p><2>加密算法：DES，3DES，AES； </2></p>
+<p><3>封装协议：AH，ESP； </3></p>
+<p><4>封装模式：传输模式，隧道模式； </4></p>
+<p><5>密钥有效期：60s~86400s；</5></p>
+<h2 id="散列函数"><a href="#散列函数" class="headerlink" title="散列函数"></a>散列函数</h2><p><strong>四个特点：</strong><br>1.固定长度：MD5散列值128bit SHA-1散列值160bit<br>2.雪崩效应：数据有一点微小的改变都会使散列值差距变的很大<br>3.单向：只能通过原始数据得到散列值，不能逆推<br>4.冲突避免：即唯一性<br><strong>作用：</strong><br>1.验证数据完整性 将原始文件散列值和文件一同发送，接收方比较散列值<br>2.进行源认证  紧紧验证数据完整性是不足以保障安全，因此需要进行源认证，密钥化散列信息代码（HMAC）技术不仅可以检测完整性，还可以检测更新源。<br>HMAC实现方式，首先双方设置共享密码，然后将密码与数据一起进行散列计算得到散列值，然后与数据一起发送出去。</p>
+<h2 id="加密算法："><a href="#加密算法：" class="headerlink" title="加密算法："></a>加密算法：</h2><p>1.对称密钥算法<br>2.非对称密钥算法<br><strong>对称密钥算法</strong><br>发送和接收双发有相同的密钥，发送发使用密钥进行加密，接收方使用密钥进行解密。<br>优点：速度快，安全，紧凑<br>缺点：明文传输共享密钥，容易被劫持；不支持数字签名和不可否认性。<br>对称算法中的主流协议：DES,3DES,AES,RC4..<br><strong>非对称密钥算法</strong><br>先使用非对称算法获得公钥和私钥，使用其中一个密钥进行加密时必须使用另一个密钥进行解密。发送方要先获取接收方的公钥，然后使用公钥进行加密，接收方在使用私钥进行解密。</p>
+<p>非对称密钥可用于数字签名<br>步骤：首先对要认证的重要明文信息进行散列计算获得散列值，然后发送方使用自己的私钥进行加密，加密后的散列值称为数字签名。然后把明文和数字签名一起发送给对方。接收方加收到数据后提取其中的明文信息和数字签名，然后对明文进行散列计算得到散列值一，在用发送方的公钥解密数字签名得到散列值二对比两个散列值即可确认明文信息。保证了完整性和源认证。</p>
+<p>特点：仅用于密钥交换（对密钥进行加密）和数字签名<br>优点：安全，支持数字签名和不可否认性<br>缺点：加密速度满，密文会边长一般仅用来加密密钥或者散列值</p>
+<h2 id="封装协议："><a href="#封装协议：" class="headerlink" title="封装协议："></a>封装协议：</h2><p><strong>ESP （Encapsulation Security Payload）安全封装负载</strong><br>ESP仅能保护IP负载数据，不对原始IP头部进行保护<br>包格式<br><img src="http://static.zybuluo.com/jiangpeisi/ivevvy7m6n1dl3f1wsg4r4q8/image_1d856i1tr8b3u268dh95199a4d.png" alt="image_1d856i1tr8b3u268dh95199a4d.png-34.8kB"><br>ESP头部和尾部之间的数据会进行HMAC计算散列值，得到ESP验证数据</p>
+<p><strong>AH（Authentication Header）头部认证</strong><br>IP 协议号为 51，只提供完整性校验和源认证两方面的安全服务，并且抵御重放攻击，不支持数据加密。<br>AH 对数据验证的范围更广，不仅包含原始数据，还包含了原始 IP 头部，AH 认证头部的名称就由此而得名。<br>缺点：不提供私密性服务，不可以进行加密，而且会对IP头部进行认证，导致数据包不可以经过NAT。使用较少。</p>
+<h2 id="传输模式："><a href="#传输模式：" class="headerlink" title="传输模式："></a>传输模式：</h2><p>1.传输模式<br>2.隧道模式<br>传输模式即在IP头部和IP负载间插入ESP头部，再在尾部插入ESP尾部和ESP验证数据<img src="http://static.zybuluo.com/jiangpeisi/mfnshd4sm0rbkvddovfgvho2/image_1d856t0pe1dos1k2v1usv60j1jr361.png" alt="image_1d856t0pe1dos1k2v1usv60j1jr361.png-10.1kB"><br>隧道模式是在原始IP数据包封装在了一个新的IP包内，而且在新IP头（加密点IP）部和原始IP头部之间插入ESP头部，尾部加上ESP尾部和验证数据。<br><img src="http://static.zybuluo.com/jiangpeisi/r5j24kkk1j9bqggvb6k3cpxu/image_1d856tktj1o4h11s3igi1p83150n6h.png" alt="image_1d856tktj1o4h11s3igi1p83150n6h.png-14.3kB"></p>
+<h2 id="密钥有效期："><a href="#密钥有效期：" class="headerlink" title="密钥有效期："></a>密钥有效期：</h2><p>长期使用一个密钥不安全，需要不断更新，新的密钥可由旧的密钥衍生。<br>完美向前保密：每次密钥更新都会重新生成一起密钥和前面的密钥无关</p>
+<h2 id="互联网密钥交换协议-IKE（Internet-Key-Exchange）"><a href="#互联网密钥交换协议-IKE（Internet-Key-Exchange）" class="headerlink" title="互联网密钥交换协议 IKE（Internet Key Exchange）"></a>互联网密钥交换协议 IKE（Internet Key Exchange）</h2><p>对建立 IPSec的双方进行认证（需要预先协商认证方式），通过密钥交换，产生用于加密和 HMAC 的随机密钥，协商协议参数(加密协议、散列函数、封装协议、封装模式和密钥有效期)，协商完成后的结果就叫做安全关联(SA)。<br>SA 一共有两种类型：<br>IKE SA：安全防护(加密协议、散列函数、认证方式、密钥有效期等）协议的细节。<br>IPSec SA：安全防护实际用户流量（通信点之间流量）的细节。 </p>
+<p><strong>三个模式两个阶段</strong><br><img src="http://static.zybuluo.com/jiangpeisi/46l4hj78wc6wbqeszdxbvlri/image_1d857513sun918et7661bcri7i7b.png" alt="image_1d857513sun918et7661bcri7i7b.png-45.4kB"><br><strong>第一阶段</strong><br>1.1-2个包交换<br>主要任务：<br>（1）通过核对收到的ISAKMP数据包的源IP地址，判断收到的ISAKMP数据包是否源自于合法对等体<br><img src="http://static.zybuluo.com/jiangpeisi/ai3rf5wdbqfab8nqv5aos8oh/image_1d8577qc87t1kmr1gmc1v0n5v77r.png" alt="image_1d8577qc87t1kmr1gmc1v0n5v77r.png-17.7kB"><br>（2）协商IKE策略<br><img src="http://static.zybuluo.com/jiangpeisi/8k1q3r5fca8f6xvpn5njpdbx/image_1d8578dgqcj88j0mcb1iss110o88.png" alt="image_1d8578dgqcj88j0mcb1iss110o88.png-71.4kB"><br>IKE协商策略包含内容：加密策略，散列函数，DH组，认证方式，密钥有效期。协商出来的策略主要用于第5-6个包交换认证和第二阶段QM模式3个包策略协商，并不用于加密感兴趣流。</p>
+<p>2.3-4个包交换：<br><img src="http://static.zybuluo.com/jiangpeisi/1f548pq29h19besehjiayuh1/image_1d857jfa51lpli4ilfg1ps51s69bo.png" alt="image_1d857jfa51lpli4ilfg1ps51s69bo.png-105.1kB"><br>（1）发起方首先随机产生g、p、a，用离散对数函数计算得出A。<br>（2）把 g、p、A 发送给接收方。<br>（3）接收方收到后，随机产生b，使用接收到的g和p，用离散对数函数计算得到 B。<br>（4）然后把 B 回送给发起方。<br>（5）接收方通过 Ab mod p 得到的结果， 等于发起方通过 Ba mod p 计算得到的结果，也等于 gab mod p。<br>（6）通过 DH 算法得到了一个共享秘密 gab mod p。<br>（7）g和p较大时，已知a求A （8）CPU计算速度很快，已知A求a几乎不可能，g和p的由1-2包交换的DH组大小决定。<br>通过DH算法双方得到共享密钥，并通过密钥衍生算法得到加密和HMAC处理IKE信息的密钥，加密感兴趣流的密钥就是由共享密钥衍生而来。</p>
+<p>3.5-6个包交换：<br><img src="http://static.zybuluo.com/jiangpeisi/klh5p62eqrmefo302cdk0yfu/image_1d8579o971tlfd0t15ik17jek4u95.png" alt="image_1d8579o971tlfd0t15ik17jek4u95.png-24.3kB"><br>主要任务就是认证，通过前四个包协商得到了IKE策略以及共享密钥，在此基础上进行认证<br>过程：<br>（1）发起方根据接收方IP地址查询本地IPSec配置,找到与其对应的预共享密钥。<br>（2）发起方把预共享秘密和 IKE策略内容、DH计算的密钥资源，还有其他一些接收双方都知道的内容一起进行散列计算，得到的结果就是“认证散列值”。<br>（3）发起方把“认证散列值”和本地加密点IP地址放入第5个IKE数据包中，加密后发送给接收方。<br>（4）接收方首先对收到的第5个IKE数据包进行解密，提取出发起方的IP地址，并且基于发起方的IP地址查询本地<br>IPSec配置，找出对应的预共享秘密。<br>（5）接收方把查询到的共享秘密，和其他双方已知内容一起进行计算散列值，得到“认证散列值”<br>（6）将自己的“认证散列值”与发送方发来的“认证散列值”进行比较，如果相等，接收方就认证了发起方，然后通过相同的方式发起第6个包给发送方，让发送方认证接收方。 </p>
+<p>第一阶段主要任务就是协商策略，产生共享密钥，完成认证。完成认证后会建立一个双向的IKE/ISAKMP SA 安全关联，这个安全关联仅维护了处理IKE流量的相关策略，并不用于处理实际感兴趣流。后续的第二阶段就是在此安全关联的保护下进行。</p>
+<p><strong>第二阶段</strong><br><img src="http://static.zybuluo.com/jiangpeisi/gfkb4hcxr8i3zu9vsvo4l3jg/image_1d857cb7r1iq79ne1hh6e41avba2.png" alt="image_1d857cb7r1iq79ne1hh6e41avba2.png-25.6kB"><br>主要任务就是在第一阶段得到的安全环境下，协商处理感兴趣流的IPsec策略<br>策略包含：<br>（1）感兴趣流<br>（2）加密策略<br>（3）散列函数<br>（4）封装协议<br>（5）封装模式<br>（6）密钥有效期<br><img src="http://static.zybuluo.com/jiangpeisi/mhjkly6apra4g6p5zksurmt7/image_1d857gv5ft6i1je7f0iem71f09af.png" alt="image_1d857gv5ft6i1je7f0iem71f09af.png-97.4kB"><br>第一个包：发起方会把感兴趣流相关得到IPsec策略一起发送给接收方，并由接收方来选择适当的策略，与主模式交换策略的方式相同，但是不同的是第一阶段协商完成后会建立一个双向的SA，现在只会建立单向的Ipsec SA，即接收方选择发送方的IP sec策略后用于处理接收方发送给发送方的流量，建立接收方到发送方的IP sec SA<br>第二个包：接收方使用发送方的IP sec策略处理流量（自己的IP sec策略）发送给发送方，发送方接收后选择一个IPsec策略来处理自己到发送方的流量，建立发送方到接收方的 Ipsev SA<br>第三个包：发送方使用接收方的IP sec策略处理流量（确认？）发送给接收方。IP sec SA建立完成。</p>
+<p>第二阶段主要任务就是基于感兴趣流来协商相应的IP sec SA</p>
+
+      
+    </div>
+    
+    
+    
+
+      <div>
+      
+        
+      
+      </div>
+    
+	
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/网络/" rel="tag"><i class="fa fa-tag"></i> 网络</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/10/MPLS VPN/" rel="next" title="MPLS VPN">
+                <i class="fa fa-chevron-left"></i> MPLS VPN
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/bg.png" alt="镜子">
+            
+              <p class="site-author-name" itemprop="name">镜子</p>
+              <p class="site-description motion-element" itemprop="description">从模仿开始</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简述"><span class="nav-number">1.</span> <span class="nav-text">简述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#散列函数"><span class="nav-number">2.</span> <span class="nav-text">散列函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加密算法："><span class="nav-number">3.</span> <span class="nav-text">加密算法：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#封装协议："><span class="nav-number">4.</span> <span class="nav-text">封装协议：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#传输模式："><span class="nav-number">5.</span> <span class="nav-text">传输模式：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#密钥有效期："><span class="nav-number">6.</span> <span class="nav-text">密钥有效期：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#互联网密钥交换协议-IKE（Internet-Key-Exchange）"><span class="nav-number">7.</span> <span class="nav-text">互联网密钥交换协议 IKE（Internet Key Exchange）</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">镜子</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">25k</span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="theme-info">
+    <div class="powered-by"></div>
+    <span class="post-count">博客全站共25k字</span>
+  </div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/click.js"></script>

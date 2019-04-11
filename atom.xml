@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-04-11T00:46:20.041Z</updated>
+  <updated>2019-04-11T05:13:05.615Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>IP sev VPN</title>
+    <link href="http://yoursite.com/2019/04/11/IP%20sec%20VPN/"/>
+    <id>http://yoursite.com/2019/04/11/IP sec VPN/</id>
+    <published>2019-04-11T14:45:56.000Z</published>
+    <updated>2019-04-11T05:13:05.615Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><p>IPSec本身不规定使用哪些算法，只提供框架，使用者可选择任一支持的算法，如果算法被破解，可随时更换。使用的参数如下： </p><p><1>散列函数：MD5，SHA1； </1></p><p><2>加密算法：DES，3DES，AES； </2></p><p><3>封装协议：AH，ESP； </3></p><p><4>封装模式：传输模式，隧道模式； </4></p><p><5>密钥有效期：60s~86400s；</5></p><h2 id="散列函数"><a href="#散列函数" class="headerlink" title="散列函数"></a>散列函数</h2><p><strong>四个特点：</strong><br>1.固定长度：MD5散列值128bit SHA-1散列值160bit<br>2.雪崩效应：数据有一点微小的改变都会使散列值差距变的很大<br>3.单向：只能通过原始数据得到散列值，不能逆推<br>4.冲突避免：即唯一性<br><strong>作用：</strong><br>1.验证数据完整性 将原始文件散列值和文件一同发送，接收方比较散列值<br>2.进行源认证  紧紧验证数据完整性是不足以保障安全，因此需要进行源认证，密钥化散列信息代码（HMAC）技术不仅可以检测完整性，还可以检测更新源。<br>HMAC实现方式，首先双方设置共享密码，然后将密码与数据一起进行散列计算得到散列值，然后与数据一起发送出去。</p><h2 id="加密算法："><a href="#加密算法：" class="headerlink" title="加密算法："></a>加密算法：</h2><p>1.对称密钥算法<br>2.非对称密钥算法<br><strong>对称密钥算法</strong><br>发送和接收双发有相同的密钥，发送发使用密钥进行加密，接收方使用密钥进行解密。<br>优点：速度快，安全，紧凑<br>缺点：明文传输共享密钥，容易被劫持；不支持数字签名和不可否认性。<br>对称算法中的主流协议：DES,3DES,AES,RC4..<br><strong>非对称密钥算法</strong><br>先使用非对称算法获得公钥和私钥，使用其中一个密钥进行加密时必须使用另一个密钥进行解密。发送方要先获取接收方的公钥，然后使用公钥进行加密，接收方在使用私钥进行解密。</p><p>非对称密钥可用于数字签名<br>步骤：首先对要认证的重要明文信息进行散列计算获得散列值，然后发送方使用自己的私钥进行加密，加密后的散列值称为数字签名。然后把明文和数字签名一起发送给对方。接收方加收到数据后提取其中的明文信息和数字签名，然后对明文进行散列计算得到散列值一，在用发送方的公钥解密数字签名得到散列值二对比两个散列值即可确认明文信息。保证了完整性和源认证。</p><p>特点：仅用于密钥交换（对密钥进行加密）和数字签名<br>优点：安全，支持数字签名和不可否认性<br>缺点：加密速度满，密文会边长一般仅用来加密密钥或者散列值</p><h2 id="封装协议："><a href="#封装协议：" class="headerlink" title="封装协议："></a>封装协议：</h2><p><strong>ESP （Encapsulation Security Payload）安全封装负载</strong><br>ESP仅能保护IP负载数据，不对原始IP头部进行保护<br>包格式<br><img src="http://static.zybuluo.com/jiangpeisi/ivevvy7m6n1dl3f1wsg4r4q8/image_1d856i1tr8b3u268dh95199a4d.png" alt="image_1d856i1tr8b3u268dh95199a4d.png-34.8kB"><br>ESP头部和尾部之间的数据会进行HMAC计算散列值，得到ESP验证数据</p><p><strong>AH（Authentication Header）头部认证</strong><br>IP 协议号为 51，只提供完整性校验和源认证两方面的安全服务，并且抵御重放攻击，不支持数据加密。<br>AH 对数据验证的范围更广，不仅包含原始数据，还包含了原始 IP 头部，AH 认证头部的名称就由此而得名。<br>缺点：不提供私密性服务，不可以进行加密，而且会对IP头部进行认证，导致数据包不可以经过NAT。使用较少。</p><h2 id="传输模式："><a href="#传输模式：" class="headerlink" title="传输模式："></a>传输模式：</h2><p>1.传输模式<br>2.隧道模式<br>传输模式即在IP头部和IP负载间插入ESP头部，再在尾部插入ESP尾部和ESP验证数据<img src="http://static.zybuluo.com/jiangpeisi/mfnshd4sm0rbkvddovfgvho2/image_1d856t0pe1dos1k2v1usv60j1jr361.png" alt="image_1d856t0pe1dos1k2v1usv60j1jr361.png-10.1kB"><br>隧道模式是在原始IP数据包封装在了一个新的IP包内，而且在新IP头（加密点IP）部和原始IP头部之间插入ESP头部，尾部加上ESP尾部和验证数据。<br><img src="http://static.zybuluo.com/jiangpeisi/r5j24kkk1j9bqggvb6k3cpxu/image_1d856tktj1o4h11s3igi1p83150n6h.png" alt="image_1d856tktj1o4h11s3igi1p83150n6h.png-14.3kB"></p><h2 id="密钥有效期："><a href="#密钥有效期：" class="headerlink" title="密钥有效期："></a>密钥有效期：</h2><p>长期使用一个密钥不安全，需要不断更新，新的密钥可由旧的密钥衍生。<br>完美向前保密：每次密钥更新都会重新生成一起密钥和前面的密钥无关</p><h2 id="互联网密钥交换协议-IKE（Internet-Key-Exchange）"><a href="#互联网密钥交换协议-IKE（Internet-Key-Exchange）" class="headerlink" title="互联网密钥交换协议 IKE（Internet Key Exchange）"></a>互联网密钥交换协议 IKE（Internet Key Exchange）</h2><p>对建立 IPSec的双方进行认证（需要预先协商认证方式），通过密钥交换，产生用于加密和 HMAC 的随机密钥，协商协议参数(加密协议、散列函数、封装协议、封装模式和密钥有效期)，协商完成后的结果就叫做安全关联(SA)。<br>SA 一共有两种类型：<br>IKE SA：安全防护(加密协议、散列函数、认证方式、密钥有效期等）协议的细节。<br>IPSec SA：安全防护实际用户流量（通信点之间流量）的细节。 </p><p><strong>三个模式两个阶段</strong><br><img src="http://static.zybuluo.com/jiangpeisi/46l4hj78wc6wbqeszdxbvlri/image_1d857513sun918et7661bcri7i7b.png" alt="image_1d857513sun918et7661bcri7i7b.png-45.4kB"><br><strong>第一阶段</strong><br>1.1-2个包交换<br>主要任务：<br>（1）通过核对收到的ISAKMP数据包的源IP地址，判断收到的ISAKMP数据包是否源自于合法对等体<br><img src="http://static.zybuluo.com/jiangpeisi/ai3rf5wdbqfab8nqv5aos8oh/image_1d8577qc87t1kmr1gmc1v0n5v77r.png" alt="image_1d8577qc87t1kmr1gmc1v0n5v77r.png-17.7kB"><br>（2）协商IKE策略<br><img src="http://static.zybuluo.com/jiangpeisi/8k1q3r5fca8f6xvpn5njpdbx/image_1d8578dgqcj88j0mcb1iss110o88.png" alt="image_1d8578dgqcj88j0mcb1iss110o88.png-71.4kB"><br>IKE协商策略包含内容：加密策略，散列函数，DH组，认证方式，密钥有效期。协商出来的策略主要用于第5-6个包交换认证和第二阶段QM模式3个包策略协商，并不用于加密感兴趣流。</p><p>2.3-4个包交换：<br><img src="http://static.zybuluo.com/jiangpeisi/1f548pq29h19besehjiayuh1/image_1d857jfa51lpli4ilfg1ps51s69bo.png" alt="image_1d857jfa51lpli4ilfg1ps51s69bo.png-105.1kB"><br>（1）发起方首先随机产生g、p、a，用离散对数函数计算得出A。<br>（2）把 g、p、A 发送给接收方。<br>（3）接收方收到后，随机产生b，使用接收到的g和p，用离散对数函数计算得到 B。<br>（4）然后把 B 回送给发起方。<br>（5）接收方通过 Ab mod p 得到的结果， 等于发起方通过 Ba mod p 计算得到的结果，也等于 gab mod p。<br>（6）通过 DH 算法得到了一个共享秘密 gab mod p。<br>（7）g和p较大时，已知a求A （8）CPU计算速度很快，已知A求a几乎不可能，g和p的由1-2包交换的DH组大小决定。<br>通过DH算法双方得到共享密钥，并通过密钥衍生算法得到加密和HMAC处理IKE信息的密钥，加密感兴趣流的密钥就是由共享密钥衍生而来。</p><p>3.5-6个包交换：<br><img src="http://static.zybuluo.com/jiangpeisi/klh5p62eqrmefo302cdk0yfu/image_1d8579o971tlfd0t15ik17jek4u95.png" alt="image_1d8579o971tlfd0t15ik17jek4u95.png-24.3kB"><br>主要任务就是认证，通过前四个包协商得到了IKE策略以及共享密钥，在此基础上进行认证<br>过程：<br>（1）发起方根据接收方IP地址查询本地IPSec配置,找到与其对应的预共享密钥。<br>（2）发起方把预共享秘密和 IKE策略内容、DH计算的密钥资源，还有其他一些接收双方都知道的内容一起进行散列计算，得到的结果就是“认证散列值”。<br>（3）发起方把“认证散列值”和本地加密点IP地址放入第5个IKE数据包中，加密后发送给接收方。<br>（4）接收方首先对收到的第5个IKE数据包进行解密，提取出发起方的IP地址，并且基于发起方的IP地址查询本地<br>IPSec配置，找出对应的预共享秘密。<br>（5）接收方把查询到的共享秘密，和其他双方已知内容一起进行计算散列值，得到“认证散列值”<br>（6）将自己的“认证散列值”与发送方发来的“认证散列值”进行比较，如果相等，接收方就认证了发起方，然后通过相同的方式发起第6个包给发送方，让发送方认证接收方。 </p><p>第一阶段主要任务就是协商策略，产生共享密钥，完成认证。完成认证后会建立一个双向的IKE/ISAKMP SA 安全关联，这个安全关联仅维护了处理IKE流量的相关策略，并不用于处理实际感兴趣流。后续的第二阶段就是在此安全关联的保护下进行。</p><p><strong>第二阶段</strong><br><img src="http://static.zybuluo.com/jiangpeisi/gfkb4hcxr8i3zu9vsvo4l3jg/image_1d857cb7r1iq79ne1hh6e41avba2.png" alt="image_1d857cb7r1iq79ne1hh6e41avba2.png-25.6kB"><br>主要任务就是在第一阶段得到的安全环境下，协商处理感兴趣流的IPsec策略<br>策略包含：<br>（1）感兴趣流<br>（2）加密策略<br>（3）散列函数<br>（4）封装协议<br>（5）封装模式<br>（6）密钥有效期<br><img src="http://static.zybuluo.com/jiangpeisi/mhjkly6apra4g6p5zksurmt7/image_1d857gv5ft6i1je7f0iem71f09af.png" alt="image_1d857gv5ft6i1je7f0iem71f09af.png-97.4kB"><br>第一个包：发起方会把感兴趣流相关得到IPsec策略一起发送给接收方，并由接收方来选择适当的策略，与主模式交换策略的方式相同，但是不同的是第一阶段协商完成后会建立一个双向的SA，现在只会建立单向的Ipsec SA，即接收方选择发送方的IP sec策略后用于处理接收方发送给发送方的流量，建立接收方到发送方的IP sec SA<br>第二个包：接收方使用发送方的IP sec策略处理流量（自己的IP sec策略）发送给发送方，发送方接收后选择一个IPsec策略来处理自己到发送方的流量，建立发送方到接收方的 Ipsev SA<br>第三个包：发送方使用接收方的IP sec策略处理流量（确认？）发送给接收方。IP sec SA建立完成。</p><p>第二阶段主要任务就是基于感兴趣流来协商相应的IP sec SA</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;简述&quot;&gt;&lt;a href=&quot;#简述&quot; class=&quot;headerlink&quot; title=&quot;简述&quot;&gt;&lt;/a&gt;简述&lt;/h2&gt;&lt;p&gt;IPSec本身不规定使用哪些算法，只提供框架，使用者可选择任一支持的算法，如果算法被破解，可随时更换。使用的参数如下： &lt;/p&gt;
+&lt;p&gt;&lt;1
+      
+    
+    </summary>
+    
+      <category term="网络" scheme="http://yoursite.com/categories/%E7%BD%91%E7%BB%9C/"/>
+    
+    
+      <category term="网络" scheme="http://yoursite.com/tags/%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
   
   <entry>
     <title>MPLS VPN</title>
@@ -67,33 +93,6 @@
   </entry>
   
   <entry>
-    <title>安装新版python导致yum不可用</title>
-    <link href="http://yoursite.com/2019/03/28/%E5%AE%89%E8%A3%85%E6%96%B0%E7%89%88python%E5%AF%BC%E8%87%B4yum%E4%B8%8D%E5%8F%AF%E7%94%A8/"/>
-    <id>http://yoursite.com/2019/03/28/安装新版python导致yum不可用/</id>
-    <published>2019-03-28T14:45:56.000Z</published>
-    <updated>2019-03-27T16:09:46.093Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>问题：</strong><br>安装完新版本python导致yum命令不可用.<br><strong>错误代码：</strong></p><pre><code>File &quot;/usr/bin/yum&quot;, line 30except KeyboardInterrupt, e:^SyntaxError: invalid syntax</code></pre><p><strong>问题原因：</strong><br>yum包管理是使用python2.x写的，将python2.x升级到python3.x以后，由于python版本语法兼容性导致问题出现 .<br><strong>解决办法：</strong><br>修改yum配置文件，将python指向老版本.</p><pre><code>vim /usr/bin/yum#!/usr/bin/python2.7vim /usr/libexec/urlgrabber-ext-down#!/usr/bin/python2.7</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;strong&gt;问题：&lt;/strong&gt;&lt;br&gt;安装完新版本python导致yum命令不可用.&lt;br&gt;&lt;strong&gt;错误代码：&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;File &amp;quot;/usr/bin/yum&amp;quot;, line 30
-except Ke
-      
-    
-    </summary>
-    
-      <category term="python" scheme="http://yoursite.com/categories/python/"/>
-    
-    
-      <category term="python" scheme="http://yoursite.com/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Centos安装python3.7</title>
     <link href="http://yoursite.com/2019/03/28/python%E5%AE%89%E8%A3%85/"/>
     <id>http://yoursite.com/2019/03/28/python安装/</id>
@@ -109,6 +108,33 @@ except Ke
         &lt;p&gt;&lt;strong&gt;简介&lt;/strong&gt;&lt;br&gt;Centos系统本身自带python2.7版本，使用python –version可以查看当前系统python版本，由于系统内某些命令会用到python2，所以python2不可以卸载.&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;&lt;strong&gt;
+      
+    
+    </summary>
+    
+      <category term="python" scheme="http://yoursite.com/categories/python/"/>
+    
+    
+      <category term="python" scheme="http://yoursite.com/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>安装新版python导致yum不可用</title>
+    <link href="http://yoursite.com/2019/03/28/%E5%AE%89%E8%A3%85%E6%96%B0%E7%89%88python%E5%AF%BC%E8%87%B4yum%E4%B8%8D%E5%8F%AF%E7%94%A8/"/>
+    <id>http://yoursite.com/2019/03/28/安装新版python导致yum不可用/</id>
+    <published>2019-03-28T14:45:56.000Z</published>
+    <updated>2019-03-27T16:09:46.093Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>问题：</strong><br>安装完新版本python导致yum命令不可用.<br><strong>错误代码：</strong></p><pre><code>File &quot;/usr/bin/yum&quot;, line 30except KeyboardInterrupt, e:^SyntaxError: invalid syntax</code></pre><p><strong>问题原因：</strong><br>yum包管理是使用python2.x写的，将python2.x升级到python3.x以后，由于python版本语法兼容性导致问题出现 .<br><strong>解决办法：</strong><br>修改yum配置文件，将python指向老版本.</p><pre><code>vim /usr/bin/yum#!/usr/bin/python2.7vim /usr/libexec/urlgrabber-ext-down#!/usr/bin/python2.7</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;问题：&lt;/strong&gt;&lt;br&gt;安装完新版本python导致yum命令不可用.&lt;br&gt;&lt;strong&gt;错误代码：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;File &amp;quot;/usr/bin/yum&amp;quot;, line 30
+except Ke
       
     
     </summary>
@@ -400,41 +426,6 @@ es
   </entry>
   
   <entry>
-    <title>shell脚本学习之循环语句</title>
-    <link href="http://yoursite.com/2019/03/19/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5/"/>
-    <id>http://yoursite.com/2019/03/19/shell脚本学习之循环语句/</id>
-    <published>2019-03-19T14:45:56.000Z</published>
-    <updated>2019-03-19T16:24:27.690Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>for循环语句格式</strong></p><pre><code>for var in （表达式）do    Commanddone</code></pre><p><strong>实例：计算1-100和</strong></p><pre><code>#!/bin/bashsum=0for i in `seq 1 100`do  sum=$(expr $sum + $i)doneecho $sum[root@jiangpeisi shell]# sh for.sh 5050</code></pre><p><strong>while循环语句格式</strong></p><pre><code>while（表达式）do    commanddone</code></pre><p><strong>实例：循环按行打印文件内容</strong></p><pre><code>#!/bin/bashwhile read linedo   echo $linedone &lt; /root/shell/a.txt[root@jiangpeisi shell]# sh while.sh lkitd:x:998:997:User for polkitd:/:/sbin/nologintss:x:59:59:Account used by the trousers package to sandbox the tcsd daemon:/dev/null:/sbin/nologinsshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologinpostfix:x:89:89::/var/spool/postfix:/sbin/nologinchrony:x:997:995::/var/lib/chrony:/sbin/nologinntp:x:38:38::/etc/ntp:/sbin/nologinnscd:x:28:28:NSCD Daemon:/:/sbin/nologintcpdump:x:72:72::/:/sbin/nologinadmin:x:1000:1000::/home/admin:/bin/bashdockerroot:x:996:993:Docker User:/var/lib/docker:/sbin/nologindockerroot-latest:x:995:992:Docker User:/var/lib/docker-latest:/sbin/nologinzarafa:x:994:991:Zarafa Service Account:/var/lib/zarafa:/sbin/nologintest1:x:1002:1002::/home/test1:/bin/bashjiangpeisi:x:1004:1004::/home/jiangpeisi:/bin/bashftpuser1:x:1005:1005::/home/ftpuser1:/bin/bashnamed:x:25:25:Named:/var/named:/bin/falsedhcpd:x:177:177:DHCP server:/:/sbin/nologinmysql:x:27:27:MariaDB Server:/var/lib/mysql:/sbin/nologinsaslauth:x:993:76:Saslauthd user:/run/saslauthd:/sbin/nologinapache:x:48:48:Apache:/usr/share/httpd:/sbin/nologin</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;strong&gt;for循环语句格式&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;for var in （表达式）
-do
-    Command
-done
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;实例：计算1-100和&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;cod
-      
-    
-    </summary>
-    
-      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
-    
-      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
-    
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
-    
-  </entry>
-  
-  <entry>
     <title>shell脚本学习之if条件判断</title>
     <link href="http://yoursite.com/2019/03/19/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8Bif%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD/"/>
     <id>http://yoursite.com/2019/03/19/shell脚本学习之if条件判断/</id>
@@ -456,6 +447,41 @@ else
   command
 fi
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;if常见的判断逻辑运算符&lt;/s
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>shell脚本学习之循环语句</title>
+    <link href="http://yoursite.com/2019/03/19/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5/"/>
+    <id>http://yoursite.com/2019/03/19/shell脚本学习之循环语句/</id>
+    <published>2019-03-19T14:45:56.000Z</published>
+    <updated>2019-03-19T16:24:27.690Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>for循环语句格式</strong></p><pre><code>for var in （表达式）do    Commanddone</code></pre><p><strong>实例：计算1-100和</strong></p><pre><code>#!/bin/bashsum=0for i in `seq 1 100`do  sum=$(expr $sum + $i)doneecho $sum[root@jiangpeisi shell]# sh for.sh 5050</code></pre><p><strong>while循环语句格式</strong></p><pre><code>while（表达式）do    commanddone</code></pre><p><strong>实例：循环按行打印文件内容</strong></p><pre><code>#!/bin/bashwhile read linedo   echo $linedone &lt; /root/shell/a.txt[root@jiangpeisi shell]# sh while.sh lkitd:x:998:997:User for polkitd:/:/sbin/nologintss:x:59:59:Account used by the trousers package to sandbox the tcsd daemon:/dev/null:/sbin/nologinsshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologinpostfix:x:89:89::/var/spool/postfix:/sbin/nologinchrony:x:997:995::/var/lib/chrony:/sbin/nologinntp:x:38:38::/etc/ntp:/sbin/nologinnscd:x:28:28:NSCD Daemon:/:/sbin/nologintcpdump:x:72:72::/:/sbin/nologinadmin:x:1000:1000::/home/admin:/bin/bashdockerroot:x:996:993:Docker User:/var/lib/docker:/sbin/nologindockerroot-latest:x:995:992:Docker User:/var/lib/docker-latest:/sbin/nologinzarafa:x:994:991:Zarafa Service Account:/var/lib/zarafa:/sbin/nologintest1:x:1002:1002::/home/test1:/bin/bashjiangpeisi:x:1004:1004::/home/jiangpeisi:/bin/bashftpuser1:x:1005:1005::/home/ftpuser1:/bin/bashnamed:x:25:25:Named:/var/named:/bin/falsedhcpd:x:177:177:DHCP server:/:/sbin/nologinmysql:x:27:27:MariaDB Server:/var/lib/mysql:/sbin/nologinsaslauth:x:993:76:Saslauthd user:/run/saslauthd:/sbin/nologinapache:x:48:48:Apache:/usr/share/httpd:/sbin/nologin</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;for循环语句格式&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;for var in （表达式）
+do
+    Command
+done
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;实例：计算1-100和&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;cod
       
     
     </summary>
@@ -587,37 +613,6 @@ fi
     
     
       <category term="hexo" scheme="http://yoursite.com/tags/hexo/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>DNS解析过程及查询模式</title>
-    <link href="http://yoursite.com/2019/03/09/DNS%E8%A7%A3%E6%9E%90%E8%BF%87%E7%A8%8B%E5%8F%8A%E6%9F%A5%E8%AF%A2%E6%A8%A1%E5%BC%8F/"/>
-    <id>http://yoursite.com/2019/03/09/DNS解析过程及查询模式/</id>
-    <published>2019-03-09T14:45:56.000Z</published>
-    <updated>2019-03-13T05:35:49.345Z</updated>
-    
-    <content type="html"><![CDATA[<ul><li><strong>DNS简介</strong><br> DNS（Domain Name Server）是一种主机域名和IP地址转换机制，使用一种分层的分布式数据库来处理Internet上成千上万个主机和IP地址的转换。基于C/S模式设计</li><li><strong>域名层次结构</strong><br><img src="http://static.zybuluo.com/jiangpeisi/yo9xyl3z4p3lt133f9btnyw3/image_1d5gj25qdr8k1jsc1mkn1dj8kq03n.png" alt="image_1d5gj25qdr8k1jsc1mkn1dj8kq03n.png-27.2kB"><br><img src="http://static.zybuluo.com/jiangpeisi/dy5ox1fmut0rykilknfx5isc/image_1d5giqc091h5di6rphm1gpuepg1g.png" alt="image_1d5giqc091h5di6rphm1gpuepg1g.png-89.4kB"></li><li><strong>DNS解析过程</strong><br><img src="http://static.zybuluo.com/jiangpeisi/7r01q8cf9wow42cuksr79cxv/image_1d5gis09d1b5s1seu1k781f57ed92t.png" alt="image_1d5gis09d1b5s1seu1k781f57ed92t.png-47.3kB"><br> 当我们去解析一个域名时，比如解析xxx.sh.com,会经过如下步骤:<br> 1.查看本机的缓存有无该域名记录，如果没有，查看本机的host文件有无该域名记录，如果没有，则发个请求到本地DNS服务器。<br> 2.本地DNS服务器收到请求后，查看是否有该域名的解析，如果有，返回解析记录给主机，如果没有，则请求根域名服务器.。<br> 3.根域名服务器收到请求后，返回该域名对应的顶级域名服务器,比如这次请求返回.com的服务器地址。<br> 4.本地域名服务器接到顶级域名服务器地址后，向该顶级域名服务器请求。<br> 5.顶级域名服务器返回该域名的二级域名务器地址，返回.sh.com对应的二级服务器地址。<br> 6.本地域名服务器获得该地址后，发请求到该域名的二级域名服务器。<br> 7.二级域名服务器解析xxx.sh.com，并将解析结果返回给本地域名服务器。<br> 8.本地域名服务器获取该解析后，返回给主机，解析完成。</li><li><strong>DNS解析模式</strong><br> 1.递归查询 ：当服务器收到DNS客户发来的请求，如果本地没有客户请求的数据就代替客户向其他DNS服务器请求，并将结果返回给客户，所以递归查询只会向客户返回查询结果或查询失败两种信息。<br> 2.迭代查询：当服务器收到DNS客户发来的请求，如果在服务器内没有查到客户需要的数据，会返回给客户另外一台DNS服务器的地址。客户就会向下一台DNS服务器进行查询，这样一直查询下去，一直查询到所需要的数据或没有DNS服务器可以查询为止。</li><li><strong>常用DNS服务器地址</strong><br>国内：114.114.114.114 备用：114.114.114.115<br>国外：8.8.8.8 备用：8.8.4.4</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;DNS简介&lt;/strong&gt;&lt;br&gt; DNS（Domain Name Server）是一种主机域名和IP地址转换机制，使用一种分层的分布式数据库来处理Internet上成千上万个主机和IP地址的转换。基于C/S模式设计&lt;/li&gt;
-&lt;li&gt;&lt;str
-      
-    
-    </summary>
-    
-      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
-    
-      <category term="DNS" scheme="http://yoursite.com/categories/linux/DNS/"/>
-    
-    
-      <category term="DNS" scheme="http://yoursite.com/tags/DNS/"/>
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
     
   </entry>
   
