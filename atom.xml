@@ -323,45 +323,6 @@ except Ke
   </entry>
   
   <entry>
-    <title>shell脚本学习之选择语句</title>
-    <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%80%89%E6%8B%A9%E8%AF%AD%E5%8F%A5/"/>
-    <id>http://yoursite.com/2019/03/20/shell脚本学习之选择语句/</id>
-    <published>2019-03-20T14:45:56.000Z</published>
-    <updated>2019-03-20T14:50:35.384Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>case 语句格式：</strong></p><pre><code>case value in （表达式）pattern1)    command    ;;pattern2）    command    ;;*）   commandesac</code></pre><p><strong>实例：菜单选择</strong></p><pre><code>#!/bin/bashMenu=(beef,noodles,rice,juice)echo &quot;The menu is:&quot;for i in ${Menu[*]}do   echo  &quot;$i&quot;doneread -p &quot;Please choose one:&quot; foodcase $food in        beef)         echo &quot;You choose beef!&quot;        ;;        noodles)          echo &quot;You choose noodles!&quot;        ;;        rice)          echo &quot;You choose rice!&quot;        ;;        juice)          echo &quot;You choose juice!&quot;        ;;        *)          echo &quot;Don&apos;t have this one!&quot;        ;;esac[root@jiangpeisi shell]# sh menu.sh The menu is:beef,noodles,rice,juicePlease choose one:noodlesYou choose noodles!</code></pre><p><strong>select 语法格式：</strong></p><pre><code>select i in （表达式）do   commanddone</code></pre><p><strong>实例：测试服务状态</strong></p><pre><code>#!/bin/bashPS3=&quot;Please enter your select menu:&quot;select i in http php mysql quitdocase $i in        http)          echo &quot;Test http&apos;s state!&quot;        ;;        php)          echo &quot;Test php&apos;s state!&quot;        ;;        mysql)          echo &quot;Test mysql&apos;s state!&quot;        ;;        quit)          echo &quot;Exit!&quot;          exitesacdone[root@jiangpeisi shell]# sh lnmp.sh1) http2) php3) mysql4) quitPlease enter your select menu:1Test http&apos;s state!Please enter your select menu:2Test php&apos;s state!Please enter your select menu:3Test mysql&apos;s state!Please enter your select menu:4Exit!</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;strong&gt;case 语句格式：&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;case value in （表达式）
-pattern1)
-    command
-    ;;
-pattern2）
-    command
-    ;;
-*）
-   command
-es
-      
-    
-    </summary>
-    
-      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
-    
-      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
-    
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
-    
-  </entry>
-  
-  <entry>
     <title>shell脚本学习之函数</title>
     <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%87%BD%E6%95%B0/"/>
     <id>http://yoursite.com/2019/03/20/shell脚本学习之函数/</id>
@@ -410,6 +371,45 @@ command
       
       
         &lt;p&gt;&lt;strong&gt;简述&lt;/strong&gt;&lt;br&gt;  find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。&lt;br&gt;&lt;str
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>shell脚本学习之选择语句</title>
+    <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%80%89%E6%8B%A9%E8%AF%AD%E5%8F%A5/"/>
+    <id>http://yoursite.com/2019/03/20/shell脚本学习之选择语句/</id>
+    <published>2019-03-20T14:45:56.000Z</published>
+    <updated>2019-03-20T14:50:35.384Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>case 语句格式：</strong></p><pre><code>case value in （表达式）pattern1)    command    ;;pattern2）    command    ;;*）   commandesac</code></pre><p><strong>实例：菜单选择</strong></p><pre><code>#!/bin/bashMenu=(beef,noodles,rice,juice)echo &quot;The menu is:&quot;for i in ${Menu[*]}do   echo  &quot;$i&quot;doneread -p &quot;Please choose one:&quot; foodcase $food in        beef)         echo &quot;You choose beef!&quot;        ;;        noodles)          echo &quot;You choose noodles!&quot;        ;;        rice)          echo &quot;You choose rice!&quot;        ;;        juice)          echo &quot;You choose juice!&quot;        ;;        *)          echo &quot;Don&apos;t have this one!&quot;        ;;esac[root@jiangpeisi shell]# sh menu.sh The menu is:beef,noodles,rice,juicePlease choose one:noodlesYou choose noodles!</code></pre><p><strong>select 语法格式：</strong></p><pre><code>select i in （表达式）do   commanddone</code></pre><p><strong>实例：测试服务状态</strong></p><pre><code>#!/bin/bashPS3=&quot;Please enter your select menu:&quot;select i in http php mysql quitdocase $i in        http)          echo &quot;Test http&apos;s state!&quot;        ;;        php)          echo &quot;Test php&apos;s state!&quot;        ;;        mysql)          echo &quot;Test mysql&apos;s state!&quot;        ;;        quit)          echo &quot;Exit!&quot;          exitesacdone[root@jiangpeisi shell]# sh lnmp.sh1) http2) php3) mysql4) quitPlease enter your select menu:1Test http&apos;s state!Please enter your select menu:2Test php&apos;s state!Please enter your select menu:3Test mysql&apos;s state!Please enter your select menu:4Exit!</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;case 语句格式：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;case value in （表达式）
+pattern1)
+    command
+    ;;
+pattern2）
+    command
+    ;;
+*）
+   command
+es
       
     
     </summary>
