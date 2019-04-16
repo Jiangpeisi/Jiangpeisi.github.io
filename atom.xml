@@ -122,31 +122,6 @@
   </entry>
   
   <entry>
-    <title>MPLS VPN</title>
-    <link href="http://yoursite.com/2019/04/10/MPLS%20VPN/"/>
-    <id>http://yoursite.com/2019/04/10/MPLS VPN/</id>
-    <published>2019-04-10T14:45:56.000Z</published>
-    <updated>2019-04-11T00:46:20.041Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><p><strong>MPLS VPN基本架构拓扑</strong><br><img src="http://static.zybuluo.com/jiangpeisi/nrg8w60xrd847bvaaf52geax/image_1d83uk98siqv159r174410e64h21j.png" alt="image_1d83uk98siqv159r174410e64h21j.png-75.1kB"></p><p>  在路由层面，客户A的站点1将到达本站点的路由信息通过MPLS VPN网络传递到远在另一个城市甚至另一个国家的站点2,反过来，站点2也是如此。对于客户而言，他们希望自己的站点路由在服务提供商的MPLS VPN网络内是不可见的，而且必须是独立传输、不会存在冲突的，他们不关心MPLS VPN骨干网络的具体形态。对于服务提供商而言，他们希望自己骨干网络内的传输设备能够专注于数据转发，而不参与客户路由的学习及交互，从而避免维护大规模路由表而导致设备负担过重。更重要是，MPLS VPN网络允许大量客户同时接入，且相互隔离。</p><p>在数据层面，当客户A的站点1将发往站点2的IP报文送入MPLS VPN骨干网络时，报文在MPLS VPN网络边界被压入标签头部，并最终被送达远端PE设备，再由该PE设备将其还原成IP报文后转发到该客户的站点2,显然，客户并不希望自己站点间相互通信的数据在MPLS VPN网络中被暴露，标签化的数据交互过程起到一定的安全作用，它使得共享式的MPLS VPN网络能够允许大量的客户同时接入，这些客户的数据不会在服务提供商的网络内出现冲突或者紊乱。</p><h2 id="四种典型设备"><a href="#四种典型设备" class="headerlink" title="四种典型设备"></a>四种典型设备</h2><p>PE（Provider Edge）设备：服务供应商边缘设备，一方接入MPLS VPN骨干网络P设备，另一方接入CE设备。用于客户两个站点间的路由信息交换。VRF（Virutual Routing and Forwarding）会部署在PE设备上来隔离不同客户路由。<br>P（Provider）设备：服务供应商设备，用于标签报文转发。<br>CE（Client Edge）设备：客户边界设备，一方连着PE设备，另一方连着C设备。用于将本区域内路由信息交给PE设备，并从PE设备学习远程站点的路由信息。一般与PE设备间启用动态路由协议来互相学习路由。<br>C（Client）设备：客户网络内部设备。</p><h2 id="六个问题了解MPLS-VPN"><a href="#六个问题了解MPLS-VPN" class="headerlink" title="六个问题了解MPLS VPN"></a>六个问题了解MPLS VPN</h2><p>  <strong>问题一</strong></p><p>多个CE设备连接一个PE设备，PE设备同时学习多个CE路由，PE设备如何区分不同CE设备发送过来的相同路由条目？<br><img src="http://static.zybuluo.com/jiangpeisi/iw2017qrqvpa2cxmd6jqmxlx/image_1d83us0061qsg1svv66dft5vdp3a.png" alt="image_1d83us0061qsg1svv66dft5vdp3a.png-93.9kB"><br><strong>答：</strong><br>使用VRF。VRF（Virtual Routing and Forwarding），主要用于区分不同客户端的路由条目，PE设备上会为每一个客户创建一个VRF专门用于存储从该客户学习来的路由条目，以此防止客户间路由发送冲突。一个VRF相当于一个虚拟设备，拥有独立的路由表，FIB表，动态路由协议进程。上例中PE设备会创建两个VRF分别存储客户A和客户B的路由。</p><hr><p> <strong>问题二</strong></p><p>PE1需要将客户A在站点1的路由发送给PE2，如何实现？<br><strong>答：</strong><br>使用BGP协议。在客户连接的两个PE设备间建立BGP对等体关系，让PE1与PE2直接交换客户的路由信息，中间P设备无需使用BGP协议。这样不仅做到了将PE1的路由信息发送给PE2，而且还可以让MPLS VPN骨干网络的设备不用维护客户的路由，仅专注于数据的转发。</p><hr><p> <strong>问题三</strong></p><p>VRF用于实现客户路由隔离并解决IP地址空间冲突的问题，但是一旦PE1设备将路由条目发送出去又会出现不同客户的路由信息混淆的问题，如何对BGP所运载的路由进行区分呢？<br><strong>答：</strong><br>使用RD（Route Distinguisher）路由区分码。对路由信息进行封装，在原IPv4（32bit）路由前缀的基础上增加一个RD（64bit），一起封装成为VPNv4（96bit）路由进行传输。例如：64519:100:172.16.18.0/24 其中172.16.18.0/24为IPv4地址，64519：100为RD值。</p><p>传统的BGP协议无法运载VPNv4路由，需要使用MP-BGP（Multi-Protolocal BGP），使得BGP可以运载VPNv4路由、IPv6路由等。</p><hr><p>现在解决了PE1从不同客户学习路由并且可以加以区分，以及怎样将路由信息发送到PE2。但是当路由到达PE2时，又出现了另一个问题，如何将路由信息区分，并放入不同的VRF?<br><img src="http://static.zybuluo.com/jiangpeisi/5dirh36m0mk1i7plmabcaxxq/image_1d83vbcsj66v1kt718ko1rfnfaa65.png" alt="image_1d83vbcsj66v1kt718ko1rfnfaa65.png-104.1kB"></p><hr><p> <strong>问题四</strong></p><p>PE2如何区分从PE1学习到的路由条目并放入相应的VRF？<br><strong>答：</strong><br>使用RT（32bit）（Route Target）路由目标。<br>Export RT：发送路由器上设置。在PE1上为客户A设置Export值为64519：1，为客户B设置Export值为64520：2，这样PE1在发送VPNv4路由的时候会将RT值作为扩展Community属性一起发送给PE2。<br>Inport RT：接收路由器上设置。在PE2上为客户A设置Import值为64519：1，为客户B设置Inport值为64520：2，与发送端对应。这样PE2将RT值为64519：1的路由放进客户A的VRF中，RT值为64520：2的路由放进客户B的VRF中。<br><img src="http://static.zybuluo.com/jiangpeisi/geiilzab4w78d2ate2r983w7/image_1d83vekbfeat16a9ackvu312d76v.png" alt="image_1d83vekbfeat16a9ackvu312d76v.png-224kB"></p><hr><p>到目前为止我们以及解决了路由信息的传递过程，但是由路由信息就一定可以传送数据吗？我们使用的是BGP协议，中间的P设备是不知道客户间路由的，所以一旦数据包发送出去，到了P设备就会被丢弃，因为P设备没有客户路由。貌似还查了一点，怎么让中间设备不管三层的目的地址，直接对数据包进行转发呢？一直在说MPLS VPN但是学到现在还没有使用到一点MPLS技术在里面，现在派上用场了。</p><hr><p> <strong>问题五</strong></p><p>如何让P设备在不知道目的地址的情况下对数据包进行转发？<br><strong>答：</strong><br>使用MPLS，让路由器根据标签转发数据。在MPLS VPN骨干网络设备上启用MPLS及LDP，并且在设备间建立LDP对等体关系，在此之前骨干区域要先实现互通。以PE1为例，PE2与各个P设备会为去往PE1的路由分配标签，并形成一条LSP，这样PE2的报文就可以沿着这条LSP传送到PE1。<br><img src="http://static.zybuluo.com/jiangpeisi/d3kddwg3yduqkcqozc07ejb2/image_1d83vhk7m77c4g01gvkdhp63786.png" alt="image_1d83vhk7m77c4g01gvkdhp63786.png-79.6kB"><br><img src="http://static.zybuluo.com/jiangpeisi/nmeoih1pasyicz1oaop6wg5u/image_1d83vhr2c149u1doi10vsdg1um18j.png" alt="image_1d83vhr2c149u1doi10vsdg1um18j.png-150.2kB"></p><hr><p>现在数据报文可以从PE2发送到PE1了，PE1收到报文后将标签弹出，然后将数据包进行转发。现在又出现了一个新的问题，因为数据包不是路由条目，路由条目可以根据扩展Community属性值发放到不同的VRF中，数据包不存在这个属性，所以PE1这时候又懵逼了，这个数据包该发送给客户A还是客户B？</p><hr><p><strong>问题六</strong></p><p>PE设备收到数据包后，如何区分，并转发到相应的VRF中去？<br><strong>答：</strong><br>采用多层标签。MPLS标签包标签头可以有多个，按顺序排序，存储在标签栈中。在数据包发送时，为数据包压入两层标签，一层是外层标签或者叫公网标签，由LDP分发，用于将报文在MPLS VPN骨干网络传输。另一层是内部标签，也叫私网标签，由MP-BGP分发，用于将报文在PE设备上对应到具体的VRF中。为了实现私网标签的分发，PE2通过MP-BGP将VPNv4路由通告给PE1时，除了携带了该路由的RT值，还会将为该路由所分配的私网标签一并携带。这样PE1在发送数据包到PE2时会给数据包打上双层标签，使用公网标签将数据包发送到PE2，出去外层标签后，由于私网标签时PE2自己设置的，所以PE2会根据内层标签决定将数据包对应到哪一个VRF，最后私网标签弹出，将正常的IP报文传输给客户A或者B。</p><hr><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过上面六个问题的探讨，大致可以了解经典MPLS VPN的工作机制。总结一下，一个经典的MPLS VPN实现需要实现哪些功能：<br>1.在PE设备上，使用VRF来区分不同客户、维护不同客户的路由<br>2.在PE设备上，基于VRF使用路由协议实现与CE间的路由信息交换<br>3.在MPLS VPN骨干网络内部需要运行IGP路由协议，并在此基础上运行MPLS和LDP协议。<br>4.在PE之间需要建立BGP对等体，使用RD值将IPv4路由封装成VPNv4路由，通过MP-BGP传递VPNv4路由。<br>5.在PE上需要为VRF设置RT值区分接收到的路由条目。<br>6.为数据包压入双层标签，让数据包技能穿越MPLS VPN骨干网络，然后转发到相应的VRF中。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;简述&quot;&gt;&lt;a href=&quot;#简述&quot; class=&quot;headerlink&quot; title=&quot;简述&quot;&gt;&lt;/a&gt;简述&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;MPLS VPN基本架构拓扑&lt;/strong&gt;&lt;br&gt;&lt;img src=&quot;http://static.zybuluo.com
-      
-    
-    </summary>
-    
-      <category term="网络" scheme="http://yoursite.com/categories/%E7%BD%91%E7%BB%9C/"/>
-    
-    
-      <category term="网络" scheme="http://yoursite.com/tags/%E7%BD%91%E7%BB%9C/"/>
-    
-  </entry>
-  
-  <entry>
     <title>MPLS</title>
     <link href="http://yoursite.com/2019/04/10/MPLS/"/>
     <id>http://yoursite.com/2019/04/10/MPLS/</id>
@@ -160,6 +135,31 @@
       
       
         &lt;h2 id=&quot;简述&quot;&gt;&lt;a href=&quot;#简述&quot; class=&quot;headerlink&quot; title=&quot;简述&quot;&gt;&lt;/a&gt;简述&lt;/h2&gt;&lt;p&gt;传统的IP路由基于报文的IP头部的目的IP地址进行寻址及转发操作，设备需要维护路由表用于指导数据转发，根据最长匹配原则进行匹配条目，速度慢，
+      
+    
+    </summary>
+    
+      <category term="网络" scheme="http://yoursite.com/categories/%E7%BD%91%E7%BB%9C/"/>
+    
+    
+      <category term="网络" scheme="http://yoursite.com/tags/%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MPLS VPN</title>
+    <link href="http://yoursite.com/2019/04/10/MPLS%20VPN/"/>
+    <id>http://yoursite.com/2019/04/10/MPLS VPN/</id>
+    <published>2019-04-10T14:45:56.000Z</published>
+    <updated>2019-04-11T00:46:20.041Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><p><strong>MPLS VPN基本架构拓扑</strong><br><img src="http://static.zybuluo.com/jiangpeisi/nrg8w60xrd847bvaaf52geax/image_1d83uk98siqv159r174410e64h21j.png" alt="image_1d83uk98siqv159r174410e64h21j.png-75.1kB"></p><p>  在路由层面，客户A的站点1将到达本站点的路由信息通过MPLS VPN网络传递到远在另一个城市甚至另一个国家的站点2,反过来，站点2也是如此。对于客户而言，他们希望自己的站点路由在服务提供商的MPLS VPN网络内是不可见的，而且必须是独立传输、不会存在冲突的，他们不关心MPLS VPN骨干网络的具体形态。对于服务提供商而言，他们希望自己骨干网络内的传输设备能够专注于数据转发，而不参与客户路由的学习及交互，从而避免维护大规模路由表而导致设备负担过重。更重要是，MPLS VPN网络允许大量客户同时接入，且相互隔离。</p><p>在数据层面，当客户A的站点1将发往站点2的IP报文送入MPLS VPN骨干网络时，报文在MPLS VPN网络边界被压入标签头部，并最终被送达远端PE设备，再由该PE设备将其还原成IP报文后转发到该客户的站点2,显然，客户并不希望自己站点间相互通信的数据在MPLS VPN网络中被暴露，标签化的数据交互过程起到一定的安全作用，它使得共享式的MPLS VPN网络能够允许大量的客户同时接入，这些客户的数据不会在服务提供商的网络内出现冲突或者紊乱。</p><h2 id="四种典型设备"><a href="#四种典型设备" class="headerlink" title="四种典型设备"></a>四种典型设备</h2><p>PE（Provider Edge）设备：服务供应商边缘设备，一方接入MPLS VPN骨干网络P设备，另一方接入CE设备。用于客户两个站点间的路由信息交换。VRF（Virutual Routing and Forwarding）会部署在PE设备上来隔离不同客户路由。<br>P（Provider）设备：服务供应商设备，用于标签报文转发。<br>CE（Client Edge）设备：客户边界设备，一方连着PE设备，另一方连着C设备。用于将本区域内路由信息交给PE设备，并从PE设备学习远程站点的路由信息。一般与PE设备间启用动态路由协议来互相学习路由。<br>C（Client）设备：客户网络内部设备。</p><h2 id="六个问题了解MPLS-VPN"><a href="#六个问题了解MPLS-VPN" class="headerlink" title="六个问题了解MPLS VPN"></a>六个问题了解MPLS VPN</h2><p>  <strong>问题一</strong></p><p>多个CE设备连接一个PE设备，PE设备同时学习多个CE路由，PE设备如何区分不同CE设备发送过来的相同路由条目？<br><img src="http://static.zybuluo.com/jiangpeisi/iw2017qrqvpa2cxmd6jqmxlx/image_1d83us0061qsg1svv66dft5vdp3a.png" alt="image_1d83us0061qsg1svv66dft5vdp3a.png-93.9kB"><br><strong>答：</strong><br>使用VRF。VRF（Virtual Routing and Forwarding），主要用于区分不同客户端的路由条目，PE设备上会为每一个客户创建一个VRF专门用于存储从该客户学习来的路由条目，以此防止客户间路由发送冲突。一个VRF相当于一个虚拟设备，拥有独立的路由表，FIB表，动态路由协议进程。上例中PE设备会创建两个VRF分别存储客户A和客户B的路由。</p><hr><p> <strong>问题二</strong></p><p>PE1需要将客户A在站点1的路由发送给PE2，如何实现？<br><strong>答：</strong><br>使用BGP协议。在客户连接的两个PE设备间建立BGP对等体关系，让PE1与PE2直接交换客户的路由信息，中间P设备无需使用BGP协议。这样不仅做到了将PE1的路由信息发送给PE2，而且还可以让MPLS VPN骨干网络的设备不用维护客户的路由，仅专注于数据的转发。</p><hr><p> <strong>问题三</strong></p><p>VRF用于实现客户路由隔离并解决IP地址空间冲突的问题，但是一旦PE1设备将路由条目发送出去又会出现不同客户的路由信息混淆的问题，如何对BGP所运载的路由进行区分呢？<br><strong>答：</strong><br>使用RD（Route Distinguisher）路由区分码。对路由信息进行封装，在原IPv4（32bit）路由前缀的基础上增加一个RD（64bit），一起封装成为VPNv4（96bit）路由进行传输。例如：64519:100:172.16.18.0/24 其中172.16.18.0/24为IPv4地址，64519：100为RD值。</p><p>传统的BGP协议无法运载VPNv4路由，需要使用MP-BGP（Multi-Protolocal BGP），使得BGP可以运载VPNv4路由、IPv6路由等。</p><hr><p>现在解决了PE1从不同客户学习路由并且可以加以区分，以及怎样将路由信息发送到PE2。但是当路由到达PE2时，又出现了另一个问题，如何将路由信息区分，并放入不同的VRF?<br><img src="http://static.zybuluo.com/jiangpeisi/5dirh36m0mk1i7plmabcaxxq/image_1d83vbcsj66v1kt718ko1rfnfaa65.png" alt="image_1d83vbcsj66v1kt718ko1rfnfaa65.png-104.1kB"></p><hr><p> <strong>问题四</strong></p><p>PE2如何区分从PE1学习到的路由条目并放入相应的VRF？<br><strong>答：</strong><br>使用RT（32bit）（Route Target）路由目标。<br>Export RT：发送路由器上设置。在PE1上为客户A设置Export值为64519：1，为客户B设置Export值为64520：2，这样PE1在发送VPNv4路由的时候会将RT值作为扩展Community属性一起发送给PE2。<br>Inport RT：接收路由器上设置。在PE2上为客户A设置Import值为64519：1，为客户B设置Inport值为64520：2，与发送端对应。这样PE2将RT值为64519：1的路由放进客户A的VRF中，RT值为64520：2的路由放进客户B的VRF中。<br><img src="http://static.zybuluo.com/jiangpeisi/geiilzab4w78d2ate2r983w7/image_1d83vekbfeat16a9ackvu312d76v.png" alt="image_1d83vekbfeat16a9ackvu312d76v.png-224kB"></p><hr><p>到目前为止我们以及解决了路由信息的传递过程，但是由路由信息就一定可以传送数据吗？我们使用的是BGP协议，中间的P设备是不知道客户间路由的，所以一旦数据包发送出去，到了P设备就会被丢弃，因为P设备没有客户路由。貌似还查了一点，怎么让中间设备不管三层的目的地址，直接对数据包进行转发呢？一直在说MPLS VPN但是学到现在还没有使用到一点MPLS技术在里面，现在派上用场了。</p><hr><p> <strong>问题五</strong></p><p>如何让P设备在不知道目的地址的情况下对数据包进行转发？<br><strong>答：</strong><br>使用MPLS，让路由器根据标签转发数据。在MPLS VPN骨干网络设备上启用MPLS及LDP，并且在设备间建立LDP对等体关系，在此之前骨干区域要先实现互通。以PE1为例，PE2与各个P设备会为去往PE1的路由分配标签，并形成一条LSP，这样PE2的报文就可以沿着这条LSP传送到PE1。<br><img src="http://static.zybuluo.com/jiangpeisi/d3kddwg3yduqkcqozc07ejb2/image_1d83vhk7m77c4g01gvkdhp63786.png" alt="image_1d83vhk7m77c4g01gvkdhp63786.png-79.6kB"><br><img src="http://static.zybuluo.com/jiangpeisi/nmeoih1pasyicz1oaop6wg5u/image_1d83vhr2c149u1doi10vsdg1um18j.png" alt="image_1d83vhr2c149u1doi10vsdg1um18j.png-150.2kB"></p><hr><p>现在数据报文可以从PE2发送到PE1了，PE1收到报文后将标签弹出，然后将数据包进行转发。现在又出现了一个新的问题，因为数据包不是路由条目，路由条目可以根据扩展Community属性值发放到不同的VRF中，数据包不存在这个属性，所以PE1这时候又懵逼了，这个数据包该发送给客户A还是客户B？</p><hr><p><strong>问题六</strong></p><p>PE设备收到数据包后，如何区分，并转发到相应的VRF中去？<br><strong>答：</strong><br>采用多层标签。MPLS标签包标签头可以有多个，按顺序排序，存储在标签栈中。在数据包发送时，为数据包压入两层标签，一层是外层标签或者叫公网标签，由LDP分发，用于将报文在MPLS VPN骨干网络传输。另一层是内部标签，也叫私网标签，由MP-BGP分发，用于将报文在PE设备上对应到具体的VRF中。为了实现私网标签的分发，PE2通过MP-BGP将VPNv4路由通告给PE1时，除了携带了该路由的RT值，还会将为该路由所分配的私网标签一并携带。这样PE1在发送数据包到PE2时会给数据包打上双层标签，使用公网标签将数据包发送到PE2，出去外层标签后，由于私网标签时PE2自己设置的，所以PE2会根据内层标签决定将数据包对应到哪一个VRF，最后私网标签弹出，将正常的IP报文传输给客户A或者B。</p><hr><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过上面六个问题的探讨，大致可以了解经典MPLS VPN的工作机制。总结一下，一个经典的MPLS VPN实现需要实现哪些功能：<br>1.在PE设备上，使用VRF来区分不同客户、维护不同客户的路由<br>2.在PE设备上，基于VRF使用路由协议实现与CE间的路由信息交换<br>3.在MPLS VPN骨干网络内部需要运行IGP路由协议，并在此基础上运行MPLS和LDP协议。<br>4.在PE之间需要建立BGP对等体，使用RD值将IPv4路由封装成VPNv4路由，通过MP-BGP传递VPNv4路由。<br>5.在PE上需要为VRF设置RT值区分接收到的路由条目。<br>6.为数据包压入双层标签，让数据包技能穿越MPLS VPN骨干网络，然后转发到相应的VRF中。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;简述&quot;&gt;&lt;a href=&quot;#简述&quot; class=&quot;headerlink&quot; title=&quot;简述&quot;&gt;&lt;/a&gt;简述&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;MPLS VPN基本架构拓扑&lt;/strong&gt;&lt;br&gt;&lt;img src=&quot;http://static.zybuluo.com
       
     
     </summary>
@@ -344,35 +344,6 @@ except Ke
   </entry>
   
   <entry>
-    <title>shell脚本学习之四剑客awk</title>
-    <link href="http://yoursite.com/2019/03/21/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9B%E5%89%91%E5%AE%A2awk/"/>
-    <id>http://yoursite.com/2019/03/21/shell脚本学习之四剑客awk/</id>
-    <published>2019-03-21T14:45:56.000Z</published>
-    <updated>2019-03-21T10:41:47.151Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>简述</strong><br>awk本身就是一种编程语言，它支持条件判断、循环、数组遍历等功能。我们可以使用它来对文本进行分析和处理。与sed相比，sed是逐行处理文本内数据，awk也是，不过awk又在此基础上实现对每一行每一列的操作。专业的角度来讲awk是一个报告生成器，因为awk可以对行和列进行操作，所以在awk命令下，一个文本就像是一个表格。默认列之间的分隔符是空格，行之间分隔符是\n，可以通过-F或者-v FS:指定分割符。</p><hr><p><strong>命令格式</strong></p><pre><code>awk &apos;{pattern + action}&apos; {filenames}</code></pre><p><strong>1.基本语法参数</strong><br>1.单引号‘’：为了和shell语法分开，防止混淆<br>2.大括号{}：用来表示一组命令<br>3.pattern：一个过滤器，表示匹配pattern的条件的行才可以执行action<br>4.pattern可以是以下任意一种<br>    -正则表达式：使用通配符匹配<br>    -关系表达式：使用关系运算符<br>    -模式匹配表达式：使用运算符~或者！~匹配<br>5.action：处理动作，一系列命令，常见的动作为print</p><p>实例：抓取IP地址</p><pre><code>[root@jiangpeisi ~]# ifconfig eth0 |awk  &apos;/inet/{print $2}&apos;172.16.30.80[root@jiangpeisi ~]# ifconfig eth0 | grep inet | awk &apos;{print $2}&apos;172.16.30.80[root@jiangpeisi ~]# ip addr | awk &apos;/eth0/&apos; | awk &apos;/inet/{print $2}&apos;172.16.30.80/18</code></pre><p><strong>2.内置参数</strong><br>FS：分隔符，默认是空格作为分隔符<br>OFS：输出行分隔符<br>NR：当前行数，从1开始<br>NF：当前行的字段（列）个数<br>$0：当前记录<br><code>$1~$n</code>：当前记录的第n个字段</p><p>实例：输出字段个数</p><pre><code>[root@jiangpeisi ~]# whoroot     pts/1        2019-03-21 11:14 (49.70.207.182)[root@jiangpeisi ~]# who | awk &apos;{print NF}&apos;5</code></pre><p>实例：打印奇数行的行号和第一列内容</p><pre><code>[root@jiangpeisi ~]# awk -F: &apos;NR%2==0{next}{print NR,$1}&apos; /etc/passwd1 root3 daemon5 lp7 shutdown9 mail11 games13 nobody15 systemd-network17 polkitd19 sshd21 chrony23 nscd25 admin27 dockerroot-latest29 test131 ftpuser133 dhcpd35 saslauth</code></pre><p><strong>3.内置函数</strong><br>1.gsub（r，s）：在$0中用s代替r<br>2.index（s，t）：返回s中t的第一个位置<br>3.length（s）：返回s的长度<br>4.match（s，r）：s是否匹配r<br>5.split（s，a，fs）：在fs上讲s分成序列a<br>6.substr（s，p）：返回s从p开始的子串</p><p>实例：输出字段长度</p><pre><code>[root@jiangpeisi ~]# whoroot     pts/1        2019-03-21 11:14 (49.70.207.182)[root@jiangpeisi ~]# who | awk &apos;{print length($2)}&apos;5</code></pre><p><strong>4.流程控制语句</strong><br>1.if（condition）{}else{}<br>2.while（condition）{}<br>3.for（init；condition；step）{}<br>4.Break/contitnue<br>实例：比较大小</p><pre><code>[root@jiangpeisi ~]# echo 2 3 |awk &apos;{if($1&gt;$2){print $1}else{print $2}}&apos;3[root@jiangpeisi ~]# echo 3 2 |awk &apos;{if($1&gt;$2){print $1}else{print $2}}&apos;3</code></pre><p><strong>补充</strong><br>使用awk可以对一个文件写一个脚本，格式：</p><pre><code>awk &apos;BEGIN{ commands } pattern{ commands } END{ commands }&apos; file </code></pre><p>执行顺序：<br>第一步： 执行BEGIN { commands } pattern 语句块中的语句，在对文件操作前执行<br>第二步：从文件或标准输入中读取一行，然后执行pattern{ commands }语句块。它逐行扫描文件，从第一行到最后一行重复这个过程，直到全部文件都被读取完毕。<br>第三步：当读至输入流末尾时，执行END { commands }语句块</p><p>实例：计算用户数量</p><pre><code>[root@jiangpeisi ~]# awk &apos;BEGIN {count=0;print &quot;[start] user count is &quot;,count} {;;count++} END{print &quot;[end] user count is &quot;,count}&apos; /etc/passwd[start] user count is  0[end] user count is  36</code></pre><p>实例：计算文件夹大小</p><pre><code>[root@jiangpeisi ~]# ls -lF /etc/ | awk &apos;BEGIN {sum=0}{sum+=$5}END{print &quot;The size of this dir is&quot;,sum/1024/1024,&quot;M&quot;}&apos;The size of this dir is 1.30004 M</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;strong&gt;简述&lt;/strong&gt;&lt;br&gt;awk本身就是一种编程语言，它支持条件判断、循环、数组遍历等功能。我们可以使用它来对文本进行分析和处理。与sed相比，sed是逐行处理文本内数据，awk也是，不过awk又在此基础上实现对每一行每一列的操作。专业的角度来讲awk是
-      
-    
-    </summary>
-    
-      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
-    
-      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
-    
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
-    
-  </entry>
-  
-  <entry>
     <title>shell脚本学习之四剑客sed</title>
     <link href="http://yoursite.com/2019/03/21/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9B%E5%89%91%E5%AE%A2sed/"/>
     <id>http://yoursite.com/2019/03/21/shell脚本学习之四剑客sed/</id>
@@ -402,29 +373,19 @@ except Ke
   </entry>
   
   <entry>
-    <title>shell脚本学习之选择语句</title>
-    <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%80%89%E6%8B%A9%E8%AF%AD%E5%8F%A5/"/>
-    <id>http://yoursite.com/2019/03/20/shell脚本学习之选择语句/</id>
-    <published>2019-03-20T14:45:56.000Z</published>
-    <updated>2019-03-20T14:50:35.384Z</updated>
+    <title>shell脚本学习之四剑客awk</title>
+    <link href="http://yoursite.com/2019/03/21/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9B%E5%89%91%E5%AE%A2awk/"/>
+    <id>http://yoursite.com/2019/03/21/shell脚本学习之四剑客awk/</id>
+    <published>2019-03-21T14:45:56.000Z</published>
+    <updated>2019-03-21T10:41:47.151Z</updated>
     
-    <content type="html"><![CDATA[<p><strong>case 语句格式：</strong></p><pre><code>case value in （表达式）pattern1)    command    ;;pattern2）    command    ;;*）   commandesac</code></pre><p><strong>实例：菜单选择</strong></p><pre><code>#!/bin/bashMenu=(beef,noodles,rice,juice)echo &quot;The menu is:&quot;for i in ${Menu[*]}do   echo  &quot;$i&quot;doneread -p &quot;Please choose one:&quot; foodcase $food in        beef)         echo &quot;You choose beef!&quot;        ;;        noodles)          echo &quot;You choose noodles!&quot;        ;;        rice)          echo &quot;You choose rice!&quot;        ;;        juice)          echo &quot;You choose juice!&quot;        ;;        *)          echo &quot;Don&apos;t have this one!&quot;        ;;esac[root@jiangpeisi shell]# sh menu.sh The menu is:beef,noodles,rice,juicePlease choose one:noodlesYou choose noodles!</code></pre><p><strong>select 语法格式：</strong></p><pre><code>select i in （表达式）do   commanddone</code></pre><p><strong>实例：测试服务状态</strong></p><pre><code>#!/bin/bashPS3=&quot;Please enter your select menu:&quot;select i in http php mysql quitdocase $i in        http)          echo &quot;Test http&apos;s state!&quot;        ;;        php)          echo &quot;Test php&apos;s state!&quot;        ;;        mysql)          echo &quot;Test mysql&apos;s state!&quot;        ;;        quit)          echo &quot;Exit!&quot;          exitesacdone[root@jiangpeisi shell]# sh lnmp.sh1) http2) php3) mysql4) quitPlease enter your select menu:1Test http&apos;s state!Please enter your select menu:2Test php&apos;s state!Please enter your select menu:3Test mysql&apos;s state!Please enter your select menu:4Exit!</code></pre>]]></content>
+    <content type="html"><![CDATA[<p><strong>简述</strong><br>awk本身就是一种编程语言，它支持条件判断、循环、数组遍历等功能。我们可以使用它来对文本进行分析和处理。与sed相比，sed是逐行处理文本内数据，awk也是，不过awk又在此基础上实现对每一行每一列的操作。专业的角度来讲awk是一个报告生成器，因为awk可以对行和列进行操作，所以在awk命令下，一个文本就像是一个表格。默认列之间的分隔符是空格，行之间分隔符是\n，可以通过-F或者-v FS:指定分割符。</p><hr><p><strong>命令格式</strong></p><pre><code>awk &apos;{pattern + action}&apos; {filenames}</code></pre><p><strong>1.基本语法参数</strong><br>1.单引号‘’：为了和shell语法分开，防止混淆<br>2.大括号{}：用来表示一组命令<br>3.pattern：一个过滤器，表示匹配pattern的条件的行才可以执行action<br>4.pattern可以是以下任意一种<br>    -正则表达式：使用通配符匹配<br>    -关系表达式：使用关系运算符<br>    -模式匹配表达式：使用运算符~或者！~匹配<br>5.action：处理动作，一系列命令，常见的动作为print</p><p>实例：抓取IP地址</p><pre><code>[root@jiangpeisi ~]# ifconfig eth0 |awk  &apos;/inet/{print $2}&apos;172.16.30.80[root@jiangpeisi ~]# ifconfig eth0 | grep inet | awk &apos;{print $2}&apos;172.16.30.80[root@jiangpeisi ~]# ip addr | awk &apos;/eth0/&apos; | awk &apos;/inet/{print $2}&apos;172.16.30.80/18</code></pre><p><strong>2.内置参数</strong><br>FS：分隔符，默认是空格作为分隔符<br>OFS：输出行分隔符<br>NR：当前行数，从1开始<br>NF：当前行的字段（列）个数<br>$0：当前记录<br><code>$1~$n</code>：当前记录的第n个字段</p><p>实例：输出字段个数</p><pre><code>[root@jiangpeisi ~]# whoroot     pts/1        2019-03-21 11:14 (49.70.207.182)[root@jiangpeisi ~]# who | awk &apos;{print NF}&apos;5</code></pre><p>实例：打印奇数行的行号和第一列内容</p><pre><code>[root@jiangpeisi ~]# awk -F: &apos;NR%2==0{next}{print NR,$1}&apos; /etc/passwd1 root3 daemon5 lp7 shutdown9 mail11 games13 nobody15 systemd-network17 polkitd19 sshd21 chrony23 nscd25 admin27 dockerroot-latest29 test131 ftpuser133 dhcpd35 saslauth</code></pre><p><strong>3.内置函数</strong><br>1.gsub（r，s）：在$0中用s代替r<br>2.index（s，t）：返回s中t的第一个位置<br>3.length（s）：返回s的长度<br>4.match（s，r）：s是否匹配r<br>5.split（s，a，fs）：在fs上讲s分成序列a<br>6.substr（s，p）：返回s从p开始的子串</p><p>实例：输出字段长度</p><pre><code>[root@jiangpeisi ~]# whoroot     pts/1        2019-03-21 11:14 (49.70.207.182)[root@jiangpeisi ~]# who | awk &apos;{print length($2)}&apos;5</code></pre><p><strong>4.流程控制语句</strong><br>1.if（condition）{}else{}<br>2.while（condition）{}<br>3.for（init；condition；step）{}<br>4.Break/contitnue<br>实例：比较大小</p><pre><code>[root@jiangpeisi ~]# echo 2 3 |awk &apos;{if($1&gt;$2){print $1}else{print $2}}&apos;3[root@jiangpeisi ~]# echo 3 2 |awk &apos;{if($1&gt;$2){print $1}else{print $2}}&apos;3</code></pre><p><strong>补充</strong><br>使用awk可以对一个文件写一个脚本，格式：</p><pre><code>awk &apos;BEGIN{ commands } pattern{ commands } END{ commands }&apos; file </code></pre><p>执行顺序：<br>第一步： 执行BEGIN { commands } pattern 语句块中的语句，在对文件操作前执行<br>第二步：从文件或标准输入中读取一行，然后执行pattern{ commands }语句块。它逐行扫描文件，从第一行到最后一行重复这个过程，直到全部文件都被读取完毕。<br>第三步：当读至输入流末尾时，执行END { commands }语句块</p><p>实例：计算用户数量</p><pre><code>[root@jiangpeisi ~]# awk &apos;BEGIN {count=0;print &quot;[start] user count is &quot;,count} {;;count++} END{print &quot;[end] user count is &quot;,count}&apos; /etc/passwd[start] user count is  0[end] user count is  36</code></pre><p>实例：计算文件夹大小</p><pre><code>[root@jiangpeisi ~]# ls -lF /etc/ | awk &apos;BEGIN {sum=0}{sum+=$5}END{print &quot;The size of this dir is&quot;,sum/1024/1024,&quot;M&quot;}&apos;The size of this dir is 1.30004 M</code></pre>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;&lt;strong&gt;case 语句格式：&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;case value in （表达式）
-pattern1)
-    command
-    ;;
-pattern2）
-    command
-    ;;
-*）
-   command
-es
+        &lt;p&gt;&lt;strong&gt;简述&lt;/strong&gt;&lt;br&gt;awk本身就是一种编程语言，它支持条件判断、循环、数组遍历等功能。我们可以使用它来对文本进行分析和处理。与sed相比，sed是逐行处理文本内数据，awk也是，不过awk又在此基础上实现对每一行每一列的操作。专业的角度来讲awk是
       
     
     </summary>
@@ -505,27 +466,29 @@ command
   </entry>
   
   <entry>
-    <title>shell脚本学习之if条件判断</title>
-    <link href="http://yoursite.com/2019/03/19/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8Bif%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD/"/>
-    <id>http://yoursite.com/2019/03/19/shell脚本学习之if条件判断/</id>
-    <published>2019-03-19T14:45:56.000Z</published>
-    <updated>2019-03-19T15:57:03.332Z</updated>
+    <title>shell脚本学习之选择语句</title>
+    <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%80%89%E6%8B%A9%E8%AF%AD%E5%8F%A5/"/>
+    <id>http://yoursite.com/2019/03/20/shell脚本学习之选择语句/</id>
+    <published>2019-03-20T14:45:56.000Z</published>
+    <updated>2019-03-20T14:50:35.384Z</updated>
     
-    <content type="html"><![CDATA[<p><strong>语句格式：</strong></p><pre><code>if(条件表达式)  commandelif(条件表达式)  commandelse  commandfi</code></pre><p><strong>if常见的判断逻辑运算符</strong></p><pre><code>-f: 判断文件是否存在,例如if[-f filename ]。-d: 判断目录是否存在,例如if[ -d dir]。-eq :等于,应用于整型比较,即equal.-ne:不等于,应用于整型比较,即not equal。-lt: 小于,应用于整型比较,即letter。-gt:大于,应用于整型比较,即greater。-le: 小于或等于,应用于整型比较。-ge: 大于或等于,应用于整型比较。-a:双方都成立(and) ,用法为逻辑表达式-a逻辑表达式-o:单方成立(or),用法为逻辑表达式-o逻辑表达式。-z:空字符串。||:单方成立。&amp;&amp;:双方都成立表达式。</code></pre><p><strong>实例：</strong><br>使用if条件判断分数</p><pre><code>#!/bin/bashscores=$1if [ $scores -eq 100 ]; then   echo &quot; very good!&quot; ;elif [ $scores -gt 85 ];then   echo &quot;good!&quot; ;elif [ $scores -gt 60 ];then   echo &quot; pass! &quot; ;elif [ $scores -lt 60 ]; then   echo &quot;no pass!&quot;;fi[root@jiangpeisi shell]# sh scores.sh 95good!</code></pre><p>判断网络主机状态</p><pre><code>#!/bin/bashping -c2 -W1 $1 &amp;&gt;/dev/nullif [ $? -eq 0 ];then  echo &quot;$1 is UP&quot;else  echo &quot;$1[root@jiangpeisi shell]# sh state.sh 192.168.32.2192.168.32.2 is DOWN</code></pre>]]></content>
+    <content type="html"><![CDATA[<p><strong>case 语句格式：</strong></p><pre><code>case value in （表达式）pattern1)    command    ;;pattern2）    command    ;;*）   commandesac</code></pre><p><strong>实例：菜单选择</strong></p><pre><code>#!/bin/bashMenu=(beef,noodles,rice,juice)echo &quot;The menu is:&quot;for i in ${Menu[*]}do   echo  &quot;$i&quot;doneread -p &quot;Please choose one:&quot; foodcase $food in        beef)         echo &quot;You choose beef!&quot;        ;;        noodles)          echo &quot;You choose noodles!&quot;        ;;        rice)          echo &quot;You choose rice!&quot;        ;;        juice)          echo &quot;You choose juice!&quot;        ;;        *)          echo &quot;Don&apos;t have this one!&quot;        ;;esac[root@jiangpeisi shell]# sh menu.sh The menu is:beef,noodles,rice,juicePlease choose one:noodlesYou choose noodles!</code></pre><p><strong>select 语法格式：</strong></p><pre><code>select i in （表达式）do   commanddone</code></pre><p><strong>实例：测试服务状态</strong></p><pre><code>#!/bin/bashPS3=&quot;Please enter your select menu:&quot;select i in http php mysql quitdocase $i in        http)          echo &quot;Test http&apos;s state!&quot;        ;;        php)          echo &quot;Test php&apos;s state!&quot;        ;;        mysql)          echo &quot;Test mysql&apos;s state!&quot;        ;;        quit)          echo &quot;Exit!&quot;          exitesacdone[root@jiangpeisi shell]# sh lnmp.sh1) http2) php3) mysql4) quitPlease enter your select menu:1Test http&apos;s state!Please enter your select menu:2Test php&apos;s state!Please enter your select menu:3Test mysql&apos;s state!Please enter your select menu:4Exit!</code></pre>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;&lt;strong&gt;语句格式：&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;if(条件表达式)
-  command
-elif(条件表达式)
-  command
-else
-  command
-fi
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;if常见的判断逻辑运算符&lt;/s
+        &lt;p&gt;&lt;strong&gt;case 语句格式：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;case value in （表达式）
+pattern1)
+    command
+    ;;
+pattern2）
+    command
+    ;;
+*）
+   command
+es
       
     
     </summary>
@@ -561,6 +524,43 @@ do
 done
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;实例：计算1-100和&lt;/strong&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;cod
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>shell脚本学习之if条件判断</title>
+    <link href="http://yoursite.com/2019/03/19/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8Bif%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD/"/>
+    <id>http://yoursite.com/2019/03/19/shell脚本学习之if条件判断/</id>
+    <published>2019-03-19T14:45:56.000Z</published>
+    <updated>2019-03-19T15:57:03.332Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>语句格式：</strong></p><pre><code>if(条件表达式)  commandelif(条件表达式)  commandelse  commandfi</code></pre><p><strong>if常见的判断逻辑运算符</strong></p><pre><code>-f: 判断文件是否存在,例如if[-f filename ]。-d: 判断目录是否存在,例如if[ -d dir]。-eq :等于,应用于整型比较,即equal.-ne:不等于,应用于整型比较,即not equal。-lt: 小于,应用于整型比较,即letter。-gt:大于,应用于整型比较,即greater。-le: 小于或等于,应用于整型比较。-ge: 大于或等于,应用于整型比较。-a:双方都成立(and) ,用法为逻辑表达式-a逻辑表达式-o:单方成立(or),用法为逻辑表达式-o逻辑表达式。-z:空字符串。||:单方成立。&amp;&amp;:双方都成立表达式。</code></pre><p><strong>实例：</strong><br>使用if条件判断分数</p><pre><code>#!/bin/bashscores=$1if [ $scores -eq 100 ]; then   echo &quot; very good!&quot; ;elif [ $scores -gt 85 ];then   echo &quot;good!&quot; ;elif [ $scores -gt 60 ];then   echo &quot; pass! &quot; ;elif [ $scores -lt 60 ]; then   echo &quot;no pass!&quot;;fi[root@jiangpeisi shell]# sh scores.sh 95good!</code></pre><p>判断网络主机状态</p><pre><code>#!/bin/bashping -c2 -W1 $1 &amp;&gt;/dev/nullif [ $? -eq 0 ];then  echo &quot;$1 is UP&quot;else  echo &quot;$1[root@jiangpeisi shell]# sh state.sh 192.168.32.2192.168.32.2 is DOWN</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;语句格式：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;if(条件表达式)
+  command
+elif(条件表达式)
+  command
+else
+  command
+fi
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;if常见的判断逻辑运算符&lt;/s
       
     
     </summary>
