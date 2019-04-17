@@ -122,31 +122,6 @@
   </entry>
   
   <entry>
-    <title>MPLS</title>
-    <link href="http://yoursite.com/2019/04/10/MPLS/"/>
-    <id>http://yoursite.com/2019/04/10/MPLS/</id>
-    <published>2019-04-10T14:45:56.000Z</published>
-    <updated>2019-04-11T00:39:26.860Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><p>传统的IP路由基于报文的IP头部的目的IP地址进行寻址及转发操作，设备需要维护路由表用于指导数据转发，根据最长匹配原则进行匹配条目，速度慢，效率低。MPLS能够为IP报文添加标签信息，让路由器基于标签信息对报文进行转发，提高了数据转发的效率。后来随着硬件技术的突破，IP路由查询的执行效率已经大大提高，MPLS的速度提升优势已经不再明显。但是MPLS在其他方面有着较多的应用，例如MPLS VPN、流量工程等。</p><hr><h2 id="MPLS的典型应用"><a href="#MPLS的典型应用" class="headerlink" title="MPLS的典型应用"></a>MPLS的典型应用</h2><p>1.基于MPLS的VPN<br>2.基于MPLS的流量工程</p><h2 id="MPLS术语"><a href="#MPLS术语" class="headerlink" title="MPLS术语"></a>MPLS术语</h2><p>LSR（Labe Switch Router，标签转发路由器）：指的是激活了MPLS标签交换功能的路由器，这些路由器维护者用于知道标签报文转发的信息，并且依据这些信息对标签报文进行处理。</p><p>Ingress LSR（入站LSR）：主要用于对刚刚进入MPLS区域的报文进行处理，在报文的IP头部前插入标签头部生成标签报文。</p><p>Transit LSR（中转LSR）：主要对标签报文进行处理，对标签的置换操作。</p><p>Egress LSR（出站LSR）：主要用于对流出MPLS的报文进行处理，在标签报文离开前将标签头部移除，使标签报文变成正常的IP报文。</p><p>Label（标签）：一个正常IP数据包在进入MPLS区域时，会在二层头部和IP头部之间插入标签头部，标签指的是标签头部‘标签’字段的具体值。一个标签报文可能有多个标签头部，按一定的顺序排列，存储在标签栈中。</p><p>FEC（Forwarding Equivalence Class，等价转发类）：FEC是指具有相同特征的标签报文，这些报文在MPLS转发过程中采用相同的处理方式。FEC可以采用多种方式划分，例如目的地址、网络掩码、DSCP等特征。最为常见的是根据目的地址划分，到达同一目的地址的报文会被归为一类，并采用相同的方式来处理这些报文。</p><p>LSP（Label Switched Path，标签转发路径）：LSP是指报文在穿越MPLS区域内所经过的路径。一个数据报文在穿越MPLS区域之前，LSP就已经建立好，同一个FEC的报文采用相同的LSP穿越MPLS区域，并且LSP是单向的，所以如果想要双方互相通信，就需要在建立双向的LSP。</p><p>标.签分发协议：类似于路由协议。一个报文在穿越MPLS区域之前LSP必须要先建立。LSP的建立又分为两种方式：静态方式，动态方式。静态方式建立LSP需要在每一台LSP上为每一个FEC手工配置标签，然后手动指定LSP。动态方式就是采用标签分发协议来完成，自动为FEC分配标签并建立LSP。</p><h2 id="MPLS标签"><a href="#MPLS标签" class="headerlink" title="MPLS标签"></a>MPLS标签</h2><p> <strong>包格式</strong></p><p><img src="http://static.zybuluo.com/jiangpeisi/qlb93xefpgaj5u11e579hgzk/image_1d83shco61n9a1la81m1l1pf0121933.png" alt="image_1d83shco61n9a1la81m1l1pf0121933.png-62.5kB"></p><p><strong>四个字段</strong></p><p>Label：用于存储标签值<br>EXP：暂未表明用处<br>BoS：栈底位，为1表示本标签为栈底标签，后面就是IP头部，为0表示本标签并非栈底标签。<br>TTL：主要用于防环，防止标签被无限转发</p><h2 id="MPLS标签的基本操作"><a href="#MPLS标签的基本操作" class="headerlink" title="MPLS标签的基本操作"></a>MPLS标签的基本操作</h2><p>Push：二层头部和三层头部之间插入标签<br>Swap：在标签报文转发时，将标签头部换成下游LSR所分配标签，通常对栈顶的标签进行操作<br>Pop：当标签报文离开MPLS区域时将标签头部移除，在最后一跳节点，标签已经没有使用价值。这种情况下，可以利用倒数第二跳弹出特性PHP（Penultimate Hop Popping），在倒数第二跳节点处将标签弹出，减少最后一跳的负担。最后一跳节点直接进行IP转发或者下一层标签转发。</p><h2 id="MPLS转发过程"><a href="#MPLS转发过程" class="headerlink" title="MPLS转发过程"></a>MPLS转发过程</h2><p><strong>三张表</strong></p><p>FIB表<br><img src="http://static.zybuluo.com/jiangpeisi/wgwmgv68j6zt9uy0nys6retr/image_1d83sipnd1jr81rbkfql1dep1k8o3g.png" alt="image_1d83sipnd1jr81rbkfql1dep1k8o3g.png-22.6kB"><br>NHLFE表<br><img src="http://static.zybuluo.com/jiangpeisi/jn0tjnqkachvb6dlz02os12r/image_1d83sj0fdqdpt801ac33n81ij3t.png" alt="image_1d83sj0fdqdpt801ac33n81ij3t.png-45.6kB"><br>ILM表<br><img src="http://static.zybuluo.com/jiangpeisi/kyimxvcsrpbpyao0tavclnyh/image_1d83sjg4njqvvb100lc55a134a.png" alt="image_1d83sjg4njqvvb100lc55a134a.png-47.2kB"></p><p><strong>具体过程</strong></p><p>当IP报文进入MPLS域时，首先查看FIB表，检查目的IP地址对应的Tunnel ID值是否为0x0。<br>如果Tunnel ID值为0x0，则进入正常的IP转发流程。<br>如果Tunnel ID值不为0x0，则进入MPLS转发流程。</p><p>在MPLS转发过程中，FIB、ILM和NHLFE表项是通过Tunnel ID关联的。</p><p>IngressLSR的处理：通过查询FIB表和NHLFE表指导报文的转发。<br>查看FIB表，根据目的IP地址找到对应的Tunnel ID。<br>根据FIB表的Tunnel ID找到对应的NHLFE表项，将FIB表项和NHLFE表项关联起来。<br>查看NHLFE表项，可以得到出接口、下一跳、出标签和标签操作类型。<br>在IP报文中压入出标签，然后将封装好的MPLS报文发送给下一跳。</p><p>Transit LSR的处理：通过查询ILM表和NHLFE表指导MPLS报文的转发。<br>根据MPLS的标签值查看对应的ILM表，可以得到Tunnel ID。<br>根据ILM表的Tunnel ID找到对应的NHLFE表项。<br>查看NHLFE表项，可以得到出接口、下一跳、出标签和标签操作类型。</p><p>Egress LSR的处理：通过查询ILM表指导MPLS报文的转发或查询路由表指导IP报文的转发。<br>如果Egress收到IP报文，则查看路由表，进行IP转发。<br>如果Egress收到MPLS报文，则查看ILM表获得标签操作类型，一般为Pop。<br>如果操作为Pop需要结合BoS位指导报文转发，如果标签中的栈底标识BoS=1，表明该标签是栈底标签，直接进行IP转发。如果标签中的栈底标识BoS=0，表明还有下一层标签，继续进行下一层标签转发。</p><h2 id="LDP协议"><a href="#LDP协议" class="headerlink" title="LDP协议"></a>LDP协议</h2><p> <strong>工作过程</strong></p><p>开启LDP的路由器会自动为路由表中的FEC分配标签，并将标签映射发送给下游路由器，下游路由器接受收到标签映射后将映射存储起来，然后自己为该FEC分配标签，并传送给下游路由器，以此重复，完成LSP的建立。</p><p><strong>LDP ID</strong></p><p>每一台运行MPLS的LSR都会有一个域内唯一的LSR ID长度为32 位。需要手工指定，否则MPLS无法激活。<br>每一台运行了LDP的LSR必须拥有LDP ID长度位48位，有32位的LSR ID以及16位的 Label Space ID（标签空间标识符）构成。LDP ID= LSR ID:Label Space ID    1.1.1.1：0</p><p><strong>LDP对等体会话建立过程</strong></p><p>1.LDP设备发现<br>主要通过Hello报文，接口激活LDP后便开始发送Hello报文。报文中包含了LDP ID以及传输地址，采用UDP封装，以组播方式发送，目的IP为224.0.0.2，端口号为646 。当两个通过Hello包发现到彼此就开始建立会话。</p><p>2.LDP会话建立<br>上一步双方发现彼此后都知道了对方的传输地址，接下来开始建立会话。<br>（1）：一般传输地址大的开始主动发起TCP会话建立请求，完成三次握手过程。<br>（2）：传输地址大的一方会主动发送一个Initialization（初始化）包，包含一些协议参数，另一方接收到包后检查参数，发送自己的Initialization包和Keepalive包，主动方收到后便知道另一方接收了自己的参数，开始检查另一方的参数，如果认可就会送一个Keepalive包。<br>（3）：双发将LDP会话置为Operational状态，LDP对等体会话建立成功</p><p>3.通过标签映射<br>LDP对等体之间相互通过标签映射</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;简述&quot;&gt;&lt;a href=&quot;#简述&quot; class=&quot;headerlink&quot; title=&quot;简述&quot;&gt;&lt;/a&gt;简述&lt;/h2&gt;&lt;p&gt;传统的IP路由基于报文的IP头部的目的IP地址进行寻址及转发操作，设备需要维护路由表用于指导数据转发，根据最长匹配原则进行匹配条目，速度慢，
-      
-    
-    </summary>
-    
-      <category term="网络" scheme="http://yoursite.com/categories/%E7%BD%91%E7%BB%9C/"/>
-    
-    
-      <category term="网络" scheme="http://yoursite.com/tags/%E7%BD%91%E7%BB%9C/"/>
-    
-  </entry>
-  
-  <entry>
     <title>MPLS VPN</title>
     <link href="http://yoursite.com/2019/04/10/MPLS%20VPN/"/>
     <id>http://yoursite.com/2019/04/10/MPLS VPN/</id>
@@ -172,29 +147,27 @@
   </entry>
   
   <entry>
-    <title>安装新版python导致yum不可用</title>
-    <link href="http://yoursite.com/2019/03/28/%E5%AE%89%E8%A3%85%E6%96%B0%E7%89%88python%E5%AF%BC%E8%87%B4yum%E4%B8%8D%E5%8F%AF%E7%94%A8/"/>
-    <id>http://yoursite.com/2019/03/28/安装新版python导致yum不可用/</id>
-    <published>2019-03-28T14:45:56.000Z</published>
-    <updated>2019-03-27T16:09:46.093Z</updated>
+    <title>MPLS</title>
+    <link href="http://yoursite.com/2019/04/10/MPLS/"/>
+    <id>http://yoursite.com/2019/04/10/MPLS/</id>
+    <published>2019-04-10T14:45:56.000Z</published>
+    <updated>2019-04-11T00:39:26.860Z</updated>
     
-    <content type="html"><![CDATA[<p><strong>问题：</strong><br>安装完新版本python导致yum命令不可用.<br><strong>错误代码：</strong></p><pre><code>File &quot;/usr/bin/yum&quot;, line 30except KeyboardInterrupt, e:^SyntaxError: invalid syntax</code></pre><p><strong>问题原因：</strong><br>yum包管理是使用python2.x写的，将python2.x升级到python3.x以后，由于python版本语法兼容性导致问题出现 .<br><strong>解决办法：</strong><br>修改yum配置文件，将python指向老版本.</p><pre><code>vim /usr/bin/yum#!/usr/bin/python2.7vim /usr/libexec/urlgrabber-ext-down#!/usr/bin/python2.7</code></pre>]]></content>
+    <content type="html"><![CDATA[<h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><p>传统的IP路由基于报文的IP头部的目的IP地址进行寻址及转发操作，设备需要维护路由表用于指导数据转发，根据最长匹配原则进行匹配条目，速度慢，效率低。MPLS能够为IP报文添加标签信息，让路由器基于标签信息对报文进行转发，提高了数据转发的效率。后来随着硬件技术的突破，IP路由查询的执行效率已经大大提高，MPLS的速度提升优势已经不再明显。但是MPLS在其他方面有着较多的应用，例如MPLS VPN、流量工程等。</p><hr><h2 id="MPLS的典型应用"><a href="#MPLS的典型应用" class="headerlink" title="MPLS的典型应用"></a>MPLS的典型应用</h2><p>1.基于MPLS的VPN<br>2.基于MPLS的流量工程</p><h2 id="MPLS术语"><a href="#MPLS术语" class="headerlink" title="MPLS术语"></a>MPLS术语</h2><p>LSR（Labe Switch Router，标签转发路由器）：指的是激活了MPLS标签交换功能的路由器，这些路由器维护者用于知道标签报文转发的信息，并且依据这些信息对标签报文进行处理。</p><p>Ingress LSR（入站LSR）：主要用于对刚刚进入MPLS区域的报文进行处理，在报文的IP头部前插入标签头部生成标签报文。</p><p>Transit LSR（中转LSR）：主要对标签报文进行处理，对标签的置换操作。</p><p>Egress LSR（出站LSR）：主要用于对流出MPLS的报文进行处理，在标签报文离开前将标签头部移除，使标签报文变成正常的IP报文。</p><p>Label（标签）：一个正常IP数据包在进入MPLS区域时，会在二层头部和IP头部之间插入标签头部，标签指的是标签头部‘标签’字段的具体值。一个标签报文可能有多个标签头部，按一定的顺序排列，存储在标签栈中。</p><p>FEC（Forwarding Equivalence Class，等价转发类）：FEC是指具有相同特征的标签报文，这些报文在MPLS转发过程中采用相同的处理方式。FEC可以采用多种方式划分，例如目的地址、网络掩码、DSCP等特征。最为常见的是根据目的地址划分，到达同一目的地址的报文会被归为一类，并采用相同的方式来处理这些报文。</p><p>LSP（Label Switched Path，标签转发路径）：LSP是指报文在穿越MPLS区域内所经过的路径。一个数据报文在穿越MPLS区域之前，LSP就已经建立好，同一个FEC的报文采用相同的LSP穿越MPLS区域，并且LSP是单向的，所以如果想要双方互相通信，就需要在建立双向的LSP。</p><p>标.签分发协议：类似于路由协议。一个报文在穿越MPLS区域之前LSP必须要先建立。LSP的建立又分为两种方式：静态方式，动态方式。静态方式建立LSP需要在每一台LSP上为每一个FEC手工配置标签，然后手动指定LSP。动态方式就是采用标签分发协议来完成，自动为FEC分配标签并建立LSP。</p><h2 id="MPLS标签"><a href="#MPLS标签" class="headerlink" title="MPLS标签"></a>MPLS标签</h2><p> <strong>包格式</strong></p><p><img src="http://static.zybuluo.com/jiangpeisi/qlb93xefpgaj5u11e579hgzk/image_1d83shco61n9a1la81m1l1pf0121933.png" alt="image_1d83shco61n9a1la81m1l1pf0121933.png-62.5kB"></p><p><strong>四个字段</strong></p><p>Label：用于存储标签值<br>EXP：暂未表明用处<br>BoS：栈底位，为1表示本标签为栈底标签，后面就是IP头部，为0表示本标签并非栈底标签。<br>TTL：主要用于防环，防止标签被无限转发</p><h2 id="MPLS标签的基本操作"><a href="#MPLS标签的基本操作" class="headerlink" title="MPLS标签的基本操作"></a>MPLS标签的基本操作</h2><p>Push：二层头部和三层头部之间插入标签<br>Swap：在标签报文转发时，将标签头部换成下游LSR所分配标签，通常对栈顶的标签进行操作<br>Pop：当标签报文离开MPLS区域时将标签头部移除，在最后一跳节点，标签已经没有使用价值。这种情况下，可以利用倒数第二跳弹出特性PHP（Penultimate Hop Popping），在倒数第二跳节点处将标签弹出，减少最后一跳的负担。最后一跳节点直接进行IP转发或者下一层标签转发。</p><h2 id="MPLS转发过程"><a href="#MPLS转发过程" class="headerlink" title="MPLS转发过程"></a>MPLS转发过程</h2><p><strong>三张表</strong></p><p>FIB表<br><img src="http://static.zybuluo.com/jiangpeisi/wgwmgv68j6zt9uy0nys6retr/image_1d83sipnd1jr81rbkfql1dep1k8o3g.png" alt="image_1d83sipnd1jr81rbkfql1dep1k8o3g.png-22.6kB"><br>NHLFE表<br><img src="http://static.zybuluo.com/jiangpeisi/jn0tjnqkachvb6dlz02os12r/image_1d83sj0fdqdpt801ac33n81ij3t.png" alt="image_1d83sj0fdqdpt801ac33n81ij3t.png-45.6kB"><br>ILM表<br><img src="http://static.zybuluo.com/jiangpeisi/kyimxvcsrpbpyao0tavclnyh/image_1d83sjg4njqvvb100lc55a134a.png" alt="image_1d83sjg4njqvvb100lc55a134a.png-47.2kB"></p><p><strong>具体过程</strong></p><p>当IP报文进入MPLS域时，首先查看FIB表，检查目的IP地址对应的Tunnel ID值是否为0x0。<br>如果Tunnel ID值为0x0，则进入正常的IP转发流程。<br>如果Tunnel ID值不为0x0，则进入MPLS转发流程。</p><p>在MPLS转发过程中，FIB、ILM和NHLFE表项是通过Tunnel ID关联的。</p><p>IngressLSR的处理：通过查询FIB表和NHLFE表指导报文的转发。<br>查看FIB表，根据目的IP地址找到对应的Tunnel ID。<br>根据FIB表的Tunnel ID找到对应的NHLFE表项，将FIB表项和NHLFE表项关联起来。<br>查看NHLFE表项，可以得到出接口、下一跳、出标签和标签操作类型。<br>在IP报文中压入出标签，然后将封装好的MPLS报文发送给下一跳。</p><p>Transit LSR的处理：通过查询ILM表和NHLFE表指导MPLS报文的转发。<br>根据MPLS的标签值查看对应的ILM表，可以得到Tunnel ID。<br>根据ILM表的Tunnel ID找到对应的NHLFE表项。<br>查看NHLFE表项，可以得到出接口、下一跳、出标签和标签操作类型。</p><p>Egress LSR的处理：通过查询ILM表指导MPLS报文的转发或查询路由表指导IP报文的转发。<br>如果Egress收到IP报文，则查看路由表，进行IP转发。<br>如果Egress收到MPLS报文，则查看ILM表获得标签操作类型，一般为Pop。<br>如果操作为Pop需要结合BoS位指导报文转发，如果标签中的栈底标识BoS=1，表明该标签是栈底标签，直接进行IP转发。如果标签中的栈底标识BoS=0，表明还有下一层标签，继续进行下一层标签转发。</p><h2 id="LDP协议"><a href="#LDP协议" class="headerlink" title="LDP协议"></a>LDP协议</h2><p> <strong>工作过程</strong></p><p>开启LDP的路由器会自动为路由表中的FEC分配标签，并将标签映射发送给下游路由器，下游路由器接受收到标签映射后将映射存储起来，然后自己为该FEC分配标签，并传送给下游路由器，以此重复，完成LSP的建立。</p><p><strong>LDP ID</strong></p><p>每一台运行MPLS的LSR都会有一个域内唯一的LSR ID长度为32 位。需要手工指定，否则MPLS无法激活。<br>每一台运行了LDP的LSR必须拥有LDP ID长度位48位，有32位的LSR ID以及16位的 Label Space ID（标签空间标识符）构成。LDP ID= LSR ID:Label Space ID    1.1.1.1：0</p><p><strong>LDP对等体会话建立过程</strong></p><p>1.LDP设备发现<br>主要通过Hello报文，接口激活LDP后便开始发送Hello报文。报文中包含了LDP ID以及传输地址，采用UDP封装，以组播方式发送，目的IP为224.0.0.2，端口号为646 。当两个通过Hello包发现到彼此就开始建立会话。</p><p>2.LDP会话建立<br>上一步双方发现彼此后都知道了对方的传输地址，接下来开始建立会话。<br>（1）：一般传输地址大的开始主动发起TCP会话建立请求，完成三次握手过程。<br>（2）：传输地址大的一方会主动发送一个Initialization（初始化）包，包含一些协议参数，另一方接收到包后检查参数，发送自己的Initialization包和Keepalive包，主动方收到后便知道另一方接收了自己的参数，开始检查另一方的参数，如果认可就会送一个Keepalive包。<br>（3）：双发将LDP会话置为Operational状态，LDP对等体会话建立成功</p><p>3.通过标签映射<br>LDP对等体之间相互通过标签映射</p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;&lt;strong&gt;问题：&lt;/strong&gt;&lt;br&gt;安装完新版本python导致yum命令不可用.&lt;br&gt;&lt;strong&gt;错误代码：&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;File &amp;quot;/usr/bin/yum&amp;quot;, line 30
-except Ke
+        &lt;h2 id=&quot;简述&quot;&gt;&lt;a href=&quot;#简述&quot; class=&quot;headerlink&quot; title=&quot;简述&quot;&gt;&lt;/a&gt;简述&lt;/h2&gt;&lt;p&gt;传统的IP路由基于报文的IP头部的目的IP地址进行寻址及转发操作，设备需要维护路由表用于指导数据转发，根据最长匹配原则进行匹配条目，速度慢，
       
     
     </summary>
     
-      <category term="python" scheme="http://yoursite.com/categories/python/"/>
+      <category term="网络" scheme="http://yoursite.com/categories/%E7%BD%91%E7%BB%9C/"/>
     
     
-      <category term="python" scheme="http://yoursite.com/tags/python/"/>
+      <category term="网络" scheme="http://yoursite.com/tags/%E7%BD%91%E7%BB%9C/"/>
     
   </entry>
   
@@ -214,6 +187,33 @@ except Ke
         &lt;p&gt;&lt;strong&gt;简介&lt;/strong&gt;&lt;br&gt;Centos系统本身自带python2.7版本，使用python –version可以查看当前系统python版本，由于系统内某些命令会用到python2，所以python2不可以卸载.&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;&lt;strong&gt;
+      
+    
+    </summary>
+    
+      <category term="python" scheme="http://yoursite.com/categories/python/"/>
+    
+    
+      <category term="python" scheme="http://yoursite.com/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>安装新版python导致yum不可用</title>
+    <link href="http://yoursite.com/2019/03/28/%E5%AE%89%E8%A3%85%E6%96%B0%E7%89%88python%E5%AF%BC%E8%87%B4yum%E4%B8%8D%E5%8F%AF%E7%94%A8/"/>
+    <id>http://yoursite.com/2019/03/28/安装新版python导致yum不可用/</id>
+    <published>2019-03-28T14:45:56.000Z</published>
+    <updated>2019-03-27T16:09:46.093Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>问题：</strong><br>安装完新版本python导致yum命令不可用.<br><strong>错误代码：</strong></p><pre><code>File &quot;/usr/bin/yum&quot;, line 30except KeyboardInterrupt, e:^SyntaxError: invalid syntax</code></pre><p><strong>问题原因：</strong><br>yum包管理是使用python2.x写的，将python2.x升级到python3.x以后，由于python版本语法兼容性导致问题出现 .<br><strong>解决办法：</strong><br>修改yum配置文件，将python指向老版本.</p><pre><code>vim /usr/bin/yum#!/usr/bin/python2.7vim /usr/libexec/urlgrabber-ext-down#!/usr/bin/python2.7</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;问题：&lt;/strong&gt;&lt;br&gt;安装完新版本python导致yum命令不可用.&lt;br&gt;&lt;strong&gt;错误代码：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;File &amp;quot;/usr/bin/yum&amp;quot;, line 30
+except Ke
       
     
     </summary>
@@ -283,35 +283,6 @@ except Ke
   </entry>
   
   <entry>
-    <title>shell脚本学习之正则表达式</title>
-    <link href="http://yoursite.com/2019/03/22/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
-    <id>http://yoursite.com/2019/03/22/shell脚本学习之正则表达式/</id>
-    <published>2019-03-22T14:45:56.000Z</published>
-    <updated>2019-03-22T03:25:09.084Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>简述</strong><br>正则表达式是对字符串（包括普通字符（例如，a 到 z 之间的字母）和特殊字符（称为“元字符”））操作的一种逻辑公式，就是用事先定义好的一些特定字符、及这些特定字符的组合，组成一个“规则字符串”，这个“规则字符串”用来表达对字符串的一种过滤逻辑。正则表达式是一种文本模式，模式描述在搜索文本时要匹配的一个或多个字符串。</p><p><strong>正则表达式字符</strong></p><pre><code>\：将下一个字符标记符、或一个向后引用、或一个八进制转义符。例如，“\\n”匹配\n。“\n”匹配换行符。序列“\\”匹配“\”而“\(”则匹配“(”。即相当于多种编程语言中都有的“转义字符”的概念。^：匹配输入字行首。如果设置了RegExp对象的Multiline属性，^也匹配“\n”或“\r”之后的位置。$：匹配输入行尾。如果设置了RegExp对象的Multiline属性，$也匹配“\n”或“\r”之前的位置。*：匹配前面的子表达式任意次。例如，zo*能匹配“z”，也能匹配“zo”以及“zoo”。*等价于{0,}。+：匹配前面的子表达式一次或多次(大于等于1次）。例如，“zo+”能匹配“zo”以及“zoo”，但不能匹配“z”。+等价于{1,}。?：匹配前面的子表达式零次或一次。例如，“do(es)?”可以匹配“do”或“does”。?等价于{0,1}。{n}：n是一个非负整数。匹配确定的n次。例如，“o{2}”不能匹配“Bob”中的“o”，但是能匹配“food”中的两个o。{n,}：n是一个非负整数。至少匹配n次。例如，“o{2,}”不能匹配“Bob”中的“o”，但能匹配“foooood”中的所有o。“o{1,}”等价于“o+”。“o{0,}”则等价于“o*”。{n,m}：m和n均为非负整数，其中n&lt;=m。最少匹配n次且最多匹配m次。例如，“o{1,3}”将匹配“fooooood”中的前三个o为一组，后三个o为一组。“o{0,1}”等价于“o?”。请注意在逗号和两个数之间不能有空格。?：当该字符紧跟在任何一个其他限制符（*,+,?，{n}，{n,}，{n,m}）后面时，匹配模式是非贪婪的。非贪婪模式尽可能少地匹配所搜索的字符串，而默认的贪婪模式则尽可能多地匹配所搜索的字符串。例如，对于字符串“oooo”，“o+”将尽可能多地匹配“o”，得到结果[“oooo”]，而“o+?”将尽可能少地匹配“o”，得到结果 [&apos;o&apos;, &apos;o&apos;, &apos;o&apos;, &apos;o&apos;].：匹配除“\n”和&quot;\r&quot;之外的任何单个字符。要匹配包括“\n”和&quot;\r&quot;在内的任何字符，请使用像“[\s\S]”的模式。(pattern)：匹配pattern并获取这一匹配。所获取的匹配可以从产生的Matches集合得到，在VBScript中使用SubMatches集合，在JScript中则使用$0…$9属性。要匹配圆括号字符，请使用“\(”或“\)”。(?:pattern)：非获取匹配，匹配pattern但不获取匹配结果，不进行存储供以后使用。这在使用或字符“(|)”来组合一个模式的各个部分时很有用。例如“industr(?:y|ies)”就是一个比“industry|industries”更简略的表达式。(?=pattern)：非获取匹配，正向肯定预查，在任何匹配pattern的字符串开始处匹配查找字符串，该匹配不需要获取供以后使用。例如，“Windows(?=95|98|NT|2000)”能匹配“Windows2000”中的“Windows”，但不能匹配“Windows3.1”中的“Windows”。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始。(?!pattern)：非获取匹配，正向否定预查，在任何不匹配pattern的字符串开始处匹配查找字符串，该匹配不需要获取供以后使用。例如“Windows(?!95|98|NT|2000)”能匹配“Windows3.1”中的“Windows”，但不能匹配“Windows2000”中的“Windows”。(?&lt;=pattern)：非获取匹配，反向肯定预查，与正向肯定预查类似，只是方向相反。例如，“(?&lt;=95|98|NT|2000)Windows”能匹配“2000Windows”中的“Windows”，但不能匹配“3.1Windows”中的“Windows”。(?&lt;!patte_n)：非获取匹配，反向否定预查，与正向否定预查类似，只是方向相反。例如“(?&lt;!95|98|NT|2000)Windows”能匹配“3.1Windows”中的“Windows”，但不能匹配“2000Windows”中的“Windows”。x|y：匹配x或y。例如，“z|food”能匹配“z”或“food”(此处请谨慎)。“[z|f]ood”则匹配“zood”或“food”。[xyz]：字符集合。匹配所包含的任意一个字符。例如，“[abc]”可以匹配“plain”中的“a”。[^xyz]：负值字符集合。匹配未包含的任意字符。例如，“[^abc]”可以匹配“plain”中的“plin”任一字符。[a-z]：字符范围。匹配指定范围内的任意字符。例如，“[a-z]”可以匹配“a”到“z”范围内的任意小写字母字符。注意:只有连字符在字符组内部时,并且出现在两个字符之间时,才能表示字符的范围; 如果出字符组的开头,则只能表示连字符本身[^a-z]：负值字符范围。匹配任何不在指定范围内的任意字符。例如，“[^a-z]”可以匹配任何不在“a”到“z”范围内的任意字符。\b：匹配一个单词的边界，也就是指单词和空格间的位置（即正则表达式的“匹配”有两种概念，一种是匹配字符，一种是匹配位置，这里的\b就是匹配位置的）。例如，“er\b”可以匹配“never”中的“er”，但不能匹配“verb”中的“er”；“\b1_”可以匹配“1_23”中的“1_”，但不能匹配“21_3”中的“1_”。\B：匹配非单词边界。“er\B”能匹配“verb”中的“er”，但不能匹配“never”中的“er”。\cx：匹配由x指明的控制字符。例如，\cM匹配一个Control-M或回车符。x的值必须为A-Z或a-z之一。否则，将c视为一个原义的“c”字符。\d：匹配一个数字字符。等价于[0-9]。grep 要加上-P，perl正则支持\D：匹配一个非数字字符。等价于[^0-9]。grep要加上-P，perl正则支持\f：匹配一个换页符。等价于\x0c和\cL。\n：匹配一个换行符。等价于\x0a和\cJ。\r：匹配一个回车符。等价于\x0d和\cM。\s：匹配任何不可见字符，包括空格、制表符、换页符等等。等价于[ \f\n\r\t\v]。\S：匹配任何可见字符。等价于[^ \f\n\r\t\v]。\t：匹配一个制表符。等价于\x09和\cI。\v：匹配一个垂直制表符。等价于\x0b和\cK。\w：匹配包括下划线的任何单词字符。类似但不等价于“[A-Za-z0-9_]”，这里的&quot;单词&quot;字符使用Unicode字符集。\W：匹配任何非单词字符。等价于“[^A-Za-z0-9_]”。</code></pre><p><strong>实例</strong><br>匹配手机号码：<code>^1[3|4|5|7|8][0-9]{9}$</code><br>匹配IP地址：<code>[0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3}</code>   不准确<br>匹配电子邮箱：<code>/^[a-z\d]+(\.[a-z\d]+)*@([\da-z](-[\da-z])?)+(\.{1,2}[a-z]+)+$/</code><br>匹配URL：<code>/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/</code><br>匹配6-18位的密码：<code>/^[a-z0-9_-]{6,18}$/</code></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;strong&gt;简述&lt;/strong&gt;&lt;br&gt;正则表达式是对字符串（包括普通字符（例如，a 到 z 之间的字母）和特殊字符（称为“元字符”））操作的一种逻辑公式，就是用事先定义好的一些特定字符、及这些特定字符的组合，组成一个“规则字符串”，这个“规则字符串”用来表达对字符串
-      
-    
-    </summary>
-    
-      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
-    
-      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
-    
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
-    
-  </entry>
-  
-  <entry>
     <title>shell脚本学习之四剑客grep</title>
     <link href="http://yoursite.com/2019/03/22/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9B%E5%89%91%E5%AE%A2grep/"/>
     <id>http://yoursite.com/2019/03/22/shell脚本学习之四剑客grep/</id>
@@ -344,19 +315,19 @@ except Ke
   </entry>
   
   <entry>
-    <title>shell脚本学习之四剑客sed</title>
-    <link href="http://yoursite.com/2019/03/21/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9B%E5%89%91%E5%AE%A2sed/"/>
-    <id>http://yoursite.com/2019/03/21/shell脚本学习之四剑客sed/</id>
-    <published>2019-03-21T14:45:56.000Z</published>
-    <updated>2019-03-21T06:25:04.419Z</updated>
+    <title>shell脚本学习之正则表达式</title>
+    <link href="http://yoursite.com/2019/03/22/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
+    <id>http://yoursite.com/2019/03/22/shell脚本学习之正则表达式/</id>
+    <published>2019-03-22T14:45:56.000Z</published>
+    <updated>2019-03-22T03:25:09.084Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="sed简介"><a href="#sed简介" class="headerlink" title="sed简介"></a>sed简介</h1><p>sed是一个非交互式文本编辑器，它可以对文本文件和标准输入进行编辑，标志输入可以来自键盘输入、文本重定向、字符串、变量、甚至来自于管道符。逐行处理内容，一次只处理一行内容。</p><h1 id="sed工作流程"><a href="#sed工作流程" class="headerlink" title="sed工作流程"></a>sed工作流程</h1><p>1、读新的一行到缓存空间（pattern space）<br>2、从指定的操作指令中依次取出指令执行，判断是否匹配缓存空间内容<br>3、如果不匹配则忽略后续的编辑命令，回到第2步继续取出下一条指令<br>4、如果匹配，则针对缓存的行执行后续的编辑命令；完成后，回到第2步继续取出下一条指令<br>5、当所有指令都应用之后，输出缓存行的内容；回到第1步继续读入下一行内容<br>6、当所有行都处理完之后，结束；<br>sed操作的所有数据都是pattern space缓存空间内的数据，原文件并没有发生该表。如果想保留sed操作后的数据，可以使用重定向符输出到新的文件中。或者使用- i参数更改原文件。</p><h1 id="命令详解"><a href="#命令详解" class="headerlink" title="命令详解"></a>命令详解</h1><h2 id="命令格式："><a href="#命令格式：" class="headerlink" title="命令格式："></a>命令格式：</h2><pre><code>sed  [options]  [commands]  filename;</code></pre><h2 id="常用参数"><a href="#常用参数" class="headerlink" title="常用参数"></a>常用参数</h2><p>x：指定行号<br>x,y：指定从x行到y行<br>/pattern/：指定包含模式的行<br>/pattern/,n：指定包含模式的行到第n行<br>p：打印匹配行<br>n：读取下一个输入行，用下一个命令处理新的行<br>a：在匹配行后面新的一行追加内容<br>i：在匹配行前面新的一行插入内容<br>d：删除匹配的行<br>c：用指定内容替代匹配的内容，一般操作多行<br>s：用指定内容替代匹配的内容，一般替代具体单词</p><h2 id="常用参数实例"><a href="#常用参数实例" class="headerlink" title="常用参数实例"></a>常用参数实例</h2><p><strong>原文本</strong></p><pre><code>[root@jiangpeisi shell]# cat a.txt mysqlappachenginxredismemachedphppython</code></pre><p><strong>1.打印指定行内容</strong></p><pre><code>[root@jiangpeisi shell]# sed -n &apos;1,3p&apos; a.txt mysqlappachenginx</code></pre><p><strong>2.删除指定行</strong></p><pre><code>[root@jiangpeisi shell]# sed &apos;/php/,$d&apos; a.txt mysqlappachenginxredismemached</code></pre><p><strong>3.在指定行前后添加内容</strong></p><pre><code>[root@jiangpeisi shell]# sed &apos;$a java&apos; a.txt mysqlappachenginxredismemachedphppythonJava[root@jiangpeisi shell]# sed &apos;$i java&apos; a.txt mysqlappachenginxredismemachedphpjavaPython</code></pre><p><strong>4.替换指定内容</strong></p><pre><code>[root@jiangpeisi shell]# sed &apos;2,3c java&apos; a.txt mysqljavaredismemachedphppython</code></pre><p>[root@jiangpeisi shell]# sed ‘s/php/java/‘ a.txt </p><pre><code>mysqlappachenginxredismemachedjavapython</code></pre><p><strong>5.多个命令组合 使用；或者-e参数</strong></p><pre><code>[root@jiangpeisi shell]# sed -e &apos;$a java&apos; -e &apos;s/php/java/&apos; a.txt mysqlappachenginxredismemachedjavapythonjava[root@jiangpeisi shell]# sed &apos;/mysql/d ; s/php/java/&apos;  a.txt appachenginxredismemachedjavapython</code></pre><h2 id="进阶参数"><a href="#进阶参数" class="headerlink" title="进阶参数"></a>进阶参数</h2><p>N：将当前读入行的下一行读取到当前的模式空间<br><img src="http://static.zybuluo.com/jiangpeisi/kwppvxf1du6mj1c0w55iuulz/image_1d6fdc4i41r4rujbos01old5h23j.png" alt="image_1d6fdc4i41r4rujbos01old5h23j.png-2.5kB"><br>h：将模式缓存区的文本复制到保持缓冲区<br><img src="http://static.zybuluo.com/jiangpeisi/c0yf7m2q8chbvbixsh5qxii4/image_1d6fdcepm13br129vmfuh7615sm40.png" alt="image_1d6fdcepm13br129vmfuh7615sm40.png-3.4kB"><br>H：将模式缓冲区的文本追加到保持缓冲区<br><img src="http://static.zybuluo.com/jiangpeisi/hrya3jucdxeg5ayw8luxhiri/image_1d6fdcn2u1iiv3gllj7mats94d.png" alt="image_1d6fdcn2u1iiv3gllj7mats94d.png-3.4kB"><br>x：互换模式缓冲区和保持缓冲区的内容<br><img src="http://static.zybuluo.com/jiangpeisi/qu8oykohe71m6an3sipqvdms/image_1d6fdfb8cbj61u0a18rs1cfi5b470.png" alt="image_1d6fdfb8cbj61u0a18rs1cfi5b470.png-2.8kB"><br>g：将保持缓冲区的内容复制到模式缓冲区<br><img src="http://static.zybuluo.com/jiangpeisi/hlk49s1ai3igt6tviirme4xi/image_1d6fdfjoi1u9qgts1hqp4701doo7d.png" alt="image_1d6fdfjoi1u9qgts1hqp4701doo7d.png-3.3kB"><br>G：将保持缓冲区的内容追加到模式缓冲区<br><img src="http://static.zybuluo.com/jiangpeisi/479c4zr05uucdwqfijkfm2uj/image_1d6fdfom84pco1qehi1hvk1ua77q.png" alt="image_1d6fdfom84pco1qehi1hvk1ua77q.png-3.5kB"><br>两个缓冲空间pattern space与hold space。pattern space是一个临时缓冲区，用于保存当前读入的行信息，每处理完一行就会清除缓存内的信息，读取下一行。hold space 同样也是一个临时缓冲去，在处理行信息时，可以与pattern space之间进行互相拷贝。</p><h2 id="进阶参数实例"><a href="#进阶参数实例" class="headerlink" title="进阶参数实例"></a>进阶参数实例</h2><p><strong>1.在每一行后添加一个空行</strong></p><pre><code>[root@jiangpeisi shell]# sed &apos;/^ $/p;G&apos; a.txt mysqlappachenginxredismemachedphppython</code></pre><p><strong>2.将指定行的后一行与指定行合并为一行</strong></p><pre><code>[root@jiangpeisi shell]# sed  &apos;3N;s/\n/ /&apos; a.txt mysqlappachenginx redismemachedphppython</code></pre>]]></content>
+    <content type="html"><![CDATA[<p><strong>简述</strong><br>正则表达式是对字符串（包括普通字符（例如，a 到 z 之间的字母）和特殊字符（称为“元字符”））操作的一种逻辑公式，就是用事先定义好的一些特定字符、及这些特定字符的组合，组成一个“规则字符串”，这个“规则字符串”用来表达对字符串的一种过滤逻辑。正则表达式是一种文本模式，模式描述在搜索文本时要匹配的一个或多个字符串。</p><p><strong>正则表达式字符</strong></p><pre><code>\：将下一个字符标记符、或一个向后引用、或一个八进制转义符。例如，“\\n”匹配\n。“\n”匹配换行符。序列“\\”匹配“\”而“\(”则匹配“(”。即相当于多种编程语言中都有的“转义字符”的概念。^：匹配输入字行首。如果设置了RegExp对象的Multiline属性，^也匹配“\n”或“\r”之后的位置。$：匹配输入行尾。如果设置了RegExp对象的Multiline属性，$也匹配“\n”或“\r”之前的位置。*：匹配前面的子表达式任意次。例如，zo*能匹配“z”，也能匹配“zo”以及“zoo”。*等价于{0,}。+：匹配前面的子表达式一次或多次(大于等于1次）。例如，“zo+”能匹配“zo”以及“zoo”，但不能匹配“z”。+等价于{1,}。?：匹配前面的子表达式零次或一次。例如，“do(es)?”可以匹配“do”或“does”。?等价于{0,1}。{n}：n是一个非负整数。匹配确定的n次。例如，“o{2}”不能匹配“Bob”中的“o”，但是能匹配“food”中的两个o。{n,}：n是一个非负整数。至少匹配n次。例如，“o{2,}”不能匹配“Bob”中的“o”，但能匹配“foooood”中的所有o。“o{1,}”等价于“o+”。“o{0,}”则等价于“o*”。{n,m}：m和n均为非负整数，其中n&lt;=m。最少匹配n次且最多匹配m次。例如，“o{1,3}”将匹配“fooooood”中的前三个o为一组，后三个o为一组。“o{0,1}”等价于“o?”。请注意在逗号和两个数之间不能有空格。?：当该字符紧跟在任何一个其他限制符（*,+,?，{n}，{n,}，{n,m}）后面时，匹配模式是非贪婪的。非贪婪模式尽可能少地匹配所搜索的字符串，而默认的贪婪模式则尽可能多地匹配所搜索的字符串。例如，对于字符串“oooo”，“o+”将尽可能多地匹配“o”，得到结果[“oooo”]，而“o+?”将尽可能少地匹配“o”，得到结果 [&apos;o&apos;, &apos;o&apos;, &apos;o&apos;, &apos;o&apos;].：匹配除“\n”和&quot;\r&quot;之外的任何单个字符。要匹配包括“\n”和&quot;\r&quot;在内的任何字符，请使用像“[\s\S]”的模式。(pattern)：匹配pattern并获取这一匹配。所获取的匹配可以从产生的Matches集合得到，在VBScript中使用SubMatches集合，在JScript中则使用$0…$9属性。要匹配圆括号字符，请使用“\(”或“\)”。(?:pattern)：非获取匹配，匹配pattern但不获取匹配结果，不进行存储供以后使用。这在使用或字符“(|)”来组合一个模式的各个部分时很有用。例如“industr(?:y|ies)”就是一个比“industry|industries”更简略的表达式。(?=pattern)：非获取匹配，正向肯定预查，在任何匹配pattern的字符串开始处匹配查找字符串，该匹配不需要获取供以后使用。例如，“Windows(?=95|98|NT|2000)”能匹配“Windows2000”中的“Windows”，但不能匹配“Windows3.1”中的“Windows”。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始。(?!pattern)：非获取匹配，正向否定预查，在任何不匹配pattern的字符串开始处匹配查找字符串，该匹配不需要获取供以后使用。例如“Windows(?!95|98|NT|2000)”能匹配“Windows3.1”中的“Windows”，但不能匹配“Windows2000”中的“Windows”。(?&lt;=pattern)：非获取匹配，反向肯定预查，与正向肯定预查类似，只是方向相反。例如，“(?&lt;=95|98|NT|2000)Windows”能匹配“2000Windows”中的“Windows”，但不能匹配“3.1Windows”中的“Windows”。(?&lt;!patte_n)：非获取匹配，反向否定预查，与正向否定预查类似，只是方向相反。例如“(?&lt;!95|98|NT|2000)Windows”能匹配“3.1Windows”中的“Windows”，但不能匹配“2000Windows”中的“Windows”。x|y：匹配x或y。例如，“z|food”能匹配“z”或“food”(此处请谨慎)。“[z|f]ood”则匹配“zood”或“food”。[xyz]：字符集合。匹配所包含的任意一个字符。例如，“[abc]”可以匹配“plain”中的“a”。[^xyz]：负值字符集合。匹配未包含的任意字符。例如，“[^abc]”可以匹配“plain”中的“plin”任一字符。[a-z]：字符范围。匹配指定范围内的任意字符。例如，“[a-z]”可以匹配“a”到“z”范围内的任意小写字母字符。注意:只有连字符在字符组内部时,并且出现在两个字符之间时,才能表示字符的范围; 如果出字符组的开头,则只能表示连字符本身[^a-z]：负值字符范围。匹配任何不在指定范围内的任意字符。例如，“[^a-z]”可以匹配任何不在“a”到“z”范围内的任意字符。\b：匹配一个单词的边界，也就是指单词和空格间的位置（即正则表达式的“匹配”有两种概念，一种是匹配字符，一种是匹配位置，这里的\b就是匹配位置的）。例如，“er\b”可以匹配“never”中的“er”，但不能匹配“verb”中的“er”；“\b1_”可以匹配“1_23”中的“1_”，但不能匹配“21_3”中的“1_”。\B：匹配非单词边界。“er\B”能匹配“verb”中的“er”，但不能匹配“never”中的“er”。\cx：匹配由x指明的控制字符。例如，\cM匹配一个Control-M或回车符。x的值必须为A-Z或a-z之一。否则，将c视为一个原义的“c”字符。\d：匹配一个数字字符。等价于[0-9]。grep 要加上-P，perl正则支持\D：匹配一个非数字字符。等价于[^0-9]。grep要加上-P，perl正则支持\f：匹配一个换页符。等价于\x0c和\cL。\n：匹配一个换行符。等价于\x0a和\cJ。\r：匹配一个回车符。等价于\x0d和\cM。\s：匹配任何不可见字符，包括空格、制表符、换页符等等。等价于[ \f\n\r\t\v]。\S：匹配任何可见字符。等价于[^ \f\n\r\t\v]。\t：匹配一个制表符。等价于\x09和\cI。\v：匹配一个垂直制表符。等价于\x0b和\cK。\w：匹配包括下划线的任何单词字符。类似但不等价于“[A-Za-z0-9_]”，这里的&quot;单词&quot;字符使用Unicode字符集。\W：匹配任何非单词字符。等价于“[^A-Za-z0-9_]”。</code></pre><p><strong>实例</strong><br>匹配手机号码：<code>^1[3|4|5|7|8][0-9]{9}$</code><br>匹配IP地址：<code>[0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3}</code>   不准确<br>匹配电子邮箱：<code>/^[a-z\d]+(\.[a-z\d]+)*@([\da-z](-[\da-z])?)+(\.{1,2}[a-z]+)+$/</code><br>匹配URL：<code>/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/</code><br>匹配6-18位的密码：<code>/^[a-z0-9_-]{6,18}$/</code></p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;h1 id=&quot;sed简介&quot;&gt;&lt;a href=&quot;#sed简介&quot; class=&quot;headerlink&quot; title=&quot;sed简介&quot;&gt;&lt;/a&gt;sed简介&lt;/h1&gt;&lt;p&gt;sed是一个非交互式文本编辑器，它可以对文本文件和标准输入进行编辑，标志输入可以来自键盘输入、文本重定向、字符串、变
+        &lt;p&gt;&lt;strong&gt;简述&lt;/strong&gt;&lt;br&gt;正则表达式是对字符串（包括普通字符（例如，a 到 z 之间的字母）和特殊字符（称为“元字符”））操作的一种逻辑公式，就是用事先定义好的一些特定字符、及这些特定字符的组合，组成一个“规则字符串”，这个“规则字符串”用来表达对字符串
       
     
     </summary>
@@ -386,6 +357,35 @@ except Ke
       
       
         &lt;p&gt;&lt;strong&gt;简述&lt;/strong&gt;&lt;br&gt;awk本身就是一种编程语言，它支持条件判断、循环、数组遍历等功能。我们可以使用它来对文本进行分析和处理。与sed相比，sed是逐行处理文本内数据，awk也是，不过awk又在此基础上实现对每一行每一列的操作。专业的角度来讲awk是
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>shell脚本学习之四剑客sed</title>
+    <link href="http://yoursite.com/2019/03/21/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9B%E5%89%91%E5%AE%A2sed/"/>
+    <id>http://yoursite.com/2019/03/21/shell脚本学习之四剑客sed/</id>
+    <published>2019-03-21T14:45:56.000Z</published>
+    <updated>2019-03-21T06:25:04.419Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="sed简介"><a href="#sed简介" class="headerlink" title="sed简介"></a>sed简介</h1><p>sed是一个非交互式文本编辑器，它可以对文本文件和标准输入进行编辑，标志输入可以来自键盘输入、文本重定向、字符串、变量、甚至来自于管道符。逐行处理内容，一次只处理一行内容。</p><h1 id="sed工作流程"><a href="#sed工作流程" class="headerlink" title="sed工作流程"></a>sed工作流程</h1><p>1、读新的一行到缓存空间（pattern space）<br>2、从指定的操作指令中依次取出指令执行，判断是否匹配缓存空间内容<br>3、如果不匹配则忽略后续的编辑命令，回到第2步继续取出下一条指令<br>4、如果匹配，则针对缓存的行执行后续的编辑命令；完成后，回到第2步继续取出下一条指令<br>5、当所有指令都应用之后，输出缓存行的内容；回到第1步继续读入下一行内容<br>6、当所有行都处理完之后，结束；<br>sed操作的所有数据都是pattern space缓存空间内的数据，原文件并没有发生该表。如果想保留sed操作后的数据，可以使用重定向符输出到新的文件中。或者使用- i参数更改原文件。</p><h1 id="命令详解"><a href="#命令详解" class="headerlink" title="命令详解"></a>命令详解</h1><h2 id="命令格式："><a href="#命令格式：" class="headerlink" title="命令格式："></a>命令格式：</h2><pre><code>sed  [options]  [commands]  filename;</code></pre><h2 id="常用参数"><a href="#常用参数" class="headerlink" title="常用参数"></a>常用参数</h2><p>x：指定行号<br>x,y：指定从x行到y行<br>/pattern/：指定包含模式的行<br>/pattern/,n：指定包含模式的行到第n行<br>p：打印匹配行<br>n：读取下一个输入行，用下一个命令处理新的行<br>a：在匹配行后面新的一行追加内容<br>i：在匹配行前面新的一行插入内容<br>d：删除匹配的行<br>c：用指定内容替代匹配的内容，一般操作多行<br>s：用指定内容替代匹配的内容，一般替代具体单词</p><h2 id="常用参数实例"><a href="#常用参数实例" class="headerlink" title="常用参数实例"></a>常用参数实例</h2><p><strong>原文本</strong></p><pre><code>[root@jiangpeisi shell]# cat a.txt mysqlappachenginxredismemachedphppython</code></pre><p><strong>1.打印指定行内容</strong></p><pre><code>[root@jiangpeisi shell]# sed -n &apos;1,3p&apos; a.txt mysqlappachenginx</code></pre><p><strong>2.删除指定行</strong></p><pre><code>[root@jiangpeisi shell]# sed &apos;/php/,$d&apos; a.txt mysqlappachenginxredismemached</code></pre><p><strong>3.在指定行前后添加内容</strong></p><pre><code>[root@jiangpeisi shell]# sed &apos;$a java&apos; a.txt mysqlappachenginxredismemachedphppythonJava[root@jiangpeisi shell]# sed &apos;$i java&apos; a.txt mysqlappachenginxredismemachedphpjavaPython</code></pre><p><strong>4.替换指定内容</strong></p><pre><code>[root@jiangpeisi shell]# sed &apos;2,3c java&apos; a.txt mysqljavaredismemachedphppython</code></pre><p>[root@jiangpeisi shell]# sed ‘s/php/java/‘ a.txt </p><pre><code>mysqlappachenginxredismemachedjavapython</code></pre><p><strong>5.多个命令组合 使用；或者-e参数</strong></p><pre><code>[root@jiangpeisi shell]# sed -e &apos;$a java&apos; -e &apos;s/php/java/&apos; a.txt mysqlappachenginxredismemachedjavapythonjava[root@jiangpeisi shell]# sed &apos;/mysql/d ; s/php/java/&apos;  a.txt appachenginxredismemachedjavapython</code></pre><h2 id="进阶参数"><a href="#进阶参数" class="headerlink" title="进阶参数"></a>进阶参数</h2><p>N：将当前读入行的下一行读取到当前的模式空间<br><img src="http://static.zybuluo.com/jiangpeisi/kwppvxf1du6mj1c0w55iuulz/image_1d6fdc4i41r4rujbos01old5h23j.png" alt="image_1d6fdc4i41r4rujbos01old5h23j.png-2.5kB"><br>h：将模式缓存区的文本复制到保持缓冲区<br><img src="http://static.zybuluo.com/jiangpeisi/c0yf7m2q8chbvbixsh5qxii4/image_1d6fdcepm13br129vmfuh7615sm40.png" alt="image_1d6fdcepm13br129vmfuh7615sm40.png-3.4kB"><br>H：将模式缓冲区的文本追加到保持缓冲区<br><img src="http://static.zybuluo.com/jiangpeisi/hrya3jucdxeg5ayw8luxhiri/image_1d6fdcn2u1iiv3gllj7mats94d.png" alt="image_1d6fdcn2u1iiv3gllj7mats94d.png-3.4kB"><br>x：互换模式缓冲区和保持缓冲区的内容<br><img src="http://static.zybuluo.com/jiangpeisi/qu8oykohe71m6an3sipqvdms/image_1d6fdfb8cbj61u0a18rs1cfi5b470.png" alt="image_1d6fdfb8cbj61u0a18rs1cfi5b470.png-2.8kB"><br>g：将保持缓冲区的内容复制到模式缓冲区<br><img src="http://static.zybuluo.com/jiangpeisi/hlk49s1ai3igt6tviirme4xi/image_1d6fdfjoi1u9qgts1hqp4701doo7d.png" alt="image_1d6fdfjoi1u9qgts1hqp4701doo7d.png-3.3kB"><br>G：将保持缓冲区的内容追加到模式缓冲区<br><img src="http://static.zybuluo.com/jiangpeisi/479c4zr05uucdwqfijkfm2uj/image_1d6fdfom84pco1qehi1hvk1ua77q.png" alt="image_1d6fdfom84pco1qehi1hvk1ua77q.png-3.5kB"><br>两个缓冲空间pattern space与hold space。pattern space是一个临时缓冲区，用于保存当前读入的行信息，每处理完一行就会清除缓存内的信息，读取下一行。hold space 同样也是一个临时缓冲去，在处理行信息时，可以与pattern space之间进行互相拷贝。</p><h2 id="进阶参数实例"><a href="#进阶参数实例" class="headerlink" title="进阶参数实例"></a>进阶参数实例</h2><p><strong>1.在每一行后添加一个空行</strong></p><pre><code>[root@jiangpeisi shell]# sed &apos;/^ $/p;G&apos; a.txt mysqlappachenginxredismemachedphppython</code></pre><p><strong>2.将指定行的后一行与指定行合并为一行</strong></p><pre><code>[root@jiangpeisi shell]# sed  &apos;3N;s/\n/ /&apos; a.txt mysqlappachenginx redismemachedphppython</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;sed简介&quot;&gt;&lt;a href=&quot;#sed简介&quot; class=&quot;headerlink&quot; title=&quot;sed简介&quot;&gt;&lt;/a&gt;sed简介&lt;/h1&gt;&lt;p&gt;sed是一个非交互式文本编辑器，它可以对文本文件和标准输入进行编辑，标志输入可以来自键盘输入、文本重定向、字符串、变
       
     
     </summary>
@@ -505,41 +505,6 @@ es
   </entry>
   
   <entry>
-    <title>shell脚本学习之循环语句</title>
-    <link href="http://yoursite.com/2019/03/19/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5/"/>
-    <id>http://yoursite.com/2019/03/19/shell脚本学习之循环语句/</id>
-    <published>2019-03-19T14:45:56.000Z</published>
-    <updated>2019-03-19T16:24:27.690Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>for循环语句格式</strong></p><pre><code>for var in （表达式）do    Commanddone</code></pre><p><strong>实例：计算1-100和</strong></p><pre><code>#!/bin/bashsum=0for i in `seq 1 100`do  sum=$(expr $sum + $i)doneecho $sum[root@jiangpeisi shell]# sh for.sh 5050</code></pre><p><strong>while循环语句格式</strong></p><pre><code>while（表达式）do    commanddone</code></pre><p><strong>实例：循环按行打印文件内容</strong></p><pre><code>#!/bin/bashwhile read linedo   echo $linedone &lt; /root/shell/a.txt[root@jiangpeisi shell]# sh while.sh lkitd:x:998:997:User for polkitd:/:/sbin/nologintss:x:59:59:Account used by the trousers package to sandbox the tcsd daemon:/dev/null:/sbin/nologinsshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologinpostfix:x:89:89::/var/spool/postfix:/sbin/nologinchrony:x:997:995::/var/lib/chrony:/sbin/nologinntp:x:38:38::/etc/ntp:/sbin/nologinnscd:x:28:28:NSCD Daemon:/:/sbin/nologintcpdump:x:72:72::/:/sbin/nologinadmin:x:1000:1000::/home/admin:/bin/bashdockerroot:x:996:993:Docker User:/var/lib/docker:/sbin/nologindockerroot-latest:x:995:992:Docker User:/var/lib/docker-latest:/sbin/nologinzarafa:x:994:991:Zarafa Service Account:/var/lib/zarafa:/sbin/nologintest1:x:1002:1002::/home/test1:/bin/bashjiangpeisi:x:1004:1004::/home/jiangpeisi:/bin/bashftpuser1:x:1005:1005::/home/ftpuser1:/bin/bashnamed:x:25:25:Named:/var/named:/bin/falsedhcpd:x:177:177:DHCP server:/:/sbin/nologinmysql:x:27:27:MariaDB Server:/var/lib/mysql:/sbin/nologinsaslauth:x:993:76:Saslauthd user:/run/saslauthd:/sbin/nologinapache:x:48:48:Apache:/usr/share/httpd:/sbin/nologin</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;strong&gt;for循环语句格式&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;for var in （表达式）
-do
-    Command
-done
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;实例：计算1-100和&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;cod
-      
-    
-    </summary>
-    
-      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
-    
-      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
-    
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
-    
-  </entry>
-  
-  <entry>
     <title>shell脚本学习之if条件判断</title>
     <link href="http://yoursite.com/2019/03/19/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8Bif%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD/"/>
     <id>http://yoursite.com/2019/03/19/shell脚本学习之if条件判断/</id>
@@ -561,6 +526,41 @@ else
   command
 fi
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;if常见的判断逻辑运算符&lt;/s
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>shell脚本学习之循环语句</title>
+    <link href="http://yoursite.com/2019/03/19/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5/"/>
+    <id>http://yoursite.com/2019/03/19/shell脚本学习之循环语句/</id>
+    <published>2019-03-19T14:45:56.000Z</published>
+    <updated>2019-03-19T16:24:27.690Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>for循环语句格式</strong></p><pre><code>for var in （表达式）do    Commanddone</code></pre><p><strong>实例：计算1-100和</strong></p><pre><code>#!/bin/bashsum=0for i in `seq 1 100`do  sum=$(expr $sum + $i)doneecho $sum[root@jiangpeisi shell]# sh for.sh 5050</code></pre><p><strong>while循环语句格式</strong></p><pre><code>while（表达式）do    commanddone</code></pre><p><strong>实例：循环按行打印文件内容</strong></p><pre><code>#!/bin/bashwhile read linedo   echo $linedone &lt; /root/shell/a.txt[root@jiangpeisi shell]# sh while.sh lkitd:x:998:997:User for polkitd:/:/sbin/nologintss:x:59:59:Account used by the trousers package to sandbox the tcsd daemon:/dev/null:/sbin/nologinsshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologinpostfix:x:89:89::/var/spool/postfix:/sbin/nologinchrony:x:997:995::/var/lib/chrony:/sbin/nologinntp:x:38:38::/etc/ntp:/sbin/nologinnscd:x:28:28:NSCD Daemon:/:/sbin/nologintcpdump:x:72:72::/:/sbin/nologinadmin:x:1000:1000::/home/admin:/bin/bashdockerroot:x:996:993:Docker User:/var/lib/docker:/sbin/nologindockerroot-latest:x:995:992:Docker User:/var/lib/docker-latest:/sbin/nologinzarafa:x:994:991:Zarafa Service Account:/var/lib/zarafa:/sbin/nologintest1:x:1002:1002::/home/test1:/bin/bashjiangpeisi:x:1004:1004::/home/jiangpeisi:/bin/bashftpuser1:x:1005:1005::/home/ftpuser1:/bin/bashnamed:x:25:25:Named:/var/named:/bin/falsedhcpd:x:177:177:DHCP server:/:/sbin/nologinmysql:x:27:27:MariaDB Server:/var/lib/mysql:/sbin/nologinsaslauth:x:993:76:Saslauthd user:/run/saslauthd:/sbin/nologinapache:x:48:48:Apache:/usr/share/httpd:/sbin/nologin</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;for循环语句格式&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;for var in （表达式）
+do
+    Command
+done
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;实例：计算1-100和&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;cod
       
     
     </summary>
