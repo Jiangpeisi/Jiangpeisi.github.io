@@ -197,33 +197,6 @@
   </entry>
   
   <entry>
-    <title>安装新版python导致yum不可用</title>
-    <link href="http://yoursite.com/2019/03/28/%E5%AE%89%E8%A3%85%E6%96%B0%E7%89%88python%E5%AF%BC%E8%87%B4yum%E4%B8%8D%E5%8F%AF%E7%94%A8/"/>
-    <id>http://yoursite.com/2019/03/28/安装新版python导致yum不可用/</id>
-    <published>2019-03-28T14:45:56.000Z</published>
-    <updated>2019-03-27T16:09:46.093Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>问题：</strong><br>安装完新版本python导致yum命令不可用.<br><strong>错误代码：</strong></p><pre><code>File &quot;/usr/bin/yum&quot;, line 30except KeyboardInterrupt, e:^SyntaxError: invalid syntax</code></pre><p><strong>问题原因：</strong><br>yum包管理是使用python2.x写的，将python2.x升级到python3.x以后，由于python版本语法兼容性导致问题出现 .<br><strong>解决办法：</strong><br>修改yum配置文件，将python指向老版本.</p><pre><code>vim /usr/bin/yum#!/usr/bin/python2.7vim /usr/libexec/urlgrabber-ext-down#!/usr/bin/python2.7</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;strong&gt;问题：&lt;/strong&gt;&lt;br&gt;安装完新版本python导致yum命令不可用.&lt;br&gt;&lt;strong&gt;错误代码：&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;File &amp;quot;/usr/bin/yum&amp;quot;, line 30
-except Ke
-      
-    
-    </summary>
-    
-      <category term="python" scheme="http://yoursite.com/categories/python/"/>
-    
-    
-      <category term="python" scheme="http://yoursite.com/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Centos安装python3.7</title>
     <link href="http://yoursite.com/2019/03/28/python%E5%AE%89%E8%A3%85/"/>
     <id>http://yoursite.com/2019/03/28/python安装/</id>
@@ -239,6 +212,33 @@ except Ke
         &lt;p&gt;&lt;strong&gt;简介&lt;/strong&gt;&lt;br&gt;Centos系统本身自带python2.7版本，使用python –version可以查看当前系统python版本，由于系统内某些命令会用到python2，所以python2不可以卸载.&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;&lt;strong&gt;
+      
+    
+    </summary>
+    
+      <category term="python" scheme="http://yoursite.com/categories/python/"/>
+    
+    
+      <category term="python" scheme="http://yoursite.com/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>安装新版python导致yum不可用</title>
+    <link href="http://yoursite.com/2019/03/28/%E5%AE%89%E8%A3%85%E6%96%B0%E7%89%88python%E5%AF%BC%E8%87%B4yum%E4%B8%8D%E5%8F%AF%E7%94%A8/"/>
+    <id>http://yoursite.com/2019/03/28/安装新版python导致yum不可用/</id>
+    <published>2019-03-28T14:45:56.000Z</published>
+    <updated>2019-03-27T16:09:46.093Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>问题：</strong><br>安装完新版本python导致yum命令不可用.<br><strong>错误代码：</strong></p><pre><code>File &quot;/usr/bin/yum&quot;, line 30except KeyboardInterrupt, e:^SyntaxError: invalid syntax</code></pre><p><strong>问题原因：</strong><br>yum包管理是使用python2.x写的，将python2.x升级到python3.x以后，由于python版本语法兼容性导致问题出现 .<br><strong>解决办法：</strong><br>修改yum配置文件，将python指向老版本.</p><pre><code>vim /usr/bin/yum#!/usr/bin/python2.7vim /usr/libexec/urlgrabber-ext-down#!/usr/bin/python2.7</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;问题：&lt;/strong&gt;&lt;br&gt;安装完新版本python导致yum命令不可用.&lt;br&gt;&lt;strong&gt;错误代码：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;File &amp;quot;/usr/bin/yum&amp;quot;, line 30
+except Ke
       
     
     </summary>
