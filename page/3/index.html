@@ -1444,7 +1444,7 @@ FTP端口号FTP使用20和21端口，FTP服务器使用21端口来等待控制�
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/07/Docker安装并使用docker部署多个nginx/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/07/Docker容器网络模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="镜子">
@@ -1463,7 +1463,7 @@ FTP端口号FTP使用20和21端口，FTP服务器使用21端口来等待控制�
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/03/07/Docker安装并使用docker部署多个nginx/" itemprop="url">Dokcer安装并部署多个nginx</a></h1>
+                <a class="post-title-link" href="/2019/03/07/Docker容器网络模式/" itemprop="url">Docker容器网络模式</a></h1>
         
 
         <div class="post-meta">
@@ -1540,7 +1540,7 @@ FTP端口号FTP使用20和21端口，FTP服务器使用21端口来等待控制�
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  318
+                  475
                 </span>
               
 
@@ -1580,17 +1580,16 @@ FTP端口号FTP使用20和21端口，FTP服务器使用21端口来等待控制�
         
           
           
-Docker 安装
- 1.查看当前内核版本，要求3.10及以上版本
-uname -r
- 2.安装相关的包
-yum install -y yum-utils device-mapper-persistent-data lvm2 lxc libcgroup
- 3.安装docker
-yum instal
+配置容器网络模式
+ Docker run -net=pattern
+
+四种模式
+ host模式：host模式下的容器不会独立创建一个network namespace,而是与宿主机公用一个network namespace。容器不会再虚拟出自己的网卡，配置IP，直接使用宿主机的IP及端口。
+ co
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/03/07/Docker安装并使用docker部署多个nginx/#more" rel="contents">
+            <a class="btn" href="/2019/03/07/Docker容器网络模式/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1840,7 +1839,7 @@ yum instal
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/07/Docker容器网络模式/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/07/Docker安装并使用docker部署多个nginx/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="镜子">
@@ -1859,7 +1858,7 @@ yum instal
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/03/07/Docker容器网络模式/" itemprop="url">Docker容器网络模式</a></h1>
+                <a class="post-title-link" href="/2019/03/07/Docker安装并使用docker部署多个nginx/" itemprop="url">Dokcer安装并部署多个nginx</a></h1>
         
 
         <div class="post-meta">
@@ -1936,7 +1935,7 @@ yum instal
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  475
+                  318
                 </span>
               
 
@@ -1976,16 +1975,17 @@ yum instal
         
           
           
-配置容器网络模式
- Docker run -net=pattern
-
-四种模式
- host模式：host模式下的容器不会独立创建一个network namespace,而是与宿主机公用一个network namespace。容器不会再虚拟出自己的网卡，配置IP，直接使用宿主机的IP及端口。
- co
+Docker 安装
+ 1.查看当前内核版本，要求3.10及以上版本
+uname -r
+ 2.安装相关的包
+yum install -y yum-utils device-mapper-persistent-data lvm2 lxc libcgroup
+ 3.安装docker
+yum instal
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/03/07/Docker容器网络模式/#more" rel="contents">
+            <a class="btn" href="/2019/03/07/Docker安装并使用docker部署多个nginx/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>

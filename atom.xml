@@ -147,31 +147,6 @@
   </entry>
   
   <entry>
-    <title>MPLS</title>
-    <link href="http://yoursite.com/2019/04/10/MPLS/"/>
-    <id>http://yoursite.com/2019/04/10/MPLS/</id>
-    <published>2019-04-10T14:45:56.000Z</published>
-    <updated>2019-04-11T00:39:26.860Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><p>传统的IP路由基于报文的IP头部的目的IP地址进行寻址及转发操作，设备需要维护路由表用于指导数据转发，根据最长匹配原则进行匹配条目，速度慢，效率低。MPLS能够为IP报文添加标签信息，让路由器基于标签信息对报文进行转发，提高了数据转发的效率。后来随着硬件技术的突破，IP路由查询的执行效率已经大大提高，MPLS的速度提升优势已经不再明显。但是MPLS在其他方面有着较多的应用，例如MPLS VPN、流量工程等。</p><hr><h2 id="MPLS的典型应用"><a href="#MPLS的典型应用" class="headerlink" title="MPLS的典型应用"></a>MPLS的典型应用</h2><p>1.基于MPLS的VPN<br>2.基于MPLS的流量工程</p><h2 id="MPLS术语"><a href="#MPLS术语" class="headerlink" title="MPLS术语"></a>MPLS术语</h2><p>LSR（Labe Switch Router，标签转发路由器）：指的是激活了MPLS标签交换功能的路由器，这些路由器维护者用于知道标签报文转发的信息，并且依据这些信息对标签报文进行处理。</p><p>Ingress LSR（入站LSR）：主要用于对刚刚进入MPLS区域的报文进行处理，在报文的IP头部前插入标签头部生成标签报文。</p><p>Transit LSR（中转LSR）：主要对标签报文进行处理，对标签的置换操作。</p><p>Egress LSR（出站LSR）：主要用于对流出MPLS的报文进行处理，在标签报文离开前将标签头部移除，使标签报文变成正常的IP报文。</p><p>Label（标签）：一个正常IP数据包在进入MPLS区域时，会在二层头部和IP头部之间插入标签头部，标签指的是标签头部‘标签’字段的具体值。一个标签报文可能有多个标签头部，按一定的顺序排列，存储在标签栈中。</p><p>FEC（Forwarding Equivalence Class，等价转发类）：FEC是指具有相同特征的标签报文，这些报文在MPLS转发过程中采用相同的处理方式。FEC可以采用多种方式划分，例如目的地址、网络掩码、DSCP等特征。最为常见的是根据目的地址划分，到达同一目的地址的报文会被归为一类，并采用相同的方式来处理这些报文。</p><p>LSP（Label Switched Path，标签转发路径）：LSP是指报文在穿越MPLS区域内所经过的路径。一个数据报文在穿越MPLS区域之前，LSP就已经建立好，同一个FEC的报文采用相同的LSP穿越MPLS区域，并且LSP是单向的，所以如果想要双方互相通信，就需要在建立双向的LSP。</p><p>标.签分发协议：类似于路由协议。一个报文在穿越MPLS区域之前LSP必须要先建立。LSP的建立又分为两种方式：静态方式，动态方式。静态方式建立LSP需要在每一台LSP上为每一个FEC手工配置标签，然后手动指定LSP。动态方式就是采用标签分发协议来完成，自动为FEC分配标签并建立LSP。</p><h2 id="MPLS标签"><a href="#MPLS标签" class="headerlink" title="MPLS标签"></a>MPLS标签</h2><p> <strong>包格式</strong></p><p><img src="http://static.zybuluo.com/jiangpeisi/qlb93xefpgaj5u11e579hgzk/image_1d83shco61n9a1la81m1l1pf0121933.png" alt="image_1d83shco61n9a1la81m1l1pf0121933.png-62.5kB"></p><p><strong>四个字段</strong></p><p>Label：用于存储标签值<br>EXP：暂未表明用处<br>BoS：栈底位，为1表示本标签为栈底标签，后面就是IP头部，为0表示本标签并非栈底标签。<br>TTL：主要用于防环，防止标签被无限转发</p><h2 id="MPLS标签的基本操作"><a href="#MPLS标签的基本操作" class="headerlink" title="MPLS标签的基本操作"></a>MPLS标签的基本操作</h2><p>Push：二层头部和三层头部之间插入标签<br>Swap：在标签报文转发时，将标签头部换成下游LSR所分配标签，通常对栈顶的标签进行操作<br>Pop：当标签报文离开MPLS区域时将标签头部移除，在最后一跳节点，标签已经没有使用价值。这种情况下，可以利用倒数第二跳弹出特性PHP（Penultimate Hop Popping），在倒数第二跳节点处将标签弹出，减少最后一跳的负担。最后一跳节点直接进行IP转发或者下一层标签转发。</p><h2 id="MPLS转发过程"><a href="#MPLS转发过程" class="headerlink" title="MPLS转发过程"></a>MPLS转发过程</h2><p><strong>三张表</strong></p><p>FIB表<br><img src="http://static.zybuluo.com/jiangpeisi/wgwmgv68j6zt9uy0nys6retr/image_1d83sipnd1jr81rbkfql1dep1k8o3g.png" alt="image_1d83sipnd1jr81rbkfql1dep1k8o3g.png-22.6kB"><br>NHLFE表<br><img src="http://static.zybuluo.com/jiangpeisi/jn0tjnqkachvb6dlz02os12r/image_1d83sj0fdqdpt801ac33n81ij3t.png" alt="image_1d83sj0fdqdpt801ac33n81ij3t.png-45.6kB"><br>ILM表<br><img src="http://static.zybuluo.com/jiangpeisi/kyimxvcsrpbpyao0tavclnyh/image_1d83sjg4njqvvb100lc55a134a.png" alt="image_1d83sjg4njqvvb100lc55a134a.png-47.2kB"></p><p><strong>具体过程</strong></p><p>当IP报文进入MPLS域时，首先查看FIB表，检查目的IP地址对应的Tunnel ID值是否为0x0。<br>如果Tunnel ID值为0x0，则进入正常的IP转发流程。<br>如果Tunnel ID值不为0x0，则进入MPLS转发流程。</p><p>在MPLS转发过程中，FIB、ILM和NHLFE表项是通过Tunnel ID关联的。</p><p>IngressLSR的处理：通过查询FIB表和NHLFE表指导报文的转发。<br>查看FIB表，根据目的IP地址找到对应的Tunnel ID。<br>根据FIB表的Tunnel ID找到对应的NHLFE表项，将FIB表项和NHLFE表项关联起来。<br>查看NHLFE表项，可以得到出接口、下一跳、出标签和标签操作类型。<br>在IP报文中压入出标签，然后将封装好的MPLS报文发送给下一跳。</p><p>Transit LSR的处理：通过查询ILM表和NHLFE表指导MPLS报文的转发。<br>根据MPLS的标签值查看对应的ILM表，可以得到Tunnel ID。<br>根据ILM表的Tunnel ID找到对应的NHLFE表项。<br>查看NHLFE表项，可以得到出接口、下一跳、出标签和标签操作类型。</p><p>Egress LSR的处理：通过查询ILM表指导MPLS报文的转发或查询路由表指导IP报文的转发。<br>如果Egress收到IP报文，则查看路由表，进行IP转发。<br>如果Egress收到MPLS报文，则查看ILM表获得标签操作类型，一般为Pop。<br>如果操作为Pop需要结合BoS位指导报文转发，如果标签中的栈底标识BoS=1，表明该标签是栈底标签，直接进行IP转发。如果标签中的栈底标识BoS=0，表明还有下一层标签，继续进行下一层标签转发。</p><h2 id="LDP协议"><a href="#LDP协议" class="headerlink" title="LDP协议"></a>LDP协议</h2><p> <strong>工作过程</strong></p><p>开启LDP的路由器会自动为路由表中的FEC分配标签，并将标签映射发送给下游路由器，下游路由器接受收到标签映射后将映射存储起来，然后自己为该FEC分配标签，并传送给下游路由器，以此重复，完成LSP的建立。</p><p><strong>LDP ID</strong></p><p>每一台运行MPLS的LSR都会有一个域内唯一的LSR ID长度为32 位。需要手工指定，否则MPLS无法激活。<br>每一台运行了LDP的LSR必须拥有LDP ID长度位48位，有32位的LSR ID以及16位的 Label Space ID（标签空间标识符）构成。LDP ID= LSR ID:Label Space ID    1.1.1.1：0</p><p><strong>LDP对等体会话建立过程</strong></p><p>1.LDP设备发现<br>主要通过Hello报文，接口激活LDP后便开始发送Hello报文。报文中包含了LDP ID以及传输地址，采用UDP封装，以组播方式发送，目的IP为224.0.0.2，端口号为646 。当两个通过Hello包发现到彼此就开始建立会话。</p><p>2.LDP会话建立<br>上一步双方发现彼此后都知道了对方的传输地址，接下来开始建立会话。<br>（1）：一般传输地址大的开始主动发起TCP会话建立请求，完成三次握手过程。<br>（2）：传输地址大的一方会主动发送一个Initialization（初始化）包，包含一些协议参数，另一方接收到包后检查参数，发送自己的Initialization包和Keepalive包，主动方收到后便知道另一方接收了自己的参数，开始检查另一方的参数，如果认可就会送一个Keepalive包。<br>（3）：双发将LDP会话置为Operational状态，LDP对等体会话建立成功</p><p>3.通过标签映射<br>LDP对等体之间相互通过标签映射</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;简述&quot;&gt;&lt;a href=&quot;#简述&quot; class=&quot;headerlink&quot; title=&quot;简述&quot;&gt;&lt;/a&gt;简述&lt;/h2&gt;&lt;p&gt;传统的IP路由基于报文的IP头部的目的IP地址进行寻址及转发操作，设备需要维护路由表用于指导数据转发，根据最长匹配原则进行匹配条目，速度慢，
-      
-    
-    </summary>
-    
-      <category term="网络" scheme="http://yoursite.com/categories/%E7%BD%91%E7%BB%9C/"/>
-    
-    
-      <category term="网络" scheme="http://yoursite.com/tags/%E7%BD%91%E7%BB%9C/"/>
-    
-  </entry>
-  
-  <entry>
     <title>MPLS VPN</title>
     <link href="http://yoursite.com/2019/04/10/MPLS%20VPN/"/>
     <id>http://yoursite.com/2019/04/10/MPLS VPN/</id>
@@ -185,6 +160,31 @@
       
       
         &lt;h2 id=&quot;简述&quot;&gt;&lt;a href=&quot;#简述&quot; class=&quot;headerlink&quot; title=&quot;简述&quot;&gt;&lt;/a&gt;简述&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;MPLS VPN基本架构拓扑&lt;/strong&gt;&lt;br&gt;&lt;img src=&quot;http://static.zybuluo.com
+      
+    
+    </summary>
+    
+      <category term="网络" scheme="http://yoursite.com/categories/%E7%BD%91%E7%BB%9C/"/>
+    
+    
+      <category term="网络" scheme="http://yoursite.com/tags/%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MPLS</title>
+    <link href="http://yoursite.com/2019/04/10/MPLS/"/>
+    <id>http://yoursite.com/2019/04/10/MPLS/</id>
+    <published>2019-04-10T14:45:56.000Z</published>
+    <updated>2019-04-11T00:39:26.860Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><p>传统的IP路由基于报文的IP头部的目的IP地址进行寻址及转发操作，设备需要维护路由表用于指导数据转发，根据最长匹配原则进行匹配条目，速度慢，效率低。MPLS能够为IP报文添加标签信息，让路由器基于标签信息对报文进行转发，提高了数据转发的效率。后来随着硬件技术的突破，IP路由查询的执行效率已经大大提高，MPLS的速度提升优势已经不再明显。但是MPLS在其他方面有着较多的应用，例如MPLS VPN、流量工程等。</p><hr><h2 id="MPLS的典型应用"><a href="#MPLS的典型应用" class="headerlink" title="MPLS的典型应用"></a>MPLS的典型应用</h2><p>1.基于MPLS的VPN<br>2.基于MPLS的流量工程</p><h2 id="MPLS术语"><a href="#MPLS术语" class="headerlink" title="MPLS术语"></a>MPLS术语</h2><p>LSR（Labe Switch Router，标签转发路由器）：指的是激活了MPLS标签交换功能的路由器，这些路由器维护者用于知道标签报文转发的信息，并且依据这些信息对标签报文进行处理。</p><p>Ingress LSR（入站LSR）：主要用于对刚刚进入MPLS区域的报文进行处理，在报文的IP头部前插入标签头部生成标签报文。</p><p>Transit LSR（中转LSR）：主要对标签报文进行处理，对标签的置换操作。</p><p>Egress LSR（出站LSR）：主要用于对流出MPLS的报文进行处理，在标签报文离开前将标签头部移除，使标签报文变成正常的IP报文。</p><p>Label（标签）：一个正常IP数据包在进入MPLS区域时，会在二层头部和IP头部之间插入标签头部，标签指的是标签头部‘标签’字段的具体值。一个标签报文可能有多个标签头部，按一定的顺序排列，存储在标签栈中。</p><p>FEC（Forwarding Equivalence Class，等价转发类）：FEC是指具有相同特征的标签报文，这些报文在MPLS转发过程中采用相同的处理方式。FEC可以采用多种方式划分，例如目的地址、网络掩码、DSCP等特征。最为常见的是根据目的地址划分，到达同一目的地址的报文会被归为一类，并采用相同的方式来处理这些报文。</p><p>LSP（Label Switched Path，标签转发路径）：LSP是指报文在穿越MPLS区域内所经过的路径。一个数据报文在穿越MPLS区域之前，LSP就已经建立好，同一个FEC的报文采用相同的LSP穿越MPLS区域，并且LSP是单向的，所以如果想要双方互相通信，就需要在建立双向的LSP。</p><p>标.签分发协议：类似于路由协议。一个报文在穿越MPLS区域之前LSP必须要先建立。LSP的建立又分为两种方式：静态方式，动态方式。静态方式建立LSP需要在每一台LSP上为每一个FEC手工配置标签，然后手动指定LSP。动态方式就是采用标签分发协议来完成，自动为FEC分配标签并建立LSP。</p><h2 id="MPLS标签"><a href="#MPLS标签" class="headerlink" title="MPLS标签"></a>MPLS标签</h2><p> <strong>包格式</strong></p><p><img src="http://static.zybuluo.com/jiangpeisi/qlb93xefpgaj5u11e579hgzk/image_1d83shco61n9a1la81m1l1pf0121933.png" alt="image_1d83shco61n9a1la81m1l1pf0121933.png-62.5kB"></p><p><strong>四个字段</strong></p><p>Label：用于存储标签值<br>EXP：暂未表明用处<br>BoS：栈底位，为1表示本标签为栈底标签，后面就是IP头部，为0表示本标签并非栈底标签。<br>TTL：主要用于防环，防止标签被无限转发</p><h2 id="MPLS标签的基本操作"><a href="#MPLS标签的基本操作" class="headerlink" title="MPLS标签的基本操作"></a>MPLS标签的基本操作</h2><p>Push：二层头部和三层头部之间插入标签<br>Swap：在标签报文转发时，将标签头部换成下游LSR所分配标签，通常对栈顶的标签进行操作<br>Pop：当标签报文离开MPLS区域时将标签头部移除，在最后一跳节点，标签已经没有使用价值。这种情况下，可以利用倒数第二跳弹出特性PHP（Penultimate Hop Popping），在倒数第二跳节点处将标签弹出，减少最后一跳的负担。最后一跳节点直接进行IP转发或者下一层标签转发。</p><h2 id="MPLS转发过程"><a href="#MPLS转发过程" class="headerlink" title="MPLS转发过程"></a>MPLS转发过程</h2><p><strong>三张表</strong></p><p>FIB表<br><img src="http://static.zybuluo.com/jiangpeisi/wgwmgv68j6zt9uy0nys6retr/image_1d83sipnd1jr81rbkfql1dep1k8o3g.png" alt="image_1d83sipnd1jr81rbkfql1dep1k8o3g.png-22.6kB"><br>NHLFE表<br><img src="http://static.zybuluo.com/jiangpeisi/jn0tjnqkachvb6dlz02os12r/image_1d83sj0fdqdpt801ac33n81ij3t.png" alt="image_1d83sj0fdqdpt801ac33n81ij3t.png-45.6kB"><br>ILM表<br><img src="http://static.zybuluo.com/jiangpeisi/kyimxvcsrpbpyao0tavclnyh/image_1d83sjg4njqvvb100lc55a134a.png" alt="image_1d83sjg4njqvvb100lc55a134a.png-47.2kB"></p><p><strong>具体过程</strong></p><p>当IP报文进入MPLS域时，首先查看FIB表，检查目的IP地址对应的Tunnel ID值是否为0x0。<br>如果Tunnel ID值为0x0，则进入正常的IP转发流程。<br>如果Tunnel ID值不为0x0，则进入MPLS转发流程。</p><p>在MPLS转发过程中，FIB、ILM和NHLFE表项是通过Tunnel ID关联的。</p><p>IngressLSR的处理：通过查询FIB表和NHLFE表指导报文的转发。<br>查看FIB表，根据目的IP地址找到对应的Tunnel ID。<br>根据FIB表的Tunnel ID找到对应的NHLFE表项，将FIB表项和NHLFE表项关联起来。<br>查看NHLFE表项，可以得到出接口、下一跳、出标签和标签操作类型。<br>在IP报文中压入出标签，然后将封装好的MPLS报文发送给下一跳。</p><p>Transit LSR的处理：通过查询ILM表和NHLFE表指导MPLS报文的转发。<br>根据MPLS的标签值查看对应的ILM表，可以得到Tunnel ID。<br>根据ILM表的Tunnel ID找到对应的NHLFE表项。<br>查看NHLFE表项，可以得到出接口、下一跳、出标签和标签操作类型。</p><p>Egress LSR的处理：通过查询ILM表指导MPLS报文的转发或查询路由表指导IP报文的转发。<br>如果Egress收到IP报文，则查看路由表，进行IP转发。<br>如果Egress收到MPLS报文，则查看ILM表获得标签操作类型，一般为Pop。<br>如果操作为Pop需要结合BoS位指导报文转发，如果标签中的栈底标识BoS=1，表明该标签是栈底标签，直接进行IP转发。如果标签中的栈底标识BoS=0，表明还有下一层标签，继续进行下一层标签转发。</p><h2 id="LDP协议"><a href="#LDP协议" class="headerlink" title="LDP协议"></a>LDP协议</h2><p> <strong>工作过程</strong></p><p>开启LDP的路由器会自动为路由表中的FEC分配标签，并将标签映射发送给下游路由器，下游路由器接受收到标签映射后将映射存储起来，然后自己为该FEC分配标签，并传送给下游路由器，以此重复，完成LSP的建立。</p><p><strong>LDP ID</strong></p><p>每一台运行MPLS的LSR都会有一个域内唯一的LSR ID长度为32 位。需要手工指定，否则MPLS无法激活。<br>每一台运行了LDP的LSR必须拥有LDP ID长度位48位，有32位的LSR ID以及16位的 Label Space ID（标签空间标识符）构成。LDP ID= LSR ID:Label Space ID    1.1.1.1：0</p><p><strong>LDP对等体会话建立过程</strong></p><p>1.LDP设备发现<br>主要通过Hello报文，接口激活LDP后便开始发送Hello报文。报文中包含了LDP ID以及传输地址，采用UDP封装，以组播方式发送，目的IP为224.0.0.2，端口号为646 。当两个通过Hello包发现到彼此就开始建立会话。</p><p>2.LDP会话建立<br>上一步双方发现彼此后都知道了对方的传输地址，接下来开始建立会话。<br>（1）：一般传输地址大的开始主动发起TCP会话建立请求，完成三次握手过程。<br>（2）：传输地址大的一方会主动发送一个Initialization（初始化）包，包含一些协议参数，另一方接收到包后检查参数，发送自己的Initialization包和Keepalive包，主动方收到后便知道另一方接收了自己的参数，开始检查另一方的参数，如果认可就会送一个Keepalive包。<br>（3）：双发将LDP会话置为Operational状态，LDP对等体会话建立成功</p><p>3.通过标签映射<br>LDP对等体之间相互通过标签映射</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;简述&quot;&gt;&lt;a href=&quot;#简述&quot; class=&quot;headerlink&quot; title=&quot;简述&quot;&gt;&lt;/a&gt;简述&lt;/h2&gt;&lt;p&gt;传统的IP路由基于报文的IP头部的目的IP地址进行寻址及转发操作，设备需要维护路由表用于指导数据转发，根据最长匹配原则进行匹配条目，速度慢，
       
     
     </summary>
@@ -427,6 +427,35 @@ except Ke
   </entry>
   
   <entry>
+    <title>shell脚本学习之四剑客find</title>
+    <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9B%E5%89%91%E5%AE%A2find/"/>
+    <id>http://yoursite.com/2019/03/20/shell脚本学习之四剑客find/</id>
+    <published>2019-03-20T14:45:56.000Z</published>
+    <updated>2019-03-20T16:02:35.465Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>简述</strong><br>  find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。<br><strong>语句格式：</strong></p><pre><code>find path -option [ -print ] [ -exec -ok command ] {} \;-print ：表示find命令将匹配的文件输出到标准输出中，默认执行该命令-exec  ：表示find命令对匹配的文件执行该参数给出的shell命令。相应命令的形式为 cmd {} \;-ok      ：它的作用和-exec一样，只是需要用户交互，更安全</code></pre><p><strong>option参数说明：</strong></p><pre><code>-name ：按照文件名查找文件-perm  ：按照权限查找文件-prune ：使find命令不在当前指定的目录中查找，如果同时使用-depth选项，那么-prune将被find命令忽略-user  ： 按照文件属主来查找文件-group  ：按照文件数组来查找文件-mtime -n +n  ：按照文件的更改时间来查找文件    -n ：表示从此刻算起，文件的更改是在n天以内    +n ：表示文件的更改时间是在n天以前-atime -n +n ： 按文件访问时间来查询-ctime -n +n ：按文件创建时间来查询 -nogroup  ：查找无有效属组的文件，即该文件所属的组在/etc/groups中不存在-nouser  :：查找无有效属主的文件，即该文件的属主在/etc/passwd中不存在-newer file1 ！ file2  :查找更改时间比file1新但比file2旧的文件-type      b：表示块设备文件     block     d：表示目录         directory     c：表示字符设备文件   char     p：表示管道文件      pipe     l：表示符号链接文件   link     f：表示普通文件      file-depth ：在查找文件时，首先查找当前目录中的文件，然后再在其子目录中查找-fstype ：表示查找位于某一类型文件系统中的文件，这些文件系统类型通常可以在配置文件/etc/fstab中找到，该配置文件中包含了本系统中有关文件系统的信息-mount  ：表示在查找文件时不跨越文件系统的mount点-follow   ：表示如果find命令遇到符号链接文件，就跟踪至链接所指向的文件-cpio      ：表示对匹配的文件使用cpio命令，将这些文件备份至磁带设备中</code></pre><p><strong>实例：</strong><br>实例1：查找/root/shell目录下以.sh结尾 并且创建时间在1天以内的文件</p><pre><code>[root@jiangpeisi ~]# find /root/shell/ -name *.sh -ctime -1/root/shell/menu.sh/root/shell/apache-install.sh/root/shell/lnmp.sh/root/shell/select.sh/root/shell/sum.sh/root/shell/while.sh</code></pre><p>实例2：查找/root/shell目录下以.sh结尾 并且创建时间在1天以内的文件，并将文件移动到/opt/目录下</p><pre><code>[root@jiangpeisi ~]# find /root/shell/ -name *.sh -ctime -1 -exec mv {} /opt/ \; [root@jiangpeisi ~]# ll /opt/total 36-rw-r--r-- 1 root root  621 Mar 20 15:32 apache-install.sh-rw-r--r-- 1 root root   48 Mar 17 11:08 b.sh-rw-r--r-- 1 root root  303 Mar 18 11:28 e.sh-rw-r--r-- 1 root root  258 Mar 20 14:25 lnmp.sh-rw-r--r-- 1 root root  357 Mar 20 08:49 menu.shdrwxr-xr-x 2 root root 4096 Mar 15 15:41 nginx-rw-r--r-- 1 root root  138 Mar 20 14:12 select.sh-rw-r--r-- 1 root root   82 Mar 20 00:00 sum.sh-rw-r--r-- 1 root root   70 Mar 20 00:07 while.sh</code></pre><p>实例3：查找/data目录下以.log结尾，修改时间在1天以内，文件大小大于10M的文件，并将文件打包</p><pre><code>[root@jiangpeisi ~]# find /data/ -name *.log -ctime -1 -size +10k -exec tar -czPf /datacd/backup.tar.gz {} \;</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;简述&lt;/strong&gt;&lt;br&gt;  find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。&lt;br&gt;&lt;str
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
+    
+  </entry>
+  
+  <entry>
     <title>shell脚本学习之函数</title>
     <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%87%BD%E6%95%B0/"/>
     <id>http://yoursite.com/2019/03/20/shell脚本学习之函数/</id>
@@ -485,35 +514,6 @@ pattern2）
 *）
    command
 es
-      
-    
-    </summary>
-    
-      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
-    
-      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
-    
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>shell脚本学习之四剑客find</title>
-    <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9B%E5%89%91%E5%AE%A2find/"/>
-    <id>http://yoursite.com/2019/03/20/shell脚本学习之四剑客find/</id>
-    <published>2019-03-20T14:45:56.000Z</published>
-    <updated>2019-03-20T16:02:35.465Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>简述</strong><br>  find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。<br><strong>语句格式：</strong></p><pre><code>find path -option [ -print ] [ -exec -ok command ] {} \;-print ：表示find命令将匹配的文件输出到标准输出中，默认执行该命令-exec  ：表示find命令对匹配的文件执行该参数给出的shell命令。相应命令的形式为 cmd {} \;-ok      ：它的作用和-exec一样，只是需要用户交互，更安全</code></pre><p><strong>option参数说明：</strong></p><pre><code>-name ：按照文件名查找文件-perm  ：按照权限查找文件-prune ：使find命令不在当前指定的目录中查找，如果同时使用-depth选项，那么-prune将被find命令忽略-user  ： 按照文件属主来查找文件-group  ：按照文件数组来查找文件-mtime -n +n  ：按照文件的更改时间来查找文件    -n ：表示从此刻算起，文件的更改是在n天以内    +n ：表示文件的更改时间是在n天以前-atime -n +n ： 按文件访问时间来查询-ctime -n +n ：按文件创建时间来查询 -nogroup  ：查找无有效属组的文件，即该文件所属的组在/etc/groups中不存在-nouser  :：查找无有效属主的文件，即该文件的属主在/etc/passwd中不存在-newer file1 ！ file2  :查找更改时间比file1新但比file2旧的文件-type      b：表示块设备文件     block     d：表示目录         directory     c：表示字符设备文件   char     p：表示管道文件      pipe     l：表示符号链接文件   link     f：表示普通文件      file-depth ：在查找文件时，首先查找当前目录中的文件，然后再在其子目录中查找-fstype ：表示查找位于某一类型文件系统中的文件，这些文件系统类型通常可以在配置文件/etc/fstab中找到，该配置文件中包含了本系统中有关文件系统的信息-mount  ：表示在查找文件时不跨越文件系统的mount点-follow   ：表示如果find命令遇到符号链接文件，就跟踪至链接所指向的文件-cpio      ：表示对匹配的文件使用cpio命令，将这些文件备份至磁带设备中</code></pre><p><strong>实例：</strong><br>实例1：查找/root/shell目录下以.sh结尾 并且创建时间在1天以内的文件</p><pre><code>[root@jiangpeisi ~]# find /root/shell/ -name *.sh -ctime -1/root/shell/menu.sh/root/shell/apache-install.sh/root/shell/lnmp.sh/root/shell/select.sh/root/shell/sum.sh/root/shell/while.sh</code></pre><p>实例2：查找/root/shell目录下以.sh结尾 并且创建时间在1天以内的文件，并将文件移动到/opt/目录下</p><pre><code>[root@jiangpeisi ~]# find /root/shell/ -name *.sh -ctime -1 -exec mv {} /opt/ \; [root@jiangpeisi ~]# ll /opt/total 36-rw-r--r-- 1 root root  621 Mar 20 15:32 apache-install.sh-rw-r--r-- 1 root root   48 Mar 17 11:08 b.sh-rw-r--r-- 1 root root  303 Mar 18 11:28 e.sh-rw-r--r-- 1 root root  258 Mar 20 14:25 lnmp.sh-rw-r--r-- 1 root root  357 Mar 20 08:49 menu.shdrwxr-xr-x 2 root root 4096 Mar 15 15:41 nginx-rw-r--r-- 1 root root  138 Mar 20 14:12 select.sh-rw-r--r-- 1 root root   82 Mar 20 00:00 sum.sh-rw-r--r-- 1 root root   70 Mar 20 00:07 while.sh</code></pre><p>实例3：查找/data目录下以.log结尾，修改时间在1天以内，文件大小大于10M的文件，并将文件打包</p><pre><code>[root@jiangpeisi ~]# find /data/ -name *.log -ctime -1 -size +10k -exec tar -czPf /datacd/backup.tar.gz {} \;</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;strong&gt;简述&lt;/strong&gt;&lt;br&gt;  find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。&lt;br&gt;&lt;str
       
     
     </summary>
