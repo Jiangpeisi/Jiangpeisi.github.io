@@ -427,41 +427,6 @@ except Ke
   </entry>
   
   <entry>
-    <title>shell脚本学习之函数</title>
-    <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%87%BD%E6%95%B0/"/>
-    <id>http://yoursite.com/2019/03/20/shell脚本学习之函数/</id>
-    <published>2019-03-20T14:45:56.000Z</published>
-    <updated>2019-03-20T14:55:31.064Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>函数定义格式：</strong></p><pre><code>function name（）{command}</code></pre><p><strong>调用：</strong></p><pre><code>name argv1 argv2  </code></pre><p><strong>实例：安装Apache函数</strong></p><pre><code>#!/bin/bash#Auto install appache#By Auther jiangpeisiURL=http://mirrors.shu.edu.cn/apache//httpdFILE=httpd-2.4.38.tar.gzFILES_DIR=httpd-2.4.38PREFIX=/usr/local/apachefunction Apache_install(){if [ $1 -eq 1 ];then        yum install  openssl openssl-devel zlib zlib-devel gcc-c++ pcre pcre-devel -y &amp;&amp; cd /usr/local/src/ &amp;&amp; wget $URL/$FILE &amp;&amp; tar -xvf $FILE &amp;&amp; cd $FILES_DIR &amp;&amp; ./configure --prefix=$PREFIX  if [ $? -eq 0 ];then    make&amp;&amp;make install    echo &quot;The $FILES_DIR Server Install Sucess!&quot;    . /usr/local/apache/bin/httpd  else    echo &quot;The $FILES_DIR Server Install Fail!&quot;  fifi}Apache_install 1</code></pre><p><strong>测试：</strong></p><p><img src="http://static.zybuluo.com/jiangpeisi/369raax3bt02mth1v541lp5z/image_1d6dpfhvfkkohu3fk21gg8185116.png" alt="image_1d6dpfhvfkkohu3fk21gg8185116.png-23.1kB"></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;strong&gt;函数定义格式：&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;function name（）
-{
-command
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;调用：&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;name argv1 argv2 
-      
-    
-    </summary>
-    
-      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
-    
-      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
-    
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
-    
-  </entry>
-  
-  <entry>
     <title>shell脚本学习之选择语句</title>
     <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%80%89%E6%8B%A9%E8%AF%AD%E5%8F%A5/"/>
     <id>http://yoursite.com/2019/03/20/shell脚本学习之选择语句/</id>
@@ -530,25 +495,25 @@ es
   </entry>
   
   <entry>
-    <title>shell脚本学习之循环语句</title>
-    <link href="http://yoursite.com/2019/03/19/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5/"/>
-    <id>http://yoursite.com/2019/03/19/shell脚本学习之循环语句/</id>
-    <published>2019-03-19T14:45:56.000Z</published>
-    <updated>2019-03-19T16:24:27.690Z</updated>
+    <title>shell脚本学习之函数</title>
+    <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%87%BD%E6%95%B0/"/>
+    <id>http://yoursite.com/2019/03/20/shell脚本学习之函数/</id>
+    <published>2019-03-20T14:45:56.000Z</published>
+    <updated>2019-03-20T14:55:31.064Z</updated>
     
-    <content type="html"><![CDATA[<p><strong>for循环语句格式</strong></p><pre><code>for var in （表达式）do    Commanddone</code></pre><p><strong>实例：计算1-100和</strong></p><pre><code>#!/bin/bashsum=0for i in `seq 1 100`do  sum=$(expr $sum + $i)doneecho $sum[root@jiangpeisi shell]# sh for.sh 5050</code></pre><p><strong>while循环语句格式</strong></p><pre><code>while（表达式）do    commanddone</code></pre><p><strong>实例：循环按行打印文件内容</strong></p><pre><code>#!/bin/bashwhile read linedo   echo $linedone &lt; /root/shell/a.txt[root@jiangpeisi shell]# sh while.sh lkitd:x:998:997:User for polkitd:/:/sbin/nologintss:x:59:59:Account used by the trousers package to sandbox the tcsd daemon:/dev/null:/sbin/nologinsshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologinpostfix:x:89:89::/var/spool/postfix:/sbin/nologinchrony:x:997:995::/var/lib/chrony:/sbin/nologinntp:x:38:38::/etc/ntp:/sbin/nologinnscd:x:28:28:NSCD Daemon:/:/sbin/nologintcpdump:x:72:72::/:/sbin/nologinadmin:x:1000:1000::/home/admin:/bin/bashdockerroot:x:996:993:Docker User:/var/lib/docker:/sbin/nologindockerroot-latest:x:995:992:Docker User:/var/lib/docker-latest:/sbin/nologinzarafa:x:994:991:Zarafa Service Account:/var/lib/zarafa:/sbin/nologintest1:x:1002:1002::/home/test1:/bin/bashjiangpeisi:x:1004:1004::/home/jiangpeisi:/bin/bashftpuser1:x:1005:1005::/home/ftpuser1:/bin/bashnamed:x:25:25:Named:/var/named:/bin/falsedhcpd:x:177:177:DHCP server:/:/sbin/nologinmysql:x:27:27:MariaDB Server:/var/lib/mysql:/sbin/nologinsaslauth:x:993:76:Saslauthd user:/run/saslauthd:/sbin/nologinapache:x:48:48:Apache:/usr/share/httpd:/sbin/nologin</code></pre>]]></content>
+    <content type="html"><![CDATA[<p><strong>函数定义格式：</strong></p><pre><code>function name（）{command}</code></pre><p><strong>调用：</strong></p><pre><code>name argv1 argv2  </code></pre><p><strong>实例：安装Apache函数</strong></p><pre><code>#!/bin/bash#Auto install appache#By Auther jiangpeisiURL=http://mirrors.shu.edu.cn/apache//httpdFILE=httpd-2.4.38.tar.gzFILES_DIR=httpd-2.4.38PREFIX=/usr/local/apachefunction Apache_install(){if [ $1 -eq 1 ];then        yum install  openssl openssl-devel zlib zlib-devel gcc-c++ pcre pcre-devel -y &amp;&amp; cd /usr/local/src/ &amp;&amp; wget $URL/$FILE &amp;&amp; tar -xvf $FILE &amp;&amp; cd $FILES_DIR &amp;&amp; ./configure --prefix=$PREFIX  if [ $? -eq 0 ];then    make&amp;&amp;make install    echo &quot;The $FILES_DIR Server Install Sucess!&quot;    . /usr/local/apache/bin/httpd  else    echo &quot;The $FILES_DIR Server Install Fail!&quot;  fifi}Apache_install 1</code></pre><p><strong>测试：</strong></p><p><img src="http://static.zybuluo.com/jiangpeisi/369raax3bt02mth1v541lp5z/image_1d6dpfhvfkkohu3fk21gg8185116.png" alt="image_1d6dpfhvfkkohu3fk21gg8185116.png-23.1kB"></p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;&lt;strong&gt;for循环语句格式&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;for var in （表达式）
-do
-    Command
-done
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;实例：计算1-100和&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;cod
+        &lt;p&gt;&lt;strong&gt;函数定义格式：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;function name（）
+{
+command
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;调用：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;name argv1 argv2 
       
     
     </summary>
@@ -586,6 +551,41 @@ else
   command
 fi
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;if常见的判断逻辑运算符&lt;/s
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>shell脚本学习之循环语句</title>
+    <link href="http://yoursite.com/2019/03/19/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5/"/>
+    <id>http://yoursite.com/2019/03/19/shell脚本学习之循环语句/</id>
+    <published>2019-03-19T14:45:56.000Z</published>
+    <updated>2019-03-19T16:24:27.690Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>for循环语句格式</strong></p><pre><code>for var in （表达式）do    Commanddone</code></pre><p><strong>实例：计算1-100和</strong></p><pre><code>#!/bin/bashsum=0for i in `seq 1 100`do  sum=$(expr $sum + $i)doneecho $sum[root@jiangpeisi shell]# sh for.sh 5050</code></pre><p><strong>while循环语句格式</strong></p><pre><code>while（表达式）do    commanddone</code></pre><p><strong>实例：循环按行打印文件内容</strong></p><pre><code>#!/bin/bashwhile read linedo   echo $linedone &lt; /root/shell/a.txt[root@jiangpeisi shell]# sh while.sh lkitd:x:998:997:User for polkitd:/:/sbin/nologintss:x:59:59:Account used by the trousers package to sandbox the tcsd daemon:/dev/null:/sbin/nologinsshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologinpostfix:x:89:89::/var/spool/postfix:/sbin/nologinchrony:x:997:995::/var/lib/chrony:/sbin/nologinntp:x:38:38::/etc/ntp:/sbin/nologinnscd:x:28:28:NSCD Daemon:/:/sbin/nologintcpdump:x:72:72::/:/sbin/nologinadmin:x:1000:1000::/home/admin:/bin/bashdockerroot:x:996:993:Docker User:/var/lib/docker:/sbin/nologindockerroot-latest:x:995:992:Docker User:/var/lib/docker-latest:/sbin/nologinzarafa:x:994:991:Zarafa Service Account:/var/lib/zarafa:/sbin/nologintest1:x:1002:1002::/home/test1:/bin/bashjiangpeisi:x:1004:1004::/home/jiangpeisi:/bin/bashftpuser1:x:1005:1005::/home/ftpuser1:/bin/bashnamed:x:25:25:Named:/var/named:/bin/falsedhcpd:x:177:177:DHCP server:/:/sbin/nologinmysql:x:27:27:MariaDB Server:/var/lib/mysql:/sbin/nologinsaslauth:x:993:76:Saslauthd user:/run/saslauthd:/sbin/nologinapache:x:48:48:Apache:/usr/share/httpd:/sbin/nologin</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;for循环语句格式&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;for var in （表达式）
+do
+    Command
+done
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;实例：计算1-100和&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;cod
       
     
     </summary>
