@@ -197,33 +197,6 @@
   </entry>
   
   <entry>
-    <title>安装新版python导致yum不可用</title>
-    <link href="http://yoursite.com/2019/03/28/%E5%AE%89%E8%A3%85%E6%96%B0%E7%89%88python%E5%AF%BC%E8%87%B4yum%E4%B8%8D%E5%8F%AF%E7%94%A8/"/>
-    <id>http://yoursite.com/2019/03/28/安装新版python导致yum不可用/</id>
-    <published>2019-03-28T14:45:56.000Z</published>
-    <updated>2019-03-27T16:09:46.093Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>问题：</strong><br>安装完新版本python导致yum命令不可用.<br><strong>错误代码：</strong></p><pre><code>File &quot;/usr/bin/yum&quot;, line 30except KeyboardInterrupt, e:^SyntaxError: invalid syntax</code></pre><p><strong>问题原因：</strong><br>yum包管理是使用python2.x写的，将python2.x升级到python3.x以后，由于python版本语法兼容性导致问题出现 .<br><strong>解决办法：</strong><br>修改yum配置文件，将python指向老版本.</p><pre><code>vim /usr/bin/yum#!/usr/bin/python2.7vim /usr/libexec/urlgrabber-ext-down#!/usr/bin/python2.7</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;strong&gt;问题：&lt;/strong&gt;&lt;br&gt;安装完新版本python导致yum命令不可用.&lt;br&gt;&lt;strong&gt;错误代码：&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;File &amp;quot;/usr/bin/yum&amp;quot;, line 30
-except Ke
-      
-    
-    </summary>
-    
-      <category term="python" scheme="http://yoursite.com/categories/python/"/>
-    
-    
-      <category term="python" scheme="http://yoursite.com/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Centos安装python3.7</title>
     <link href="http://yoursite.com/2019/03/28/python%E5%AE%89%E8%A3%85/"/>
     <id>http://yoursite.com/2019/03/28/python安装/</id>
@@ -239,6 +212,33 @@ except Ke
         &lt;p&gt;&lt;strong&gt;简介&lt;/strong&gt;&lt;br&gt;Centos系统本身自带python2.7版本，使用python –version可以查看当前系统python版本，由于系统内某些命令会用到python2，所以python2不可以卸载.&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;&lt;strong&gt;
+      
+    
+    </summary>
+    
+      <category term="python" scheme="http://yoursite.com/categories/python/"/>
+    
+    
+      <category term="python" scheme="http://yoursite.com/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>安装新版python导致yum不可用</title>
+    <link href="http://yoursite.com/2019/03/28/%E5%AE%89%E8%A3%85%E6%96%B0%E7%89%88python%E5%AF%BC%E8%87%B4yum%E4%B8%8D%E5%8F%AF%E7%94%A8/"/>
+    <id>http://yoursite.com/2019/03/28/安装新版python导致yum不可用/</id>
+    <published>2019-03-28T14:45:56.000Z</published>
+    <updated>2019-03-27T16:09:46.093Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>问题：</strong><br>安装完新版本python导致yum命令不可用.<br><strong>错误代码：</strong></p><pre><code>File &quot;/usr/bin/yum&quot;, line 30except KeyboardInterrupt, e:^SyntaxError: invalid syntax</code></pre><p><strong>问题原因：</strong><br>yum包管理是使用python2.x写的，将python2.x升级到python3.x以后，由于python版本语法兼容性导致问题出现 .<br><strong>解决办法：</strong><br>修改yum配置文件，将python指向老版本.</p><pre><code>vim /usr/bin/yum#!/usr/bin/python2.7vim /usr/libexec/urlgrabber-ext-down#!/usr/bin/python2.7</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;问题：&lt;/strong&gt;&lt;br&gt;安装完新版本python导致yum命令不可用.&lt;br&gt;&lt;strong&gt;错误代码：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;File &amp;quot;/usr/bin/yum&amp;quot;, line 30
+except Ke
       
     
     </summary>
@@ -369,35 +369,6 @@ except Ke
   </entry>
   
   <entry>
-    <title>shell脚本学习之四剑客awk</title>
-    <link href="http://yoursite.com/2019/03/21/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9B%E5%89%91%E5%AE%A2awk/"/>
-    <id>http://yoursite.com/2019/03/21/shell脚本学习之四剑客awk/</id>
-    <published>2019-03-21T14:45:56.000Z</published>
-    <updated>2019-03-21T10:41:47.151Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>简述</strong><br>awk本身就是一种编程语言，它支持条件判断、循环、数组遍历等功能。我们可以使用它来对文本进行分析和处理。与sed相比，sed是逐行处理文本内数据，awk也是，不过awk又在此基础上实现对每一行每一列的操作。专业的角度来讲awk是一个报告生成器，因为awk可以对行和列进行操作，所以在awk命令下，一个文本就像是一个表格。默认列之间的分隔符是空格，行之间分隔符是\n，可以通过-F或者-v FS:指定分割符。</p><hr><p><strong>命令格式</strong></p><pre><code>awk &apos;{pattern + action}&apos; {filenames}</code></pre><p><strong>1.基本语法参数</strong><br>1.单引号‘’：为了和shell语法分开，防止混淆<br>2.大括号{}：用来表示一组命令<br>3.pattern：一个过滤器，表示匹配pattern的条件的行才可以执行action<br>4.pattern可以是以下任意一种<br>    -正则表达式：使用通配符匹配<br>    -关系表达式：使用关系运算符<br>    -模式匹配表达式：使用运算符~或者！~匹配<br>5.action：处理动作，一系列命令，常见的动作为print</p><p>实例：抓取IP地址</p><pre><code>[root@jiangpeisi ~]# ifconfig eth0 |awk  &apos;/inet/{print $2}&apos;172.16.30.80[root@jiangpeisi ~]# ifconfig eth0 | grep inet | awk &apos;{print $2}&apos;172.16.30.80[root@jiangpeisi ~]# ip addr | awk &apos;/eth0/&apos; | awk &apos;/inet/{print $2}&apos;172.16.30.80/18</code></pre><p><strong>2.内置参数</strong><br>FS：分隔符，默认是空格作为分隔符<br>OFS：输出行分隔符<br>NR：当前行数，从1开始<br>NF：当前行的字段（列）个数<br>$0：当前记录<br><code>$1~$n</code>：当前记录的第n个字段</p><p>实例：输出字段个数</p><pre><code>[root@jiangpeisi ~]# whoroot     pts/1        2019-03-21 11:14 (49.70.207.182)[root@jiangpeisi ~]# who | awk &apos;{print NF}&apos;5</code></pre><p>实例：打印奇数行的行号和第一列内容</p><pre><code>[root@jiangpeisi ~]# awk -F: &apos;NR%2==0{next}{print NR,$1}&apos; /etc/passwd1 root3 daemon5 lp7 shutdown9 mail11 games13 nobody15 systemd-network17 polkitd19 sshd21 chrony23 nscd25 admin27 dockerroot-latest29 test131 ftpuser133 dhcpd35 saslauth</code></pre><p><strong>3.内置函数</strong><br>1.gsub（r，s）：在$0中用s代替r<br>2.index（s，t）：返回s中t的第一个位置<br>3.length（s）：返回s的长度<br>4.match（s，r）：s是否匹配r<br>5.split（s，a，fs）：在fs上讲s分成序列a<br>6.substr（s，p）：返回s从p开始的子串</p><p>实例：输出字段长度</p><pre><code>[root@jiangpeisi ~]# whoroot     pts/1        2019-03-21 11:14 (49.70.207.182)[root@jiangpeisi ~]# who | awk &apos;{print length($2)}&apos;5</code></pre><p><strong>4.流程控制语句</strong><br>1.if（condition）{}else{}<br>2.while（condition）{}<br>3.for（init；condition；step）{}<br>4.Break/contitnue<br>实例：比较大小</p><pre><code>[root@jiangpeisi ~]# echo 2 3 |awk &apos;{if($1&gt;$2){print $1}else{print $2}}&apos;3[root@jiangpeisi ~]# echo 3 2 |awk &apos;{if($1&gt;$2){print $1}else{print $2}}&apos;3</code></pre><p><strong>补充</strong><br>使用awk可以对一个文件写一个脚本，格式：</p><pre><code>awk &apos;BEGIN{ commands } pattern{ commands } END{ commands }&apos; file </code></pre><p>执行顺序：<br>第一步： 执行BEGIN { commands } pattern 语句块中的语句，在对文件操作前执行<br>第二步：从文件或标准输入中读取一行，然后执行pattern{ commands }语句块。它逐行扫描文件，从第一行到最后一行重复这个过程，直到全部文件都被读取完毕。<br>第三步：当读至输入流末尾时，执行END { commands }语句块</p><p>实例：计算用户数量</p><pre><code>[root@jiangpeisi ~]# awk &apos;BEGIN {count=0;print &quot;[start] user count is &quot;,count} {;;count++} END{print &quot;[end] user count is &quot;,count}&apos; /etc/passwd[start] user count is  0[end] user count is  36</code></pre><p>实例：计算文件夹大小</p><pre><code>[root@jiangpeisi ~]# ls -lF /etc/ | awk &apos;BEGIN {sum=0}{sum+=$5}END{print &quot;The size of this dir is&quot;,sum/1024/1024,&quot;M&quot;}&apos;The size of this dir is 1.30004 M</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;strong&gt;简述&lt;/strong&gt;&lt;br&gt;awk本身就是一种编程语言，它支持条件判断、循环、数组遍历等功能。我们可以使用它来对文本进行分析和处理。与sed相比，sed是逐行处理文本内数据，awk也是，不过awk又在此基础上实现对每一行每一列的操作。专业的角度来讲awk是
-      
-    
-    </summary>
-    
-      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
-    
-      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
-    
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
-    
-  </entry>
-  
-  <entry>
     <title>shell脚本学习之四剑客sed</title>
     <link href="http://yoursite.com/2019/03/21/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9B%E5%89%91%E5%AE%A2sed/"/>
     <id>http://yoursite.com/2019/03/21/shell脚本学习之四剑客sed/</id>
@@ -427,19 +398,19 @@ except Ke
   </entry>
   
   <entry>
-    <title>shell脚本学习之四剑客find</title>
-    <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9B%E5%89%91%E5%AE%A2find/"/>
-    <id>http://yoursite.com/2019/03/20/shell脚本学习之四剑客find/</id>
-    <published>2019-03-20T14:45:56.000Z</published>
-    <updated>2019-03-20T16:02:35.465Z</updated>
+    <title>shell脚本学习之四剑客awk</title>
+    <link href="http://yoursite.com/2019/03/21/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9B%E5%89%91%E5%AE%A2awk/"/>
+    <id>http://yoursite.com/2019/03/21/shell脚本学习之四剑客awk/</id>
+    <published>2019-03-21T14:45:56.000Z</published>
+    <updated>2019-03-21T10:41:47.151Z</updated>
     
-    <content type="html"><![CDATA[<p><strong>简述</strong><br>  find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。<br><strong>语句格式：</strong></p><pre><code>find path -option [ -print ] [ -exec -ok command ] {} \;-print ：表示find命令将匹配的文件输出到标准输出中，默认执行该命令-exec  ：表示find命令对匹配的文件执行该参数给出的shell命令。相应命令的形式为 cmd {} \;-ok      ：它的作用和-exec一样，只是需要用户交互，更安全</code></pre><p><strong>option参数说明：</strong></p><pre><code>-name ：按照文件名查找文件-perm  ：按照权限查找文件-prune ：使find命令不在当前指定的目录中查找，如果同时使用-depth选项，那么-prune将被find命令忽略-user  ： 按照文件属主来查找文件-group  ：按照文件数组来查找文件-mtime -n +n  ：按照文件的更改时间来查找文件    -n ：表示从此刻算起，文件的更改是在n天以内    +n ：表示文件的更改时间是在n天以前-atime -n +n ： 按文件访问时间来查询-ctime -n +n ：按文件创建时间来查询 -nogroup  ：查找无有效属组的文件，即该文件所属的组在/etc/groups中不存在-nouser  :：查找无有效属主的文件，即该文件的属主在/etc/passwd中不存在-newer file1 ！ file2  :查找更改时间比file1新但比file2旧的文件-type      b：表示块设备文件     block     d：表示目录         directory     c：表示字符设备文件   char     p：表示管道文件      pipe     l：表示符号链接文件   link     f：表示普通文件      file-depth ：在查找文件时，首先查找当前目录中的文件，然后再在其子目录中查找-fstype ：表示查找位于某一类型文件系统中的文件，这些文件系统类型通常可以在配置文件/etc/fstab中找到，该配置文件中包含了本系统中有关文件系统的信息-mount  ：表示在查找文件时不跨越文件系统的mount点-follow   ：表示如果find命令遇到符号链接文件，就跟踪至链接所指向的文件-cpio      ：表示对匹配的文件使用cpio命令，将这些文件备份至磁带设备中</code></pre><p><strong>实例：</strong><br>实例1：查找/root/shell目录下以.sh结尾 并且创建时间在1天以内的文件</p><pre><code>[root@jiangpeisi ~]# find /root/shell/ -name *.sh -ctime -1/root/shell/menu.sh/root/shell/apache-install.sh/root/shell/lnmp.sh/root/shell/select.sh/root/shell/sum.sh/root/shell/while.sh</code></pre><p>实例2：查找/root/shell目录下以.sh结尾 并且创建时间在1天以内的文件，并将文件移动到/opt/目录下</p><pre><code>[root@jiangpeisi ~]# find /root/shell/ -name *.sh -ctime -1 -exec mv {} /opt/ \; [root@jiangpeisi ~]# ll /opt/total 36-rw-r--r-- 1 root root  621 Mar 20 15:32 apache-install.sh-rw-r--r-- 1 root root   48 Mar 17 11:08 b.sh-rw-r--r-- 1 root root  303 Mar 18 11:28 e.sh-rw-r--r-- 1 root root  258 Mar 20 14:25 lnmp.sh-rw-r--r-- 1 root root  357 Mar 20 08:49 menu.shdrwxr-xr-x 2 root root 4096 Mar 15 15:41 nginx-rw-r--r-- 1 root root  138 Mar 20 14:12 select.sh-rw-r--r-- 1 root root   82 Mar 20 00:00 sum.sh-rw-r--r-- 1 root root   70 Mar 20 00:07 while.sh</code></pre><p>实例3：查找/data目录下以.log结尾，修改时间在1天以内，文件大小大于10M的文件，并将文件打包</p><pre><code>[root@jiangpeisi ~]# find /data/ -name *.log -ctime -1 -size +10k -exec tar -czPf /datacd/backup.tar.gz {} \;</code></pre>]]></content>
+    <content type="html"><![CDATA[<p><strong>简述</strong><br>awk本身就是一种编程语言，它支持条件判断、循环、数组遍历等功能。我们可以使用它来对文本进行分析和处理。与sed相比，sed是逐行处理文本内数据，awk也是，不过awk又在此基础上实现对每一行每一列的操作。专业的角度来讲awk是一个报告生成器，因为awk可以对行和列进行操作，所以在awk命令下，一个文本就像是一个表格。默认列之间的分隔符是空格，行之间分隔符是\n，可以通过-F或者-v FS:指定分割符。</p><hr><p><strong>命令格式</strong></p><pre><code>awk &apos;{pattern + action}&apos; {filenames}</code></pre><p><strong>1.基本语法参数</strong><br>1.单引号‘’：为了和shell语法分开，防止混淆<br>2.大括号{}：用来表示一组命令<br>3.pattern：一个过滤器，表示匹配pattern的条件的行才可以执行action<br>4.pattern可以是以下任意一种<br>    -正则表达式：使用通配符匹配<br>    -关系表达式：使用关系运算符<br>    -模式匹配表达式：使用运算符~或者！~匹配<br>5.action：处理动作，一系列命令，常见的动作为print</p><p>实例：抓取IP地址</p><pre><code>[root@jiangpeisi ~]# ifconfig eth0 |awk  &apos;/inet/{print $2}&apos;172.16.30.80[root@jiangpeisi ~]# ifconfig eth0 | grep inet | awk &apos;{print $2}&apos;172.16.30.80[root@jiangpeisi ~]# ip addr | awk &apos;/eth0/&apos; | awk &apos;/inet/{print $2}&apos;172.16.30.80/18</code></pre><p><strong>2.内置参数</strong><br>FS：分隔符，默认是空格作为分隔符<br>OFS：输出行分隔符<br>NR：当前行数，从1开始<br>NF：当前行的字段（列）个数<br>$0：当前记录<br><code>$1~$n</code>：当前记录的第n个字段</p><p>实例：输出字段个数</p><pre><code>[root@jiangpeisi ~]# whoroot     pts/1        2019-03-21 11:14 (49.70.207.182)[root@jiangpeisi ~]# who | awk &apos;{print NF}&apos;5</code></pre><p>实例：打印奇数行的行号和第一列内容</p><pre><code>[root@jiangpeisi ~]# awk -F: &apos;NR%2==0{next}{print NR,$1}&apos; /etc/passwd1 root3 daemon5 lp7 shutdown9 mail11 games13 nobody15 systemd-network17 polkitd19 sshd21 chrony23 nscd25 admin27 dockerroot-latest29 test131 ftpuser133 dhcpd35 saslauth</code></pre><p><strong>3.内置函数</strong><br>1.gsub（r，s）：在$0中用s代替r<br>2.index（s，t）：返回s中t的第一个位置<br>3.length（s）：返回s的长度<br>4.match（s，r）：s是否匹配r<br>5.split（s，a，fs）：在fs上讲s分成序列a<br>6.substr（s，p）：返回s从p开始的子串</p><p>实例：输出字段长度</p><pre><code>[root@jiangpeisi ~]# whoroot     pts/1        2019-03-21 11:14 (49.70.207.182)[root@jiangpeisi ~]# who | awk &apos;{print length($2)}&apos;5</code></pre><p><strong>4.流程控制语句</strong><br>1.if（condition）{}else{}<br>2.while（condition）{}<br>3.for（init；condition；step）{}<br>4.Break/contitnue<br>实例：比较大小</p><pre><code>[root@jiangpeisi ~]# echo 2 3 |awk &apos;{if($1&gt;$2){print $1}else{print $2}}&apos;3[root@jiangpeisi ~]# echo 3 2 |awk &apos;{if($1&gt;$2){print $1}else{print $2}}&apos;3</code></pre><p><strong>补充</strong><br>使用awk可以对一个文件写一个脚本，格式：</p><pre><code>awk &apos;BEGIN{ commands } pattern{ commands } END{ commands }&apos; file </code></pre><p>执行顺序：<br>第一步： 执行BEGIN { commands } pattern 语句块中的语句，在对文件操作前执行<br>第二步：从文件或标准输入中读取一行，然后执行pattern{ commands }语句块。它逐行扫描文件，从第一行到最后一行重复这个过程，直到全部文件都被读取完毕。<br>第三步：当读至输入流末尾时，执行END { commands }语句块</p><p>实例：计算用户数量</p><pre><code>[root@jiangpeisi ~]# awk &apos;BEGIN {count=0;print &quot;[start] user count is &quot;,count} {;;count++} END{print &quot;[end] user count is &quot;,count}&apos; /etc/passwd[start] user count is  0[end] user count is  36</code></pre><p>实例：计算文件夹大小</p><pre><code>[root@jiangpeisi ~]# ls -lF /etc/ | awk &apos;BEGIN {sum=0}{sum+=$5}END{print &quot;The size of this dir is&quot;,sum/1024/1024,&quot;M&quot;}&apos;The size of this dir is 1.30004 M</code></pre>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;&lt;strong&gt;简述&lt;/strong&gt;&lt;br&gt;  find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。&lt;br&gt;&lt;str
+        &lt;p&gt;&lt;strong&gt;简述&lt;/strong&gt;&lt;br&gt;awk本身就是一种编程语言，它支持条件判断、循环、数组遍历等功能。我们可以使用它来对文本进行分析和处理。与sed相比，sed是逐行处理文本内数据，awk也是，不过awk又在此基础上实现对每一行每一列的操作。专业的角度来讲awk是
       
     
     </summary>
@@ -530,27 +501,19 @@ command
   </entry>
   
   <entry>
-    <title>shell脚本学习之if条件判断</title>
-    <link href="http://yoursite.com/2019/03/19/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8Bif%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD/"/>
-    <id>http://yoursite.com/2019/03/19/shell脚本学习之if条件判断/</id>
-    <published>2019-03-19T14:45:56.000Z</published>
-    <updated>2019-03-19T15:57:03.332Z</updated>
+    <title>shell脚本学习之四剑客find</title>
+    <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9B%E5%89%91%E5%AE%A2find/"/>
+    <id>http://yoursite.com/2019/03/20/shell脚本学习之四剑客find/</id>
+    <published>2019-03-20T14:45:56.000Z</published>
+    <updated>2019-03-20T16:02:35.465Z</updated>
     
-    <content type="html"><![CDATA[<p><strong>语句格式：</strong></p><pre><code>if(条件表达式)  commandelif(条件表达式)  commandelse  commandfi</code></pre><p><strong>if常见的判断逻辑运算符</strong></p><pre><code>-f: 判断文件是否存在,例如if[-f filename ]。-d: 判断目录是否存在,例如if[ -d dir]。-eq :等于,应用于整型比较,即equal.-ne:不等于,应用于整型比较,即not equal。-lt: 小于,应用于整型比较,即letter。-gt:大于,应用于整型比较,即greater。-le: 小于或等于,应用于整型比较。-ge: 大于或等于,应用于整型比较。-a:双方都成立(and) ,用法为逻辑表达式-a逻辑表达式-o:单方成立(or),用法为逻辑表达式-o逻辑表达式。-z:空字符串。||:单方成立。&amp;&amp;:双方都成立表达式。</code></pre><p><strong>实例：</strong><br>使用if条件判断分数</p><pre><code>#!/bin/bashscores=$1if [ $scores -eq 100 ]; then   echo &quot; very good!&quot; ;elif [ $scores -gt 85 ];then   echo &quot;good!&quot; ;elif [ $scores -gt 60 ];then   echo &quot; pass! &quot; ;elif [ $scores -lt 60 ]; then   echo &quot;no pass!&quot;;fi[root@jiangpeisi shell]# sh scores.sh 95good!</code></pre><p>判断网络主机状态</p><pre><code>#!/bin/bashping -c2 -W1 $1 &amp;&gt;/dev/nullif [ $? -eq 0 ];then  echo &quot;$1 is UP&quot;else  echo &quot;$1[root@jiangpeisi shell]# sh state.sh 192.168.32.2192.168.32.2 is DOWN</code></pre>]]></content>
+    <content type="html"><![CDATA[<p><strong>简述</strong><br>  find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。<br><strong>语句格式：</strong></p><pre><code>find path -option [ -print ] [ -exec -ok command ] {} \;-print ：表示find命令将匹配的文件输出到标准输出中，默认执行该命令-exec  ：表示find命令对匹配的文件执行该参数给出的shell命令。相应命令的形式为 cmd {} \;-ok      ：它的作用和-exec一样，只是需要用户交互，更安全</code></pre><p><strong>option参数说明：</strong></p><pre><code>-name ：按照文件名查找文件-perm  ：按照权限查找文件-prune ：使find命令不在当前指定的目录中查找，如果同时使用-depth选项，那么-prune将被find命令忽略-user  ： 按照文件属主来查找文件-group  ：按照文件数组来查找文件-mtime -n +n  ：按照文件的更改时间来查找文件    -n ：表示从此刻算起，文件的更改是在n天以内    +n ：表示文件的更改时间是在n天以前-atime -n +n ： 按文件访问时间来查询-ctime -n +n ：按文件创建时间来查询 -nogroup  ：查找无有效属组的文件，即该文件所属的组在/etc/groups中不存在-nouser  :：查找无有效属主的文件，即该文件的属主在/etc/passwd中不存在-newer file1 ！ file2  :查找更改时间比file1新但比file2旧的文件-type      b：表示块设备文件     block     d：表示目录         directory     c：表示字符设备文件   char     p：表示管道文件      pipe     l：表示符号链接文件   link     f：表示普通文件      file-depth ：在查找文件时，首先查找当前目录中的文件，然后再在其子目录中查找-fstype ：表示查找位于某一类型文件系统中的文件，这些文件系统类型通常可以在配置文件/etc/fstab中找到，该配置文件中包含了本系统中有关文件系统的信息-mount  ：表示在查找文件时不跨越文件系统的mount点-follow   ：表示如果find命令遇到符号链接文件，就跟踪至链接所指向的文件-cpio      ：表示对匹配的文件使用cpio命令，将这些文件备份至磁带设备中</code></pre><p><strong>实例：</strong><br>实例1：查找/root/shell目录下以.sh结尾 并且创建时间在1天以内的文件</p><pre><code>[root@jiangpeisi ~]# find /root/shell/ -name *.sh -ctime -1/root/shell/menu.sh/root/shell/apache-install.sh/root/shell/lnmp.sh/root/shell/select.sh/root/shell/sum.sh/root/shell/while.sh</code></pre><p>实例2：查找/root/shell目录下以.sh结尾 并且创建时间在1天以内的文件，并将文件移动到/opt/目录下</p><pre><code>[root@jiangpeisi ~]# find /root/shell/ -name *.sh -ctime -1 -exec mv {} /opt/ \; [root@jiangpeisi ~]# ll /opt/total 36-rw-r--r-- 1 root root  621 Mar 20 15:32 apache-install.sh-rw-r--r-- 1 root root   48 Mar 17 11:08 b.sh-rw-r--r-- 1 root root  303 Mar 18 11:28 e.sh-rw-r--r-- 1 root root  258 Mar 20 14:25 lnmp.sh-rw-r--r-- 1 root root  357 Mar 20 08:49 menu.shdrwxr-xr-x 2 root root 4096 Mar 15 15:41 nginx-rw-r--r-- 1 root root  138 Mar 20 14:12 select.sh-rw-r--r-- 1 root root   82 Mar 20 00:00 sum.sh-rw-r--r-- 1 root root   70 Mar 20 00:07 while.sh</code></pre><p>实例3：查找/data目录下以.log结尾，修改时间在1天以内，文件大小大于10M的文件，并将文件打包</p><pre><code>[root@jiangpeisi ~]# find /data/ -name *.log -ctime -1 -size +10k -exec tar -czPf /datacd/backup.tar.gz {} \;</code></pre>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;&lt;strong&gt;语句格式：&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;if(条件表达式)
-  command
-elif(条件表达式)
-  command
-else
-  command
-fi
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;if常见的判断逻辑运算符&lt;/s
+        &lt;p&gt;&lt;strong&gt;简述&lt;/strong&gt;&lt;br&gt;  find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。&lt;br&gt;&lt;str
       
     
     </summary>
@@ -586,6 +549,43 @@ do
 done
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;实例：计算1-100和&lt;/strong&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;cod
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>shell脚本学习之if条件判断</title>
+    <link href="http://yoursite.com/2019/03/19/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8Bif%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD/"/>
+    <id>http://yoursite.com/2019/03/19/shell脚本学习之if条件判断/</id>
+    <published>2019-03-19T14:45:56.000Z</published>
+    <updated>2019-03-19T15:57:03.332Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>语句格式：</strong></p><pre><code>if(条件表达式)  commandelif(条件表达式)  commandelse  commandfi</code></pre><p><strong>if常见的判断逻辑运算符</strong></p><pre><code>-f: 判断文件是否存在,例如if[-f filename ]。-d: 判断目录是否存在,例如if[ -d dir]。-eq :等于,应用于整型比较,即equal.-ne:不等于,应用于整型比较,即not equal。-lt: 小于,应用于整型比较,即letter。-gt:大于,应用于整型比较,即greater。-le: 小于或等于,应用于整型比较。-ge: 大于或等于,应用于整型比较。-a:双方都成立(and) ,用法为逻辑表达式-a逻辑表达式-o:单方成立(or),用法为逻辑表达式-o逻辑表达式。-z:空字符串。||:单方成立。&amp;&amp;:双方都成立表达式。</code></pre><p><strong>实例：</strong><br>使用if条件判断分数</p><pre><code>#!/bin/bashscores=$1if [ $scores -eq 100 ]; then   echo &quot; very good!&quot; ;elif [ $scores -gt 85 ];then   echo &quot;good!&quot; ;elif [ $scores -gt 60 ];then   echo &quot; pass! &quot; ;elif [ $scores -lt 60 ]; then   echo &quot;no pass!&quot;;fi[root@jiangpeisi shell]# sh scores.sh 95good!</code></pre><p>判断网络主机状态</p><pre><code>#!/bin/bashping -c2 -W1 $1 &amp;&gt;/dev/nullif [ $? -eq 0 ];then  echo &quot;$1 is UP&quot;else  echo &quot;$1[root@jiangpeisi shell]# sh state.sh 192.168.32.2192.168.32.2 is DOWN</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;语句格式：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;if(条件表达式)
+  command
+elif(条件表达式)
+  command
+else
+  command
+fi
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;if常见的判断逻辑运算符&lt;/s
       
     
     </summary>
