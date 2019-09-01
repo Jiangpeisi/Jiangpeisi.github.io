@@ -70,6 +70,31 @@
   </entry>
   
   <entry>
+    <title>Samba服务</title>
+    <link href="http://yoursite.com/2019/04/14/Samba%E6%9C%8D%E5%8A%A1/"/>
+    <id>http://yoursite.com/2019/04/14/Samba服务/</id>
+    <published>2019-04-14T14:45:56.000Z</published>
+    <updated>2019-04-14T02:43:19.730Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><p>在早期的网络世界中，档案数据在不同主机之间的传输大多是使用FTP服务，但是FTP服务传输档案有一些小小的问题，那就是我们无法直接修改主机上面的档案数据，也就是说我们如果想要修改某个档案的数据时，就必须将该档案的服务器下载后才能修改，这样就很麻烦了。其实解决这个问题也很简单，NFS服务就很好的解决档案数据不能直接修改的问题，因为NFS服务是直接将共享目录挂载到客户端的机器上，那么共享目录就好像成了自己的目录一样，共享数据的使用自然就很方便，但是，NFS也有一些小小的问题，它仅能使Unix Like的机器相互分享。那么我要是需要Windows与Unix-Like这两个不同的平台相互分享呢？那该怎么办？也就是说，FTP服务实现了跨平台分享，却无法修改共享数据；NFS解决了共享数据的修改问题，却没办法实现跨平台的共享。所以，SAMBA服务也就随着需要产生了。 它综合了FTP和NFS的有点，既实现了跨平台的传输，还满足了修改数据的功能。</p><hr><h2 id="安装包"><a href="#安装包" class="headerlink" title="安装包"></a>安装包</h2><p>服务端：</p><pre><code>[root@jiangpeisi ~]# yum install samba -y</code></pre><p>客户端：</p><pre><code>[root@jiangpesi ~]# yum install samba-client -y</code></pre><h2 id="samba实例配置文件详解"><a href="#samba实例配置文件详解" class="headerlink" title="samba实例配置文件详解"></a>samba实例配置文件详解</h2><p>注：;开头的行都是实例配置，并不会起作用，#开的的行时注释行</p><pre><code>[global]# ----------------------- Network-Related Options -------------------------        workgroup = MYGROUP                                        设置Samba所在工作组或域名        server string = Samba Server Version %v                      设置服务器描述信息;       netbios name = MYSERVER                             设置服务器的NetBIOS名称;       interfaces = lo eth0 192.168.12.2/24 192.168.13.2/24            这只Samba服务器所使用的网卡接口，可以实验网卡的名称或者IP地址;       hosts allow = 127. 192.168.12. 192.168.13.                     设置允许访问Samba服务器的网络地址、主机地址及域名，多个参数以空格隔开# --------------------------- Logging Options -----------------------------        log file = /var/log/samba/log.%m                            设置日志文件保存路径和名称。%m代表客户端主机名        max log size = 50                              设置日志文件的最大值，单位为KB。当值为0时，表示不限制文件大小# ----------------------- Standalone Server Options ------------------------        security = user                       设置用户访问Samba服务器的安全级别;      encrypt passwords = yes           设置是否对Samba的密码进行加密;      smb passwd file = /etc/samba/smbpasswd           设置Samba密码文件的路径和名称        passdb backend = tdbsam                    如果使用加密密码，指定所使用的密码数据库类型# ----------------------- Domain Members Options ------------------------;       security = domain                          设置安全级别为domain，需要指定用户名和密码，指定Windows域控制器做身份验证;       passdb backend = tdbsam;       realm = MY_REALM;       password server = &lt;NT-Server-Name&gt;          指定身份验证服务器#----------------------------- Name Resolution -------------------------------;       wins support = yes;       wins server = w.x.y.z;       wins proxy = yes;       dns proxy = yes# --------------------------- Printing Options -----------------------------        load printers = yes             是否允许使用Samba打印机共享        cups options = raw            ;       printcap name = /etc/printcap        # obtain a list of printers automatically on UNIX System V systems:;       printcap name = lpstat;       printing = cups# --------------------------- File System Options ---------------------------;       map archive = no;       map hidden = no;       map read only = no;       map system = no;       store dos attributes = yes#============================ Share Definitions ==============================[homes]                           []内设置共享目录的名称        comment = Home Directories                                设置共享目录的注释说明        browseable = no                         设置在浏览时显示共享目录        writable = yes                              设置共享目录可写        create mode              设置默认创建的文件的权限        directory mode           设置默认创建的目录的权限        force  group             设置默认创建的文件的群组        force user               设置默认创建的文件的所有者        hosts allow              设置允许访问该共享资源的主机、网段、域        hosts deny               设置不能访问该共享资源的主机、网段、域;       valid users = %S                          设置只有允许访问共享目录的用户;       valid users = MYDOMAIN\%S                [printers]        comment = All Printers        path = /var/spool/samba        browseable = no        guest ok = no             设置是否允许匿名用户访问共享资源        writable = no        printable = yes;       [netlogon];       comment = Network Logon Service;       path = /var/lib/samba/netlogon;       guest ok = yes;       writable = no;       share modes = no;       [Profiles];       path = /var/lib/samba/profiles;       browseable = no;       guest ok = yes;       [public];       comment = Public Stuff;       path = /home/samba;       public = yes;       writable = no;       printable = no;       write list = +staff         设置可写的用户和群组</code></pre><h2 id="配置实例"><a href="#配置实例" class="headerlink" title="配置实例"></a>配置实例</h2><p><strong>share级别配置</strong><br>1.具体参数：</p><ul><li>Samba服务器所在工作组为：workgroup</li><li>Samba服务器描述信息:Samba Server</li><li>Samba服务器NetBIOS名称：test</li><li>共享目录：sharedir</li><li>共享目录名：share</li><li>允许访问服务器的网络：192.168.32.0/24</li><li>日志文件路径：/var/log/samba/log.%m</li><li>服务器网卡：ens33</li><li>访问权限：读写</li></ul><p>2.创建共享目录</p><pre><code>[root@jiangpeisi ~]# mkdir sharedir</code></pre><p>3.修改配置文件</p><pre><code>[root@jiangpeisi userdir]# vim /etc/samba/smb.conf</code></pre><p>修改配置如下：</p><pre><code>[global]        workgroup = SAMBA#       security = share        server string = Samba Server        netbios name = test        interfaces = ens33 lo        hosts allow = 192.168.32. 127.        log file = /var/log/samba/log.%m[share]        comment = share        path = /sharedir        public = yes</code></pre><p>貌似现在samba不支持直接指定security = share选项，添加会报错警告，这里先注释掉。<br>4.服务器修改共享文件权限</p><pre><code>[root@jiangpeisi ~]# chmod 777 -R /sharedir/</code></pre><p>5.客户端登陆并创建文件</p><pre><code>[root@jiangpesi ~]# smbclient  //192.168.32.152/shareEnter SAMBA\root&apos;s password: Anonymous login successfulTry &quot;help&quot; to get a list of possible commands.mb: \&gt; mkdir asmb: \&gt; </code></pre><p>6.服务器查看客户端创建的文件</p><pre><code>[root@jiangpeisi samba]# cd /sharedir/[root@jiangpeisi sharedir]# ll总用量 0drwxr-xr-x 2 nobody nobody 6 4月  13 22:56 a</code></pre><p>由于使用的匿名登陆，所以客户端登陆时会默认映射到nobody（nfsnoboody）用户，所以创建的文件所属用户和组都为noboody。</p><p><strong>user级别配置</strong><br>1.具体参数：</p><ul><li>Samba服务器所在工作组为：workgroup</li><li>Samba服务器描述信息:Samba Server</li><li>Samba服务器NetBIOS名称：test</li><li>共享目录：userdir</li><li>共享目录名：user</li><li>允许访问服务器的网络：192.168.0.0/16</li><li>日志文件路径：/var/log/samba/log.%m</li><li>服务器网卡：ens33</li><li>对Samba密码进行加密</li><li>加密数据库类型为：tdbsam</li><li>userdir目录的所有者和群组所有者为user</li><li>访问权限：读写</li></ul><p>2.创建组和用户</p><pre><code>[root@jiangpeisi ~]# useradd user</code></pre><p>2.创建samba用户</p><pre><code>[root@jiangpeisi ~]# smbpasswd  -a userNew SMB password:Retype new SMB password:Added user user.</code></pre><p>3.创建共享目录</p><pre><code>[root@jiangpeisi ~]# mkdir /userdir</code></pre><p>4.递归设置userdir目录的所有者和组为user</p><pre><code>[root@jiangpeisi ~]# chown -R user.user /userdir/</code></pre><p>5.修改配置文件</p><pre><code>[root@jiangpeisi userdir]# vim /etc/samba/smb.conf</code></pre><p>修改配置文件如下</p><pre><code>[global]        workgroup = SAMBA        server string = Samba Server        netbios name = test        interfaces = ens33        hosts allow = 192.168. 127.        log file = /var/log/samba/log.%m        security = user        passdb backend = tdbsam        encrypt passwords = yes[user]        comment = user        path = /userdir        writable = yes        public = no</code></pre><h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p><strong>linux测试</strong><br>1.客户端登陆：</p><pre><code>[root@jiangpesi ~]# smbclient  //192.168.32.152/user -U userEnter SAMBA\user&apos;s password: Try &quot;help&quot; to get a list of possible commands.smb: \&gt; ls  .                                   D        0  Sat Apr 13 23:10:58 2019  ..                                 DR        0  Sat Apr 13 23:10:58 2019        17811456 blocks of size 1024. 15489980 blocks availablesmb: \&gt; mkdir asmb: \&gt; ls  .                                   D        0  Sat Apr 13 23:23:23 2019  ..                                 DR        0  Sat Apr 13 23:10:58 2019  a                                   D        0  Sat Apr 13 23:23:23 2019        17811456 blocks of size 1024. 15490020 blocks available</code></pre><p>2.服务端查看：</p><pre><code>[root@jiangpeisi userdir]# ll总用量 0drwxr-xr-x 2 user user 6 4月  13 23:23 a</code></pre><p>3.挂载</p><pre><code>[root@jiangpesi ~]# mount -o username=user //192.168.32.152/user /mnt/usermount: //192.168.32.152/user 写保护，将以只读方式挂载mount: 无法以只读方式挂载 //192.168.32.152/user</code></pre><p>出现此问题是因为缺少cifs-utils，安装包后重新挂载。</p><pre><code>[root@jiangpesi ~]# yum -y install cifs-utils[root@jiangpesi ~]# mount -o username=user //192.168.32.152/user /mnt/user[root@jiangpesi ~]# df -h文件系统               容量  已用  可用 已用% 挂载点/dev/mapper/cl-root     17G  2.0G   15G   12% /devtmpfs               478M     0  478M    0% /devtmpfs                  489M     0  489M    0% /dev/shmtmpfs                  489M  6.7M  482M    2% /runtmpfs                  489M     0  489M    0% /sys/fs/cgroup/dev/sda1             1014M  139M  876M   14% /boottmpfs                   98M     0   98M    0% /run/user/0//192.168.32.152/user   17G  2.3G   15G   14% /mnt/user</code></pre><p>4.挂载后使用<br>客户端创建文件：</p><pre><code>[root@jiangpesi ~]# cd /mnt/user/[root@jiangpesi user]# touch b[root@jiangpesi user]# ll总用量 0drwxr-xr-x. 2 1000 1000 0 4月  13 23:23 a-rw-r--r--. 1 1000 1000 0 4月  13 23:37 b</code></pre><p>服务端查看：</p><pre><code>[root@jiangpeisi userdir]# ll总用量 0drwxr-xr-x 2 user user 6 4月  13 23:23 a-rw-r--r-- 1 user user 0 4月  13 23:37 b</code></pre><p><strong>windows测试：</strong><br>1.客户端登陆<br><img src="http://static.zybuluo.com/jiangpeisi/svkc6sapn28tdhs7loga26zo/image_1d8cqg1u213hqrkb1a6q13k3f5u2m.png" alt="image_1d8cqg1u213hqrkb1a6q13k3f5u2m.png-14.6kB"><br>注意是斜杠（\）反斜杠不是（/）windows和linux路径分割符不同。<br><img src="http://static.zybuluo.com/jiangpeisi/l8q0r642sf6h6m6dkib14x8j/image_1d8cqgahn1an61bth4oijghv7q33.png" alt="image_1d8cqgahn1an61bth4oijghv7q33.png-59.6kB"><br>2.创建文件<br><img src="http://static.zybuluo.com/jiangpeisi/13qphizsscfw3nqqzwqrslii/image_1d8cqgnsdlcb9gt1b3c1rqhs5a3g.png" alt="image_1d8cqgnsdlcb9gt1b3c1rqhs5a3g.png-63.4kB"><br>3.编辑文件<br><img src="http://static.zybuluo.com/jiangpeisi/8bzp7a2b3dsuzzmbcg1nutr4/image_1d8cqhc3ab037pi7soav510om3t.png" alt="image_1d8cqhc3ab037pi7soav510om3t.png-17kB"><br>4.服务器查看</p><pre><code>[root@jiangpeisi userdir]# ll总用量 4drwxr-xr-x 2 user user 6 4月  13 23:23 a-rw-r--r-- 1 user user 0 4月  13 23:37 b-rwxr--r-- 1 user user 9 4月  13 23:45 新建文本文档.txt[root@jiangpeisi userdir]# cat 新建文本文档.txt 测试[root@jiangpeisi userdir]# </code></pre><p><strong>windows添加网络位置</strong><br>1.在设备和驱动区域点击右键<br><img src="http://static.zybuluo.com/jiangpeisi/d6eiltifdjt9orqb9yc9wwy0/image_1d8cqme6g12291vv960alljvvl57.png" alt="image_1d8cqme6g12291vv960alljvvl57.png-44.7kB"><br>2.添加服务器共享目录位置<br><img src="http://static.zybuluo.com/jiangpeisi/3574y2ngg1759rsu1q9de6bl/image_1d8cqn2to142t1u2sjdd1sl91lj95k.png" alt="image_1d8cqn2to142t1u2sjdd1sl91lj95k.png-21.5kB"><br>3.添加完成<br><img src="http://static.zybuluo.com/jiangpeisi/lniuvtp1kyt9pqthj6om68kn/image_1d8cqnd2g88br2k1kss1ua219o061.png" alt="image_1d8cqnd2g88br2k1kss1ua219o061.png-37.9kB"><br>添加完网络位置，samba共享目录就可以像本地windows本地目录一样使用了。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;简述&quot;&gt;&lt;a href=&quot;#简述&quot; class=&quot;headerlink&quot; title=&quot;简述&quot;&gt;&lt;/a&gt;简述&lt;/h2&gt;&lt;p&gt;在早期的网络世界中，档案数据在不同主机之间的传输大多是使用FTP服务，但是FTP服务传输档案有一些小小的问题，那就是我们无法直接修改主机上面
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+    
+      <category term="Samba" scheme="http://yoursite.com/tags/Samba/"/>
+    
+  </entry>
+  
+  <entry>
     <title>磁盘分区</title>
     <link href="http://yoursite.com/2019/04/14/%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA/"/>
     <id>http://yoursite.com/2019/04/14/磁盘分区/</id>
@@ -95,31 +120,6 @@
     
     
       <category term="磁盘分区" scheme="http://yoursite.com/tags/%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Samba服务</title>
-    <link href="http://yoursite.com/2019/04/14/Samba%E6%9C%8D%E5%8A%A1/"/>
-    <id>http://yoursite.com/2019/04/14/Samba服务/</id>
-    <published>2019-04-14T14:45:56.000Z</published>
-    <updated>2019-04-14T02:43:19.730Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><p>在早期的网络世界中，档案数据在不同主机之间的传输大多是使用FTP服务，但是FTP服务传输档案有一些小小的问题，那就是我们无法直接修改主机上面的档案数据，也就是说我们如果想要修改某个档案的数据时，就必须将该档案的服务器下载后才能修改，这样就很麻烦了。其实解决这个问题也很简单，NFS服务就很好的解决档案数据不能直接修改的问题，因为NFS服务是直接将共享目录挂载到客户端的机器上，那么共享目录就好像成了自己的目录一样，共享数据的使用自然就很方便，但是，NFS也有一些小小的问题，它仅能使Unix Like的机器相互分享。那么我要是需要Windows与Unix-Like这两个不同的平台相互分享呢？那该怎么办？也就是说，FTP服务实现了跨平台分享，却无法修改共享数据；NFS解决了共享数据的修改问题，却没办法实现跨平台的共享。所以，SAMBA服务也就随着需要产生了。 它综合了FTP和NFS的有点，既实现了跨平台的传输，还满足了修改数据的功能。</p><hr><h2 id="安装包"><a href="#安装包" class="headerlink" title="安装包"></a>安装包</h2><p>服务端：</p><pre><code>[root@jiangpeisi ~]# yum install samba -y</code></pre><p>客户端：</p><pre><code>[root@jiangpesi ~]# yum install samba-client -y</code></pre><h2 id="samba实例配置文件详解"><a href="#samba实例配置文件详解" class="headerlink" title="samba实例配置文件详解"></a>samba实例配置文件详解</h2><p>注：;开头的行都是实例配置，并不会起作用，#开的的行时注释行</p><pre><code>[global]# ----------------------- Network-Related Options -------------------------        workgroup = MYGROUP                                        设置Samba所在工作组或域名        server string = Samba Server Version %v                      设置服务器描述信息;       netbios name = MYSERVER                             设置服务器的NetBIOS名称;       interfaces = lo eth0 192.168.12.2/24 192.168.13.2/24            这只Samba服务器所使用的网卡接口，可以实验网卡的名称或者IP地址;       hosts allow = 127. 192.168.12. 192.168.13.                     设置允许访问Samba服务器的网络地址、主机地址及域名，多个参数以空格隔开# --------------------------- Logging Options -----------------------------        log file = /var/log/samba/log.%m                            设置日志文件保存路径和名称。%m代表客户端主机名        max log size = 50                              设置日志文件的最大值，单位为KB。当值为0时，表示不限制文件大小# ----------------------- Standalone Server Options ------------------------        security = user                       设置用户访问Samba服务器的安全级别;      encrypt passwords = yes           设置是否对Samba的密码进行加密;      smb passwd file = /etc/samba/smbpasswd           设置Samba密码文件的路径和名称        passdb backend = tdbsam                    如果使用加密密码，指定所使用的密码数据库类型# ----------------------- Domain Members Options ------------------------;       security = domain                          设置安全级别为domain，需要指定用户名和密码，指定Windows域控制器做身份验证;       passdb backend = tdbsam;       realm = MY_REALM;       password server = &lt;NT-Server-Name&gt;          指定身份验证服务器#----------------------------- Name Resolution -------------------------------;       wins support = yes;       wins server = w.x.y.z;       wins proxy = yes;       dns proxy = yes# --------------------------- Printing Options -----------------------------        load printers = yes             是否允许使用Samba打印机共享        cups options = raw            ;       printcap name = /etc/printcap        # obtain a list of printers automatically on UNIX System V systems:;       printcap name = lpstat;       printing = cups# --------------------------- File System Options ---------------------------;       map archive = no;       map hidden = no;       map read only = no;       map system = no;       store dos attributes = yes#============================ Share Definitions ==============================[homes]                           []内设置共享目录的名称        comment = Home Directories                                设置共享目录的注释说明        browseable = no                         设置在浏览时显示共享目录        writable = yes                              设置共享目录可写        create mode              设置默认创建的文件的权限        directory mode           设置默认创建的目录的权限        force  group             设置默认创建的文件的群组        force user               设置默认创建的文件的所有者        hosts allow              设置允许访问该共享资源的主机、网段、域        hosts deny               设置不能访问该共享资源的主机、网段、域;       valid users = %S                          设置只有允许访问共享目录的用户;       valid users = MYDOMAIN\%S                [printers]        comment = All Printers        path = /var/spool/samba        browseable = no        guest ok = no             设置是否允许匿名用户访问共享资源        writable = no        printable = yes;       [netlogon];       comment = Network Logon Service;       path = /var/lib/samba/netlogon;       guest ok = yes;       writable = no;       share modes = no;       [Profiles];       path = /var/lib/samba/profiles;       browseable = no;       guest ok = yes;       [public];       comment = Public Stuff;       path = /home/samba;       public = yes;       writable = no;       printable = no;       write list = +staff         设置可写的用户和群组</code></pre><h2 id="配置实例"><a href="#配置实例" class="headerlink" title="配置实例"></a>配置实例</h2><p><strong>share级别配置</strong><br>1.具体参数：</p><ul><li>Samba服务器所在工作组为：workgroup</li><li>Samba服务器描述信息:Samba Server</li><li>Samba服务器NetBIOS名称：test</li><li>共享目录：sharedir</li><li>共享目录名：share</li><li>允许访问服务器的网络：192.168.32.0/24</li><li>日志文件路径：/var/log/samba/log.%m</li><li>服务器网卡：ens33</li><li>访问权限：读写</li></ul><p>2.创建共享目录</p><pre><code>[root@jiangpeisi ~]# mkdir sharedir</code></pre><p>3.修改配置文件</p><pre><code>[root@jiangpeisi userdir]# vim /etc/samba/smb.conf</code></pre><p>修改配置如下：</p><pre><code>[global]        workgroup = SAMBA#       security = share        server string = Samba Server        netbios name = test        interfaces = ens33 lo        hosts allow = 192.168.32. 127.        log file = /var/log/samba/log.%m[share]        comment = share        path = /sharedir        public = yes</code></pre><p>貌似现在samba不支持直接指定security = share选项，添加会报错警告，这里先注释掉。<br>4.服务器修改共享文件权限</p><pre><code>[root@jiangpeisi ~]# chmod 777 -R /sharedir/</code></pre><p>5.客户端登陆并创建文件</p><pre><code>[root@jiangpesi ~]# smbclient  //192.168.32.152/shareEnter SAMBA\root&apos;s password: Anonymous login successfulTry &quot;help&quot; to get a list of possible commands.mb: \&gt; mkdir asmb: \&gt; </code></pre><p>6.服务器查看客户端创建的文件</p><pre><code>[root@jiangpeisi samba]# cd /sharedir/[root@jiangpeisi sharedir]# ll总用量 0drwxr-xr-x 2 nobody nobody 6 4月  13 22:56 a</code></pre><p>由于使用的匿名登陆，所以客户端登陆时会默认映射到nobody（nfsnoboody）用户，所以创建的文件所属用户和组都为noboody。</p><p><strong>user级别配置</strong><br>1.具体参数：</p><ul><li>Samba服务器所在工作组为：workgroup</li><li>Samba服务器描述信息:Samba Server</li><li>Samba服务器NetBIOS名称：test</li><li>共享目录：userdir</li><li>共享目录名：user</li><li>允许访问服务器的网络：192.168.0.0/16</li><li>日志文件路径：/var/log/samba/log.%m</li><li>服务器网卡：ens33</li><li>对Samba密码进行加密</li><li>加密数据库类型为：tdbsam</li><li>userdir目录的所有者和群组所有者为user</li><li>访问权限：读写</li></ul><p>2.创建组和用户</p><pre><code>[root@jiangpeisi ~]# useradd user</code></pre><p>2.创建samba用户</p><pre><code>[root@jiangpeisi ~]# smbpasswd  -a userNew SMB password:Retype new SMB password:Added user user.</code></pre><p>3.创建共享目录</p><pre><code>[root@jiangpeisi ~]# mkdir /userdir</code></pre><p>4.递归设置userdir目录的所有者和组为user</p><pre><code>[root@jiangpeisi ~]# chown -R user.user /userdir/</code></pre><p>5.修改配置文件</p><pre><code>[root@jiangpeisi userdir]# vim /etc/samba/smb.conf</code></pre><p>修改配置文件如下</p><pre><code>[global]        workgroup = SAMBA        server string = Samba Server        netbios name = test        interfaces = ens33        hosts allow = 192.168. 127.        log file = /var/log/samba/log.%m        security = user        passdb backend = tdbsam        encrypt passwords = yes[user]        comment = user        path = /userdir        writable = yes        public = no</code></pre><h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p><strong>linux测试</strong><br>1.客户端登陆：</p><pre><code>[root@jiangpesi ~]# smbclient  //192.168.32.152/user -U userEnter SAMBA\user&apos;s password: Try &quot;help&quot; to get a list of possible commands.smb: \&gt; ls  .                                   D        0  Sat Apr 13 23:10:58 2019  ..                                 DR        0  Sat Apr 13 23:10:58 2019        17811456 blocks of size 1024. 15489980 blocks availablesmb: \&gt; mkdir asmb: \&gt; ls  .                                   D        0  Sat Apr 13 23:23:23 2019  ..                                 DR        0  Sat Apr 13 23:10:58 2019  a                                   D        0  Sat Apr 13 23:23:23 2019        17811456 blocks of size 1024. 15490020 blocks available</code></pre><p>2.服务端查看：</p><pre><code>[root@jiangpeisi userdir]# ll总用量 0drwxr-xr-x 2 user user 6 4月  13 23:23 a</code></pre><p>3.挂载</p><pre><code>[root@jiangpesi ~]# mount -o username=user //192.168.32.152/user /mnt/usermount: //192.168.32.152/user 写保护，将以只读方式挂载mount: 无法以只读方式挂载 //192.168.32.152/user</code></pre><p>出现此问题是因为缺少cifs-utils，安装包后重新挂载。</p><pre><code>[root@jiangpesi ~]# yum -y install cifs-utils[root@jiangpesi ~]# mount -o username=user //192.168.32.152/user /mnt/user[root@jiangpesi ~]# df -h文件系统               容量  已用  可用 已用% 挂载点/dev/mapper/cl-root     17G  2.0G   15G   12% /devtmpfs               478M     0  478M    0% /devtmpfs                  489M     0  489M    0% /dev/shmtmpfs                  489M  6.7M  482M    2% /runtmpfs                  489M     0  489M    0% /sys/fs/cgroup/dev/sda1             1014M  139M  876M   14% /boottmpfs                   98M     0   98M    0% /run/user/0//192.168.32.152/user   17G  2.3G   15G   14% /mnt/user</code></pre><p>4.挂载后使用<br>客户端创建文件：</p><pre><code>[root@jiangpesi ~]# cd /mnt/user/[root@jiangpesi user]# touch b[root@jiangpesi user]# ll总用量 0drwxr-xr-x. 2 1000 1000 0 4月  13 23:23 a-rw-r--r--. 1 1000 1000 0 4月  13 23:37 b</code></pre><p>服务端查看：</p><pre><code>[root@jiangpeisi userdir]# ll总用量 0drwxr-xr-x 2 user user 6 4月  13 23:23 a-rw-r--r-- 1 user user 0 4月  13 23:37 b</code></pre><p><strong>windows测试：</strong><br>1.客户端登陆<br><img src="http://static.zybuluo.com/jiangpeisi/svkc6sapn28tdhs7loga26zo/image_1d8cqg1u213hqrkb1a6q13k3f5u2m.png" alt="image_1d8cqg1u213hqrkb1a6q13k3f5u2m.png-14.6kB"><br>注意是斜杠（\）反斜杠不是（/）windows和linux路径分割符不同。<br><img src="http://static.zybuluo.com/jiangpeisi/l8q0r642sf6h6m6dkib14x8j/image_1d8cqgahn1an61bth4oijghv7q33.png" alt="image_1d8cqgahn1an61bth4oijghv7q33.png-59.6kB"><br>2.创建文件<br><img src="http://static.zybuluo.com/jiangpeisi/13qphizsscfw3nqqzwqrslii/image_1d8cqgnsdlcb9gt1b3c1rqhs5a3g.png" alt="image_1d8cqgnsdlcb9gt1b3c1rqhs5a3g.png-63.4kB"><br>3.编辑文件<br><img src="http://static.zybuluo.com/jiangpeisi/8bzp7a2b3dsuzzmbcg1nutr4/image_1d8cqhc3ab037pi7soav510om3t.png" alt="image_1d8cqhc3ab037pi7soav510om3t.png-17kB"><br>4.服务器查看</p><pre><code>[root@jiangpeisi userdir]# ll总用量 4drwxr-xr-x 2 user user 6 4月  13 23:23 a-rw-r--r-- 1 user user 0 4月  13 23:37 b-rwxr--r-- 1 user user 9 4月  13 23:45 新建文本文档.txt[root@jiangpeisi userdir]# cat 新建文本文档.txt 测试[root@jiangpeisi userdir]# </code></pre><p><strong>windows添加网络位置</strong><br>1.在设备和驱动区域点击右键<br><img src="http://static.zybuluo.com/jiangpeisi/d6eiltifdjt9orqb9yc9wwy0/image_1d8cqme6g12291vv960alljvvl57.png" alt="image_1d8cqme6g12291vv960alljvvl57.png-44.7kB"><br>2.添加服务器共享目录位置<br><img src="http://static.zybuluo.com/jiangpeisi/3574y2ngg1759rsu1q9de6bl/image_1d8cqn2to142t1u2sjdd1sl91lj95k.png" alt="image_1d8cqn2to142t1u2sjdd1sl91lj95k.png-21.5kB"><br>3.添加完成<br><img src="http://static.zybuluo.com/jiangpeisi/lniuvtp1kyt9pqthj6om68kn/image_1d8cqnd2g88br2k1kss1ua219o061.png" alt="image_1d8cqnd2g88br2k1kss1ua219o061.png-37.9kB"><br>添加完网络位置，samba共享目录就可以像本地windows本地目录一样使用了。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;简述&quot;&gt;&lt;a href=&quot;#简述&quot; class=&quot;headerlink&quot; title=&quot;简述&quot;&gt;&lt;/a&gt;简述&lt;/h2&gt;&lt;p&gt;在早期的网络世界中，档案数据在不同主机之间的传输大多是使用FTP服务，但是FTP服务传输档案有一些小小的问题，那就是我们无法直接修改主机上面
-      
-    
-    </summary>
-    
-      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
-    
-    
-      <category term="Samba" scheme="http://yoursite.com/tags/Samba/"/>
     
   </entry>
   
@@ -225,33 +225,6 @@
   </entry>
   
   <entry>
-    <title>安装新版python导致yum不可用</title>
-    <link href="http://yoursite.com/2019/03/28/%E5%AE%89%E8%A3%85%E6%96%B0%E7%89%88python%E5%AF%BC%E8%87%B4yum%E4%B8%8D%E5%8F%AF%E7%94%A8/"/>
-    <id>http://yoursite.com/2019/03/28/安装新版python导致yum不可用/</id>
-    <published>2019-03-28T14:45:56.000Z</published>
-    <updated>2019-03-27T16:09:46.093Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>问题：</strong><br>安装完新版本python导致yum命令不可用.<br><strong>错误代码：</strong></p><pre><code>File &quot;/usr/bin/yum&quot;, line 30except KeyboardInterrupt, e:^SyntaxError: invalid syntax</code></pre><p><strong>问题原因：</strong><br>yum包管理是使用python2.x写的，将python2.x升级到python3.x以后，由于python版本语法兼容性导致问题出现 .<br><strong>解决办法：</strong><br>修改yum配置文件，将python指向老版本.</p><pre><code>vim /usr/bin/yum#!/usr/bin/python2.7vim /usr/libexec/urlgrabber-ext-down#!/usr/bin/python2.7</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;strong&gt;问题：&lt;/strong&gt;&lt;br&gt;安装完新版本python导致yum命令不可用.&lt;br&gt;&lt;strong&gt;错误代码：&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;File &amp;quot;/usr/bin/yum&amp;quot;, line 30
-except Ke
-      
-    
-    </summary>
-    
-      <category term="python" scheme="http://yoursite.com/categories/python/"/>
-    
-    
-      <category term="python" scheme="http://yoursite.com/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Centos安装python3.7</title>
     <link href="http://yoursite.com/2019/03/28/python%E5%AE%89%E8%A3%85/"/>
     <id>http://yoursite.com/2019/03/28/python安装/</id>
@@ -267,6 +240,33 @@ except Ke
         &lt;p&gt;&lt;strong&gt;简介&lt;/strong&gt;&lt;br&gt;Centos系统本身自带python2.7版本，使用python –version可以查看当前系统python版本，由于系统内某些命令会用到python2，所以python2不可以卸载.&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;&lt;strong&gt;
+      
+    
+    </summary>
+    
+      <category term="python" scheme="http://yoursite.com/categories/python/"/>
+    
+    
+      <category term="python" scheme="http://yoursite.com/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>安装新版python导致yum不可用</title>
+    <link href="http://yoursite.com/2019/03/28/%E5%AE%89%E8%A3%85%E6%96%B0%E7%89%88python%E5%AF%BC%E8%87%B4yum%E4%B8%8D%E5%8F%AF%E7%94%A8/"/>
+    <id>http://yoursite.com/2019/03/28/安装新版python导致yum不可用/</id>
+    <published>2019-03-28T14:45:56.000Z</published>
+    <updated>2019-03-27T16:09:46.093Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>问题：</strong><br>安装完新版本python导致yum命令不可用.<br><strong>错误代码：</strong></p><pre><code>File &quot;/usr/bin/yum&quot;, line 30except KeyboardInterrupt, e:^SyntaxError: invalid syntax</code></pre><p><strong>问题原因：</strong><br>yum包管理是使用python2.x写的，将python2.x升级到python3.x以后，由于python版本语法兼容性导致问题出现 .<br><strong>解决办法：</strong><br>修改yum配置文件，将python指向老版本.</p><pre><code>vim /usr/bin/yum#!/usr/bin/python2.7vim /usr/libexec/urlgrabber-ext-down#!/usr/bin/python2.7</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;问题：&lt;/strong&gt;&lt;br&gt;安装完新版本python导致yum命令不可用.&lt;br&gt;&lt;strong&gt;错误代码：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;File &amp;quot;/usr/bin/yum&amp;quot;, line 30
+except Ke
       
     
     </summary>
@@ -336,38 +336,6 @@ except Ke
   </entry>
   
   <entry>
-    <title>shell脚本学习之四剑客grep</title>
-    <link href="http://yoursite.com/2019/03/22/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9B%E5%89%91%E5%AE%A2grep/"/>
-    <id>http://yoursite.com/2019/03/22/shell脚本学习之四剑客grep/</id>
-    <published>2019-03-22T14:45:56.000Z</published>
-    <updated>2019-03-22T03:43:06.363Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>简述</strong><br>grep是一种强大的文本搜索工具，与正则表达式配合搜索文本，并把匹配的行打印出来。</p><hr><p><strong>语句格式：</strong></p><pre><code>grep -options ‘word’ filename</code></pre><p><strong>常用参数：</strong><br>-a：以文本文件方式搜索<br>-c：计算找到的符合行的次数<br>-i：忽略大小写<br>-n：顺便输出行号<br>-v：反向选择，输出不包含匹配的所有行<br>-h：查询多文件时不现实文件名<br>-l：查询多文件时，只输出包含匹配字符的文件名<br>-s：不显示不存在或无匹配文本的错误信息<br>-E：使用egrep扩展匹配模式<br>– color：指定匹配输出字符的颜色<br><strong>正则表达式</strong><br><a href="https://jiangpeisi.github.io/2019/03/22/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" target="_blank" rel="noopener">点这里</a><br><strong>实例</strong></p><pre><code>[root@jiangpeisi shell]# cat a.txt | grep &apos;^m.*l$&apos; mysql[root@jiangpeisi shell]# cat a.txt | grep -E &quot;\&lt;([0-9]{1,3}\.){3}([0-9]{1,3})\&gt;&quot; 192.168.32.1[root@jiangpeisi shell]# cat a.txt | grep -c  &apos;^m.*l$&apos; 1[root@jiangpeisi shell]# cat a.txt | grep  -n &apos;^m.*l$&apos; 2:mysql[root@jiangpeisi shell]# cat a.txt | grep  -i -n  &apos;^M.*l$&apos; 2:mysql[root@jiangpeisi shell]# netstat -ntlp | grep namedtcp        0      0 172.17.0.1:53           0.0.0.0:*               LISTEN      3585/named          tcp        0      0 172.16.30.80:53         0.0.0.0:*               LISTEN      3585/named          tcp        0      0 127.0.0.1:53            0.0.0.0:*               LISTEN      3585/named          tcp        0      0 127.0.0.1:953           0.0.0.0:*               LISTEN      3585/named  </code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;strong&gt;简述&lt;/strong&gt;&lt;br&gt;grep是一种强大的文本搜索工具，与正则表达式配合搜索文本，并把匹配的行打印出来。&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;&lt;strong&gt;语句格式：&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;grep -options ‘word’ f
-      
-    
-    </summary>
-    
-      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
-    
-      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
-    
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
-    
-  </entry>
-  
-  <entry>
     <title>shell脚本学习之正则表达式</title>
     <link href="http://yoursite.com/2019/03/22/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
     <id>http://yoursite.com/2019/03/22/shell脚本学习之正则表达式/</id>
@@ -397,19 +365,22 @@ except Ke
   </entry>
   
   <entry>
-    <title>shell脚本学习之四剑客awk</title>
-    <link href="http://yoursite.com/2019/03/21/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9B%E5%89%91%E5%AE%A2awk/"/>
-    <id>http://yoursite.com/2019/03/21/shell脚本学习之四剑客awk/</id>
-    <published>2019-03-21T14:45:56.000Z</published>
-    <updated>2019-03-21T10:41:47.151Z</updated>
+    <title>shell脚本学习之四剑客grep</title>
+    <link href="http://yoursite.com/2019/03/22/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9B%E5%89%91%E5%AE%A2grep/"/>
+    <id>http://yoursite.com/2019/03/22/shell脚本学习之四剑客grep/</id>
+    <published>2019-03-22T14:45:56.000Z</published>
+    <updated>2019-03-22T03:43:06.363Z</updated>
     
-    <content type="html"><![CDATA[<p><strong>简述</strong><br>awk本身就是一种编程语言，它支持条件判断、循环、数组遍历等功能。我们可以使用它来对文本进行分析和处理。与sed相比，sed是逐行处理文本内数据，awk也是，不过awk又在此基础上实现对每一行每一列的操作。专业的角度来讲awk是一个报告生成器，因为awk可以对行和列进行操作，所以在awk命令下，一个文本就像是一个表格。默认列之间的分隔符是空格，行之间分隔符是\n，可以通过-F或者-v FS:指定分割符。</p><hr><p><strong>命令格式</strong></p><pre><code>awk &apos;{pattern + action}&apos; {filenames}</code></pre><p><strong>1.基本语法参数</strong><br>1.单引号‘’：为了和shell语法分开，防止混淆<br>2.大括号{}：用来表示一组命令<br>3.pattern：一个过滤器，表示匹配pattern的条件的行才可以执行action<br>4.pattern可以是以下任意一种<br>    -正则表达式：使用通配符匹配<br>    -关系表达式：使用关系运算符<br>    -模式匹配表达式：使用运算符~或者！~匹配<br>5.action：处理动作，一系列命令，常见的动作为print</p><p>实例：抓取IP地址</p><pre><code>[root@jiangpeisi ~]# ifconfig eth0 |awk  &apos;/inet/{print $2}&apos;172.16.30.80[root@jiangpeisi ~]# ifconfig eth0 | grep inet | awk &apos;{print $2}&apos;172.16.30.80[root@jiangpeisi ~]# ip addr | awk &apos;/eth0/&apos; | awk &apos;/inet/{print $2}&apos;172.16.30.80/18</code></pre><p><strong>2.内置参数</strong><br>FS：分隔符，默认是空格作为分隔符<br>OFS：输出行分隔符<br>NR：当前行数，从1开始<br>NF：当前行的字段（列）个数<br>$0：当前记录<br><code>$1~$n</code>：当前记录的第n个字段</p><p>实例：输出字段个数</p><pre><code>[root@jiangpeisi ~]# whoroot     pts/1        2019-03-21 11:14 (49.70.207.182)[root@jiangpeisi ~]# who | awk &apos;{print NF}&apos;5</code></pre><p>实例：打印奇数行的行号和第一列内容</p><pre><code>[root@jiangpeisi ~]# awk -F: &apos;NR%2==0{next}{print NR,$1}&apos; /etc/passwd1 root3 daemon5 lp7 shutdown9 mail11 games13 nobody15 systemd-network17 polkitd19 sshd21 chrony23 nscd25 admin27 dockerroot-latest29 test131 ftpuser133 dhcpd35 saslauth</code></pre><p><strong>3.内置函数</strong><br>1.gsub（r，s）：在$0中用s代替r<br>2.index（s，t）：返回s中t的第一个位置<br>3.length（s）：返回s的长度<br>4.match（s，r）：s是否匹配r<br>5.split（s，a，fs）：在fs上讲s分成序列a<br>6.substr（s，p）：返回s从p开始的子串</p><p>实例：输出字段长度</p><pre><code>[root@jiangpeisi ~]# whoroot     pts/1        2019-03-21 11:14 (49.70.207.182)[root@jiangpeisi ~]# who | awk &apos;{print length($2)}&apos;5</code></pre><p><strong>4.流程控制语句</strong><br>1.if（condition）{}else{}<br>2.while（condition）{}<br>3.for（init；condition；step）{}<br>4.Break/contitnue<br>实例：比较大小</p><pre><code>[root@jiangpeisi ~]# echo 2 3 |awk &apos;{if($1&gt;$2){print $1}else{print $2}}&apos;3[root@jiangpeisi ~]# echo 3 2 |awk &apos;{if($1&gt;$2){print $1}else{print $2}}&apos;3</code></pre><p><strong>补充</strong><br>使用awk可以对一个文件写一个脚本，格式：</p><pre><code>awk &apos;BEGIN{ commands } pattern{ commands } END{ commands }&apos; file </code></pre><p>执行顺序：<br>第一步： 执行BEGIN { commands } pattern 语句块中的语句，在对文件操作前执行<br>第二步：从文件或标准输入中读取一行，然后执行pattern{ commands }语句块。它逐行扫描文件，从第一行到最后一行重复这个过程，直到全部文件都被读取完毕。<br>第三步：当读至输入流末尾时，执行END { commands }语句块</p><p>实例：计算用户数量</p><pre><code>[root@jiangpeisi ~]# awk &apos;BEGIN {count=0;print &quot;[start] user count is &quot;,count} {;;count++} END{print &quot;[end] user count is &quot;,count}&apos; /etc/passwd[start] user count is  0[end] user count is  36</code></pre><p>实例：计算文件夹大小</p><pre><code>[root@jiangpeisi ~]# ls -lF /etc/ | awk &apos;BEGIN {sum=0}{sum+=$5}END{print &quot;The size of this dir is&quot;,sum/1024/1024,&quot;M&quot;}&apos;The size of this dir is 1.30004 M</code></pre>]]></content>
+    <content type="html"><![CDATA[<p><strong>简述</strong><br>grep是一种强大的文本搜索工具，与正则表达式配合搜索文本，并把匹配的行打印出来。</p><hr><p><strong>语句格式：</strong></p><pre><code>grep -options ‘word’ filename</code></pre><p><strong>常用参数：</strong><br>-a：以文本文件方式搜索<br>-c：计算找到的符合行的次数<br>-i：忽略大小写<br>-n：顺便输出行号<br>-v：反向选择，输出不包含匹配的所有行<br>-h：查询多文件时不现实文件名<br>-l：查询多文件时，只输出包含匹配字符的文件名<br>-s：不显示不存在或无匹配文本的错误信息<br>-E：使用egrep扩展匹配模式<br>– color：指定匹配输出字符的颜色<br><strong>正则表达式</strong><br><a href="https://jiangpeisi.github.io/2019/03/22/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" target="_blank" rel="noopener">点这里</a><br><strong>实例</strong></p><pre><code>[root@jiangpeisi shell]# cat a.txt | grep &apos;^m.*l$&apos; mysql[root@jiangpeisi shell]# cat a.txt | grep -E &quot;\&lt;([0-9]{1,3}\.){3}([0-9]{1,3})\&gt;&quot; 192.168.32.1[root@jiangpeisi shell]# cat a.txt | grep -c  &apos;^m.*l$&apos; 1[root@jiangpeisi shell]# cat a.txt | grep  -n &apos;^m.*l$&apos; 2:mysql[root@jiangpeisi shell]# cat a.txt | grep  -i -n  &apos;^M.*l$&apos; 2:mysql[root@jiangpeisi shell]# netstat -ntlp | grep namedtcp        0      0 172.17.0.1:53           0.0.0.0:*               LISTEN      3585/named          tcp        0      0 172.16.30.80:53         0.0.0.0:*               LISTEN      3585/named          tcp        0      0 127.0.0.1:53            0.0.0.0:*               LISTEN      3585/named          tcp        0      0 127.0.0.1:953           0.0.0.0:*               LISTEN      3585/named  </code></pre>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;&lt;strong&gt;简述&lt;/strong&gt;&lt;br&gt;awk本身就是一种编程语言，它支持条件判断、循环、数组遍历等功能。我们可以使用它来对文本进行分析和处理。与sed相比，sed是逐行处理文本内数据，awk也是，不过awk又在此基础上实现对每一行每一列的操作。专业的角度来讲awk是
+        &lt;p&gt;&lt;strong&gt;简述&lt;/strong&gt;&lt;br&gt;grep是一种强大的文本搜索工具，与正则表达式配合搜索文本，并把匹配的行打印出来。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;语句格式：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;grep -options ‘word’ f
       
     
     </summary>
@@ -455,19 +426,19 @@ except Ke
   </entry>
   
   <entry>
-    <title>shell脚本学习之四剑客find</title>
-    <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9B%E5%89%91%E5%AE%A2find/"/>
-    <id>http://yoursite.com/2019/03/20/shell脚本学习之四剑客find/</id>
-    <published>2019-03-20T14:45:56.000Z</published>
-    <updated>2019-03-20T16:02:35.465Z</updated>
+    <title>shell脚本学习之四剑客awk</title>
+    <link href="http://yoursite.com/2019/03/21/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9B%E5%89%91%E5%AE%A2awk/"/>
+    <id>http://yoursite.com/2019/03/21/shell脚本学习之四剑客awk/</id>
+    <published>2019-03-21T14:45:56.000Z</published>
+    <updated>2019-03-21T10:41:47.151Z</updated>
     
-    <content type="html"><![CDATA[<p><strong>简述</strong><br>  find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。<br><strong>语句格式：</strong></p><pre><code>find path -option [ -print ] [ -exec -ok command ] {} \;-print ：表示find命令将匹配的文件输出到标准输出中，默认执行该命令-exec  ：表示find命令对匹配的文件执行该参数给出的shell命令。相应命令的形式为 cmd {} \;-ok      ：它的作用和-exec一样，只是需要用户交互，更安全</code></pre><p><strong>option参数说明：</strong></p><pre><code>-name ：按照文件名查找文件-perm  ：按照权限查找文件-prune ：使find命令不在当前指定的目录中查找，如果同时使用-depth选项，那么-prune将被find命令忽略-user  ： 按照文件属主来查找文件-group  ：按照文件数组来查找文件-mtime -n +n  ：按照文件的更改时间来查找文件    -n ：表示从此刻算起，文件的更改是在n天以内    +n ：表示文件的更改时间是在n天以前-atime -n +n ： 按文件访问时间来查询-ctime -n +n ：按文件创建时间来查询 -nogroup  ：查找无有效属组的文件，即该文件所属的组在/etc/groups中不存在-nouser  :：查找无有效属主的文件，即该文件的属主在/etc/passwd中不存在-newer file1 ！ file2  :查找更改时间比file1新但比file2旧的文件-type      b：表示块设备文件     block     d：表示目录         directory     c：表示字符设备文件   char     p：表示管道文件      pipe     l：表示符号链接文件   link     f：表示普通文件      file-depth ：在查找文件时，首先查找当前目录中的文件，然后再在其子目录中查找-fstype ：表示查找位于某一类型文件系统中的文件，这些文件系统类型通常可以在配置文件/etc/fstab中找到，该配置文件中包含了本系统中有关文件系统的信息-mount  ：表示在查找文件时不跨越文件系统的mount点-follow   ：表示如果find命令遇到符号链接文件，就跟踪至链接所指向的文件-cpio      ：表示对匹配的文件使用cpio命令，将这些文件备份至磁带设备中</code></pre><p><strong>实例：</strong><br>实例1：查找/root/shell目录下以.sh结尾 并且创建时间在1天以内的文件</p><pre><code>[root@jiangpeisi ~]# find /root/shell/ -name *.sh -ctime -1/root/shell/menu.sh/root/shell/apache-install.sh/root/shell/lnmp.sh/root/shell/select.sh/root/shell/sum.sh/root/shell/while.sh</code></pre><p>实例2：查找/root/shell目录下以.sh结尾 并且创建时间在1天以内的文件，并将文件移动到/opt/目录下</p><pre><code>[root@jiangpeisi ~]# find /root/shell/ -name *.sh -ctime -1 -exec mv {} /opt/ \; [root@jiangpeisi ~]# ll /opt/total 36-rw-r--r-- 1 root root  621 Mar 20 15:32 apache-install.sh-rw-r--r-- 1 root root   48 Mar 17 11:08 b.sh-rw-r--r-- 1 root root  303 Mar 18 11:28 e.sh-rw-r--r-- 1 root root  258 Mar 20 14:25 lnmp.sh-rw-r--r-- 1 root root  357 Mar 20 08:49 menu.shdrwxr-xr-x 2 root root 4096 Mar 15 15:41 nginx-rw-r--r-- 1 root root  138 Mar 20 14:12 select.sh-rw-r--r-- 1 root root   82 Mar 20 00:00 sum.sh-rw-r--r-- 1 root root   70 Mar 20 00:07 while.sh</code></pre><p>实例3：查找/data目录下以.log结尾，修改时间在1天以内，文件大小大于10M的文件，并将文件打包</p><pre><code>[root@jiangpeisi ~]# find /data/ -name *.log -ctime -1 -size +10k -exec tar -czPf /datacd/backup.tar.gz {} \;</code></pre>]]></content>
+    <content type="html"><![CDATA[<p><strong>简述</strong><br>awk本身就是一种编程语言，它支持条件判断、循环、数组遍历等功能。我们可以使用它来对文本进行分析和处理。与sed相比，sed是逐行处理文本内数据，awk也是，不过awk又在此基础上实现对每一行每一列的操作。专业的角度来讲awk是一个报告生成器，因为awk可以对行和列进行操作，所以在awk命令下，一个文本就像是一个表格。默认列之间的分隔符是空格，行之间分隔符是\n，可以通过-F或者-v FS:指定分割符。</p><hr><p><strong>命令格式</strong></p><pre><code>awk &apos;{pattern + action}&apos; {filenames}</code></pre><p><strong>1.基本语法参数</strong><br>1.单引号‘’：为了和shell语法分开，防止混淆<br>2.大括号{}：用来表示一组命令<br>3.pattern：一个过滤器，表示匹配pattern的条件的行才可以执行action<br>4.pattern可以是以下任意一种<br>    -正则表达式：使用通配符匹配<br>    -关系表达式：使用关系运算符<br>    -模式匹配表达式：使用运算符~或者！~匹配<br>5.action：处理动作，一系列命令，常见的动作为print</p><p>实例：抓取IP地址</p><pre><code>[root@jiangpeisi ~]# ifconfig eth0 |awk  &apos;/inet/{print $2}&apos;172.16.30.80[root@jiangpeisi ~]# ifconfig eth0 | grep inet | awk &apos;{print $2}&apos;172.16.30.80[root@jiangpeisi ~]# ip addr | awk &apos;/eth0/&apos; | awk &apos;/inet/{print $2}&apos;172.16.30.80/18</code></pre><p><strong>2.内置参数</strong><br>FS：分隔符，默认是空格作为分隔符<br>OFS：输出行分隔符<br>NR：当前行数，从1开始<br>NF：当前行的字段（列）个数<br>$0：当前记录<br><code>$1~$n</code>：当前记录的第n个字段</p><p>实例：输出字段个数</p><pre><code>[root@jiangpeisi ~]# whoroot     pts/1        2019-03-21 11:14 (49.70.207.182)[root@jiangpeisi ~]# who | awk &apos;{print NF}&apos;5</code></pre><p>实例：打印奇数行的行号和第一列内容</p><pre><code>[root@jiangpeisi ~]# awk -F: &apos;NR%2==0{next}{print NR,$1}&apos; /etc/passwd1 root3 daemon5 lp7 shutdown9 mail11 games13 nobody15 systemd-network17 polkitd19 sshd21 chrony23 nscd25 admin27 dockerroot-latest29 test131 ftpuser133 dhcpd35 saslauth</code></pre><p><strong>3.内置函数</strong><br>1.gsub（r，s）：在$0中用s代替r<br>2.index（s，t）：返回s中t的第一个位置<br>3.length（s）：返回s的长度<br>4.match（s，r）：s是否匹配r<br>5.split（s，a，fs）：在fs上讲s分成序列a<br>6.substr（s，p）：返回s从p开始的子串</p><p>实例：输出字段长度</p><pre><code>[root@jiangpeisi ~]# whoroot     pts/1        2019-03-21 11:14 (49.70.207.182)[root@jiangpeisi ~]# who | awk &apos;{print length($2)}&apos;5</code></pre><p><strong>4.流程控制语句</strong><br>1.if（condition）{}else{}<br>2.while（condition）{}<br>3.for（init；condition；step）{}<br>4.Break/contitnue<br>实例：比较大小</p><pre><code>[root@jiangpeisi ~]# echo 2 3 |awk &apos;{if($1&gt;$2){print $1}else{print $2}}&apos;3[root@jiangpeisi ~]# echo 3 2 |awk &apos;{if($1&gt;$2){print $1}else{print $2}}&apos;3</code></pre><p><strong>补充</strong><br>使用awk可以对一个文件写一个脚本，格式：</p><pre><code>awk &apos;BEGIN{ commands } pattern{ commands } END{ commands }&apos; file </code></pre><p>执行顺序：<br>第一步： 执行BEGIN { commands } pattern 语句块中的语句，在对文件操作前执行<br>第二步：从文件或标准输入中读取一行，然后执行pattern{ commands }语句块。它逐行扫描文件，从第一行到最后一行重复这个过程，直到全部文件都被读取完毕。<br>第三步：当读至输入流末尾时，执行END { commands }语句块</p><p>实例：计算用户数量</p><pre><code>[root@jiangpeisi ~]# awk &apos;BEGIN {count=0;print &quot;[start] user count is &quot;,count} {;;count++} END{print &quot;[end] user count is &quot;,count}&apos; /etc/passwd[start] user count is  0[end] user count is  36</code></pre><p>实例：计算文件夹大小</p><pre><code>[root@jiangpeisi ~]# ls -lF /etc/ | awk &apos;BEGIN {sum=0}{sum+=$5}END{print &quot;The size of this dir is&quot;,sum/1024/1024,&quot;M&quot;}&apos;The size of this dir is 1.30004 M</code></pre>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;&lt;strong&gt;简述&lt;/strong&gt;&lt;br&gt;  find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。&lt;br&gt;&lt;str
+        &lt;p&gt;&lt;strong&gt;简述&lt;/strong&gt;&lt;br&gt;awk本身就是一种编程语言，它支持条件判断、循环、数组遍历等功能。我们可以使用它来对文本进行分析和处理。与sed相比，sed是逐行处理文本内数据，awk也是，不过awk又在此基础上实现对每一行每一列的操作。专业的角度来讲awk是
       
     
     </summary>
@@ -507,6 +478,35 @@ pattern2）
 *）
    command
 es
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/categories/linux/shell/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="shell" scheme="http://yoursite.com/tags/shell/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>shell脚本学习之四剑客find</title>
+    <link href="http://yoursite.com/2019/03/20/shell%E8%84%9A%E6%9C%AC%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%9B%E5%89%91%E5%AE%A2find/"/>
+    <id>http://yoursite.com/2019/03/20/shell脚本学习之四剑客find/</id>
+    <published>2019-03-20T14:45:56.000Z</published>
+    <updated>2019-03-20T16:02:35.465Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>简述</strong><br>  find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。<br><strong>语句格式：</strong></p><pre><code>find path -option [ -print ] [ -exec -ok command ] {} \;-print ：表示find命令将匹配的文件输出到标准输出中，默认执行该命令-exec  ：表示find命令对匹配的文件执行该参数给出的shell命令。相应命令的形式为 cmd {} \;-ok      ：它的作用和-exec一样，只是需要用户交互，更安全</code></pre><p><strong>option参数说明：</strong></p><pre><code>-name ：按照文件名查找文件-perm  ：按照权限查找文件-prune ：使find命令不在当前指定的目录中查找，如果同时使用-depth选项，那么-prune将被find命令忽略-user  ： 按照文件属主来查找文件-group  ：按照文件数组来查找文件-mtime -n +n  ：按照文件的更改时间来查找文件    -n ：表示从此刻算起，文件的更改是在n天以内    +n ：表示文件的更改时间是在n天以前-atime -n +n ： 按文件访问时间来查询-ctime -n +n ：按文件创建时间来查询 -nogroup  ：查找无有效属组的文件，即该文件所属的组在/etc/groups中不存在-nouser  :：查找无有效属主的文件，即该文件的属主在/etc/passwd中不存在-newer file1 ！ file2  :查找更改时间比file1新但比file2旧的文件-type      b：表示块设备文件     block     d：表示目录         directory     c：表示字符设备文件   char     p：表示管道文件      pipe     l：表示符号链接文件   link     f：表示普通文件      file-depth ：在查找文件时，首先查找当前目录中的文件，然后再在其子目录中查找-fstype ：表示查找位于某一类型文件系统中的文件，这些文件系统类型通常可以在配置文件/etc/fstab中找到，该配置文件中包含了本系统中有关文件系统的信息-mount  ：表示在查找文件时不跨越文件系统的mount点-follow   ：表示如果find命令遇到符号链接文件，就跟踪至链接所指向的文件-cpio      ：表示对匹配的文件使用cpio命令，将这些文件备份至磁带设备中</code></pre><p><strong>实例：</strong><br>实例1：查找/root/shell目录下以.sh结尾 并且创建时间在1天以内的文件</p><pre><code>[root@jiangpeisi ~]# find /root/shell/ -name *.sh -ctime -1/root/shell/menu.sh/root/shell/apache-install.sh/root/shell/lnmp.sh/root/shell/select.sh/root/shell/sum.sh/root/shell/while.sh</code></pre><p>实例2：查找/root/shell目录下以.sh结尾 并且创建时间在1天以内的文件，并将文件移动到/opt/目录下</p><pre><code>[root@jiangpeisi ~]# find /root/shell/ -name *.sh -ctime -1 -exec mv {} /opt/ \; [root@jiangpeisi ~]# ll /opt/total 36-rw-r--r-- 1 root root  621 Mar 20 15:32 apache-install.sh-rw-r--r-- 1 root root   48 Mar 17 11:08 b.sh-rw-r--r-- 1 root root  303 Mar 18 11:28 e.sh-rw-r--r-- 1 root root  258 Mar 20 14:25 lnmp.sh-rw-r--r-- 1 root root  357 Mar 20 08:49 menu.shdrwxr-xr-x 2 root root 4096 Mar 15 15:41 nginx-rw-r--r-- 1 root root  138 Mar 20 14:12 select.sh-rw-r--r-- 1 root root   82 Mar 20 00:00 sum.sh-rw-r--r-- 1 root root   70 Mar 20 00:07 while.sh</code></pre><p>实例3：查找/data目录下以.log结尾，修改时间在1天以内，文件大小大于10M的文件，并将文件打包</p><pre><code>[root@jiangpeisi ~]# find /data/ -name *.log -ctime -1 -size +10k -exec tar -czPf /datacd/backup.tar.gz {} \;</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;简述&lt;/strong&gt;&lt;br&gt;  find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。&lt;br&gt;&lt;str
       
     
     </summary>
